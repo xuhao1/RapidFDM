@@ -8,7 +8,14 @@ set(AIRDYNAMICS_MODULE_SOURCES
         modules/airdynamics/include/nodes/Node.h
         modules/airdynamics/include/joints/Joint.h
         modules/airdynamics/src/joints/FreeJoint.cpp
+        modules/airdynamics/src/airdynamics_parser.cpp
         modules/airdynamics/include/joints/FreeJoint.h
-        )
+        modules/airdynamics/include/FlyingData.h)
 
-add_library(rapidfdm_airdynamics ${AIRDYNAMICS_MODULE_SOURCES})
+set(AIRDYNAMICS_TEST_SOURCES modules/airdynamics/tests/main.cpp)
+
+add_library(rapidfdm_airdynamics STATIC ${AIRDYNAMICS_MODULE_SOURCES})
+
+add_executable(rapidfdm_test ${AIRDYNAMICS_TEST_SOURCES})
+
+target_link_libraries(rapidfdm_test rapidfdm_airdynamics)

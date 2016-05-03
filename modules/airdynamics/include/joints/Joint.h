@@ -30,6 +30,11 @@ namespace RapidFDM
                 Eigen::Affine3d child_transform;
                 //! This is the transform between base transform and the coord on child reference point
                 Eigen::Affine3d relative_transform;
+
+                //! Relative Angular Velocity
+                Eigen::Vector3d relative_angular_velocity;
+                //! Relative Velocity,be zero for all except free joint
+                Eigen::Vector3d relative_velocity;
             } states;
 
         public:
@@ -75,10 +80,16 @@ namespace RapidFDM
                \return transform
              */
             virtual Eigen::Quaterniond get_ground_attitude() {
-                return this->get_gound_transform().rotation();
+                return Eigen::Quaterniond(this->get_ground_transform().rotation());
             }
 
-            virtual Eigen::Affine3d get_gound_transform();
+            Eigen::Vector3d get_gound_velocity();
+
+            Eigen::Vector3d get_angular_velocity();
+
+            Eigen::Vector3d get_ground_air_speed();
+
+            Eigen::Affine3d get_ground_transform();
         };
     }
 }

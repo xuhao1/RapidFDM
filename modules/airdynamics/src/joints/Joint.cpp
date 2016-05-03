@@ -5,6 +5,7 @@
 #include <joints/Joint.h>
 #include <utils.h>
 #include <airdynamics/include/joints/Joint.h>
+#include <nodes/Node.h>
 
 using namespace RapidFDM::Utils;
 
@@ -53,9 +54,9 @@ namespace RapidFDM {
 
         }
 
-        Eigen::Affine3d Joint::get_gound_transform() {
+        Eigen::Affine3d Joint::get_ground_transform() {
             if (parent != nullptr)
-                return parent->get_gound_transform() * get_relative_transform();
+                return parent->get_ground_transform() * get_relative_transform();
             return get_relative_transform();
         }
 

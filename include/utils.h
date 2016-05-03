@@ -6,6 +6,7 @@
 #define RAPIDFDM_UTILS_H_H
 
 #include <rapidjson/rapidjson.h>
+#include <rapidjson/document.h>
 #include <Eigen/Eigen>
 
 namespace RapidFDM {
@@ -67,6 +68,39 @@ namespace RapidFDM {
                     return quat;
                 }
             }
+        }
+
+        void add_attitude(rapidjson::Value &_json, Eigen::Quaterniond trans, rapidjson::Document &d,
+                          std::string name = "attitude") {
+            rapidjson::Value v(rapidjson::kArrayType);
+            rapidjson::Value namev(rapidjson::kStringType);
+            namev.SetString(rapidjson::StringRef(name.c_str()));
+            v.PushBack(trans.w(), d.GetAllocator());
+            v.PushBack(trans.x(), d.GetAllocator());
+            v.PushBack(trans.y(), d.GetAllocator());
+            v.PushBack(trans.z(), d.GetAllocator());
+            _json.AddMember(namev, v, d.GetAllocator());
+        }
+
+        void add_vector(rapidjson::Value &_json, Eigen::Vector3d vec, rapidjson::Document &d,
+                        std::string name = "vector") {
+            rapidjson::Value v(rapidjson::kArrayType);
+            rapidjson::Value namev(rapidjson::kStringType);
+            namev.SetString(rapidjson::StringRef(name.c_str()));
+            v.PushBack(vec.x(), d.GetAllocator());
+            v.PushBack(vec.y(), d.GetAllocator());
+            v.PushBack(vec.z(), d.GetAllocator());
+            _json.AddMember(namev, v, d.GetAllocator());
+        }
+
+        void add_transform(rapidjson::Value &_json, Eigen::Affine3d trans, rapidjson::Document &d,
+                           std::string name = "transform") {
+            rapidjson::Value v(rapidjson::kObjectType);
+            rapidjson::Value namev(rapidjson::kStringType);
+            namev.SetString(rapidjson::StringRef(name.c_str()));
+            add_attitude(v, (Eigen::Quaterniond) trans.rotation(), d);
+            add_vector(v, (Eigen::Vector3d) trans.translation(), d);
+            _json.AddMember(namev, v, d.GetAllocator());
         }
     }
 }
