@@ -13,6 +13,7 @@
 #include <FlyingData.h>
 #include <base_component.h>
 #include <geometrys/base_geometry.h>
+#include <stdio.h>
 
 namespace RapidFDM
 {
@@ -40,6 +41,8 @@ namespace RapidFDM
             Joint * parent = nullptr; /*!< Parent joint of this, be null if standalone */
 
             bool inSimulate = false;
+
+            std::string type = "node";
         public:
 
             Node(Joint *_parent = nullptr);
@@ -87,6 +90,13 @@ namespace RapidFDM
             virtual void setSetfromsimulator(ComponentData flyingstates) {
                 this->flying_states = flyingstates;
             };
+
+            virtual void brief() override {
+                printf("name : %s \n", name.c_str());
+                printf("type :%s \n", type.c_str());
+                printf("mass : %5f \n", params.mass);
+                printf("Inertial %5f %5f %5f \n", params.Inertial.x(), params.Inertial.y(), params.Inertial.z());
+            }
 
         };
     }

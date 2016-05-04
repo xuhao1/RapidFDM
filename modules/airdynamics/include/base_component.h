@@ -53,6 +53,8 @@ namespace RapidFDM {
                 std::abort();
             }
 
+            virtual void brief() { }
+
         };
     }
 }

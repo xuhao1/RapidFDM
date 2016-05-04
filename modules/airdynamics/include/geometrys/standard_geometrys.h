@@ -45,6 +45,10 @@ namespace RapidFDM {
                 return Eigen::Vector3d(0, 0, 0);
             }
 
+            virtual void brief() override {
+                printf("Box geometry \n");
+                printf("Scale %f %f %f", box_scale.x(), box_scale.y(), box_scale.z());
+            }
         };
     }
 }

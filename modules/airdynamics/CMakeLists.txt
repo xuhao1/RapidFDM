@@ -20,7 +20,7 @@ set(AIRDYNAMICS_MODULE_SOURCES
         modules/airdynamics/include/geometrys/base_geometry.h
         modules/airdynamics/include/geometrys/geometry_helper.h
         modules/airdynamics/include/geometrys/standard_geometrys.h
-        )
+        modules/airdynamics/include/nodes/node_helper.h)
 
 set(AIRDYNAMICS_TEST_SOURCES modules/airdynamics/tests/main.cpp)
 

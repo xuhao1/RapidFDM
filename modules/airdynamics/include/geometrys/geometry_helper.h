@@ -14,12 +14,14 @@ using RapidFDM::Utils;
 
 namespace RapidFDM {
     namespace Aerodynamics {
-        class geometry_helper {
+        class GeometryHelper {
+        public:
             static BaseGeometry *create_geometry_from_json(rapidjson::Value &v) {
                 std::string type = fast_string(v, "type");
                 if (type == "box") {
                     return new BoxGeometry(v);
                 }
+                return new BaseGeometry;
             }
 
         };
