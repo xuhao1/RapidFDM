@@ -6,11 +6,16 @@
 #define RAPIDFDM_AIRDYNAMICS_PARSER_H
 
 #include <airdynamics_components.h>
+#include <string>
 
 namespace RapidFDM {
     namespace Aerodynamics {
         class parser {
+        protected:
+        public:
+            parser(std::string path) {
 
+            }
         };
     }
 }

@@ -9,18 +9,20 @@
 #include <rapidjson/document.h>
 #include <map>
 #include <string>
+#include <base_component.h>
 
 namespace RapidFDM
 {
     namespace Aerodynamics
     {
         class Node;
-        class Joint
+
+        class Joint : public BaseComponent
         {
         protected:
-            Node *parent = nullptr;
+            BaseComponent *parent = nullptr;
             /*!< Parent Node for this joint*/
-            Node *child = nullptr;
+            BaseComponent *child = nullptr;
             /*!< Child node for this joint*/
 
             struct {
@@ -50,14 +52,14 @@ namespace RapidFDM
             /*!
                \return parent
              */
-            Node *getParent() {
+            BaseComponent *getParent() {
                 return parent;
             }
             //! Get the child node for this joint
             /*!
                \return child
              */
-            Node *getChild() {
+            BaseComponent *getChild() {
                 return child;
             }
 
@@ -73,23 +75,23 @@ namespace RapidFDM
             /*!
                \return transform
              */
-            virtual Eigen::Affine3d get_body_transform();
+            virtual Eigen::Affine3d get_body_transform() override;
 
             //! Get the ground attitude for the parent node
             /*!
                \return transform
              */
-            virtual Eigen::Quaterniond get_ground_attitude() {
+            virtual Eigen::Quaterniond get_ground_attitude() override {
                 return Eigen::Quaterniond(this->get_ground_transform().rotation());
             }
 
-            Eigen::Vector3d get_gound_velocity();
+            virtual Eigen::Vector3d get_gound_velocity() override;
 
-            Eigen::Vector3d get_angular_velocity();
+            virtual Eigen::Vector3d get_angular_velocity() override;
 
-            Eigen::Vector3d get_ground_air_speed();
+            virtual Eigen::Vector3d get_ground_air_speed() override;
 
-            Eigen::Affine3d get_ground_transform();
+            virtual Eigen::Affine3d get_ground_transform() override;
         };
     }
 }
