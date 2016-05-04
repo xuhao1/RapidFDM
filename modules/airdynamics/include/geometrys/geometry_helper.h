@@ -10,7 +10,7 @@
 #include "geometrys/standard_geometrys.h"
 #include <utils.h>
 
-using RapidFDM::Utils;
+using namespace RapidFDM::Utils;
 
 namespace RapidFDM {
     namespace Aerodynamics {

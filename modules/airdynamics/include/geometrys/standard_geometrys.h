@@ -1,5 +1,5 @@
 #ifndef RAPIDFDM_STANDARD_GEOMETRY_H
-#ifndef RAPIDFDM_STANDARD_GEOMETRY_H
+#define RAPIDFDM_STANDARD_GEOMETRY_H
 
 #include <geometrys/base_geometry.h>
 
@@ -47,7 +47,7 @@ namespace RapidFDM {
 
             virtual void brief() override {
                 printf("Box geometry \n");
-                printf("Scale %f %f %f", box_scale.x(), box_scale.y(), box_scale.z());
+                printf("Scale %f %f %f\n", box_scale.x(), box_scale.y(), box_scale.z());
             }
         };
     }

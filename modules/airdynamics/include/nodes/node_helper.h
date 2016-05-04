@@ -9,6 +9,8 @@
 #include <nodes/bodys/aircraft_node.h>
 #include <rapidjson/document.h>
 #include <utils.h>
+#include <iostream>
+#include <fstream>
 
 using namespace RapidFDM::Utils;
 
@@ -19,8 +21,24 @@ namespace RapidFDM {
             static Node *create_node_from_json(rapidjson::Value &v) {
                 std::string type = fast_string(v, "type");
                 if (type == "aircraft") {
+                    printf("Parse Aircraft node\n");
                     return new AircraftNode(v);
                 }
+                std::cerr << "Cannot parse Node Type : " << type << std::endl;
+            }
+
+            static Node *create_node_from_json(std::string json) {
+                rapidjson::Document document;
+                document.Parse(json.c_str());
+                return create_node_from_json(document);
+            }
+
+            static Node *create_node_from_file(std::string file) {
+                std::ifstream ifs(file);
+                std::string content((std::istreambuf_iterator<char>(ifs)),
+                                    (std::istreambuf_iterator<char>()));
+                std::cout << "Json Content : \n" << content << std::endl;
+                return create_node_from_json(content);
             }
         };
     }

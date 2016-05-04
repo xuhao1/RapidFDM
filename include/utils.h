@@ -8,40 +8,44 @@
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/document.h>
 #include <Eigen/Eigen>
+#include <iostream>
 
 namespace RapidFDM {
     namespace Utils {
 
-        double fast_value(rapidjson::Value &_json, std::string key) {
+        inline double fast_value(rapidjson::Value &_json, std::string key) {
             if (_json.HasMember(key.c_str())) {
                 if (_json[key.c_str()].IsInt())
                     return _json[key.c_str()].GetInt();
                 else if (_json[key.c_str()].IsDouble())
                     return _json[key.c_str()].GetDouble();
             }
+            std::cerr << "Get value of key " << key << "failed" << std::endl;
             return 0;
         }
 
-        double fast_value(rapidjson::Value &_json, int index) {
+        inline double fast_value(rapidjson::Value &_json, int index) {
             if (_json.IsArray() && _json.Size() > index) {
                 if (_json[index].IsInt())
                     return _json[index].GetInt();
                 else if (_json[index].IsDouble())
                     return _json[index].GetDouble();
             }
+            std::cerr << "Get value of index " << index << "failed" << std::endl;
             return 0;
         }
 
-        Eigen::Vector3d fast_vector3(rapidjson::Value &_json, std::string key,
-                                     Eigen::Vector3d optional_value = Eigen::Vector3d(0, 0, 0)) {
+        inline Eigen::Vector3d fast_vector3(rapidjson::Value &_json, std::string key,
+                                            Eigen::Vector3d optional_value = Eigen::Vector3d(0, 0, 0)) {
             if (_json.HasMember(key.c_str()) && _json[key.c_str()].IsArray()) {
                 rapidjson::Value &array = _json[key.c_str()];
                 return Eigen::Vector3d(fast_value(array, 0), fast_value(array, 1), fast_value(array, 2));
             }
+            std::cerr << "Get vector of key " << key << "failed" << std::endl;
             return optional_value;
         }
 
-        Eigen::Quaterniond fast_quaternion(rapidjson::Value &_json, std::string key) {
+        inline Eigen::Quaterniond fast_quaternion(rapidjson::Value &_json, std::string key) {
             if (_json.HasMember(key.c_str()) && _json[key.c_str()].IsArray()) {
                 rapidjson::Value &array = _json[key.c_str()];
                 return Eigen::Quaterniond(fast_value(array, 0),
@@ -49,17 +53,19 @@ namespace RapidFDM {
                                           fast_value(array, 2),
                                           fast_value(array, 3));
             }
+            std::cerr << "Get quaternion of key " << key << "failed" << std::endl;
             return Eigen::Quaterniond(1, 0, 0, 0);
         }
 
-        std::string fast_string(rapidjson::Value &_json, std::string key) {
+        inline std::string fast_string(rapidjson::Value &_json, std::string key) {
             if (_json.HasMember(key.c_str()) && _json[key.c_str()].IsString()) {
                 return _json[key.c_str()].GetString();
             }
+            std::cerr << "Get string of key " << key << "failed" << std::endl;
             return "";
         }
 
-        Eigen::Quaterniond fast_attitude(rapidjson::Value &_json, std::string key) {
+        inline Eigen::Quaterniond fast_attitude(rapidjson::Value &_json, std::string key) {
 
             if (_json.HasMember(key.c_str()) && _json[key.c_str()].IsArray()) {
                 if (_json[key.c_str()].Size() == 4) {
@@ -76,10 +82,13 @@ namespace RapidFDM {
                     return quat;
                 }
             }
+
+            std::cerr << "Get attitude of key " << key << "failed" << std::endl;
+            return Eigen::Quaterniond(1, 0, 0, 0);
         }
 
-        void add_attitude(rapidjson::Value &_json, Eigen::Quaterniond trans, rapidjson::Document &d,
-                          std::string name = "attitude") {
+        inline void add_attitude(rapidjson::Value &_json, Eigen::Quaterniond trans, rapidjson::Document &d,
+                                 std::string name = "attitude") {
             rapidjson::Value v(rapidjson::kArrayType);
             rapidjson::Value namev(rapidjson::kStringType);
             namev.SetString(rapidjson::StringRef(name.c_str()));
@@ -90,8 +99,8 @@ namespace RapidFDM {
             _json.AddMember(namev, v, d.GetAllocator());
         }
 
-        void add_vector(rapidjson::Value &_json, Eigen::Vector3d vec, rapidjson::Document &d,
-                        std::string name = "vector") {
+        inline void add_vector(rapidjson::Value &_json, Eigen::Vector3d vec, rapidjson::Document &d,
+                               std::string name = "vector") {
             rapidjson::Value v(rapidjson::kArrayType);
             rapidjson::Value namev(rapidjson::kStringType);
             namev.SetString(rapidjson::StringRef(name.c_str()));
@@ -101,8 +110,8 @@ namespace RapidFDM {
             _json.AddMember(namev, v, d.GetAllocator());
         }
 
-        void add_transform(rapidjson::Value &_json, Eigen::Affine3d trans, rapidjson::Document &d,
-                           std::string name = "transform") {
+        inline void add_transform(rapidjson::Value &_json, Eigen::Affine3d trans, rapidjson::Document &d,
+                                  std::string name = "transform") {
             rapidjson::Value v(rapidjson::kObjectType);
             rapidjson::Value namev(rapidjson::kStringType);
             namev.SetString(rapidjson::StringRef(name.c_str()));

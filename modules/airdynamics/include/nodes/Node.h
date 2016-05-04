@@ -53,13 +53,17 @@ namespace RapidFDM
             /*!
               \return The calucated realtime force
             */
-            virtual Eigen::Vector3d get_realtime_force();
+            virtual Eigen::Vector3d get_realtime_force() {
+                abort();
+            };
 
             //! A Calucate total torque of this node
             /*!
               \return The calucated realtime torque
             */
-            virtual Eigen::Vector3d get_realtime_torque();
+            virtual Eigen::Vector3d get_realtime_torque() {
+                abort();
+            }
 
             Node(rapidjson::Value &_json, Joint *_parent = nullptr);
 

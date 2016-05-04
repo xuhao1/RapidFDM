@@ -85,11 +85,17 @@ namespace RapidFDM
                 return Eigen::Quaterniond(this->get_ground_transform().rotation());
             }
 
-            virtual Eigen::Vector3d get_ground_velocity() override;
+            virtual Eigen::Vector3d get_ground_velocity() override {
+                abort();
+            }
 
-            virtual Eigen::Vector3d get_angular_velocity() override;
+            virtual Eigen::Vector3d get_angular_velocity() override {
+                abort();
+            }
 
-            virtual Eigen::Vector3d get_ground_air_speed() override;
+            virtual Eigen::Vector3d get_ground_air_speed() override {
+                abort();
+            }
 
             virtual Eigen::Affine3d get_ground_transform() override;
         };

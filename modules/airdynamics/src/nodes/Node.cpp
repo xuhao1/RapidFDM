@@ -27,6 +27,7 @@ namespace RapidFDM
             this->params.mass = fast_value(_json, "mass");
             this->params.mass_center = fast_vector3(_json, "mass_center");
             this->params.Inertial = fast_vector3(_json, "inertial");
+            this->name = fast_string(_json, "name");
         }
 
         Node::Node(rapidjson::Document &document, Joint *_parent) {

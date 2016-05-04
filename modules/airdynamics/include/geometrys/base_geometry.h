@@ -21,6 +21,9 @@ namespace RapidFDM {
         public:
             BaseGeometry() { }
 
+            std::string get_type() {
+                return type;
+            };
             //TODO:
             //Write codes
             virtual float getLift(ComponentData state, AirState airState) {

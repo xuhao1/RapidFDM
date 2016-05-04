@@ -26,6 +26,5 @@ set(AIRDYNAMICS_TEST_SOURCES modules/airdynamics/tests/main.cpp)
 
 add_library(rapidfdm_airdynamics STATIC ${AIRDYNAMICS_MODULE_SOURCES})
 
-add_executable(rapidfdm_test ${AIRDYNAMICS_TEST_SOURCES})
+add_executable(rapidfdm_test ${AIRDYNAMICS_TEST_SOURCES} ${AIRDYNAMICS_MODULE_SOURCES})
 
-target_link_libraries(rapidfdm_test rapidfdm_airdynamics)
