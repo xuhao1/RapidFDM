@@ -12,6 +12,7 @@
 #include <rapidjson/document.h>
 #include <FlyingData.h>
 #include <base_component.h>
+#include <geometrys/base_geometry.h>
 
 namespace RapidFDM
 {
@@ -34,11 +35,12 @@ namespace RapidFDM
 
             ComponentData flying_states;
 
+            BaseGeometry *geometry = nullptr;
+
             Joint * parent = nullptr; /*!< Parent joint of this, be null if standalone */
 
             bool inSimulate = false;
         public:
-            std::string name;
 
             Node(Joint *_parent = nullptr);
 

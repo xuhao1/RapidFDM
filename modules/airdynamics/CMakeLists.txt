@@ -16,6 +16,9 @@ set(AIRDYNAMICS_MODULE_SOURCES
         modules/airdynamics/include/nodes/bodys/aircraft_node.h
         modules/airdynamics/src/nodes/bodys/aircraft_node.cpp
         modules/airdynamics/src/base_component.cpp
+        modules/airdynamics/include/geometrys/base_geometry.h
+        modules/airdynamics/include/geometrys/geometry_helper.h
+        modules/airdynamics/include/geometrys/standard_geometrys.h
         )
 
 set(AIRDYNAMICS_TEST_SOURCES modules/airdynamics/tests/main.cpp)

@@ -12,13 +12,22 @@ using namespace RapidFDM::Utils;
 
 namespace RapidFDM {
     namespace Aerodynamics {
+        struct AirState {
+            //! air speed
+            Eigen::Vector3d ground_air_speed = Eigen::Vector3d(0, 0, 0);
+            //! air density
+            float rho = 1.29;
+        };
         struct ComponentData {
-            Eigen::Affine3d transform;
             /*!< Transform from simulator */
-            Eigen::Affine3d body_transform;
+            Eigen::Affine3d transform;
+
             /*!< Body transform from simulator */
-            Eigen::Vector3d angular_velocity;
+            Eigen::Affine3d body_transform;
+
             /*!< Angular velocity from simulator on component transform*/
+            Eigen::Vector3d angular_velocity;
+
             Eigen::Vector3d velocity;
 
             /*!<Velocity from simulator on the ground*/

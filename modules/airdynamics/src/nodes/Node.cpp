@@ -13,7 +13,7 @@ namespace RapidFDM
 {
     namespace Aerodynamics
     {
-       Node::Node(Joint * _parent) {
+        Node::Node(Joint *_parent) {
            this->parent = _parent;
            inSimulate = false;
            params.mass = 0;
@@ -22,12 +22,15 @@ namespace RapidFDM
        }
 
         Node::Node(rapidjson::Value &_json, Joint *_parent) :
-                Node(_parent) {
+                Node(_parent), BaseComponent(_json) {
             this->params.mass = fast_value(_json, "mass");
             this->params.mass_center = fast_vector3(_json, "mass_center");
-            if (_json.HasMember("name") && _json["name"].IsString()) {
-                this->name = _json["name"].GetString();
-            }
+            this->params.Inertial = fast_vector3(_json, "inertial");
+        }
+
+        Node::Node(rapidjson::Document &document, Joint *_parent) {
+            rapidjson::Value &v = document;
+            *this = Node(v, _parent);
         }
 
         Eigen::Quaterniond Node::get_gound_attitude() {

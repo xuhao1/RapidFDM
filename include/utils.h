@@ -52,7 +52,13 @@ namespace RapidFDM {
             return Eigen::Quaterniond(1, 0, 0, 0);
         }
 
+        std::string fast_string(rapidjson::Value &_json, std::string key) {
+            if (_json.HasMember(key.c_str()) && _json[key.c_str()].IsString()) {
+                return _json[key.c_str()].GetString();
+            }
+
         Eigen::Quaterniond fast_attitude(rapidjson::Value &_json, std::string key) {
+
             if (_json.HasMember(key.c_str()) && _json[key.c_str()].IsArray()) {
                 if (_json[key.c_str()].Size() == 4) {
                     //Is Quaternion
@@ -103,5 +109,5 @@ namespace RapidFDM {
             _json.AddMember(namev, v, d.GetAllocator());
         }
     }
-}
+    };
 #endif //RAPIDFDM_UTILS_H_H

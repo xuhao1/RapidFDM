@@ -3,11 +3,21 @@
 
 #include <Eigen/Eigen>
 #include <iostream>
+#include <utils.h>
+
+using namespace RapidFDM::Utils;
 
 namespace RapidFDM {
     namespace Aerodynamics {
         class BaseComponent {
         public:
+            BaseComponent() { }
+
+            BaseComponent(rapidjson::Value &v) {
+                this->name = fast_string(_json, "name");
+            }
+
+            std::string name;
             virtual Eigen::Vector3d get_gound_velocity() {
                 std::abort();
             }
@@ -16,8 +26,7 @@ namespace RapidFDM {
                 std::abort();
             }
 
-            virtual Eigen::Vector3d get_ground_air_speed();
-
+            virtual Eigen::Vector3d get_ground_air_speed()
             {
                 std::abort();
             }
