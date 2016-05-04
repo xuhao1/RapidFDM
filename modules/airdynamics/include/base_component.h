@@ -14,11 +14,12 @@ namespace RapidFDM {
             BaseComponent() { }
 
             BaseComponent(rapidjson::Value &v) {
-                this->name = fast_string(_json, "name");
+                this->name = fast_string(v, "name");
             }
 
             std::string name;
-            virtual Eigen::Vector3d get_gound_velocity() {
+
+            virtual Eigen::Vector3d get_ground_velocity() {
                 std::abort();
             }
 
@@ -36,7 +37,7 @@ namespace RapidFDM {
             }
 
 
-            virtual Eigen::Quaterniond get_gound_attitude() {
+            virtual Eigen::Quaterniond get_ground_attitude() {
                 std::abort();
             }
 
@@ -49,11 +50,6 @@ namespace RapidFDM {
 
 
             virtual Eigen::Affine3d get_body_transform() {
-                std::abort();
-            }
-
-
-            virtual Eigen::Vector3d get_ground_velocity() {
                 std::abort();
             }
 

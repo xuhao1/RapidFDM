@@ -56,6 +56,8 @@ namespace RapidFDM {
             if (_json.HasMember(key.c_str()) && _json[key.c_str()].IsString()) {
                 return _json[key.c_str()].GetString();
             }
+            return "";
+        }
 
         Eigen::Quaterniond fast_attitude(rapidjson::Value &_json, std::string key) {
 
@@ -109,5 +111,5 @@ namespace RapidFDM {
             _json.AddMember(namev, v, d.GetAllocator());
         }
     }
-    };
+};
 #endif //RAPIDFDM_UTILS_H_H

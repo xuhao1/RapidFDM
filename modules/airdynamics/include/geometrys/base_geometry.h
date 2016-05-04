@@ -47,7 +47,7 @@ namespace RapidFDM {
             }
 
             Eigen::Vector3d getForce(ComponentData state, AirState airState) {
-                return Eigen::Vector3d(-getDrag(state), -getSide(state), -getLift(state));
+                return Eigen::Vector3d(-getDrag(state, airState), -getSide(state, airState), -getLift(state, airState));
             }
         };
     }

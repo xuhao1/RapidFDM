@@ -85,7 +85,7 @@ namespace RapidFDM
                 return Eigen::Quaterniond(this->get_ground_transform().rotation());
             }
 
-            virtual Eigen::Vector3d get_gound_velocity() override;
+            virtual Eigen::Vector3d get_ground_velocity() override;
 
             virtual Eigen::Vector3d get_angular_velocity() override;
 

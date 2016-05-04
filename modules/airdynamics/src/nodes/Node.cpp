@@ -22,7 +22,8 @@ namespace RapidFDM
        }
 
         Node::Node(rapidjson::Value &_json, Joint *_parent) :
-                Node(_parent), BaseComponent(_json) {
+                BaseComponent(_json) {
+            this->parent = _parent;
             this->params.mass = fast_value(_json, "mass");
             this->params.mass_center = fast_vector3(_json, "mass_center");
             this->params.Inertial = fast_vector3(_json, "inertial");
@@ -33,7 +34,7 @@ namespace RapidFDM
             *this = Node(v, _parent);
         }
 
-        Eigen::Quaterniond Node::get_gound_attitude() {
+        Eigen::Quaterniond Node::get_ground_attitude() {
             if (!inSimulate)
                 return this->parent->get_ground_attitude();
             else
@@ -69,7 +70,7 @@ namespace RapidFDM
 
         Eigen::Vector3d Node::get_ground_velocity() {
             if (!inSimulate)
-                return parent->get_gound_velocity();
+                return parent->get_ground_velocity();
             else
                 return this->flying_states.velocity;
         }

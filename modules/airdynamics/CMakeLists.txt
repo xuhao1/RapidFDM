@@ -11,6 +11,7 @@ set(AIRDYNAMICS_MODULE_SOURCES
         modules/airdynamics/src/airdynamics_parser.cpp
         modules/airdynamics/include/joints/FreeJoint.h
         modules/airdynamics/include/FlyingData.h
+        modules/airdynamics/include/base_component.h
         modules/airdynamics/include/airdynamics_components.h
         modules/airdynamics/include/airdynamics_parser.h
         modules/airdynamics/include/nodes/bodys/aircraft_node.h

@@ -50,19 +50,19 @@ namespace RapidFDM
             /*!
               \return The calucated realtime force
             */
-            virtual Eigen::Vector3d get_realtime_force() = 0;
+            virtual Eigen::Vector3d get_realtime_force();
 
             //! A Calucate total torque of this node
             /*!
               \return The calucated realtime torque
             */
-            virtual Eigen::Vector3d get_realtime_torque() = 0;
+            virtual Eigen::Vector3d get_realtime_torque();
 
             Node(rapidjson::Value &_json, Joint *_parent = nullptr);
 
 
             //Overrides
-            virtual Eigen::Quaterniond get_gound_attitude() override;
+            virtual Eigen::Quaterniond get_ground_attitude() override;
 
             virtual Eigen::Affine3d get_body_transform() override;
 
