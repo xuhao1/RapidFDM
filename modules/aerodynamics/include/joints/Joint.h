@@ -39,6 +39,9 @@ namespace RapidFDM
                 Eigen::Vector3d relative_velocity;
             } states;
 
+            std::string type = "base_joint";
+            rapidjson::Value joint_define;
+
         public:
             Joint(rapidjson::Value &v, std::map<std::string, Node *> nodes);
 

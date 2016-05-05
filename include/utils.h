@@ -13,26 +13,24 @@
 namespace RapidFDM {
     namespace Utils {
 
-        inline double fast_value(rapidjson::Value &_json, std::string key) {
+        inline double fast_value(rapidjson::Value &_json, std::string key, float default_value = 0) {
             if (_json.HasMember(key.c_str())) {
                 if (_json[key.c_str()].IsInt())
                     return _json[key.c_str()].GetInt();
                 else if (_json[key.c_str()].IsDouble())
                     return _json[key.c_str()].GetDouble();
             }
-            std::cerr << "Get value of key " << key << "failed" << std::endl;
-            return 0;
+            return default_value;
         }
 
-        inline double fast_value(rapidjson::Value &_json, int index) {
+        inline double fast_value(rapidjson::Value &_json, int index, double default_value = 0) {
             if (_json.IsArray() && _json.Size() > index) {
                 if (_json[index].IsInt())
                     return _json[index].GetInt();
                 else if (_json[index].IsDouble())
                     return _json[index].GetDouble();
             }
-            std::cerr << "Get value of index " << index << "failed" << std::endl;
-            return 0;
+            return default_value;
         }
 
         inline Eigen::Vector3d fast_vector3(rapidjson::Value &_json, std::string key,

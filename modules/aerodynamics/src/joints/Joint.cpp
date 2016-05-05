@@ -33,6 +33,8 @@ namespace RapidFDM {
                     Eigen::Quaterniond(1, 0, 0, 0),
                     Eigen::Vector3d(1, 1, 1)
             );
+
+            this->joint_define = v;
         }
 
         Joint::Joint(rapidjson::Value &v, std::map<std::string, Node *> nodes) {

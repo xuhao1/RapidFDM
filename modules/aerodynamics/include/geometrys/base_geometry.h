@@ -16,7 +16,7 @@ namespace RapidFDM {
         class BaseGeometry {
         protected:
             float Aero = 0;
-            /*!< aera for airdynamics calucation */
+            /*!< aera for aerodynamics calucation */
             std::string type = "base";
         public:
             BaseGeometry() { }

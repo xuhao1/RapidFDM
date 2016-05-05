@@ -25,6 +25,7 @@ namespace RapidFDM {
                     return new AircraftNode(v);
                 }
                 std::cerr << "Cannot parse Node Type : " << type << std::endl;
+                return nullptr;
             }
 
             static Node *create_node_from_json(std::string json) {
