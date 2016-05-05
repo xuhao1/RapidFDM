@@ -51,6 +51,8 @@ namespace RapidFDM
 
             Node(rapidjson::Document &document, Joint *_parent = nullptr);
 
+            Node(rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent = nullptr);
+
             //! Calucate total force of this node
             /*!
               \return The calucated realtime force
@@ -67,7 +69,6 @@ namespace RapidFDM
                 abort();
             }
 
-            Node(rapidjson::Value &_json, Joint *_parent = nullptr);
 
 
             //Overrides
@@ -99,12 +100,13 @@ namespace RapidFDM
 
             virtual void brief() override {
                 printf("name : %s \n", name.c_str());
-                printf("type :%s \n", type.c_str());
+                printf("type : %s \n", type.c_str());
                 printf("mass : %5f \n", params.mass);
                 printf("Inertial %5f %5f %5f \n", params.Inertial.x(), params.Inertial.y(), params.Inertial.z());
                 if (this->geometry != nullptr) {
                     this->geometry->brief();
                 }
+                printf("\n\n");
             }
 
         };

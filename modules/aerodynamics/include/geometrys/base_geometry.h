@@ -55,7 +55,7 @@ namespace RapidFDM {
             }
 
             virtual void brief() {
-                printf("Base Geometry \n");
+                printf("Geometry %s\n", type.c_str());
             }
         };
     }

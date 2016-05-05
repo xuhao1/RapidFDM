@@ -66,8 +66,23 @@ namespace RapidFDM {
                 if (params.enableControl)
                     params.ctrlSurfFrac = fast_value(v, "ctrlSurfFrac", 0.2);
                 params.wingPart = fast_value(v, "wingPart", 3);
+                this->type = "WingGeometry";
             }
 
+            virtual void brief() {
+                if (this->params.enableControl)
+                    printf("WindControlable\n");
+                else
+                    printf("WingDiscontrolable\n");
+                printf("b_2 %f\n", params.b_2);
+                if (params.wingPart == 0)
+                    printf("wing on left side\n");
+                else if (params.wingPart == 1)
+                    printf("Wing on right side\n");
+                else
+                    printf("Wing on both side\n");
+
+            }
         };
     }
 }

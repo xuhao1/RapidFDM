@@ -1,5 +1,5 @@
 {
-  "name": "sample_fuse_lage",
+  "name": "sample_wing",
   "type": "wing",
   "mass": 0.1,
   "mass_center": [
@@ -15,5 +15,6 @@
   "b_2": 0.5,
   "Mac": 0.4,
   "nonSideAttach": 1,
-  "wingPart": 3
+  "wingPart": 3,
+  "enableControl": 1
 }

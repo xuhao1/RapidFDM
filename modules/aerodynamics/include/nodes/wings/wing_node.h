@@ -17,15 +17,15 @@ namespace RapidFDM {
             }
 
         public:
-            WingNode(rapidjson::Value &v, Joint *_parent = nullptr) :
-                    Node(v, _parent) {
+            WingNode(rapidjson::Value &v, rapidjson::Document &d, Joint *_parent = nullptr) :
+                    Node(v, d, _parent) {
                 this->geometry = new WingGeometry(v);
                 this->type = "wing";
                 enableControl = getWing()->params.enableControl;
             }
 
             WingNode(rapidjson::Document &document, Joint *_parent = nullptr) {
-                *this = WingNode(document, _parent);
+                *this = WingNode(document, document, _parent);
             }
         };
     }
