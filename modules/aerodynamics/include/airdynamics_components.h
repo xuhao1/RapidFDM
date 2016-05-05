@@ -3,6 +3,5 @@
 
 #include <joints/Joint.h>
 #include <nodes/Node.h>
-#include <joints/FreeJoint.h>
 
 #endif

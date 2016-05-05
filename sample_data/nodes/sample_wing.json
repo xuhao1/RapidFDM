@@ -1,0 +1,19 @@
+{
+  "name": "sample_fuse_lage",
+  "type": "wing",
+  "mass": 0.1,
+  "mass_center": [
+    0,
+    0,
+    0
+  ],
+  "inertial": [
+    1e-2,
+    1e-2,
+    1e-2
+  ],
+  "b_2": 0.5,
+  "Mac": 0.4,
+  "nonSideAttach": 1,
+  "wingPart": 3
+}

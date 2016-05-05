@@ -43,6 +43,8 @@ namespace RapidFDM
             bool inSimulate = false;
 
             std::string type = "node";
+
+            rapidjson::Value describer;
         public:
 
             Node(Joint *_parent = nullptr);
@@ -100,6 +102,9 @@ namespace RapidFDM
                 printf("type :%s \n", type.c_str());
                 printf("mass : %5f \n", params.mass);
                 printf("Inertial %5f %5f %5f \n", params.Inertial.x(), params.Inertial.y(), params.Inertial.z());
+                if (this->geometry != nullptr) {
+                    this->geometry->brief();
+                }
             }
 
         };

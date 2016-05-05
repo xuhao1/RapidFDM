@@ -7,6 +7,7 @@
 
 #include <nodes/Node.h>
 #include <nodes/bodys/aircraft_node.h>
+#include <nodes/wings/wing_node.h>
 #include <rapidjson/document.h>
 #include <utils.h>
 #include <iostream>
@@ -23,6 +24,10 @@ namespace RapidFDM {
                 if (type == "aircraft") {
                     printf("Parse Aircraft node\n");
                     return new AircraftNode(v);
+                }
+                if (type == "wing") {
+                    printf("Parse Wing node\n");
+                    return new WingNode(v);
                 }
                 std::cerr << "Cannot parse Node Type : " << type << std::endl;
                 return nullptr;

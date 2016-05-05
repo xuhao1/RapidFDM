@@ -1,0 +1,34 @@
+#ifndef RAPIDFDM_AERODYNAMICS_NODES_WING_H
+#define RAPIDFDM_AERODYNAMICS_NODES_WING_H
+
+#include <nodes/Node.h>
+#include <geometrys/wing_geometrys.h>
+#include <joints/Joint.h>
+#include <aerodynamics/include/geometrys/wing_geometrys.h>
+
+namespace RapidFDM {
+    namespace Aerodynamics {
+        class WingNode : public Node {
+        protected:
+            bool enableControl = false;
+
+            WingGeometry *getWing() {
+                return static_cast<WingGeometry *>(this->geometry);
+            }
+
+        public:
+            WingNode(rapidjson::Value &v, Joint *_parent = nullptr) :
+                    Node(v, _parent) {
+                this->geometry = new WingGeometry(v);
+                this->type = "wing";
+                enableControl = getWing()->params.enableControl;
+            }
+
+            WingNode(rapidjson::Document &document, Joint *_parent = nullptr) {
+                *this = WingNode(document, _parent);
+            }
+        };
+    }
+}
+
+#endif

@@ -4,7 +4,7 @@
 
 #include <joints/Joint.h>
 #include <utils.h>
-#include <airdynamics/include/joints/Joint.h>
+#include <joints/Joint.h>
 #include <nodes/Node.h>
 
 using namespace RapidFDM::Utils;

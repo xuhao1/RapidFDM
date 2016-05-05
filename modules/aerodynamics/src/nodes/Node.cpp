@@ -2,7 +2,6 @@
 // Created by xuhao on 2016/5/2.
 //
 
-#include <airdynamics/include/nodes/Node.h>
 #include "nodes/Node.h"
 #include "joints/Joint.h"
 #include <utils.h>
@@ -28,6 +27,8 @@ namespace RapidFDM
             this->params.mass_center = fast_vector3(_json, "mass_center");
             this->params.Inertial = fast_vector3(_json, "inertial");
             this->name = fast_string(_json, "name");
+
+            this->describer = _json;
         }
 
         Node::Node(rapidjson::Document &document, Joint *_parent) {

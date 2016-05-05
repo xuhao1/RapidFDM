@@ -17,12 +17,14 @@ set(AIRDYNAMICS_MODULE_SOURCES
         modules/aerodynamics/include/nodes/Node.h
         modules/aerodynamics/include/nodes/bodys/aircraft_node.h
         modules/aerodynamics/include/nodes/node_helper.h
+        modules/aerodynamics/include/nodes/wings/wing_node.h
         modules/aerodynamics/include/geometrys/wing_geometrys.h
         modules/aerodynamics/include/geometrys/base_geometry.h
         modules/aerodynamics/include/geometrys/geometry_helper.h
         modules/aerodynamics/include/geometrys/standard_geometrys.h
         modules/aerodynamics/include/joints/fixed_joint.h
-        modules/aerodynamics/include/joints/joint_helper.h)
+        modules/aerodynamics/include/joints/joint_helper.h
+        )
 
 set(AIRDYNAMICS_TEST_SOURCES modules/aerodynamics/tests/main.cpp)
 

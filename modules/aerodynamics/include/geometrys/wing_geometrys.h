@@ -6,10 +6,11 @@
 #define RAPIDFDM_AERODYNAMICS_WING_GEOMETRYS_H
 
 #include <geometrys/base_geometry.h>
+#include <utils.h>
 
 namespace RapidFDM {
     namespace Aerodynamics {
-        class WingGeometry {
+        class WingGeometry : public BaseGeometry {
         public:
             virtual float getLift(ComponentData state, AirState airState) {
                 std::cerr << "Code not wrote" << std::endl;
@@ -46,16 +47,25 @@ namespace RapidFDM {
                 float Mac;
                 bool nonSideAttach = true;
                 float TarperRatio = 1;
-                float MOdChordSweep = 0;
-                float maxdelect = 15;
-                float ctrlSurfFrac = 0.2;
+                float MidChordSweep = 0;
+                float maxdeflect = 15;
+                float ctrlSurfFrac = 0.0;
                 bool enableControl = false;
-                int wing_part = 3;
+                int wingPart = 3;
 
             } params;
 
-            WingGeometry() {
-
+            WingGeometry(rapidjson::Value &v) {
+                params.b_2 = fast_value(v, "b_2", 0);
+                params.Mac = fast_value(v, "Mac", 0);
+                params.nonSideAttach = fast_value(v, "nonSideAttch", 1);
+                params.TarperRatio = fast_value(v, "TaperRatio", 1);
+                params.MidChordSweep = fast_value(v, "MidChordSweep", 0);
+                params.maxdeflect = fast_value(v, "maxdeflect", 15);
+                params.enableControl = fast_value(v, "enableControl", 0) == 1;
+                if (params.enableControl)
+                    params.ctrlSurfFrac = fast_value(v, "ctrlSurfFrac", 0.2);
+                params.wingPart = fast_value(v, "wingPart", 3);
             }
 
         };
