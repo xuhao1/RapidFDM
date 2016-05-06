@@ -4,7 +4,6 @@
 #include <nodes/Node.h>
 #include <geometrys/wing_geometrys.h>
 #include <joints/Joint.h>
-#include <aerodynamics/include/geometrys/wing_geometrys.h>
 
 namespace RapidFDM {
     namespace Aerodynamics {

@@ -9,6 +9,9 @@
 #include <rapidjson/document.h>
 #include <Eigen/Eigen>
 #include <iostream>
+#include <vector>
+#include <sys/stat.h>
+#include <boost/filesystem.hpp>
 
 namespace RapidFDM {
     namespace Utils {
@@ -115,8 +118,27 @@ namespace RapidFDM {
             namev.SetString(rapidjson::StringRef(name.c_str()));
             add_attitude(v, (Eigen::Quaterniond) trans.rotation(), d);
             add_vector(v, (Eigen::Vector3d) trans.translation(), d);
+
             _json.AddMember(namev, v, d.GetAllocator());
         }
+
+
+        inline std::vector<std::string> get_file_list(const std::string &path) {
+            std::vector<std::string> m_file_list;
+            if (!path.empty()) {
+                namespace fs = boost::filesystem;
+
+                fs::path apk_path(path);
+                fs::recursive_directory_iterator end;
+
+                for (fs::recursive_directory_iterator i(apk_path); i != end; ++i) {
+                    const fs::path cp = (*i);
+                    m_file_list.push_back(cp.string());
+                }
+            }
+            return m_file_list;
+        }
+
     }
 };
 #endif //RAPIDFDM_UTILS_H_H

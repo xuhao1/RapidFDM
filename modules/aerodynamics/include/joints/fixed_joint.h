@@ -26,6 +26,10 @@ namespace RapidFDM {
                     Joint(_parent, _child) {
                 this->type = "fixed";
             }
+
+            virtual void brief() {
+                printf("This is Fixed joint\n");
+            }
         };
     }
 }

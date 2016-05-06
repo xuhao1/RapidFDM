@@ -10,6 +10,8 @@ using namespace RapidFDM::Utils;
 namespace RapidFDM {
     namespace Aerodynamics {
         class BaseComponent {
+        protected:
+            std::string name;
         public:
             BaseComponent() { }
 
@@ -17,7 +19,6 @@ namespace RapidFDM {
                 this->name = fast_string(v, "name");
             }
 
-            std::string name;
 
             virtual Eigen::Vector3d get_ground_velocity() {
                 std::abort();
@@ -54,6 +55,10 @@ namespace RapidFDM {
             }
 
             virtual void brief() { }
+
+            std::string getName() {
+                return this->name;
+            }
 
         };
     }

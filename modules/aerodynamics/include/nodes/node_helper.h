@@ -46,6 +46,19 @@ namespace RapidFDM {
 //                std::cout << "Json Content : \n" << content << std::endl;
                 return create_node_from_json(content);
             }
+
+            static std::map<std::string, Node *> scan_node_folder(std::string path) {
+                std::map<std::string, Node *> nodeDB;
+                std::vector<std::string> file_list = get_file_list(path);
+                for (std::string file_path : file_list) {
+                    printf("Scan file : %s\n", file_path.c_str());
+                    Node *tmp = create_node_from_file(file_path);
+                    if (tmp != nullptr) {
+                        nodeDB[tmp->getName()] = tmp;
+                    }
+                }
+                return nodeDB;
+            };
         };
     }
 }

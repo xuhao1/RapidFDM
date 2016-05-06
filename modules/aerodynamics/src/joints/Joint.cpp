@@ -67,6 +67,5 @@ namespace RapidFDM {
                 return parent->get_body_transform() * get_relative_transform();
             return get_relative_transform();
         }
-
     }
 }

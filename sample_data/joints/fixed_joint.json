@@ -1,0 +1,22 @@
+{
+  "name": "test-joint",
+  "type": "fixed",
+  "base_position": [
+    0,
+    0,
+    0
+  ],
+  "base_rotation": [
+    1,
+    0,
+    0,
+    0
+  ],
+  "child_reference_point": [
+    0,
+    0,
+    0
+  ],
+  "parent": "sample_fuse_lage",
+  "child": "sample_wing"
+}

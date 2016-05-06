@@ -10,14 +10,16 @@
 #include <iostream>
 #include <stdio.h>
 #include <fstream>
+#include <map>
 
 namespace RapidFDM {
     namespace Aerodynamics {
-        class joint_helper {
+        class JointHelper {
         public:
             static Joint *create_joint_from_json(rapidjson::Value &v, std::map<std::string, Node *> nodeDB) {
                 std::string type = fast_string(v, "type");
                 if (type == "fixed") {
+                    printf("Parse fixed joint\n");
                     return new FixedJoint(v, nodeDB);
                 }
 
@@ -28,7 +30,7 @@ namespace RapidFDM {
             static Joint *create_joint_from_json(std::string json, std::map<std::string, Node *> nodeDB) {
                 rapidjson::Document document;
                 document.Parse(json.c_str());
-                return create_joint_from_json(document);
+                return create_joint_from_json(document, nodeDB);
             }
 
             static Joint *create_joint_from_file(std::string file, std::map<std::string, Node *> nodeDB) {
@@ -36,7 +38,7 @@ namespace RapidFDM {
                 std::string content((std::istreambuf_iterator<char>(ifs)),
                                     (std::istreambuf_iterator<char>()));
                 std::cout << "Json Content : \n" << content << std::endl;
-                return create_joint_from_json(content);
+                return create_joint_from_json(content, nodeDB);
             }
         };
     }
