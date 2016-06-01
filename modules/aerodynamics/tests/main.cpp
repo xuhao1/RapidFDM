@@ -7,12 +7,13 @@ using namespace RapidFDM::Aerodynamics;
 
 int main() {
     std::cout << "This is a simple test" << std::endl;
-    auto nodes = NodeHelper::scan_node_folder("/cygdrive/c/Users/xuhao/Desktop/develop/RapidFDM/sample_data/nodes/");
+    std::string data_root = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data";
+    auto nodes = NodeHelper::scan_node_folder(data_root + "/nodes/");
     for (auto k : nodes) {
         k.second->brief();
     }
     auto joint = JointHelper::create_joint_from_file(
-            "/cygdrive/c/Users/xuhao/Desktop/develop/RapidFDM/sample_data/joints/fixed_joint.json", nodes);
+            data_root + "/joints/fixed_joint.json", nodes);
     joint->brief();
     std::cout << "Finish test " << std::endl;
 }
