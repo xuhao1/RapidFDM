@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GUI-Test-Background</title>
+    <script src="../static/js/three.js"></script>
+    <script src="../static/js/ImprovedNoise.js"></script>
+    <script src="../static/js/CanvasRenderer.js"></script>
+    <script src="../static/js/Projector.js"></script>
+    <script src='../static/js/stats.min.js'></script>
+    <script src="../static/js/OrbitControls.js"></script>
+    <script src="../static/js/TextGeometry.js"></script>
+    <script src="../static/js/FontUtils.js"></script>
+    <script src="../static/js/helvetiker_regular.typeface.js"></script>
+    <script src="../static/js/jquery-1.11.3.min.js"></script>
+    <script src="js/DroneDisplayCameraController.js"></script>
+    <script src="js/DroneDisplayEngine.js"></script>
+    <script src="js/airfoil_loader.js"></script>
+</head>
+<body>
+<div id="container">
+</div>
+
+<script>
+
+    var dis = new DroneDisplayEngine(document.getElementById("container"),
+            window.innerWidth, window.innerHeight);
+    DroneDisplayEngine.animate(dis);
+    load_airfoild_from_uiucdb("naca001264",function(mesh)
+    {
+        dis.addObject(mesh);
+    });
+
+</script>
+</body>
+</html>
