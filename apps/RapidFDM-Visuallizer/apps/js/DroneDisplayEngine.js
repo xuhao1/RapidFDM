@@ -12,9 +12,9 @@ var DroneDisplayEngine = function (container,w,h)
 
 
     scene.add( new THREE.AmbientLight( 0x222222 ) );
-    var light = new THREE.PointLight( 0xffffff );
-    light.position.copy( this.camera.position );
-    scene.add( light );
+    this.light = new THREE.PointLight( 0xffffff );
+    this.light.position.copy( this.camera.position );
+    scene.add( this.light );
 
     let renderer = this.renderer = new THREE.WebGLRenderer();
     renderer.setClearColor(0xbfd1e5);
@@ -41,6 +41,8 @@ var DroneDisplayEngine = function (container,w,h)
 DroneDisplayEngine.prototype.constructor = DroneDisplayEngine;
 
 DroneDisplayEngine.prototype.render = function () {
+    this.light.position.copy( this.camera.position );
+    this.controller.update();
     this.renderer.render(this.scene,this.camera);
 };
 
