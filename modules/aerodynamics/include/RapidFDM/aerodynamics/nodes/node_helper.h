@@ -5,9 +5,9 @@
 #ifndef RAPIDFDM_NODE_HELPER_H
 #define RAPIDFDM_NODE_HELPER_H
 
-#include <nodes/Node.h>
-#include <nodes/bodys/aircraft_node.h>
-#include <nodes/wings/wing_node.h>
+#include <RapidFDM/aerodynamics/nodes/Node.h>
+#include <RapidFDM/aerodynamics/nodes/bodys/aircraft_node.h>
+#include <RapidFDM/aerodynamics/nodes/wings/wing_node.h>
 #include <rapidjson/document.h>
 #include <utils.h>
 #include <iostream>

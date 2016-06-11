@@ -7,12 +7,12 @@
 
 #include <Eigen/Eigen>
 #include <vector>
-#include <joints/Joint.h>
+#include <RapidFDM/aerodynamics/joints/Joint.h>
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/document.h>
-#include <FlyingData.h>
-#include <base_component.h>
-#include <geometrys/base_geometry.h>
+#include <RapidFDM/aerodynamics/FlyingData.h>
+#include <RapidFDM/aerodynamics/base_component.h>
+#include <RapidFDM/aerodynamics/geometrys/base_geometry.h>
 #include <stdio.h>
 
 namespace RapidFDM

@@ -9,7 +9,7 @@
 #include <rapidjson/document.h>
 #include <map>
 #include <string>
-#include <base_component.h>
+#include <RapidFDM/aerodynamics/base_component.h>
 
 namespace RapidFDM
 {

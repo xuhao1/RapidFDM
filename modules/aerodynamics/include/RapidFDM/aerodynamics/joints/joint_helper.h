@@ -5,8 +5,8 @@
 #ifndef RAPIDFDM_AERODYNAMICS_JOINT_HELPER_H
 #define RAPIDFDM_AERODYNAMICS_JOINT_HELPER_H
 
-#include <joints/Joint.h>
-#include <joints/fixed_joint.h>
+#include <RapidFDM/aerodynamics/joints/Joint.h>
+#include <RapidFDM/aerodynamics/joints/fixed_joint.h>
 #include <iostream>
 #include <stdio.h>
 #include <fstream>

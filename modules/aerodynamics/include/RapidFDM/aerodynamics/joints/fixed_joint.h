@@ -5,8 +5,8 @@
 #ifndef RAPIDFDM_AIRDYNAMICS_FIXED_JOINT_H
 #define RAPIDFDM_AIRDYNAMICS_FIXED_JOINT_H
 
-#include <joints/Joint.h>
-#include <nodes/Node.h>
+#include <RapidFDM/aerodynamics/joints/Joint.h>
+#include <RapidFDM/aerodynamics/nodes/Node.h>
 
 namespace RapidFDM {
     namespace Aerodynamics {

@@ -13,21 +13,21 @@ set(AIRDYNAMICS_MODULE_SOURCES
         src/joints/fixed_joint.cpp
         src/nodes/bodys/aircraft_node.cpp
         src/nodes/Node.cpp
-        include/FlyingData.h
-        include/base_component.h
-        include/airdynamics_components.h
-        include/airdynamics_parser.h
-        include/joints/Joint.h
-        include/nodes/Node.h
-        include/nodes/bodys/aircraft_node.h
-        include/nodes/node_helper.h
-        include/nodes/wings/wing_node.h
-        include/geometrys/wing_geometrys.h
-        include/geometrys/base_geometry.h
-        include/geometrys/geometry_helper.h
-        include/geometrys/standard_geometrys.h
-        include/joints/fixed_joint.h
-        include/joints/joint_helper.h)
+        include/RapidFDM/aerodynamics/FlyingData.h
+        include/RapidFDM/aerodynamics/base_component.h
+        include/RapidFDM/aerodynamics/airdynamics_components.h
+        include/RapidFDM/aerodynamics/airdynamics_parser.h
+        include/RapidFDM/aerodynamics/joints/Joint.h
+        include/RapidFDM/aerodynamics/nodes/Node.h
+        include/RapidFDM/aerodynamics/nodes/bodys/aircraft_node.h
+        include/RapidFDM/aerodynamics/nodes/node_helper.h
+        include/RapidFDM/aerodynamics/nodes/wings/wing_node.h
+        include/RapidFDM/aerodynamics/geometrys/wing_geometrys.h
+        include/RapidFDM/aerodynamics/geometrys/base_geometry.h
+        include/RapidFDM/aerodynamics/geometrys/geometry_helper.h
+        include/RapidFDM/aerodynamics/geometrys/standard_geometrys.h
+        include/RapidFDM/aerodynamics/joints/fixed_joint.h
+        include/RapidFDM/aerodynamics/joints/joint_helper.h)
 
 SET(AERODYNAMICS_CONFIGURER_SOURCES src/aerodynamics-configure-server.cpp
         src/aerodynamics-configure-server.h)

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-set(the_description "The Physics Simulation Module")
+set(the_description "The Control System Module")
 include_directories(./include
         ../../include/
         ../../3rdparty/eigen3
@@ -10,10 +10,5 @@ include_directories(./include
         ../../3rdparty/websocketpp
         )
 
-
-set(SIMULATION_MODULE_SOURCES
-        include/RapidFDM/simulation/simulator_world.h
-        src/simulator_world.cpp
-        src/simulator_aircraft.cpp)
-add_library(rapidfdm_simulator STATIC ${SIMULATION_MODULE_SOURCES})
-
+set(CONTROL_SYSTEM_MODULE_SOURCES
+        )

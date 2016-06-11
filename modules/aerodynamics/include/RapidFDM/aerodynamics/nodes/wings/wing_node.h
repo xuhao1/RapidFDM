@@ -1,9 +1,9 @@
 #ifndef RAPIDFDM_AERODYNAMICS_NODES_WING_H
 #define RAPIDFDM_AERODYNAMICS_NODES_WING_H
 
-#include <nodes/Node.h>
-#include <geometrys/wing_geometrys.h>
-#include <joints/Joint.h>
+#include <RapidFDM/aerodynamics/nodes/Node.h>
+#include <RapidFDM/aerodynamics/geometrys/wing_geometrys.h>
+#include <RapidFDM/aerodynamics/joints/Joint.h>
 
 namespace RapidFDM {
     namespace Aerodynamics {

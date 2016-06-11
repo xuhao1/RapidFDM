@@ -6,8 +6,8 @@
 #define RAPIDFDM_GEOMETRY_HELPER_H
 
 #include <rapidjson/rapidjson.h>
-#include "geometrys/base_geometry.h"
-#include "geometrys/standard_geometrys.h"
+#include "base_geometry.h"
+#include "standard_geometrys.h"
 #include <utils.h>
 
 using namespace RapidFDM::Utils;

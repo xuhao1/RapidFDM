@@ -1,9 +1,9 @@
 #ifndef __RAPIDFDM_AERODYNAMIC_NODE_H__
 #define __RAPIDFDM_AERODYNAMIC_NODE_H__
-#include <nodes/Node.h>
-#include <FlyingData.h>
+#include <RapidFDM/aerodynamics/nodes/Node.h>
+#include <RapidFDM/aerodynamics/FlyingData.h>
 #include <rapidjson/document.h>
-#include <geometrys/geometry_helper.h>
+#include <RapidFDM/aerodynamics/geometrys/geometry_helper.h>
 #include <stdio.h>
 
 namespace RapidFDM {

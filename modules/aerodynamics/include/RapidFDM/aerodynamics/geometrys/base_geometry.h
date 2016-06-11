@@ -6,7 +6,7 @@
 #ifndef RAPIDFDM_BASE_GEOMETRY_H
 #define RAPIDFDM_BASE_GEOMETRY_H
 
-#include <FlyingData.h>
+#include <RapidFDM/aerodynamics/FlyingData.h>
 #include <iostream>
 #include <stdio.h>
 

@@ -1,7 +1,7 @@
 #ifndef RAPIDFDM_STANDARD_GEOMETRY_H
 #define RAPIDFDM_STANDARD_GEOMETRY_H
 
-#include <geometrys/base_geometry.h>
+#include <RapidFDM/aerodynamics/geometrys/base_geometry.h>
 
 namespace RapidFDM {
     namespace Aerodynamics {
