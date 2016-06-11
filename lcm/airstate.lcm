@@ -1,6 +1,0 @@
-package rapidfdmlcm;
-struct airstate
-{
-    float rho;
-    float wind_speed[3];
-}
