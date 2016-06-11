@@ -3,3 +3,13 @@
 //
 #include <RapidFDM/simulation/simulator_world.h>
 
+namespace RapidFDM
+{
+    namespace Simulation
+    {
+        SimulatorWorld::SimulatorWorld(float substep_deltatime)
+        {
+
+        }
+    }
+}
