@@ -4,11 +4,15 @@
 
 #ifndef RAPIDFDM_SIMULATOR_WORLD_H
 #define RAPIDFDM_SIMULATOR_WORLD_H
+
+#include <PxScene.h>
+using namespace physx;
 namespace RapidFDM
 {
     namespace Simulation
     {
         //!All realtime simulation should run in this
+        static PxScene * pxScene = nullptr;
         class SimulatorWorld
         {
         public:

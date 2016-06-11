@@ -10,6 +10,10 @@
 #include <PxRigidDynamic.h>
 #include <PxFixedJoint.h>
 #include <PxJoint.h>
+#include <PxScene.h>
+#include <RapidFDM/simulation/simulator_world.h>
+
+using namespace physx;
 
 namespace RapidFDM
 {
@@ -25,13 +29,20 @@ namespace RapidFDM
 
             Aerodynamics::AircraftNode * aircraftNode = nullptr;
             ControlSystem::BaseController * baseController = nullptr;
+//            std::
         public:
             SimulatorAircraft()
             {}
             SimulatorAircraft(  Aerodynamics::AircraftNode * _aircraftNode,
             ControlSystem::BaseController * _baseController):
                     aircraftNode(_aircraftNode),baseController(_baseController)
-            {}
+            {
+                //Construct
+                std::cerr << "Code didn't wrote :simulator_aircraft.h line 39" << std::endl;
+                std::abort();
+            }
+
+            void construct_rigid_dynamics_from_aircraft(PxScene * pxScene);
 
         };
     }
