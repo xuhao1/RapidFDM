@@ -6,7 +6,15 @@
 #define RAPIDFDM_AERODYNAMICS_CONFIGURE_SERVER_H
 
 #include <FlyingData.h>
-#include <lcm/lcm-cpp.hpp>
+#include <websocketpp/config/asio_no_tls.hpp>
+#include <websocketpp/server.hpp>
+
+typedef websocketpp::server<websocketpp::config::asio> server;
+using websocketpp::lib::placeholders::_1;
+using websocketpp::lib::placeholders::_2;
+using websocketpp::lib::bind;
+typedef server::message_ptr message_ptr;
+
 
 using namespace RapidFDM::Aerodynamics;
 
@@ -14,20 +22,9 @@ class configure_server
 {
 public:
     AirState realtime_air_state;
-
-    void handle_message(const lcm::ReceiveBuffer *rbuf,
-                        const std::string &chan,
-                        const rapidfdmlcm::airstate *msg)
-    {
-        printf("Received message on channel \"%s\":\n", chan.c_str());
-        printf("Airstate: rho %f vx %f vy %f vz %f", msg->rho, msg->wind_speed[0], msg->wind_speed[1],
-               msg->wind_speed[2]);
-    }
+    server server;
 
     int init();
-
-    lcm::LCM lcm;
-
     configure_server()
     {
         if (init() == 1)
@@ -36,7 +33,6 @@ public:
 
     void main_thread()
     {
-        while(0 == lcm.handle());
     }
 };
 

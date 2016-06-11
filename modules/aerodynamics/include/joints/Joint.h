@@ -102,7 +102,7 @@ namespace RapidFDM
 
             virtual Eigen::Affine3d get_ground_transform() override;
 
-            virtual void brief() {
+           virtual void brief() {
                 printf("This is base joint\n");
             }
         };

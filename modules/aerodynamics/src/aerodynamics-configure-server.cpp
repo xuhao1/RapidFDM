@@ -4,16 +4,9 @@
 
 #include "aerodynamics-configure-server.h"
 #include <iostream>
-using namespace lcm;
 
 int configure_server::init()
 {
-    if(!lcm.good()) {
-        std::cerr << "Lcm not good" << std::endl;
-        return 1;
-    }
-    printf("LCM Ready Wait for message\n");
-    lcm.subscribe("EXAMPLE", &configure_server::handle_message,this);
     return 0;
 }
 int main()

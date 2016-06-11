@@ -7,37 +7,27 @@
 
 #include <Eigen/Eigen>
 #include <utils.h>
-#include <rapidfdmlcm/airstate.hpp>
 
 using namespace RapidFDM::Utils;
 
-namespace RapidFDM {
-    namespace Aerodynamics {
-        struct AirState {
+namespace RapidFDM
+{
+    namespace Aerodynamics
+    {
+        struct AirState
+        {
             //! air speed
             Eigen::Vector3d ground_air_speed = Eigen::Vector3d(0, 0, 0);
             //! air density
             float rho = 1.29;
-            AirState(rapidfdmlcm::airstate airstate)
-            {
-                this->rho = airstate.rho;
-                this->ground_air_speed.x() = airstate.wind_speed[0];
-                this->ground_air_speed.y() = airstate.wind_speed[1];
-                this->ground_air_speed.z() = airstate.wind_speed[2];
-            }
-            rapidfdmlcm::airstate &operator=(const AirState& rhs)
-            {
-                rapidfdmlcm::airstate airstate;
-                airstate.rho = rhs.rho;
-                airstate.wind_speed[0] = ground_air_speed.x();
-                airstate.wind_speed[1] = ground_air_speed.y();
-                airstate.wind_speed[2] = ground_air_speed.z();
-            }
+
             AirState()
-            {}
+            {
+            }
         };
 
-        struct ComponentData {
+        struct ComponentData
+        {
             /*!< Transform from simulator */
             Eigen::Affine3d transform;
 
@@ -50,7 +40,8 @@ namespace RapidFDM {
             Eigen::Vector3d velocity;
 
             /*!<Velocity from simulator on the ground*/
-            rapidjson::Value encode2json(rapidjson::Document &d) {
+            rapidjson::Value encode2json(rapidjson::Document &d)
+            {
                 rapidjson::Value v;
                 add_transform(v, transform, d, "transform");
                 add_transform(v, body_transform, d, "body_transform");

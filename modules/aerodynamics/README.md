@@ -17,4 +17,8 @@
     speed:
     
  }
- 
+
+ ## A aircraft define folder
+ joints/ nodes/ geometrys/
+ name.json
+    
