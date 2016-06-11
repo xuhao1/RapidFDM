@@ -5,6 +5,12 @@
 #ifndef RAPIDFDM_SIMULATOR_AIRCRAFT_H
 #define RAPIDFDM_SIMULATOR_AIRCRAFT_H
 
+#include <RapidFDM/aerodynamics/aerodynamics.h>
+#include <RapidFDM/control_system/control_system.h>
+#include <PxRigidDynamic.h>
+#include <PxFixedJoint.h>
+#include <PxJoint.h>
+
 namespace RapidFDM
 {
     namespace Simulation
@@ -17,8 +23,16 @@ namespace RapidFDM
         {
         protected:
 
+            Aerodynamics::AircraftNode * aircraftNode = nullptr;
+            ControlSystem::BaseController * baseController = nullptr;
         public:
-            SimulatorAircraft();
+            SimulatorAircraft()
+            {}
+            SimulatorAircraft(  Aerodynamics::AircraftNode * _aircraftNode,
+            ControlSystem::BaseController * _baseController):
+                    aircraftNode(_aircraftNode),baseController(_baseController)
+            {}
+
         };
     }
 }

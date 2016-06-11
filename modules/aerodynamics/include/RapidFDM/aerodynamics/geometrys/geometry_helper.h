@@ -8,7 +8,7 @@
 #include <rapidjson/rapidjson.h>
 #include "base_geometry.h"
 #include "standard_geometrys.h"
-#include <utils.h>
+#include <RapidFDM/utils.h>
 
 using namespace RapidFDM::Utils;
 

@@ -4,8 +4,15 @@ set(the_description "The Airdynamics Module")
 find_package(Boost REQUIRED
         COMPONENTS filesystem)
 
-include_directories(./include ../../include/ ../../3rdparty/eigen3 ../../3rdparty/rapidjson/ /usr/local/include/eigen3 /usr/local/include
-        ../../3rdparty/websocketpp)
+include_directories(./include
+        ../../include/
+        ../../3rdparty/eigen3
+        ../../3rdparty/rapidjson/
+        /usr/local/include/eigen3
+        /usr/local/include
+        ../../3rdparty/websocketpp
+        )
+
 set(AIRDYNAMICS_MODULE_SOURCES
         src/airdynamics_parser.cpp
         src/base_component.cpp
@@ -15,7 +22,7 @@ set(AIRDYNAMICS_MODULE_SOURCES
         src/nodes/Node.cpp
         include/RapidFDM/aerodynamics/FlyingData.h
         include/RapidFDM/aerodynamics/base_component.h
-        include/RapidFDM/aerodynamics/airdynamics_components.h
+        include/RapidFDM/aerodynamics/aerodynamics.h
         include/RapidFDM/aerodynamics/airdynamics_parser.h
         include/RapidFDM/aerodynamics/joints/Joint.h
         include/RapidFDM/aerodynamics/nodes/Node.h
@@ -27,7 +34,8 @@ set(AIRDYNAMICS_MODULE_SOURCES
         include/RapidFDM/aerodynamics/geometrys/geometry_helper.h
         include/RapidFDM/aerodynamics/geometrys/standard_geometrys.h
         include/RapidFDM/aerodynamics/joints/fixed_joint.h
-        include/RapidFDM/aerodynamics/joints/joint_helper.h)
+        include/RapidFDM/aerodynamics/joints/joint_helper.h
+        )
 
 SET(AERODYNAMICS_CONFIGURER_SOURCES src/aerodynamics-configure-server.cpp
         src/aerodynamics-configure-server.h)

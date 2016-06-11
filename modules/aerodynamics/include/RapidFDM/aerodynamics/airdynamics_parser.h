@@ -5,7 +5,7 @@
 #ifndef RAPIDFDM_AIRDYNAMICS_PARSER_H
 #define RAPIDFDM_AIRDYNAMICS_PARSER_H
 
-#include <RapidFDM/aerodynamics/airdynamics_components.h>
+#include <RapidFDM/aerodynamics/aerodynamics.h>
 #include <string>
 
 namespace RapidFDM {

@@ -5,7 +5,7 @@
 #ifndef RAPIDFDM_BASE_CONTROLLER_H
 #define RAPIDFDM_BASE_CONTROLLER_H
 
-#include <>
+#include <RapidFDM/aerodynamics/aerodynamics.h>
 
 namespace RapidFDM
 {
@@ -13,9 +13,13 @@ namespace RapidFDM
     {
         class BaseController{
         public:
-
-            BaseController();
-            void control_step(float deltatime);
+            Aerodynamics::AircraftNode * aircraftNode;
+            BaseController(Aerodynamics::AircraftNode * _aircraftNode)
+            {
+                this->aircraftNode = _aircraftNode;
+            }
+            void control_step(float deltatime)
+            {}
         };
     }
 }

@@ -6,7 +6,7 @@
 #define RAPIDFDM_AERODYNAMICS_WING_GEOMETRYS_H
 
 #include <RapidFDM/aerodynamics/geometrys/base_geometry.h>
-#include <utils.h>
+#include <RapidFDM/utils.h>
 
 namespace RapidFDM {
     namespace Aerodynamics {

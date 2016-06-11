@@ -9,7 +9,7 @@
 #include <RapidFDM/aerodynamics/nodes/bodys/aircraft_node.h>
 #include <RapidFDM/aerodynamics/nodes/wings/wing_node.h>
 #include <rapidjson/document.h>
-#include <utils.h>
+#include <RapidFDM/utils.h>
 #include <iostream>
 #include <fstream>
 

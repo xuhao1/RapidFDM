@@ -1,8 +1,8 @@
-#include <nodes/Node.h>
+#include <RapidFDM/aerodynamics/nodes/Node.h>
 
 #include <iostream>
-#include "nodes/node_helper.h"
-#include <joints/joint_helper.h>
+#include "RapidFDM/aerodynamics/nodes/node_helper.h"
+#include <RapidFDM/aerodynamics/joints/joint_helper.h>
 using namespace RapidFDM::Aerodynamics;
 
 int main() {

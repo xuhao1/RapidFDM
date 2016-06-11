@@ -6,7 +6,7 @@
 #define RAPIDFDM_FLYINGDATA_H
 
 #include <Eigen/Eigen>
-#include <utils.h>
+#include <RapidFDM/utils.h>
 
 using namespace RapidFDM::Utils;
 

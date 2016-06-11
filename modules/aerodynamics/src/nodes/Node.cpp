@@ -2,9 +2,9 @@
 // Created by xuhao on 2016/5/2.
 //
 
-#include "nodes/Node.h"
-#include "joints/Joint.h"
-#include <utils.h>
+#include "RapidFDM/aerodynamics/nodes/Node.h"
+#include "RapidFDM/aerodynamics/joints/Joint.h"
+#include <RapidFDM/utils.h>
 
 using namespace RapidFDM::Utils;
 

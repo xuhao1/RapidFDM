@@ -10,6 +10,6 @@ set(build_dir "${CMAKE_CURRENT_SOURCE_DIR}/build/")
 add_subdirectory(modules/aerodynamics)
 add_subdirectory(modules/simulation)
 add_subdirectory(modules/control_system)
-set(SOURCE_LISTS ./include/utils.h ./main.cpp)
+set(SOURCE_LISTS include/RapidFDM/utils.h ./main.cpp)
 
 add_executable(test_main ${SOURCE_LISTS})

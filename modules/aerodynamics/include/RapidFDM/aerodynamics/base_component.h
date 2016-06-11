@@ -3,7 +3,7 @@
 
 #include <Eigen/Eigen>
 #include <iostream>
-#include <utils.h>
+#include <RapidFDM/utils.h>
 
 using namespace RapidFDM::Utils;
 

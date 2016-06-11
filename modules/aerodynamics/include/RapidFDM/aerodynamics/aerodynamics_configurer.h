@@ -5,7 +5,7 @@
 #ifndef RAPIDFDM_AERODYNAMICS_CONFIGURER_H
 #define RAPIDFDM_AERODYNAMICS_CONFIGURER_H
 #include "FlyingData.h"
-#include "airdynamics_components.h"
+#include "aerodynamics.h"
 #include <vector>
 #include <string>
 #include <rapidjson/document.h>
