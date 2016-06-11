@@ -19,7 +19,9 @@ namespace RapidFDM
                 this->aircraftNode = _aircraftNode;
             }
             void control_step(float deltatime)
-            {}
+            {
+
+            }
         };
     }
 }
