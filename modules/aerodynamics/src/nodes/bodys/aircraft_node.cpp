@@ -1,0 +1,1 @@
+#include <RapidFDM/aerodynamics/nodes/bodys/aircraft_node.h>

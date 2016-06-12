@@ -21,5 +21,16 @@ set(SIMULATION_MODULE_SOURCES
         include/RapidFDM/simulation/simulator_aircraft.h
         src/simulator_world.cpp
         src/simulator_aircraft.cpp)
+set(SIMULATION_MODULES_TESTS
+        test/unit_tests.cpp
+        )
 add_library(rapidfdm_simulator STATIC ${SIMULATION_MODULE_SOURCES})
 
+add_executable(rapidfdm_simulator_test ${SIMULATION_MODULES_TESTS} )
+
+target_link_libraries(rapidfdm_simulator_test
+        rapidfdm_simulator
+        rapidfdm_aerodynamics
+        rapidfdm_control_system
+        ${PHYSX_LIBRARIRS}
+        )

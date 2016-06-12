@@ -15,6 +15,7 @@ namespace RapidFDM
         static PxScene * pxScene = nullptr;
         class SimulatorWorld
         {
+
         public:
             //!Construct a simulator world
             //!\param substep time for internal running

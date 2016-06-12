@@ -109,6 +109,12 @@ namespace RapidFDM
                 printf("\n\n");
             }
 
+            std::vector<Joint*> get_linked_joints()
+            {
+                return linked_joints;
+            }
+
+
         };
     }
 }

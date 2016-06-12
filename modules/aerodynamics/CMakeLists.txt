@@ -20,6 +20,7 @@ set(AIRDYNAMICS_MODULE_SOURCES
         src/joints/fixed_joint.cpp
         src/nodes/bodys/aircraft_node.cpp
         src/nodes/Node.cpp
+        src/aerodynamics_configurer.cpp
         include/RapidFDM/aerodynamics/FlyingData.h
         include/RapidFDM/aerodynamics/base_component.h
         include/RapidFDM/aerodynamics/aerodynamics.h
@@ -35,10 +36,13 @@ set(AIRDYNAMICS_MODULE_SOURCES
         include/RapidFDM/aerodynamics/geometrys/standard_geometrys.h
         include/RapidFDM/aerodynamics/joints/fixed_joint.h
         include/RapidFDM/aerodynamics/joints/joint_helper.h
+        include/RapidFDM/aerodynamics/aerodynamics_configurer.h
+
         )
 
 SET(AERODYNAMICS_CONFIGURER_SOURCES src/aerodynamics-configure-server.cpp
-        src/aerodynamics-configure-server.h)
+        src/aerodynamics-configure-server.h
+        )
 
 set(AIRDYNAMICS_TEST_SOURCES tests/main.cpp)
 
@@ -46,12 +50,12 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${build_dir}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${build_dir}/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${build_dir}/bin")
 
-add_library(rapidfdm_airdynamics STATIC ${AIRDYNAMICS_MODULE_SOURCES})
-target_link_libraries(rapidfdm_airdynamics ${Boost_LIBRARIES})
+add_library(rapidfdm_aerodynamics STATIC ${AIRDYNAMICS_MODULE_SOURCES})
+target_link_libraries(rapidfdm_aerodynamics ${Boost_LIBRARIES})
 
 add_executable(rapidfdm_test ${AIRDYNAMICS_TEST_SOURCES})
 
-target_link_libraries(rapidfdm_test rapidfdm_airdynamics)
+target_link_libraries(rapidfdm_test rapidfdm_aerodynamics)
 
 add_executable(rapidfdm_aerodynamics_configure_server ${AERODYNAMICS_CONFIGURER_SOURCES})
-target_link_libraries(rapidfdm_aerodynamics_configure_server rapidfdm_airdynamics)
+target_link_libraries(rapidfdm_aerodynamics_configure_server rapidfdm_aerodynamics)
