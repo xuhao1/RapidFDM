@@ -20,12 +20,13 @@ namespace RapidFDM
         class Joint : public BaseComponent
         {
         protected:
-            BaseComponent *parent = nullptr;
+            Node *parent = nullptr;
             /*!< Parent Node for this joint*/
-            BaseComponent *child = nullptr;
+            Node *child = nullptr;
             /*!< Child node for this joint*/
 
-            struct {
+            struct
+            {
                 //! The base transform for the joint on parent node,this transform is value middle point for the Joint
                 Eigen::Affine3d parent_base_transform;
                 //! This is the center point for the joint on the child node
@@ -47,7 +48,8 @@ namespace RapidFDM
 
             Joint(rapidjson::Value &v, Node *_parent, Node *_child);
 
-            Joint(Node *_parent, Node *_child) {
+            Joint(Node *_parent, Node *_child)
+            {
                 assert(_child != nullptr);
             }
 
@@ -55,14 +57,16 @@ namespace RapidFDM
             /*!
                \return parent
              */
-            BaseComponent *getParent() {
+            Node *getParent()
+            {
                 return parent;
             }
             //! Get the child node for this joint
             /*!
                \return child
              */
-            BaseComponent *getChild() {
+            Node *getChild()
+            {
                 return child;
             }
 
@@ -70,7 +74,8 @@ namespace RapidFDM
             /*!
                \return transform
              */
-            virtual Eigen::Affine3d get_relative_transform() {
+            virtual Eigen::Affine3d get_relative_transform()
+            {
                 return states.parent_base_transform * states.relative_transform * states.child_transform;
             }
 
@@ -84,25 +89,30 @@ namespace RapidFDM
             /*!
                \return transform
              */
-            virtual Eigen::Quaterniond get_ground_attitude() override {
+            virtual Eigen::Quaterniond get_ground_attitude() override
+            {
                 return Eigen::Quaterniond(this->get_ground_transform().rotation());
             }
 
-            virtual Eigen::Vector3d get_ground_velocity() override {
+            virtual Eigen::Vector3d get_ground_velocity() override
+            {
                 abort();
             }
 
-            virtual Eigen::Vector3d get_angular_velocity() override {
+            virtual Eigen::Vector3d get_angular_velocity() override
+            {
                 abort();
             }
 
-            virtual Eigen::Vector3d get_ground_air_speed() override {
+            virtual Eigen::Vector3d get_ground_air_speed() override
+            {
                 abort();
             }
 
             virtual Eigen::Affine3d get_ground_transform() override;
 
-           virtual void brief() override {
+            virtual void brief() override
+            {
                 printf("This is base joint\n");
             }
         };
