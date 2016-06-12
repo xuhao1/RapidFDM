@@ -46,7 +46,7 @@ void convert_tests()
            fuck.x(),fuck.y(),fuck.z(),
            vec3.x,vec3.y,vec3.z
     );
-    Vector3d eigen_transed = trans.linear() * fuck;
+    Vector3d eigen_transed = trans * fuck;
     printf("Eigen Trans :%5lf %5lf %5lf\n",
            eigen_transed.x(),
            eigen_transed.y(),
@@ -54,20 +54,31 @@ void convert_tests()
     );
 
     PxTransform pxTransform = transform_e2p(trans);
-    vec3 = pxTransform.rotate(vec3);
+    PxVec3 new_vec3 = pxTransform.transform(vec3);
     printf("Px Trans   :%5lf %5lf %5lf\n",
-           vec3.x,
-           vec3.y,
-           vec3.z
+           new_vec3.x,
+           new_vec3.y,
+           new_vec3.z
     );
 
     trans = transform_p2e(pxTransform);
-    eigen_transed = trans.linear() * fuck;
-    printf("Eigen Trans 2:%5lf %5lf %5lf\n",
+    eigen_transed = (trans * trans) * fuck;
+    printf("Eigen Trans twice:%5lf %5lf %5lf\n",
            eigen_transed.x(),
            eigen_transed.y(),
            eigen_transed.z()
     );
+
+    pxTransform = pxTransform.transform(pxTransform);
+    new_vec3 = pxTransform.transform(vec3);
+
+    printf("Px Trans twice:%5lf %5lf %5lf\n",
+           new_vec3.x,
+           new_vec3.y,
+           new_vec3.z
+    );
+
+
 
 }
 
