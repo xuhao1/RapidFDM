@@ -15,16 +15,19 @@ namespace RapidFDM {
             FixedJoint(rapidjson::Value &v, std::map<std::string, Node *> nodes) :
                     Joint(v, nodes) {
                 this->type = "fixed";
+                this->joint_type = AerodynamicsJointType ::AerodynamicsFixedJoint;
             }
 
             FixedJoint(rapidjson::Value &v, Node *_parent, Node *_child) :
                     Joint(v, _parent, _child) {
                 this->type = "fixed";
+                this->joint_type = AerodynamicsJointType ::AerodynamicsFixedJoint;
             }
 
             FixedJoint(Node *_parent, Node *_child) :
                     Joint(_parent, _child) {
                 this->type = "fixed";
+                this->joint_type = AerodynamicsJointType ::AerodynamicsFixedJoint;
             }
 
             virtual void brief() {

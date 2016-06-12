@@ -6,6 +6,7 @@
 #define RAPIDFDM_SIMULATOR_WORLD_H
 
 #include <PxScene.h>
+#include <PxPhysics.h>
 using namespace physx;
 namespace RapidFDM
 {
@@ -13,6 +14,7 @@ namespace RapidFDM
     {
         //!All realtime simulation should run in this
         static PxScene * pxScene = nullptr;
+        PxPhysics * mPhysics = nullptr;
         class SimulatorWorld
         {
 

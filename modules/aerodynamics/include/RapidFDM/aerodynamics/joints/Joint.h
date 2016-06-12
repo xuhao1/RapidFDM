@@ -11,6 +11,12 @@
 #include <string>
 #include <RapidFDM/aerodynamics/base_component.h>
 
+enum AerodynamicsJointType
+{
+    AerodyanmicsBaseJoint,
+    AerodynamicsFixedJoint
+};
+
 namespace RapidFDM
 {
     namespace Aerodynamics
@@ -41,6 +47,7 @@ namespace RapidFDM
             } states;
 
             std::string type = "base_joint";
+            AerodynamicsJointType joint_type = AerodynamicsJointType::AerodyanmicsBaseJoint;
             rapidjson::Value joint_define;
 
         public:
@@ -68,6 +75,12 @@ namespace RapidFDM
             Node *getChild()
             {
                 return child;
+            }
+
+            //! Get the type for this joint
+            virtual AerodynamicsJointType getType()
+            {
+                return joint_type;
             }
 
             //! Get the transform from parent to child for this node
@@ -114,6 +127,17 @@ namespace RapidFDM
             virtual void brief() override
             {
                 printf("This is base joint\n");
+            }
+
+            virtual Eigen::Affine3d get_base_transform()
+            {
+                return states.parent_base_transform;
+            }
+
+            //! Return the joint in child frame
+            virtual Eigen::Affine3d get_child_transform()
+            {
+                return states.child_transform.inverse();
             }
         };
     }

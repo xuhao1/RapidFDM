@@ -37,6 +37,11 @@ namespace RapidFDM {
                        geometry->get_type().c_str());
 
             }
+
+            virtual Eigen::Affine3d get_body_transform() override
+            {
+                return Eigen::Affine3d::Identity();
+            }
         };
     }
 }

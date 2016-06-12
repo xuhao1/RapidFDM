@@ -70,6 +70,28 @@ namespace RapidFDM
             }
 
 
+            virtual double get_mass()
+            {
+                return params.mass;
+            }
+
+            virtual Eigen::Vector3d get_mass_center()
+            {
+                return params.mass_center;
+            }
+
+            virtual Eigen::Vector3d get_inertial()
+            {
+                return params.Inertial;
+            }
+
+            //TODO:
+            //Give a realitics bounding box
+            virtual Eigen::Vector3d get_bounding_box()
+            {
+                return Eigen::Vector3d(0.1,0.1,0.1);
+            }
+
 
             //Overrides
             virtual Eigen::Quaterniond get_ground_attitude() override;
@@ -92,6 +114,10 @@ namespace RapidFDM
 
             virtual void setSimulate(bool EnableSimulator) {
                 this->inSimulate = EnableSimulator;
+                for (Joint * joint : linked_joints)
+                {
+                    joint->getChild()->setSimulate(EnableSimulator);
+                }
             }
 
             virtual void setSetfromsimulator(ComponentData flyingstates) {
