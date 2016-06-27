@@ -7,9 +7,9 @@ namespace RapidFDM
 {
     namespace Simulation
     {
-        SimulatorWorld::SimulatorWorld(float substep_deltatime)
+        void SimulatorWorld::init(float _substep_delatime)
         {
-
+            substep_deltatime = _substep_delatime;
         }
     }
 }

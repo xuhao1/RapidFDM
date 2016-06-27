@@ -5,6 +5,10 @@
 #ifndef RAPIDFDM_SIMULATOR_AIRCRAFT_H
 #define RAPIDFDM_SIMULATOR_AIRCRAFT_H
 
+#ifndef NDEBUG
+#define NDEBUG
+#endif
+
 #include <RapidFDM/aerodynamics/aerodynamics.h>
 #include <RapidFDM/control_system/control_system.h>
 #include <PxRigidDynamic.h>

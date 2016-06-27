@@ -4,6 +4,8 @@
 #include <Eigen/Eigen>
 #include <iostream>
 #include <RapidFDM/utils.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 using namespace RapidFDM::Utils;
 
@@ -12,11 +14,22 @@ namespace RapidFDM {
         class BaseComponent {
         protected:
             std::string name;
+            std::string unique_id;
         public:
             BaseComponent() { }
 
             BaseComponent(rapidjson::Value &v) {
                 this->name = fast_string(v, "name");
+                std::string _id = fast_string(v,"id");
+                if (_id == "")
+                {
+                    char buffer[8];
+                    itoa(rand()%100000000,buffer,0);
+                    _id  = std::string(buffer);
+                }
+
+                this->unique_id = this->name + "_" + this->unique_id;
+
             }
 
 
@@ -58,6 +71,11 @@ namespace RapidFDM {
 
             std::string getName() {
                 return this->name;
+            }
+
+            std::string getUniqueID()
+            {
+                return this->unique_id;
             }
 
         };

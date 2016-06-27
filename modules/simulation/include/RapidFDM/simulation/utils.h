@@ -5,6 +5,10 @@
 #ifndef RAPIDFDM_UTILS_H
 #define RAPIDFDM_UTILS_H
 
+#ifndef NDEBUG
+#define NDEBUG
+#endif
+
 #include <Eigen/Eigen>
 #include <foundation/PxTransform.h>
 #include <foundation/PxQuat.h>

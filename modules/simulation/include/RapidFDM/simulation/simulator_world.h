@@ -5,6 +5,11 @@
 #ifndef RAPIDFDM_SIMULATOR_WORLD_H
 #define RAPIDFDM_SIMULATOR_WORLD_H
 
+#ifndef NDEBUG
+#define NDEBUG
+#endif
+
+
 #include <PxScene.h>
 #include <PxPhysics.h>
 using namespace physx;
@@ -15,14 +20,13 @@ namespace RapidFDM
         //!All realtime simulation should run in this
         static PxScene * pxScene = nullptr;
         PxPhysics * mPhysics = nullptr;
+        float substep_deltatime = 0.001;
         class SimulatorWorld
         {
 
         public:
-            //!Construct a simulator world
-            //!\param substep time for internal running
-            SimulatorWorld(float substep_deltatime);
-            void Step(float deltatime);
+            void init(float substep_delatime);
+            static void Step(float deltatime);
         };
     };
 };
