@@ -44,6 +44,7 @@ namespace RapidFDM
                 Eigen::Vector3d relative_angular_velocity;
                 //! Relative Velocity,be zero for all except free joint
                 Eigen::Vector3d relative_velocity;
+
             } states;
 
             std::string type = "base_joint";
