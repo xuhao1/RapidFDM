@@ -40,6 +40,19 @@ namespace RapidFDM {
                 std::cout << "Json Content : \n" << content << std::endl;
                 return create_joint_from_json(content, nodeDB);
             }
+            static std::map<std::string,Joint * > scan_joint_folder(std::string path,std::map<std::string, Node *> nodeDB)
+            {
+                std::map<std::string,Joint *> jointDB;
+                std::vector<std::string> file_list = get_file_list(path);
+                for (std::string file_path : file_list) {
+                    printf("Scan file : %s\n", file_path.c_str());
+                    Joint *tmp = create_joint_from_file(file_path,nodeDB);
+                    if (tmp != nullptr) {
+                        jointDB[tmp->getName()] = tmp;
+                    }
+                }
+                return jointDB;
+            };
         };
     }
 }
