@@ -25,7 +25,10 @@ namespace RapidFDM {
             {
                 return joints;
             };
-            AircraftNode * get_aircraft_node();
+            AircraftNode * get_aircraft_node()
+            {
+                return aircraftNode;
+            }
         };
     }
 }
