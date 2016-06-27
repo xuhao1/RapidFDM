@@ -30,7 +30,7 @@ namespace RapidFDM {
                 std::string _id = fast_string(v,"id");
                 if (_id == "")
                 {
-                    char buffer[8] = {0};
+                    char buffer[9] = {0};
                     itoa(rand()%100000000,buffer,0);
                     _id  = std::string(buffer);
                 }

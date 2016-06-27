@@ -14,9 +14,11 @@ namespace RapidFDM {
             AircraftNode(rapidjson::Value &_json, rapidjson::Document &document) :
                     Node(_json, document) {
                 assert(_json.IsObject());
-                if (_json.HasMember("geometry")) {
-                    if (_json["geometry"].IsObject())
-                        this->geometry = GeometryHelper::create_geometry_from_json(_json["geometry"]);
+                if (document.HasMember("geometry") && document["geometry"].IsObject()) {
+                    this->geometry = GeometryHelper::create_geometry_from_json(document["geometry"]);
+                }
+                else {
+                    this->geometry = new BaseGeometry();
                 }
                 this->type = "aircraft_node";
                 printf("Success parse aircraft_node\n");
@@ -31,6 +33,14 @@ namespace RapidFDM {
                     if (document["geometry"].IsObject())
                         this->geometry = GeometryHelper::create_geometry_from_json(document["geometry"]);
                 }
+
+                if (document.HasMember("geometry") && document["geometry"].IsObject()) {
+                    this->geometry = GeometryHelper::create_geometry_from_json(document["geometry"]);
+                }
+                else {
+                    this->geometry = new BaseGeometry();
+                }
+
                 this->type = "aircraft_node";
                 printf("Success parse aircraft_node\n");
                 printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->type.c_str(),

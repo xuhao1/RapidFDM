@@ -9,5 +9,6 @@
 #include <RapidFDM/aerodynamics/nodes/node_helper.h>
 #include <RapidFDM/aerodynamics/nodes/bodys/aircraft_node.h>
 #include <RapidFDM/aerodynamics/nodes/wings/wing_node.h>
+#include <RapidFDM/aerodynamics/nodes/engines/easy_propeller.h>
 
 #endif //RAPIDFDM_NODES_H

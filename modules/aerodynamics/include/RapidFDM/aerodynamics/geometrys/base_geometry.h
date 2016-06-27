@@ -27,26 +27,26 @@ namespace RapidFDM {
             //TODO:
             //Write codes
             virtual float getLift(ComponentData state, AirState airState) {
-                std::cerr << "Code not wrote" << std::endl;
-                abort();
+//                std::cerr << "Code not wrote" << std::endl;
+//                abort();
                 return 0;
             }
 
             virtual float getDrag(ComponentData state, AirState airState) {
-                std::cerr << "Code not wrote" << std::endl;
-                abort();
+//                std::cerr << "Code not wrote" << std::endl;
+//                abort();
                 return 0;
             }
 
             virtual float getSide(ComponentData state, AirState airState) {
-                std::cerr << "Code not wrote" << std::endl;
-                abort();
+//                std::cerr << "Code not wrote" << std::endl;
+//                abort();
                 return 0;
             }
 
             virtual Eigen::Vector3d getTorque(ComponentData state, AirState airState) {
-                std::cerr << "Code not wrote" << std::endl;
-                abort();
+//                std::cerr << "Code not wrote" << std::endl;
+//                abort();
                 return Eigen::Vector3d(0, 0, 0);
             }
 
