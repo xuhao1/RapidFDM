@@ -54,7 +54,7 @@ namespace RapidFDM {
                     printf("Scan file : %s\n", file_path.c_str());
                     Node *tmp = create_node_from_file(file_path);
                     if (tmp != nullptr) {
-                        nodeDB[tmp->getName()] = tmp;
+                        nodeDB[tmp->getUniqueID()] = tmp;
                     }
                 }
                 return nodeDB;

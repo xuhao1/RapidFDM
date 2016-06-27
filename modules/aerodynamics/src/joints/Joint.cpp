@@ -40,18 +40,18 @@ namespace RapidFDM {
         Joint::Joint(rapidjson::Value &v, std::map<std::string, Node *> nodes) {
             Node *parent = nullptr;
             Node *child = nullptr;
-            std::string parent_name;
-            std::string child_name;
+            std::string parent_id;
+            std::string child_id;
 
             if (v.HasMember("parent") && v["parent"].IsString()) {
-                parent_name = v["parent"].GetString();
+                parent_id = v["parent"].GetString();
             }
             if (v.HasMember("child") && v["child"].IsString()) {
-                child_name = v["child"].GetString();
+                child_id = v["child"].GetString();
             }
 
-            parent = nodes[parent_name];
-            child = nodes[child_name];
+            parent = nodes[parent_id];
+            child = nodes[child_id];
             *this = Joint(v, parent, child);
 
         }

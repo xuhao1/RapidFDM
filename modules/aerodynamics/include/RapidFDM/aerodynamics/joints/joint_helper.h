@@ -48,7 +48,7 @@ namespace RapidFDM {
                     printf("Scan file : %s\n", file_path.c_str());
                     Joint *tmp = create_joint_from_file(file_path,nodeDB);
                     if (tmp != nullptr) {
-                        jointDB[tmp->getName()] = tmp;
+                        jointDB[tmp->getUniqueID()] = tmp;
                     }
                 }
                 return jointDB;

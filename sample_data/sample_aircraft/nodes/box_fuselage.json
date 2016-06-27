@@ -1,0 +1,24 @@
+{
+  "name": "sample_fuse_lage",
+  "id" : "0",
+  "type": "aircraft",
+  "mass": 1.5,
+  "mass_center": [
+    0.1,
+    -0.1,
+    0
+  ],
+  "inertial": [
+    1e-3,
+    1,
+    1000
+  ],
+  "geometry": {
+    "type": "box",
+    "scale": [
+      1,
+      1,
+      1
+    ]
+  }
+}
