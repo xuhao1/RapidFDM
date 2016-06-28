@@ -103,5 +103,6 @@ int main()
 {
     printf("Hello,world\n");
     test_construct_aircraft();
+    printf("Test finish\n");
 }
 
