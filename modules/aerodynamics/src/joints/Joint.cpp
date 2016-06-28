@@ -9,8 +9,10 @@
 
 using namespace RapidFDM::Utils;
 
-namespace RapidFDM {
-    namespace Aerodynamics {
+namespace RapidFDM
+{
+    namespace Aerodynamics
+    {
         //!Construct Joint from a series of json
         /*!
             \param value
@@ -18,9 +20,13 @@ namespace RapidFDM {
                 - base_rotation : [x y z] / [w x y z] required
                 - child_reference_point [x y z] optional [0 0 0]
          */
+        void Joint::init(rapidjson::Value &v, Node *_parent, Node *_child)
+        {
+            assert(_child != nullptr);
+            if (_parent != nullptr) {
+                _parent->add_joint(this);
+            }
 
-        Joint::Joint(rapidjson::Value &v, Node *_parent, Node *_child) :
-                Joint(_parent, _child) {
             Eigen::Vector3d base_pos = fast_vector3(v, "base_position");
             Eigen::Quaterniond base_rot = fast_attitude(v, "base_rotation");
             Eigen::Vector3d child_point = fast_vector3(v, "child_reference_point");
@@ -37,7 +43,14 @@ namespace RapidFDM {
             this->joint_define = v;
         }
 
-        Joint::Joint(rapidjson::Value &v, std::map<std::string, Node *> nodes) {
+        Joint::Joint(rapidjson::Value &v, Node *_parent, Node *_child) :
+                BaseComponent(v)
+        {
+            init(v, _parent, _child);
+        }
+
+        Joint::Joint(rapidjson::Value &v, std::map<std::string, Node *> nodes)
+        {
             Node *parent = nullptr;
             Node *child = nullptr;
             std::string parent_id;
@@ -52,20 +65,32 @@ namespace RapidFDM {
 
             parent = nodes[parent_id];
             child = nodes[child_id];
-            *this = Joint(v, parent, child);
+            init(v, _parent, _child);
 
         }
 
-        Eigen::Affine3d Joint::get_ground_transform() {
+        Eigen::Affine3d Joint::get_ground_transform()
+        {
             if (parent != nullptr)
                 return parent->get_ground_transform() * get_relative_transform();
             return get_relative_transform();
         }
 
-        Eigen::Affine3d Joint::get_body_transform() {
+        Eigen::Affine3d Joint::get_body_transform()
+        {
             if (parent != nullptr)
                 return parent->get_body_transform() * get_relative_transform();
             return get_relative_transform();
         }
+
+        Joint::Joint(Node *_parent, Node *_child)
+        {
+            assert(_child != nullptr);
+            if (_parent != nullptr) {
+                _parent->add_joint(this);
+            }
+        }
+
+//! Get the parent node for this joint
     }
 }

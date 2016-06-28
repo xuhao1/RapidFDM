@@ -58,6 +58,8 @@ namespace RapidFDM
 
             Joint(Node *_parent, Node *_child);
 
+
+            void init(rapidjson::Value &v, Node *_parent, Node *_child);
             //! Get the parent node for this joint
             /*!
                \return parent

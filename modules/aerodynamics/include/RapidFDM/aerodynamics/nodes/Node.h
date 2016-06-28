@@ -150,6 +150,8 @@ namespace RapidFDM
                 this->linked_joints.push_back(joint);
             }
 
+            void init(v, document, _parent);
+
         };
     }
 }
