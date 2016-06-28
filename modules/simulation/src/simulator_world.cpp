@@ -2,8 +2,6 @@
 // Created by Hao Xu on 16/6/11.
 //
 #include <RapidFDM/simulation/simulator_world.h>
-#include <cassert>
-
 #ifndef NDEBUG
 #define NDEBUG
 #endif
@@ -11,17 +9,14 @@
 #include <PxSceneDesc.h>
 #include "PxPhysicsAPI.h"
 
+#undef NDEBUG
+
+#include <assert.h>
 
 namespace RapidFDM
 {
     namespace Simulation
     {
-        static PxDefaultErrorCallback gDefaultErrorCallback;
-        static PxDefaultAllocator gDefaultAllocatorCallback;
-        static PxSimulationFilterShader gDefaultFilterShader = PxDefaultSimulationFilterShader;
-        static void *mScratchBlock;
-        static physx::PxFoundation *mFoundation;
-        static PxSceneDesc *sceneDesc;
 
         void SimulatorWorld::init(float _substep_delatime)
         {
@@ -53,6 +48,9 @@ namespace RapidFDM
             }
             sceneDesc->flags |= PxSceneFlag::eENABLE_CCD;
             pxScene = mPhysics->createScene(*sceneDesc);
+
+            assert(pxScene!= nullptr);
+            assert(mPhysics!= nullptr);
 
             printf("Init physics successful!\n");
 

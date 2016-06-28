@@ -26,13 +26,15 @@ set(SIMULATION_MODULE_SOURCES
 set(SIMULATION_MODULES_TESTS
         test/unit_tests.cpp
         )
-add_library(rapidfdm_simulator STATIC ${SIMULATION_MODULE_SOURCES})
+add_library(rapidfdm_simulator SHARED ${SIMULATION_MODULE_SOURCES})
+target_link_libraries(rapidfdm_simulator
+        ${PHYSX_LIBRARIES}
+        rapidfdm_aerodynamics
+        rapidfdm_control_system
+        )
 
-add_executable(rapidfdm_simulator_test ${SIMULATION_MODULES_TESTS} )
+add_executable(rapidfdm_simulator_test ${SIMULATION_MODULES_TESTS})
 
 target_link_libraries(rapidfdm_simulator_test
         rapidfdm_simulator
-        rapidfdm_aerodynamics
-        rapidfdm_control_system
-        ${PHYSX_LIBRARIES}
         )

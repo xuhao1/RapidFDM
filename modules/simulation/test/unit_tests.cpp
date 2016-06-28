@@ -6,6 +6,7 @@
 #include <RapidFDM/simulation/simulator_world.h>
 #include <RapidFDM/control_system/control_system.h>
 #include <RapidFDM/simulation/simulator_aircraft.h>
+#include <RapidFDM/aerodynamics/airdynamics_parser.h>
 
 using namespace RapidFDM::Simulation::Utils;
 using namespace RapidFDM::Simulation;
@@ -91,15 +92,16 @@ void convert_tests()
 
 void test_construct_aircraft()
 {
-    BaseController * controller = new BaseController;
-    parser parser1("/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/sample_aircraft");
-    SimulatorAircraft simulatorAircraft(parser1.get_aircraft_node(),controller);
+    SimulatorWorld world(0.001);
+    RapidFDM::Aerodynamics::parser * parser1 = new RapidFDM::Aerodynamics::parser("/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/sample_aircraft");
+    BaseController * controller = new BaseController(parser1->get_aircraft_node());
+    printf("\nTrying to construct simulator aircraft\n");
+    SimulatorAircraft * simulatorAircraft = world.create_aircraft(parser1->get_aircraft_node(),controller);
 }
 
 int main()
 {
     printf("Hello,world\n");
-//    convert_tests();
-    SimulatorWorld::init(0.001);
+    test_construct_aircraft();
 }
 

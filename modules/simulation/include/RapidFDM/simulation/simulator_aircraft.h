@@ -5,25 +5,33 @@
 #ifndef RAPIDFDM_SIMULATOR_AIRCRAFT_H
 #define RAPIDFDM_SIMULATOR_AIRCRAFT_H
 
+
+#include <RapidFDM/aerodynamics/aerodynamics.h>
+#include <RapidFDM/control_system/control_system.h>
+
 #ifndef NDEBUG
 #define NDEBUG
 #endif
 
-#include <RapidFDM/aerodynamics/aerodynamics.h>
-#include <RapidFDM/control_system/control_system.h>
 #include <PxRigidDynamic.h>
 #include <PxFixedJoint.h>
 #include <PxJoint.h>
 #include <PxScene.h>
-#include <RapidFDM/simulation/simulator_world.h>
+
+#undef NDEBUG
+
 #include <vector>
 
 using namespace physx;
+
 
 namespace RapidFDM
 {
     namespace Simulation
     {
+
+        class SimulatorWorld;
+
         struct node_rigid
         {
             PxRigidBody *rigid = nullptr;
@@ -66,6 +74,8 @@ namespace RapidFDM
             ControlSystem::BaseController *baseController = nullptr;
             std::vector<node_rigid *> nodes;
             std::vector<joint_Joint *> joints;
+            PxScene *pxScene = nullptr;
+            PxPhysics *mPhysics = nullptr;
 //            std::
         public:
             SimulatorAircraft()
@@ -73,16 +83,11 @@ namespace RapidFDM
             }
 
             SimulatorAircraft(Aerodynamics::AircraftNode *_aircraftNode,
-                              ControlSystem::BaseController *_baseController) :
-                    aircraftNode(_aircraftNode), baseController(_baseController)
-            {
-                //Construct
-//                std::cerr << "Code didn't wrote :simulator_aircraft.h line 39" << std::endl;
-//                std::abort();
-                construct_rigid_dynamics_from_aircraft();
-            }
+                              ControlSystem::BaseController *_baseController,
+                              SimulatorWorld *_simulator
+            );
 
-            static void dfs_create_rigids(
+            void dfs_create_rigids(
                     Aerodynamics::Node *root,
                     std::vector<node_rigid *> &nodes,
                     std::vector<joint_Joint *> &joints,
@@ -91,9 +96,9 @@ namespace RapidFDM
 
             void construct_rigid_dynamics_from_aircraft();
 
-            static PxRigidBody *construct_rigid(Aerodynamics::Node *node);
+            PxRigidBody *construct_rigid(Aerodynamics::Node *node);
 
-            static PxJoint *construct_joint(
+            PxJoint *construct_joint(
                     Aerodynamics::Node *root,
                     Aerodynamics::Joint *joint,
                     PxRigidBody *root_rigid,

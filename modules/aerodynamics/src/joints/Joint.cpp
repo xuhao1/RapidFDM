@@ -23,6 +23,7 @@ namespace RapidFDM
         void Joint::init(rapidjson::Value &v, Node *_parent, Node *_child)
         {
             assert(_child != nullptr);
+            this->child = _child;
             if (_parent != nullptr) {
                 _parent->add_joint(this);
             }

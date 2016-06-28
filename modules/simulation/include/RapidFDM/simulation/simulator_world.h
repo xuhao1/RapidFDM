@@ -5,27 +5,52 @@
 #ifndef RAPIDFDM_SIMULATOR_WORLD_H
 #define RAPIDFDM_SIMULATOR_WORLD_H
 
+#include <RapidFDM/simulation/simulator_aircraft.h>
+
 #ifndef NDEBUG
 #define NDEBUG
 #endif
 
-
 #include <PxScene.h>
 #include <PxPhysics.h>
+#include <PxSceneDesc.h>
+#include "PxPhysicsAPI.h"
+
+#undef NDEBUG
 using namespace physx;
 namespace RapidFDM
 {
     namespace Simulation
     {
         //!All realtime simulation should run in this
-        static PxScene * pxScene = nullptr;
-        static PxPhysics * mPhysics = nullptr;
-        static float substep_deltatime = 0.001;
+
         class SimulatorWorld
         {
+            PxDefaultErrorCallback gDefaultErrorCallback;
+            PxDefaultAllocator gDefaultAllocatorCallback;
+            PxSimulationFilterShader gDefaultFilterShader = PxDefaultSimulationFilterShader;
+            void *mScratchBlock;
+            physx::PxFoundation *mFoundation;
+            PxSceneDesc *sceneDesc;
+
         public:
-            static void init(float substep_delatime);
-            static void Step(float deltatime);
+            SimulatorWorld(float dt)
+            {
+                init(substep_deltatime);
+            }
+            PxScene *pxScene = nullptr;
+            PxPhysics *mPhysics = nullptr;
+            float substep_deltatime = 0.001;
+
+            void init(float substep_delatime);
+
+            void Step(float deltatime);
+
+            SimulatorAircraft * create_aircraft(Aerodynamics::AircraftNode *_aircraftNode,
+                              ControlSystem::BaseController *_baseController)
+            {
+                return new SimulatorAircraft(_aircraftNode,_baseController,this);
+            }
         };
     };
 };
