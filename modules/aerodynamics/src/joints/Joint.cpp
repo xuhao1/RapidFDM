@@ -66,7 +66,7 @@ namespace RapidFDM
 
             parent = nodes[parent_id];
             child = nodes[child_id];
-            init(v, _parent, _child);
+            init(v, parent, child);
 
         }
 
