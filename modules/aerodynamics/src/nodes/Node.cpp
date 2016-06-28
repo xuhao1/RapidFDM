@@ -25,7 +25,7 @@ namespace RapidFDM
                 BaseComponent(_json)
         {
             assert(_json.IsObject());
-            init(v, document, _parent);
+            init(_json, document, _parent);
         }
 
         Node::Node(rapidjson::Document &document, Joint *_parent)
