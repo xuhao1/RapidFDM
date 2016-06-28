@@ -19,13 +19,12 @@ namespace RapidFDM
     {
         //!All realtime simulation should run in this
         static PxScene * pxScene = nullptr;
-        PxPhysics * mPhysics = nullptr;
-        float substep_deltatime = 0.001;
+        static PxPhysics * mPhysics = nullptr;
+        static float substep_deltatime = 0.001;
         class SimulatorWorld
         {
-
         public:
-            void init(float substep_delatime);
+            static void init(float substep_delatime);
             static void Step(float deltatime);
         };
     };

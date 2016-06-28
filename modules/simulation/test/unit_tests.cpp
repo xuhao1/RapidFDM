@@ -3,19 +3,26 @@
 //
 
 #include <RapidFDM/simulation/utils.h>
+#include <RapidFDM/simulation/simulator_world.h>
+#include <RapidFDM/control_system/control_system.h>
+#include <RapidFDM/simulation/simulator_aircraft.h>
 
 using namespace RapidFDM::Simulation::Utils;
+using namespace RapidFDM::Simulation;
+using namespace RapidFDM::ControlSystem;
 using namespace Eigen;
+
+
 void convert_tests()
 {
-    Eigen::Vector3d fuck(1,2,3);
+    Eigen::Vector3d fuck(1, 2, 3);
     PxVec3 vec3 = vector_e2p(fuck);
-    vec3 = vec3 + PxVec3(3,5,6);
+    vec3 = vec3 + PxVec3(3, 5, 6);
     fuck = vector_p2e(vec3);
-    printf("Vec convert res : %5lf %5lf %5lf\n",fuck.x(),fuck.y(),fuck.z());
+    printf("Vec convert res : %5lf %5lf %5lf\n", fuck.x(), fuck.y(), fuck.z());
 
     Eigen::Quaterniond quaterniond_ori(
-            Eigen::AngleAxisd(0.25*M_PI, Vector3d::UnitX())
+            Eigen::AngleAxisd(0.25 * M_PI, Vector3d::UnitX())
     );
     Eigen::Quaterniond quaterniond = quaterniond_ori;
 
@@ -40,11 +47,11 @@ void convert_tests()
     trans.fromPositionOrientationScale(
             fuck,
             quaterniond_ori,
-            Vector3d(1,1,1)
+            Vector3d(1, 1, 1)
     );
     printf("origin vec eigen %f %f %f px %f %f %f\n",
-           fuck.x(),fuck.y(),fuck.z(),
-           vec3.x,vec3.y,vec3.z
+           fuck.x(), fuck.y(), fuck.z(),
+           vec3.x, vec3.y, vec3.z
     );
     Vector3d eigen_transed = trans * fuck;
     printf("Eigen Trans :%5lf %5lf %5lf\n",
@@ -79,12 +86,20 @@ void convert_tests()
     );
 
 
+}
 
+
+void test_construct_aircraft()
+{
+    BaseController * controller = new BaseController;
+    parser parser1("/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/sample_aircraft");
+    SimulatorAircraft simulatorAircraft(parser1.get_aircraft_node(),controller);
 }
 
 int main()
 {
     printf("Hello,world\n");
-    convert_tests();
+//    convert_tests();
+    SimulatorWorld::init(0.001);
 }
 

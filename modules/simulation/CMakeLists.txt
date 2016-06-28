@@ -34,5 +34,5 @@ target_link_libraries(rapidfdm_simulator_test
         rapidfdm_simulator
         rapidfdm_aerodynamics
         rapidfdm_control_system
-        ${PHYSX_LIBRARIRS}
+        ${PHYSX_LIBRARIES}
         )

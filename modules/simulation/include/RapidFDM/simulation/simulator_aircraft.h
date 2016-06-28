@@ -77,8 +77,9 @@ namespace RapidFDM
                     aircraftNode(_aircraftNode), baseController(_baseController)
             {
                 //Construct
-                std::cerr << "Code didn't wrote :simulator_aircraft.h line 39" << std::endl;
-                std::abort();
+//                std::cerr << "Code didn't wrote :simulator_aircraft.h line 39" << std::endl;
+//                std::abort();
+                construct_rigid_dynamics_from_aircraft();
             }
 
             static void dfs_create_rigids(

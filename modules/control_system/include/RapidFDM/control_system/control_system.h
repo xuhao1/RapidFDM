@@ -5,6 +5,6 @@
 #ifndef RAPIDFDM_CONTROL_SYSTEM_H
 #define RAPIDFDM_CONTROL_SYSTEM_H
 
-#include "base_controller.h"
+#include "RapidFDM/control_system/base_controller.h"
 
 #endif //RAPIDFDM_CONTROL_SYSTEM_H
