@@ -17,6 +17,7 @@ namespace RapidFDM {
         class JointHelper {
         public:
             static Joint *create_joint_from_json(rapidjson::Value &v, std::map<std::string, Node *> nodeDB) {
+                assert(v.IsObject());
                 std::string type = fast_string(v, "type");
                 if (type == "fixed") {
                     printf("Parse fixed joint\n");
@@ -37,11 +38,12 @@ namespace RapidFDM {
                 std::ifstream ifs(file);
                 std::string content((std::istreambuf_iterator<char>(ifs)),
                                     (std::istreambuf_iterator<char>()));
-                std::cout << "Json Content : \n" << content << std::endl;
+//                std::cout << "Json Content : \n" << content << std::endl;
                 return create_joint_from_json(content, nodeDB);
             }
             static std::map<std::string,Joint * > scan_joint_folder(std::string path,std::map<std::string, Node *> nodeDB)
             {
+                printf("Scanning joint foilder %s \n",path.c_str());
                 std::map<std::string,Joint *> jointDB;
                 std::vector<std::string> file_list = get_file_list(path);
                 for (std::string file_path : file_list) {
@@ -51,6 +53,7 @@ namespace RapidFDM {
                         jointDB[tmp->getUniqueID()] = tmp;
                     }
                 }
+                printf("Scan folder: %s finish\n",path.c_str());
                 return jointDB;
             };
         };

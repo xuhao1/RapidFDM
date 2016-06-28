@@ -19,7 +19,9 @@ include_directories(./include
 set(SIMULATION_MODULE_SOURCES
         include/RapidFDM/simulation/simulator_world.h
         include/RapidFDM/simulation/simulator_aircraft.h
+        include/RapidFDM/simulation/utils.h
         src/simulator_world.cpp
+
         src/simulator_aircraft.cpp)
 set(SIMULATION_MODULES_TESTS
         test/unit_tests.cpp

@@ -26,16 +26,17 @@ namespace RapidFDM {
             BaseComponent() { }
 
             BaseComponent(rapidjson::Value &v) {
+                assert(v.IsObject());
                 this->name = fast_string(v, "name");
                 std::string _id = fast_string(v,"id");
                 if (_id == "")
                 {
                     char buffer[9] = {0};
-                    itoa(rand()%100000000,buffer,0);
+                    sprintf(buffer, "%d", rand()%100000000);
                     _id  = std::string(buffer);
                 }
 
-                this->unique_id = this->name + "_" + this->unique_id;
+                this->unique_id = this->name + "_" + _id;
 
             }
 

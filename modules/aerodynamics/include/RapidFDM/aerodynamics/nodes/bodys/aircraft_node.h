@@ -29,10 +29,7 @@ namespace RapidFDM {
 
             AircraftNode(rapidjson::Document &document) :
                     Node(document) {
-                if (document.HasMember("geometry")) {
-                    if (document["geometry"].IsObject())
-                        this->geometry = GeometryHelper::create_geometry_from_json(document["geometry"]);
-                }
+                assert(document.IsObject());
 
                 if (document.HasMember("geometry") && document["geometry"].IsObject()) {
                     this->geometry = GeometryHelper::create_geometry_from_json(document["geometry"]);

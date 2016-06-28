@@ -20,6 +20,8 @@ namespace RapidFDM {
         class NodeHelper {
         public:
             static Node *create_node_from_json(rapidjson::Value &v, rapidjson::Document &d) {
+                assert(v.IsObject());
+                assert(d.IsObject());
                 std::string type = fast_string(v, "type");
                 if (type == "aircraft") {
                     printf("Parse Aircraft node\n");
@@ -48,6 +50,7 @@ namespace RapidFDM {
             }
 
             static std::map<std::string, Node *> scan_node_folder(std::string path) {
+                printf("Scanning node foilder %s \n",path.c_str());
                 std::map<std::string, Node *> nodeDB;
                 std::vector<std::string> file_list = get_file_list(path);
                 for (std::string file_path : file_list) {
@@ -57,6 +60,7 @@ namespace RapidFDM {
                         nodeDB[tmp->getUniqueID()] = tmp;
                     }
                 }
+                printf("Scan folder: %s finish\n",path.c_str());
                 return nodeDB;
             };
         };

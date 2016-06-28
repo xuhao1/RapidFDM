@@ -140,6 +140,10 @@ namespace RapidFDM
                 return linked_joints;
             }
 
+            std::string get_type()
+            {
+                return type;
+            }
 
         };
     }

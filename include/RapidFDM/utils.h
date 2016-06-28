@@ -139,6 +139,14 @@ namespace RapidFDM {
             return m_file_list;
         }
 
+        inline std::string get_string_from_file(const std::string & path)
+        {
+            std::ifstream ifs(path);
+            std::string content((std::istreambuf_iterator<char>(ifs)),
+                                (std::istreambuf_iterator<char>()));
+            return content;
+        }
+
     }
 };
 #endif //RAPIDFDM_UTILS_H_H
