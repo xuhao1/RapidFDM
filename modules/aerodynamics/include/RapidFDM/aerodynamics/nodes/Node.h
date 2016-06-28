@@ -38,7 +38,6 @@ namespace RapidFDM
 
             BaseGeometry *geometry = nullptr;
 
-            Joint * parent = nullptr; /*!< Parent joint of this, be null if standalone */
 
             bool inSimulate = false;
 
@@ -46,6 +45,8 @@ namespace RapidFDM
 
             rapidjson::Value describer;
         public:
+
+            Joint * parent = nullptr; /*!< Parent joint of this, be null if standalone */
 
             Node(Joint *_parent = nullptr);
 
@@ -150,7 +151,7 @@ namespace RapidFDM
                 this->linked_joints.push_back(joint);
             }
 
-            void init(v, document, _parent);
+            void init(rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent);
 
         };
     }

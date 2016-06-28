@@ -25,16 +25,16 @@ namespace RapidFDM
                 BaseComponent(_json)
         {
             assert(_json.IsObject());
-            init(v,document,_parent);
+            init(v, document, _parent);
         }
 
         Node::Node(rapidjson::Document &document, Joint *_parent)
         {
             rapidjson::Value &v = document;
-            init(v,document,_parent);
+            init(v, document, _parent);
         }
 
-        void Node::init(v, document, _parent)
+        void Node::init(rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent)
         {
             this->parent = _parent;
             this->params.mass = fast_value(_json, "mass");

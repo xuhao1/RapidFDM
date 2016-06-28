@@ -41,6 +41,7 @@ namespace RapidFDM
             );
 
             this->joint_define = v;
+            child->parent = this;
         }
 
         Joint::Joint(rapidjson::Value &v, Node *_parent, Node *_child) :
