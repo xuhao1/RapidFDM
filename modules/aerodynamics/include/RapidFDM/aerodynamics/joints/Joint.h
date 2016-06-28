@@ -56,10 +56,7 @@ namespace RapidFDM
 
             Joint(rapidjson::Value &v, Node *_parent, Node *_child);
 
-            Joint(Node *_parent, Node *_child)
-            {
-                assert(_child != nullptr);
-            }
+            Joint(Node *_parent, Node *_child);
 
             //! Get the parent node for this joint
             /*!

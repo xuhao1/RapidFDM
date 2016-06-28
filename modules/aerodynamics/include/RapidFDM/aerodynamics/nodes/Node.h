@@ -145,6 +145,11 @@ namespace RapidFDM
                 return type;
             }
 
+            void add_joint(Joint * joint)
+            {
+                this->linked_joints.push_back(joint);
+            }
+
         };
     }
 }
