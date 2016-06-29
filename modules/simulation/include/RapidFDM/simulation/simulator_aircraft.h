@@ -105,6 +105,8 @@ namespace RapidFDM
                     PxRigidBody *child_rigid
             );
 
+            void update_states_from_physx();
+
         };
     }
 }

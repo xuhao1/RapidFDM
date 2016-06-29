@@ -49,6 +49,7 @@ namespace RapidFDM
         {
             PxRigidBody *actor = construct_rigid(aircraftNode);
             assert(actor != nullptr);
+            pxScene->addActor(*actor);
             dfs_create_rigids(
                     aircraftNode, nodes, joints, actor
             );
@@ -131,6 +132,7 @@ namespace RapidFDM
                        child->getName().c_str()
                 );
                 PxRigidBody *actor = construct_rigid(child);
+                pxScene->addActor(*actor);
                 assert(actor != nullptr);
                 PxJoint *pxJoint = construct_joint(root, joint, root_rigid, actor);
                 assert(pxJoint != nullptr);
