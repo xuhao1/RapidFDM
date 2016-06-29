@@ -23,6 +23,7 @@
 #include <vector>
 
 using namespace physx;
+using namespace RapidFDM::Aerodynamics;
 
 
 namespace RapidFDM
@@ -32,35 +33,6 @@ namespace RapidFDM
 
         class SimulatorWorld;
 
-        struct node_rigid
-        {
-            PxRigidBody *rigid = nullptr;
-            Aerodynamics::Node *node = nullptr;
-
-            node_rigid()
-            {
-            }
-
-            node_rigid(PxRigidBody *_rigid, Aerodynamics::Node *_node) :
-                    rigid(_rigid), node(_node)
-            {
-            }
-        };
-
-        struct joint_Joint
-        {
-            PxJoint *joint_physx = nullptr;
-            Aerodynamics::Joint *joint_aerodynamics = nullptr;
-
-            joint_Joint()
-            {
-            }
-
-            joint_Joint(PxJoint *_joint_physx, Aerodynamics::Joint *_joint_Aero) :
-                    joint_physx(_joint_physx), joint_aerodynamics(_joint_Aero)
-            {
-            }
-        };
 
         //! A simulator aircraft
         //! simulator aircraft is built by a aircraft node in airdynamics modules
@@ -72,8 +44,8 @@ namespace RapidFDM
 
             Aerodynamics::AircraftNode *aircraftNode = nullptr;
             ControlSystem::BaseController *baseController = nullptr;
-            std::vector<node_rigid *> nodes;
-            std::vector<joint_Joint *> joints;
+            std::map<Node *, PxRigidBody *> nodes;
+            std::map<Joint *, PxJoint *> joints;
             PxScene *pxScene = nullptr;
             PxPhysics *mPhysics = nullptr;
 //            std::
@@ -89,8 +61,8 @@ namespace RapidFDM
 
             void dfs_create_rigids(
                     Aerodynamics::Node *root,
-                    std::vector<node_rigid *> &nodes,
-                    std::vector<joint_Joint *> &joints,
+                    std::map<Node *, PxRigidBody *> &nodes,
+                    std::map<Joint *, PxJoint *> &joints,
                     PxRigidBody *root_rigid
             );
 

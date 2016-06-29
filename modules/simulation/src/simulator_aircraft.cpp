@@ -117,8 +117,8 @@ namespace RapidFDM
 
         void SimulatorAircraft::dfs_create_rigids(
                 Aerodynamics::Node *root,
-                std::vector<node_rigid *> &nodes,
-                std::vector<joint_Joint *> &joints,
+                std::map<Node *, PxRigidBody *> &nodes,
+                std::map<Joint *, PxJoint *> &joints,
                 PxRigidBody *root_rigid
         )
         {
@@ -136,17 +136,27 @@ namespace RapidFDM
                 assert(actor != nullptr);
                 PxJoint *pxJoint = construct_joint(root, joint, root_rigid, actor);
                 assert(pxJoint != nullptr);
-                nodes.push_back(new node_rigid(
-                        actor, child
-                ));
-                //Construct Joint
-                joints.push_back(new joint_Joint(
-                        pxJoint,
-                        joint
-                ));
+                nodes[child] = actor;
+                joints[joint] = pxJoint;
                 //DFS
                 dfs_create_rigids(child, nodes, joints, actor);
 
+            }
+        }
+
+        void SimulatorAircraft::update_states_from_physx()
+        {
+            for (auto pair : nodes)
+            {
+                Aerodynamics::ComponentData data;
+                Aerodynamics::Node* node = pair->node;
+                PxRigidBody * rigidBody = pair->rigid;
+                data.body_transform = transform_p2e(rigidBody->getGlobalPose());
+
+                //TODO:
+                //Confirm coordinate system
+                data.angular_velocity = vector_p2e(rigidBody->getAngularVelocity());
+                data.velocity = vector_p2e(rigidBody->getLinearVelocity());
             }
         }
     }
