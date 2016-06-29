@@ -146,17 +146,20 @@ namespace RapidFDM
 
         void SimulatorAircraft::update_states_from_physx()
         {
+            Eigen::Affine3d root_transform = transform_p2e(nodes[aircraftNode]->getGlobalPose());
             for (auto pair : nodes)
             {
                 Aerodynamics::ComponentData data;
-                Aerodynamics::Node* node = pair->node;
-                PxRigidBody * rigidBody = pair->rigid;
-                data.body_transform = transform_p2e(rigidBody->getGlobalPose());
+                Aerodynamics::Node* node = pair.first;
+                PxRigidBody * rigidBody = pair.second;
+                data.transform = transform_p2e(rigidBody->getGlobalPose());
 
                 //TODO:
                 //Confirm coordinate system
                 data.angular_velocity = vector_p2e(rigidBody->getAngularVelocity());
                 data.velocity = vector_p2e(rigidBody->getLinearVelocity());
+
+                data.body_transform = data.transform / root_transform;
             }
         }
     }
