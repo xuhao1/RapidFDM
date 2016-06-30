@@ -70,6 +70,12 @@ namespace RapidFDM
                 return Eigen::Vector3d(get_propeller_torque(),0,0);
             }
 
+            virtual Node * instance() override
+            {
+                BaseEngineNode *node = new BaseEngineNode;
+                memcpy(node, this, sizeof(BaseEngineNode));
+                node->geometry = this->geometry->instance();
+            }
 
 
             EasyPropellerNode(rapidjson::Document &document) :
@@ -84,7 +90,7 @@ namespace RapidFDM
                 D = fast_value(document, "D", 0.254);
                 direction = fast_value(document,"direction",1);
                 max_n = fast_value(document,"max_rpm",10000.0)/60.0;
-                this->type = "propeller_node";
+                this->type_str = "propeller_node";
                 printf("Success parse propeller_node\n");
                 printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->type.c_str(),
                        geometry->get_type().c_str());

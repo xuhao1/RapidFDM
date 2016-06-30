@@ -20,9 +20,9 @@ namespace RapidFDM {
                 else {
                     this->geometry = new BaseGeometry();
                 }
-                this->type = "aircraft_node";
+                this->type_str = "aircraft_node";
                 printf("Success parse aircraft_node\n");
-                printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->type.c_str(),
+                printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->type_str.c_str(),
                        geometry->get_type().c_str());
 
             }
@@ -38,16 +38,30 @@ namespace RapidFDM {
                     this->geometry = new BaseGeometry();
                 }
 
-                this->type = "aircraft_node";
+                this->type_str = "aircraft_node";
                 printf("Success parse aircraft_node\n");
-                printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->type.c_str(),
+                printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->type_str.c_str(),
                        geometry->get_type().c_str());
 
+            }
+
+            AircraftNode():
+                    Node()
+            {
+                this->type_str = "aircraft_node";
             }
 
             virtual Eigen::Affine3d get_body_transform() override
             {
                 return Eigen::Affine3d::Identity();
+            }
+
+            virtual Node * instance() override
+            {
+                AircraftNode * node = new AircraftNode;
+                memcpy(node,this, sizeof(AircraftNode));
+                node->geometry = this->geometry->instance();
+                return node;
             }
         };
     }

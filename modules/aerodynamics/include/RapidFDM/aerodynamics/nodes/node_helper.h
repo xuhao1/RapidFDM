@@ -49,6 +49,7 @@ namespace RapidFDM {
                 return create_node_from_json(content);
             }
 
+            //This function return a list of nodes
             static std::map<std::string, Node *> scan_node_folder(std::string path) {
                 printf("Scanning node foilder %s \n",path.c_str());
                 std::map<std::string, Node *> nodeDB;
@@ -57,7 +58,7 @@ namespace RapidFDM {
                     printf("Scan file : %s\n", file_path.c_str());
                     Node *tmp = create_node_from_file(file_path);
                     if (tmp != nullptr) {
-                        nodeDB[tmp->getUniqueID()] = tmp;
+                        nodeDB[tmp->getName()] = tmp;
                     }
                 }
                 printf("Scan folder: %s finish\n",path.c_str());

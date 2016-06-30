@@ -9,6 +9,7 @@
 #include <RapidFDM/aerodynamics/FlyingData.h>
 #include <iostream>
 #include <stdio.h>
+#include <RapidFDM/aerodynamics/base_component.h>
 
 namespace RapidFDM {
     namespace Aerodynamics {
@@ -52,6 +53,12 @@ namespace RapidFDM {
 
             Eigen::Vector3d getForce(ComponentData state, AirState airState) {
                 return Eigen::Vector3d(-getDrag(state, airState), -getSide(state, airState), -getLift(state, airState));
+            }
+
+            virtual BaseGeometry * instance()
+            {
+//                BaseComponent * baseComponent
+                abort();
             }
 
             virtual void brief() {

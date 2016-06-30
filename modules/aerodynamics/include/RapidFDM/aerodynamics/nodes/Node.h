@@ -42,7 +42,7 @@ namespace RapidFDM
 
             bool inSimulate = false;
 
-            std::string type = "node";
+            std::string type_str = "node";
 
             rapidjson::Value describer;
         public:
@@ -157,7 +157,7 @@ namespace RapidFDM
 
             virtual void brief() override {
                 printf("name : %s \n", name.c_str());
-                printf("type : %s \n", type.c_str());
+                printf("type : %s \n", type_str.c_str());
                 printf("mass : %5f \n", params.mass);
                 printf("Inertial %5f %5f %5f \n", params.Inertial.x(), params.Inertial.y(), params.Inertial.z());
                 if (this->geometry != nullptr) {
@@ -171,9 +171,9 @@ namespace RapidFDM
                 return linked_joints;
             }
 
-            std::string get_type()
+            std::string get_type_str()
             {
-                return type;
+                return type_str;
             }
 
             void add_joint(Joint * joint)
@@ -182,6 +182,16 @@ namespace RapidFDM
             }
 
             void init(rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent);
+
+            virtual Node * instance()
+            {
+//                Node * node = new Node();
+//                memcpy(node,this, sizeof(Node));
+//                node->geometry = this->geometry->instance();
+                printf("Type %s not wrote instance",type_str.c_str());
+                abort();
+                return nullptr;
+            }
 
         };
     }
