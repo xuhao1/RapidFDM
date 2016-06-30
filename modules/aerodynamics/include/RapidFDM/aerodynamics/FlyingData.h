@@ -40,6 +40,9 @@ namespace RapidFDM
             /*!< Ground velocity for this component */
             Eigen::Vector3d velocity;
 
+            /*< Airstate for this component */
+            AirState airState;
+
             /*!<Velocity from simulator on the ground*/
             rapidjson::Value encode2json(rapidjson::Document &d)
             {

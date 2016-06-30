@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <map>
 #include <string>
+#include "FlyingData.h"
 
 using namespace RapidFDM::Utils;
 
@@ -49,11 +50,6 @@ namespace RapidFDM {
                 std::abort();
             }
 
-            virtual Eigen::Vector3d get_ground_air_speed()
-            {
-                std::abort();
-            }
-
             virtual Eigen::Affine3d get_ground_transform() {
                 std::abort();
             }
@@ -63,12 +59,6 @@ namespace RapidFDM {
                 std::abort();
             }
 
-
-            //!Air velocity relative to node in local transform,shall consider velocity from angular speed at center point
-            //
-            virtual Eigen::Vector3d get_air_velocity() {
-                std::abort();
-            }
 
 
             virtual Eigen::Affine3d get_body_transform() {

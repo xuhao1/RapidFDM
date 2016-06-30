@@ -26,11 +26,15 @@ namespace RapidFDM
         {
 
         protected:
-            std::vector<Joint*> linked_joints; /*!< List of linked joints*/
+            std::vector<Joint *> linked_joints;
+            /*!< List of linked joints*/
 
-            struct {
-                double mass; /*!< Mass of this node, in kilogram*/
-                Eigen::Vector3d mass_center;/*!< Mass center to the center*/
+            struct
+            {
+                double mass;
+                /*!< Mass of this node, in kilogram*/
+                Eigen::Vector3d mass_center;
+                /*!< Mass center to the center*/
                 Eigen::Vector3d Inertial;/*!< Inertial for this*/
             } params;
 
@@ -47,7 +51,9 @@ namespace RapidFDM
             rapidjson::Value describer;
         public:
 
-            Joint * parent = nullptr; /*!< Parent joint of this, be null if standalone */
+            Joint *parent = nullptr;
+
+            /*!< Parent joint of this, be null if standalone */
 
             Node(Joint *_parent = nullptr);
 
@@ -59,40 +65,42 @@ namespace RapidFDM
             /*!
               \return The calucated realtime force
             */
-            virtual Eigen::Vector3d get_realtime_force() {
-                return get_airdynamics_force();
+            virtual Eigen::Vector3d get_realtime_force(ComponentData data = flying_states)
+            {
+                return get_airdynamics_force(data);
             };
 
             //! A Calucate total torque of this node
             /*!
               \return The calucated realtime torque
             */
-            virtual Eigen::Vector3d get_realtime_torque() {
-                return get_airdynamics_torque();
+            virtual Eigen::Vector3d get_realtime_torque(ComponentData data = flying_states)
+            {
+                return get_airdynamics_torque(data);
             }
 
             //! Calucate aerodynamics force of this node
             /*!
               \return The calucated realtime aerodynamics force
             */
-            virtual Eigen::Vector3d get_airdynamics_force() {
-                if (this->geometry!= nullptr)
-                {
-                    return this->geometry->getForce(flying_states,airState);
+            virtual Eigen::Vector3d get_airdynamics_force(ComponentData data = flying_states)
+            {
+                if (this->geometry != nullptr) {
+                    return this->geometry->getForce(data, airState);
                 }
-                return Eigen::Vector3d(0,0,0);
+                return Eigen::Vector3d(0, 0, 0);
             }
 
             //! Calucate aerodynamics torque of this node
             /*!
               \return The calucated realtime aerodynamics torque
             */
-            virtual Eigen::Vector3d get_airdynamics_torque() {
-                if (this->geometry!= nullptr)
-                {
-                    return this->geometry->getTorque(flying_states,airState);
+            virtual Eigen::Vector3d get_airdynamics_torque(ComponentData data = flying_states)
+            {
+                if (this->geometry != nullptr) {
+                    return this->geometry->getTorque(data, airState);
                 }
-                return Eigen::Vector3d(0,0,0);
+                return Eigen::Vector3d(0, 0, 0);
             }
 
 
@@ -115,8 +123,22 @@ namespace RapidFDM
             //Give a realitics bounding box
             virtual Eigen::Vector3d get_bounding_box()
             {
-                return Eigen::Vector3d(0.1,0.1,0.1);
+                return Eigen::Vector3d(0.1, 0.1, 0.1);
             }
+
+
+            virtual Eigen::Vector3d get_wind_speed(ComponentData data = flying_states)
+            {
+                return data.airState.ground_air_speed;
+            }
+
+
+            //!Air velocity relative to node in local transform,shall consider velocity from angular speed at center point
+            //
+            virtual Eigen::Vector3d get_air_velocity(ComponentData data = flying_states) {
+                return data.velocity - get_wind_speed(data);
+            }
+
 
 
             //Overrides
@@ -138,15 +160,16 @@ namespace RapidFDM
                 params.mass_center = mass_center;
             }
 
-            virtual void setSimulate(bool EnableSimulator) {
+            virtual void setSimulate(bool EnableSimulator)
+            {
                 this->inSimulate = EnableSimulator;
-                for (Joint * joint : linked_joints)
-                {
+                for (Joint *joint : linked_joints) {
                     joint->getChild()->setSimulate(EnableSimulator);
                 }
             }
 
-            virtual void setSetfromsimulator(ComponentData flyingstates) {
+            virtual void setSetfromsimulator(ComponentData flyingstates)
+            {
                 this->flying_states = flyingstates;
             };
 
@@ -155,7 +178,8 @@ namespace RapidFDM
                 this->airState = airState1;
             }
 
-            virtual void brief() override {
+            virtual void brief() override
+            {
                 printf("name : %s \n", name.c_str());
                 printf("type : %s \n", type_str.c_str());
                 printf("mass : %5f \n", params.mass);
@@ -166,7 +190,7 @@ namespace RapidFDM
                 printf("\n\n");
             }
 
-            std::vector<Joint*> get_linked_joints()
+            std::vector<Joint *> get_linked_joints()
             {
                 return linked_joints;
             }
@@ -176,19 +200,19 @@ namespace RapidFDM
                 return type_str;
             }
 
-            void add_joint(Joint * joint)
+            void add_joint(Joint *joint)
             {
                 this->linked_joints.push_back(joint);
             }
 
             void init(rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent);
 
-            virtual Node * instance()
+            virtual Node *instance()
             {
 //                Node * node = new Node();
 //                memcpy(node,this, sizeof(Node));
 //                node->geometry = this->geometry->instance();
-                printf("Type %s not wrote instance",type_str.c_str());
+                printf("Type %s not wrote instance", type_str.c_str());
                 abort();
                 return nullptr;
             }

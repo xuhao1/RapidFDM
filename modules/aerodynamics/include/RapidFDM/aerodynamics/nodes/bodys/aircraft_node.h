@@ -56,6 +56,23 @@ namespace RapidFDM {
                 return Eigen::Affine3d::Identity();
             }
 
+            virtual Eigen::Vector3d get_total_force()
+            {
+
+            }
+            virtual Eigen::Vector3d get_total_aerodynamics_force()
+            {
+
+            }
+            virtual Eigen::Vector3d get_total_torque()
+            {
+
+            }
+            virtual Eigen::Vector3d get_total_aerodynamics_torque()
+            {
+
+            }
+
             virtual Node * instance() override
             {
                 AircraftNode * node = new AircraftNode;

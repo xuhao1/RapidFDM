@@ -30,23 +30,23 @@ namespace RapidFDM
             double max_n;
             //!Direction = 1 means 顺时针 产生负力矩
             int direction = 1;
-            virtual float get_cq()
+            virtual float get_cq(ComponentData data = flying_states)
             {
                 return C_q;
             }
-            virtual float get_ct()
+            virtual float get_ct(ComponentData data = flying_states)
             {
                 double wind_speed = get_air_velocity().x();
                 double n = inertial_states["n"];
                 double J = wind_speed / n / D;
                 return A_ct * J + B_ct;
             }
-            virtual float get_propeller_force()
+            virtual float get_propeller_force(ComponentData data = flying_states)
             {
                 double n = inertial_states["n"];
                 return get_ct() * air_rho  * n * n *pow(D,4) ;
             }
-            virtual float get_propeller_torque()
+            virtual float get_propeller_torque(ComponentData data = flying_states)
             {
                 double n = inertial_states["n"];
                 return - get_cq() * air_rho  * n * n *pow(D,5) * direction;
@@ -58,16 +58,16 @@ namespace RapidFDM
                 inertial_states["n"] = max_n * control_axis["thrust"];
             }
 
-            virtual Eigen::Vector3d get_engine_force() override
+            virtual Eigen::Vector3d get_engine_force(ComponentData data = flying_states) override
             {
                 //Force to positive x axis
-                return Eigen::Vector3d(get_propeller_force(),0,0);
+                return Eigen::Vector3d(get_propeller_force(data),0,0);
             }
 
-            virtual Eigen::Vector3d get_engine_torque() override
+            virtual Eigen::Vector3d get_engine_torque(ComponentData data = flying_states) override
             {
                 //Torque at x axis
-                return Eigen::Vector3d(get_propeller_torque(),0,0);
+                return Eigen::Vector3d(get_propeller_torque(data),0,0);
             }
 
             virtual Node * instance() override
