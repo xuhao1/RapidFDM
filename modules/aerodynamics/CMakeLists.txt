@@ -33,6 +33,7 @@ set(AIRDYNAMICS_MODULE_SOURCES
         include/RapidFDM/aerodynamics/nodes/node_helper.h
         include/RapidFDM/aerodynamics/nodes/wings/wing_node.h
         include/RapidFDM/aerodynamics/nodes/engines/easy_propeller.h
+        include/RapidFDM/aerodynamics/nodes/engines/base_engine.h
         include/RapidFDM/aerodynamics/geometrys/wing_geometrys.h
         include/RapidFDM/aerodynamics/geometrys/base_geometry.h
         include/RapidFDM/aerodynamics/geometrys/Geometrys.h

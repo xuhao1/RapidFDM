@@ -37,6 +37,7 @@ namespace RapidFDM
             /*!< Angular velocity from simulator on component transform*/
             Eigen::Vector3d angular_velocity;
 
+            /*!< Ground velocity for this component */
             Eigen::Vector3d velocity;
 
             /*!<Velocity from simulator on the ground*/

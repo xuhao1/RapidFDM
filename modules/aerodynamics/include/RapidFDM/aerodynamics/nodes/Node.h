@@ -35,6 +35,7 @@ namespace RapidFDM
             } params;
 
             ComponentData flying_states;
+            AirState airState;
 
             BaseGeometry *geometry = nullptr;
 
@@ -59,7 +60,7 @@ namespace RapidFDM
               \return The calucated realtime force
             */
             virtual Eigen::Vector3d get_realtime_force() {
-                abort();
+                return get_airdynamics_force();
             };
 
             //! A Calucate total torque of this node
@@ -67,7 +68,31 @@ namespace RapidFDM
               \return The calucated realtime torque
             */
             virtual Eigen::Vector3d get_realtime_torque() {
-                abort();
+                return get_airdynamics_torque();
+            }
+
+            //! Calucate aerodynamics force of this node
+            /*!
+              \return The calucated realtime aerodynamics force
+            */
+            virtual Eigen::Vector3d get_airdynamics_force() {
+                if (this->geometry!= nullptr)
+                {
+                    return this->geometry->getForce(flying_states,airState);
+                }
+                return Eigen::Vector3d(0,0,0);
+            }
+
+            //! Calucate aerodynamics torque of this node
+            /*!
+              \return The calucated realtime aerodynamics torque
+            */
+            virtual Eigen::Vector3d get_airdynamics_torque() {
+                if (this->geometry!= nullptr)
+                {
+                    return this->geometry->getTorque(flying_states,airState);
+                }
+                return Eigen::Vector3d(0,0,0);
             }
 
 
@@ -124,6 +149,11 @@ namespace RapidFDM
             virtual void setSetfromsimulator(ComponentData flyingstates) {
                 this->flying_states = flyingstates;
             };
+
+            void set_air_state(AirState airState1)
+            {
+                this->airState = airState1;
+            }
 
             virtual void brief() override {
                 printf("name : %s \n", name.c_str());
