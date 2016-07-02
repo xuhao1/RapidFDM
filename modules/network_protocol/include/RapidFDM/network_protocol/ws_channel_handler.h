@@ -19,11 +19,30 @@ namespace RapidFDM
         protected:
             websocket_server * server_ptr = nullptr;
             ws_server * wsServer;
+            std::string channel_name = "";
             websocketpp::connection_hdl connection_hdl;
             virtual void on_message(std::string msg);
         public:
             ws_channel_handler(websocket_server * server_ptr,std::string channel);
             void send(std::string msg);
+        };
+
+
+        class ws_json_channel_handler : public ws_channel_handler
+        {
+        public:
+            typedef std::function<void(const rapidjson::Value &)> jsonvalue_callback;
+        protected:
+
+            virtual void on_message(std::string msg) override;
+//            virtual
+            std::map<std::string,jsonvalue_callback> json_handler;
+        public:
+            ws_json_channel_handler(websocket_server * server_ptr,std::string channel):
+                ws_channel_handler(server_ptr,channel)
+            {}
+            void send(rapidjson::Document & document);
+            void add_json_handler(std::string opcode,jsonvalue_callback cb);
         };
     }
 }

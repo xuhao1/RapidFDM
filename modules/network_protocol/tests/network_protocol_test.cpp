@@ -10,7 +10,8 @@ int main()
 {
     printf("Hello,world\n");
     websocket_server ws(9091);
-    ws_channel_handler handler(&ws,"channel");
+    ws_json_channel_handler handler(&ws,"channel");
+//    handle
     ws.main_thread();
 
 }

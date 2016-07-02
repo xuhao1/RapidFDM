@@ -9,4 +9,4 @@ ws.on("open",function () {
 });
 ws.on("message",function (msg,flag) {
     console.log(msg);
-})
+});

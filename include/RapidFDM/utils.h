@@ -7,6 +7,8 @@
 
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/document.h>
+#include <rapidjson/writer.h>
+#include <rapidjson/stringbuffer.h>
 #include <Eigen/Eigen>
 #include <iostream>
 #include <vector>
@@ -145,6 +147,25 @@ namespace RapidFDM {
             std::string content((std::istreambuf_iterator<char>(ifs)),
                                 (std::istreambuf_iterator<char>()));
             return content;
+        }
+
+        inline const char* json_to_buffer(rapidjson::Document & d, int32_t & Count)
+        {
+            rapidjson::StringBuffer buffer;
+            rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+            d.Accept(writer);
+            Count = buffer.GetSize();
+            const char * str = buffer.GetString();
+            char * res = new char[Count];
+            memcpy(res,str,sizeof(char)*Count);
+            return res;
+        }
+
+        inline std::string json_to_string(rapidjson::Document & d)
+        {
+            int32_t size;
+            const char * str = json_to_buffer(d,size);
+            return std::string(str);
         }
 
     }
