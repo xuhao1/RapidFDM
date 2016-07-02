@@ -17,3 +17,5 @@ set(CONTROL_SYSTEM_MODULE_SOURCES
         include/RapidFDM/control_system/control_system.h
         )
 add_library(rapidfdm_control_system STATIC ${CONTROL_SYSTEM_MODULE_SOURCES})
+find_package(Boost REQUIRED
+        COMPONENTS filesystem)

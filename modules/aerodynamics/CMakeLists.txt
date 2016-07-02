@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 set(the_description "The Airdynamics Module")
 
-find_package(Boost REQUIRED
-        COMPONENTS filesystem)
-
 include_directories(./include
         ../../include/
         ../../3rdparty/eigen3
@@ -45,8 +42,8 @@ set(AIRDYNAMICS_MODULE_SOURCES
 
         )
 
-SET(AERODYNAMICS_CONFIGURER_SOURCES src/aerodynamics-configure-server.cpp
-        src/aerodynamics-configure-server.h
+SET(AERODYNAMICS_CONFIGURER_SOURCES ../network_protocol/src/websocket_server.cpp
+        ../network_protocol/include/RapidFDM/network_protocol/websocket_server.h
         )
 
 set(AIRDYNAMICS_TEST_SOURCES tests/main.cpp)
@@ -56,7 +53,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${build_dir}/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${build_dir}/bin")
 
 add_library(rapidfdm_aerodynamics STATIC ${AIRDYNAMICS_MODULE_SOURCES})
-target_link_libraries(rapidfdm_aerodynamics ${Boost_LIBRARIES})
 
 add_executable(rapidfdm_aerodynamics_test ${AIRDYNAMICS_TEST_SOURCES})
 

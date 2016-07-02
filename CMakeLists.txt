@@ -23,6 +23,7 @@ set(PHYSX_LIBRARIES
 
 #message(${PHYSX_LIBRARIES})
 
+add_subdirectory(modules/network_protocol)
 add_subdirectory(modules/aerodynamics)
 add_subdirectory(modules/control_system)
 add_subdirectory(modules/simulation)
