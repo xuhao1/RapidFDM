@@ -117,10 +117,6 @@ namespace RapidFDM
                 abort();
             }
 
-            virtual Eigen::Vector3d get_ground_air_speed() override
-            {
-                abort();
-            }
 
             virtual Eigen::Affine3d get_ground_transform() override;
 

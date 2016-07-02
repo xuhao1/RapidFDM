@@ -41,7 +41,6 @@ namespace RapidFDM
             ComponentData flying_states;
             AirState airState;
 
-            BaseGeometry *geometry = nullptr;
 
 
             bool inSimulate = false;
@@ -55,6 +54,8 @@ namespace RapidFDM
 
             /*!< Parent joint of this, be null if standalone */
 
+            BaseGeometry *geometry = nullptr;
+
             Node(Joint *_parent = nullptr);
 
             Node(rapidjson::Document &document, Joint *_parent = nullptr);
@@ -65,16 +66,16 @@ namespace RapidFDM
             /*!
               \return The calucated realtime force
             */
-            virtual Eigen::Vector3d get_realtime_force(ComponentData data = flying_states)
+            virtual Eigen::Vector3d get_realtime_force(ComponentData data)
             {
                 return get_airdynamics_force(data);
             };
 
-            //! A Calucate total torque of this node
+            //! A Calucate total torque of this node,
             /*!
               \return The calucated realtime torque
             */
-            virtual Eigen::Vector3d get_realtime_torque(ComponentData data = flying_states)
+            virtual Eigen::Vector3d get_realtime_torque(ComponentData data)
             {
                 return get_airdynamics_torque(data);
             }
@@ -83,7 +84,7 @@ namespace RapidFDM
             /*!
               \return The calucated realtime aerodynamics force
             */
-            virtual Eigen::Vector3d get_airdynamics_force(ComponentData data = flying_states)
+            virtual Eigen::Vector3d get_airdynamics_force(ComponentData data)
             {
                 if (this->geometry != nullptr) {
                     return this->geometry->getForce(data, airState);
@@ -95,7 +96,7 @@ namespace RapidFDM
             /*!
               \return The calucated realtime aerodynamics torque
             */
-            virtual Eigen::Vector3d get_airdynamics_torque(ComponentData data = flying_states)
+            virtual Eigen::Vector3d get_airdynamics_torque(ComponentData data)
             {
                 if (this->geometry != nullptr) {
                     return this->geometry->getTorque(data, airState);
@@ -127,7 +128,7 @@ namespace RapidFDM
             }
 
 
-            virtual Eigen::Vector3d get_wind_speed(ComponentData data = flying_states)
+            virtual Eigen::Vector3d get_wind_speed(ComponentData data)
             {
                 return data.airState.ground_air_speed;
             }
@@ -135,8 +136,13 @@ namespace RapidFDM
 
             //!Air velocity relative to node in local transform,shall consider velocity from angular speed at center point
             //
-            virtual Eigen::Vector3d get_air_velocity(ComponentData data = flying_states) {
-                return data.velocity - get_wind_speed(data);
+            virtual Eigen::Vector3d get_air_velocity(ComponentData data) {
+                return data.velocity + get_wind_speed(data);
+            }
+
+            virtual void set_air_state(AirState air_state)
+            {
+                this->flying_states.airState = air_state;
             }
 
 
@@ -149,8 +155,6 @@ namespace RapidFDM
             virtual Eigen::Affine3d get_ground_transform() override;
 
             virtual Eigen::Vector3d get_ground_velocity() override;
-
-            virtual Eigen::Vector3d get_air_velocity() override;
 
             virtual Eigen::Vector3d get_angular_velocity() override;
 
@@ -172,11 +176,6 @@ namespace RapidFDM
             {
                 this->flying_states = flyingstates;
             };
-
-            void set_air_state(AirState airState1)
-            {
-                this->airState = airState1;
-            }
 
             virtual void brief() override
             {
@@ -203,6 +202,11 @@ namespace RapidFDM
             void add_joint(Joint *joint)
             {
                 this->linked_joints.push_back(joint);
+            }
+
+            ComponentData get_component_data()
+            {
+                return flying_states;
             }
 
             void init(rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent);

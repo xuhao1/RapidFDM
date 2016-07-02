@@ -19,7 +19,7 @@ namespace RapidFDM {
             WingNode(rapidjson::Value &v, rapidjson::Document &d, Joint *_parent = nullptr) :
                     Node(v, d, _parent) {
                 this->geometry = new WingGeometry(v);
-                this->type = "wing";
+                this->type_str = "wing";
                 enableControl = getWing()->params.enableControl;
             }
 

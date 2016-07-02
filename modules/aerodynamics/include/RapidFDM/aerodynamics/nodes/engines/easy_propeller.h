@@ -30,51 +30,57 @@ namespace RapidFDM
             double max_n;
             //!Direction = 1 means 顺时针 产生负力矩
             int direction = 1;
-            virtual float get_cq(ComponentData data = flying_states)
+
+            virtual float get_cq(ComponentData data)
             {
                 return C_q;
             }
-            virtual float get_ct(ComponentData data = flying_states)
+
+            virtual float get_ct(ComponentData data)
             {
-                double wind_speed = get_air_velocity().x();
-                double n = inertial_states["n"];
+                double wind_speed = get_air_velocity(data).x();
+                double n = internal_states["n"];
                 double J = wind_speed / n / D;
                 return A_ct * J + B_ct;
             }
-            virtual float get_propeller_force(ComponentData data = flying_states)
+
+            virtual float get_propeller_force(ComponentData data)
             {
-                double n = inertial_states["n"];
-                return get_ct() * air_rho  * n * n *pow(D,4) ;
+                double n = internal_states["n"];
+                return get_ct(data) * air_rho * n * n * pow(D, 4);
             }
-            virtual float get_propeller_torque(ComponentData data = flying_states)
+
+            virtual float get_propeller_torque(ComponentData data)
             {
-                double n = inertial_states["n"];
-                return - get_cq() * air_rho  * n * n *pow(D,5) * direction;
+                double n = internal_states["n"];
+                return -get_cq(data) * air_rho * n * n * pow(D, 5) * direction;
             }
+
         public:
 
-            virtual void iter_inertial_state(double deltatime) override
+            virtual void iter_internal_state(double deltatime) override
             {
-                inertial_states["n"] = max_n * control_axis["thrust"];
+                internal_states["n"] = max_n * control_axis["thrust"];
             }
 
-            virtual Eigen::Vector3d get_engine_force(ComponentData data = flying_states) override
+            virtual Eigen::Vector3d get_engine_force(ComponentData data) override
             {
                 //Force to positive x axis
-                return Eigen::Vector3d(get_propeller_force(data),0,0);
+                return Eigen::Vector3d(get_propeller_force(data), 0, 0);
             }
 
-            virtual Eigen::Vector3d get_engine_torque(ComponentData data = flying_states) override
+            virtual Eigen::Vector3d get_engine_torque(ComponentData data) override
             {
                 //Torque at x axis
-                return Eigen::Vector3d(get_propeller_torque(data),0,0);
+                return Eigen::Vector3d(get_propeller_torque(data), 0, 0);
             }
 
-            virtual Node * instance() override
+            virtual Node *instance() override
             {
                 BaseEngineNode *node = new BaseEngineNode;
                 memcpy(node, this, sizeof(BaseEngineNode));
                 node->geometry = this->geometry->instance();
+                return node;
             }
 
 
@@ -88,14 +94,14 @@ namespace RapidFDM
                     this->geometry = new BaseGeometry();
                 }
                 D = fast_value(document, "D", 0.254);
-                direction = fast_value(document,"direction",1);
-                max_n = fast_value(document,"max_rpm",10000.0)/60.0;
+                direction = fast_value(document, "direction", 1);
+                max_n = fast_value(document, "max_rpm", 10000.0) / 60.0;
                 this->type_str = "propeller_node";
                 printf("Success parse propeller_node\n");
-                printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->type.c_str(),
+                printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->type_str.c_str(),
                        geometry->get_type().c_str());
 
-                this->inertial_states["n"] = 0;
+                this->internal_states["n"] = 0;
                 this->control_axis["thrust"] = 0;
 
             }

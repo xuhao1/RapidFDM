@@ -78,11 +78,6 @@ namespace RapidFDM
                 return this->flying_states.angular_velocity;
         }
 
-        Eigen::Vector3d Node::get_air_velocity()
-        {
-            //TODO
-            return Eigen::Vector3d(0, 0, 0);
-        }
 
         Eigen::Vector3d Node::get_ground_velocity()
         {

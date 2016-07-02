@@ -14,7 +14,7 @@ namespace RapidFDM
                 printf("Nodes name: %s, id : %s, type : %s\n",
                        pair.second->getName().c_str(),
                        pair.first.c_str(),
-                       pair.second->get_type().c_str());
+                       pair.second->get_type_str().c_str());
             }
             this->joints = JointHelper::scan_joint_folder(path + "/joints/", this->nodes);
             rapidjson::Document d;
@@ -28,6 +28,7 @@ namespace RapidFDM
                 std::abort();
             }
             else {
+                this->aircraftNode->init_after_construct(this->nodes,this->joints);
                 std::cout << "Successful parse aircraft :" << this->aircraftNode->getName() << "\n" << std::endl;
             }
 

@@ -54,9 +54,10 @@ namespace RapidFDM
             {
             }
 
-            SimulatorAircraft(Aerodynamics::AircraftNode *_aircraftNode,
-                              ControlSystem::BaseController *_baseController,
-                              SimulatorWorld *_simulator
+            SimulatorAircraft(
+                    Aerodynamics::AircraftNode *_aircraftNode,
+                    ControlSystem::BaseController *_baseController,
+                    SimulatorWorld *_simulator
             );
 
             void dfs_create_rigids(

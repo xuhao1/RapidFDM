@@ -12,29 +12,34 @@
 
 using namespace RapidFDM::Utils;
 
-namespace RapidFDM {
-    namespace Aerodynamics {
-        class BaseComponent {
+namespace RapidFDM
+{
+    namespace Aerodynamics
+    {
+        class BaseComponent
+        {
         protected:
             std::string name;
             std::string unique_id;
-            std::map<std::string,double> inertial_states;
-            std::map<std::string,double> control_axis;
+            std::map<std::string, double> internal_states;
+            std::map<std::string, double> control_axis;
 
             double time = 0;
 //            std::vector<std::string> control_frame;
         public:
-            BaseComponent() { }
+            BaseComponent()
+            {
+            }
 
-            BaseComponent(rapidjson::Value &v) {
+            BaseComponent(rapidjson::Value &v)
+            {
                 assert(v.IsObject());
                 this->name = fast_string(v, "name");
-                std::string _id = fast_string(v,"id");
-                if (_id == "")
-                {
+                std::string _id = fast_string(v, "id");
+                if (_id == "") {
                     char buffer[9] = {0};
-                    sprintf(buffer, "%d", rand()%100000000);
-                    _id  = std::string(buffer);
+                    sprintf(buffer, "%d", rand() % 100000000);
+                    _id = std::string(buffer);
                 }
 
                 this->unique_id = this->name + "_" + _id;
@@ -42,55 +47,73 @@ namespace RapidFDM {
             }
 
 
-            virtual Eigen::Vector3d get_ground_velocity() {
+            virtual Eigen::Vector3d get_ground_velocity()
+            {
                 std::abort();
             }
 
-            virtual Eigen::Vector3d get_angular_velocity() {
+            virtual Eigen::Vector3d get_angular_velocity()
+            {
                 std::abort();
             }
 
-            virtual Eigen::Affine3d get_ground_transform() {
+            virtual Eigen::Affine3d get_ground_transform()
+            {
                 std::abort();
             }
 
 
-            virtual Eigen::Quaterniond get_ground_attitude() {
+            virtual Eigen::Quaterniond get_ground_attitude()
+            {
                 std::abort();
             }
 
 
-
-            virtual Eigen::Affine3d get_body_transform() {
+            virtual Eigen::Affine3d get_body_transform()
+            {
                 std::abort();
             }
 
-            virtual std::map<std::string,double>  get_inertial_states () {
-                return this->inertial_states;
+            virtual std::map<std::string, double> get_internal_states()
+            {
+                return this->internal_states;
             };
 
-            virtual std::vector<std::string> get_control_frame ()
+            virtual std::vector<std::string> get_control_frame()
             {
                 std::vector<std::string> res;
-                for (auto s : control_axis)
-                {
+                for (auto s : control_axis) {
                     res.push_back(s.first);
                 }
                 return res;
             }
 
-            virtual void set_control_value(std::string name,double v)
+            virtual std::map<std::string,double> get_control_axis()
+            {
+                return control_axis;
+            };
+
+            virtual void set_control_value(std::string name, double v)
             {
                 this->control_axis[name] = v;
             }
 
-            virtual void iter_inertial_state(double deltatime)
+            virtual void set_internal_state(std::string name,double v)
+            {
+                this->internal_states[name] = v;
+            }
+
+            virtual void iter_internal_state(double deltatime)
             {
             }
 
-            virtual void brief() { }
+            virtual void brief()
+            {
+            }
 
-            std::string getName() {
+
+            std::string getName()
+            {
                 return this->name;
             }
 
