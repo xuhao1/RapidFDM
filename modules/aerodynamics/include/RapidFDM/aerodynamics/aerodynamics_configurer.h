@@ -4,11 +4,14 @@
 
 #ifndef RAPIDFDM_AERODYNAMICS_CONFIGURER_H
 #define RAPIDFDM_AERODYNAMICS_CONFIGURER_H
+
 #include "FlyingData.h"
 #include "aerodynamics.h"
 #include <vector>
 #include <string>
 #include <rapidjson/document.h>
+#include "airdynamics_parser.h"
+#include <RapidFDM/utils.h>
 /*
  * configure_server
  * chroot folder
@@ -18,27 +21,36 @@
  * transfer model datas
  */
 
-namespace Aerodynamics{
-    class aerodynamics_configurer
+namespace RapidFDM
+{
+    namespace Aerodynamics
     {
-    protected:
-        std::string root_path;
-    public:
-        aerodynamics_configurer();
+        class aerodynamics_configurer
+        {
+        protected:
+            std::string root_path;
+            parser * parser1 = nullptr;
 
-        //! Chroot to a folder
-        std::vector<std::string> chroot_folder(std::string path);
+        public:
+            aerodynamics_configurer(std::string root_path);
 
-        //!Load model from root
-        void load_model(std::string name);
+            //! Chroot to a folder
+            void chroot_folder(std::string path);
 
-        //!Save model to root
-        void save_model(std::string name);
+            //!List model
+            std::vector<std::string> list_model();
 
-        //!update model from json defs
-        void update_model(rapidjson::Value & v);
-    };
+            //!Load model from root
+            void load_model(std::string name);
 
+            //!Save model to root
+            void save_model(std::string name);
+
+            //!update model from json defs
+            void update_model(rapidjson::Value &v);
+        };
+
+    }
 }
 
 #endif //RAPIDFDM_AERODYNAMICS_CONFIGURER_H

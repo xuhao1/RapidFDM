@@ -3,7 +3,11 @@
 //
 
 #include <RapidFDM/network_protocol/ws_channel_handler.h>
+#include <RapidFDM/utils.h>
 #include <iostream>
+
+using namespace RapidFDM::Utils;
+
 
 namespace RapidFDM
 {
@@ -40,8 +44,11 @@ namespace RapidFDM
             this->json_handler[opcode] = cb;
         }
 
-        void ws_json_channel_handler::send(rapidjson::Document &document)
+        void ws_json_channel_handler::send_json(rapidjson::Document &document)
         {
+            int32_t size;
+            const char * str = json_to_buffer(document,size);
+            wsServer->send(connection_hdl,str,size,websocketpp::frame::opcode::text);
         }
 
         void ws_json_channel_handler::on_message(std::string msg)

@@ -55,7 +55,7 @@ namespace RapidFDM {
 
             } params;
 
-            WingGeometry(rapidjson::Value &v) {
+            WingGeometry(const rapidjson::Value &v) {
                 params.b_2 = fast_value(v, "b_2", 0);
                 params.Mac = fast_value(v, "Mac", 0);
                 params.nonSideAttach = fast_value(v, "nonSideAttch", 1);

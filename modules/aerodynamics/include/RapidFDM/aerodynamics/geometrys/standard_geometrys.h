@@ -13,7 +13,7 @@ namespace RapidFDM {
             Eigen::Vector3d box_scale;
             Eigen::Vector3d reference_aera;
         public:
-            BoxGeometry(rapidjson::Value &v) {
+            BoxGeometry(const rapidjson::Value &v) {
                 box_scale = fast_vector3(v, "scale");
                 this->Aero = box_scale.y() * box_scale.z();
                 reference_aera.x() = box_scale.y() * box_scale.z();

@@ -21,7 +21,7 @@ namespace RapidFDM
             name = "";
         }
 
-        Node::Node(rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent) :
+        Node::Node(const rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent) :
                 BaseComponent(_json)
         {
             assert(_json.IsObject());
@@ -43,6 +43,7 @@ namespace RapidFDM
             this->name = fast_string(_json, "name");
 
             this->describer.CopyFrom(_json, document.GetAllocator());
+            this->source_document = document;
         }
 
         Eigen::Quaterniond Node::get_ground_attitude()

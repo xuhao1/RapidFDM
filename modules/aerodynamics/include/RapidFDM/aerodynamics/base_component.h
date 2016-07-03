@@ -31,7 +31,7 @@ namespace RapidFDM
             {
             }
 
-            BaseComponent(rapidjson::Value &v)
+            BaseComponent(const rapidjson::Value &v)
             {
                 assert(v.IsObject());
                 this->name = fast_string(v, "name");

@@ -42,8 +42,9 @@ set(AIRDYNAMICS_MODULE_SOURCES
 
         )
 
-SET(AERODYNAMICS_CONFIGURER_SOURCES ../network_protocol/src/websocket_server.cpp
-        ../network_protocol/include/RapidFDM/network_protocol/websocket_server.h
+SET(AERODYNAMICS_CONFIGURER_SOURCES
+        src/aerodynamics_configurer.cpp
+        include/RapidFDM/aerodynamics/aerodynamics_configurer.h
         )
 
 set(AIRDYNAMICS_TEST_SOURCES tests/main.cpp)
@@ -59,4 +60,4 @@ add_executable(rapidfdm_aerodynamics_test ${AIRDYNAMICS_TEST_SOURCES})
 target_link_libraries(rapidfdm_aerodynamics_test rapidfdm_aerodynamics)
 
 add_executable(rapidfdm_aerodynamics_configure_server ${AERODYNAMICS_CONFIGURER_SOURCES})
-target_link_libraries(rapidfdm_aerodynamics_configure_server rapidfdm_aerodynamics)
+target_link_libraries(rapidfdm_aerodynamics_configure_server rapidfdm_aerodynamics rapidfdm_network_protocol)

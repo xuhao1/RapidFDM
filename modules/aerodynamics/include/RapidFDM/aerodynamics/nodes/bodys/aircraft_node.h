@@ -56,40 +56,45 @@ namespace RapidFDM
             std::map<std::string, node_control_axis> control_axis_mapper;
             std::map<std::string, node_internal_state> internal_state_mapper;
 
+            //If enable static mode,all component in this aircraft will be static to the aircraft
+            bool rigid_mode = false;
+            //If total inertial defined, we will read intertial in json file,
+            //This will only make sense when static_mode is true
+            bool total_inertial_defined = false;
+
+            Eigen::Vector3d total_inertial = Eigen::Vector3d(0, 0, 0);
+            double total_mass = 0;
+            Eigen::Vector3d mass_center_offset = Eigen::Vector3d(0, 0, 0);
+
         public:
-            AircraftNode(rapidjson::Value &_json, rapidjson::Document &document) :
+            AircraftNode(const rapidjson::Value &_json, rapidjson::Document &document) :
                     Node(_json, document)
             {
-                assert(_json.IsObject());
-                if (document.HasMember("geometry") && document["geometry"].IsObject()) {
-                    this->geometry = GeometryHelper::create_geometry_from_json(document["geometry"]);
-                }
-                else {
-                    this->geometry = new BaseGeometry();
-                }
-                this->type_str = "aircraft_node";
-                printf("Success parse aircraft_node\n");
-                printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->type_str.c_str(),
-                       geometry->get_type().c_str());
-
+                init(_json);
             }
 
             AircraftNode(rapidjson::Document &document) :
                     Node(document)
             {
-                assert(document.IsObject());
+                init(document);
+            }
 
-                if (document.HasMember("geometry") && document["geometry"].IsObject()) {
-                    this->geometry = GeometryHelper::create_geometry_from_json(document["geometry"]);
+            void init(const rapidjson::Value &_json)
+            {
+                assert(_json.IsObject());
+
+                if (_json.HasMember("geometry") && _json["geometry"].IsObject()) {
+                    this->geometry = GeometryHelper::create_geometry_from_json(_json["geometry"]);
                 }
                 else {
                     this->geometry = new BaseGeometry();
                 }
-
                 this->type_str = "aircraft_node";
                 printf("Success parse aircraft_node\n");
                 printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->type_str.c_str(),
                        geometry->get_type().c_str());
+
+                this->rigid_mode = fast_value(_json, "rigid_mode", 0) > 0;
 
             }
 
@@ -171,7 +176,7 @@ namespace RapidFDM
                         Eigen::Vector3d engine_body_r = (Eigen::Vector3d) engineNode_ptr->get_body_transform().translation();
                         ComponentData data = engineNode_ptr->get_component_data();
                         res += engineNode_ptr->get_engine_torque(data)
-                                + engine_body_r.cross(engineNode_ptr->get_engine_force(data));
+                               + engine_body_r.cross(engineNode_ptr->get_engine_force(data));
                     }
                 }
                 return res;
@@ -215,6 +220,18 @@ namespace RapidFDM
 
                 }
                 return res;
+            }
+
+            //TODO:
+            //Consider inertial matrix is not a diagonal matrix.
+            virtual Eigen::Vector3d get_total_inertial()
+            {
+
+            }
+
+            virtual Eigen::Vector3d get_total_mass()
+            {
+
             }
 
             void init_after_construct(

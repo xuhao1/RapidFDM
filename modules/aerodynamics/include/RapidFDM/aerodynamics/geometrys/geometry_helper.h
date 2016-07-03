@@ -16,7 +16,7 @@ namespace RapidFDM {
     namespace Aerodynamics {
         class GeometryHelper {
         public:
-            static BaseGeometry *create_geometry_from_json(rapidjson::Value &v) {
+            static BaseGeometry *create_geometry_from_json(const rapidjson::Value &v) {
                 std::string type = fast_string(v, "type");
                 if (type == "box") {
                     return new BoxGeometry(v);

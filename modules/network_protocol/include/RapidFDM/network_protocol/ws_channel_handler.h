@@ -41,7 +41,7 @@ namespace RapidFDM
             ws_json_channel_handler(websocket_server * server_ptr,std::string channel):
                 ws_channel_handler(server_ptr,channel)
             {}
-            void send(rapidjson::Document & document);
+            void send_json(rapidjson::Document & document);
             void add_json_handler(std::string opcode,jsonvalue_callback cb);
         };
     }
