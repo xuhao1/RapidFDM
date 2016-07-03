@@ -102,6 +102,12 @@ namespace RapidFDM {
             _json.AddMember(namev, v, d.GetAllocator());
         }
 
+        inline void add_value(rapidjson::Value & _json,double v,rapidjson::Document & d,std::string name)
+        {
+            rapidjson::Value namev(rapidjson::kStringType);
+            namev.SetString(rapidjson::StringRef(name.c_str()));
+            _json.AddMember(namev, v, d.GetAllocator());
+        }
         inline void add_vector(rapidjson::Value &_json, Eigen::Vector3d vec, rapidjson::Document &d,
                                std::string name = "vector") {
             rapidjson::Value v(rapidjson::kArrayType);

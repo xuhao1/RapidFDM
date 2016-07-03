@@ -8,6 +8,8 @@
 #include "FlyingData.h"
 #include "aerodynamics.h"
 #include <vector>
+#include <map>
+#include <functional>
 #include <string>
 #include <rapidjson/document.h>
 #include "airdynamics_parser.h"
@@ -30,7 +32,9 @@ namespace RapidFDM
         protected:
             std::string root_path;
             parser * parser1 = nullptr;
-
+            typedef  std::function<rapidjson::Document * (const rapidjson::Value &)> query_function;
+            std::map<std::string,query_function> query_functions;
+            AircraftNode * aircraftNode;
         public:
             aerodynamics_configurer(std::string root_path);
 
@@ -47,7 +51,14 @@ namespace RapidFDM
             void save_model(std::string name);
 
             //!update model from json defs
-            void update_model(rapidjson::Value &v);
+            void update_model(const rapidjson::Value &v);
+
+            //!Query information of this model
+            rapidjson::Document * query_model(const rapidjson::Value & v);
+
+            //!
+
+            void init_query_functions();
         };
 
     }

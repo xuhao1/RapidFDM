@@ -50,6 +50,7 @@ namespace RapidFDM
             std::string type = "base_joint";
             AerodynamicsJointType joint_type = AerodynamicsJointType::AerodyanmicsBaseJoint;
             rapidjson::Value joint_define;
+            void init(const rapidjson::Value &v, Node *_parent, Node *_child);
 
         public:
             Joint(const rapidjson::Value &v, std::map<std::string, Node *> nodes);

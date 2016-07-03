@@ -47,6 +47,7 @@ namespace RapidFDM
 
             std::string type_str = "node";
 
+            void init(const rapidjson::Value &_json, Joint *_parent);
         public:
 
             Joint *parent = nullptr;

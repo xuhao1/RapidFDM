@@ -20,7 +20,7 @@ namespace RapidFDM
                 - base_rotation : [x y z] / [w x y z] required
                 - child_reference_point [x y z] optional [0 0 0]
          */
-        void Joint::init(rapidjson::Value &v, Node *_parent, Node *_child)
+        void Joint::init(const rapidjson::Value &v, Node *_parent, Node *_child)
         {
             assert(_child != nullptr);
             this->child = _child;
@@ -41,7 +41,6 @@ namespace RapidFDM
                     Eigen::Vector3d(1, 1, 1)
             );
 
-            this->joint_define = v;
             child->parent = this;
         }
 

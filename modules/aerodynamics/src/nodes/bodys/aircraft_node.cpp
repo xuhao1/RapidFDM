@@ -10,7 +10,7 @@ namespace RapidFDM
             init(_json);
         }
 
-        void AircraftNode::init(rapidjson::Value &_json, Joint *_parent)
+        void AircraftNode::init(const rapidjson::Value &_json)
         {
             assert(_json.IsObject());
 
@@ -26,6 +26,14 @@ namespace RapidFDM
                    geometry->get_type().c_str());
 
             this->rigid_mode = fast_value(_json, "rigid_mode", 0) > 0;
+            if (this->rigid_mode) {
+                if (_json.HasMember("total_mass") && _json.HasMember("total_inertial")) {
+                    total_inertial_defined = true;
+                    this->total_mass = fast_value(_json, "total_mass");
+                    this->total_inertial = fast_vector3(_json, "total_inertial");
+                    this->mass_center_offset = fast_vector3(_json, "mass_center");
+                }
+            }
         }
 
         void AircraftNode::set_air_state(AirState air_state)
@@ -83,7 +91,7 @@ namespace RapidFDM
             return res;
         }
 
-        Eigen::Vector3d AircraftNode::get_engine_force()
+        Eigen::Vector3d AircraftNode::get_total_engine_force()
         {
             assert(inited);
             Eigen::Vector3d res;
@@ -96,7 +104,7 @@ namespace RapidFDM
             return res;
         }
 
-        Eigen::Vector3d AircraftNode::get_engine_torque()
+        Eigen::Vector3d AircraftNode::get_total_engine_torque()
         {
             assert(inited);
             Eigen::Vector3d res;
@@ -157,12 +165,45 @@ namespace RapidFDM
         //Consider inertial matrix is not a diagonal matrix.
         Eigen::Vector3d AircraftNode::get_total_inertial()
         {
-
+            if (rigid_mode && total_inertial_defined) {
+                return total_inertial;
+            }
+            else {
+                //TODO:
+                //Count total inertial
+                abort();
+                return Eigen::Vector3d(0, 0, 0);
+            }
         }
 
-        Eigen::Vector3d AircraftNode::get_total_mass()
+        double AircraftNode::get_total_mass()
         {
+            if (rigid_mode && total_inertial_defined) {
+                return total_mass;
+            }
+            else {
+                total_mass = this->get_mass();
+                for (auto pair : node_list) {
+                    total_mass += pair.second->get_mass();
+                }
+                return total_mass;
+            }
+        }
 
+        Eigen::Vector3d AircraftNode::get_total_mass_center()
+        {
+            if (rigid_mode && total_inertial_defined) {
+                return mass_center_offset;
+            }
+            else {
+                for (auto pair : node_list) {
+//                    mass_center_offset += pair.second->get_mass() * pair;
+                    //TODO:
+                    //calcuate mass center offset
+                    abort();
+                }
+                return Eigen::Vector3d(0, 0, 0);
+            }
         }
 
         void AircraftNode::init_after_construct(

@@ -65,11 +65,11 @@ namespace RapidFDM
             Eigen::Vector3d total_inertial = Eigen::Vector3d(0, 0, 0);
             double total_mass = 0;
             Eigen::Vector3d mass_center_offset = Eigen::Vector3d(0, 0, 0);
+            void init(const rapidjson::Value &_json);
 
         public:
             AircraftNode(const rapidjson::Value &_json);
 
-            void init(const rapidjson::Value &_json);
 
             virtual void set_air_state(AirState air_state) override;
 
@@ -83,9 +83,9 @@ namespace RapidFDM
 
             virtual Eigen::Vector3d get_total_force();
 
-            virtual Eigen::Vector3d get_engine_force();
+            virtual Eigen::Vector3d get_total_engine_force();
 
-            virtual Eigen::Vector3d get_engine_torque();
+            virtual Eigen::Vector3d get_total_engine_torque();
 
             virtual Eigen::Vector3d get_total_aerodynamics_force();
 
@@ -97,7 +97,9 @@ namespace RapidFDM
             //Consider inertial matrix is not a diagonal matrix.
             virtual Eigen::Vector3d get_total_inertial();
 
-            virtual Eigen::Vector3d get_total_mass();
+            virtual double get_total_mass();
+
+            virtual Eigen::Vector3d get_total_mass_center();
 
             void init_after_construct(
                     std::map<std::string, Node *> _node_list,

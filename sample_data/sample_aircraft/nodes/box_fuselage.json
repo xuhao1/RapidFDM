@@ -21,4 +21,7 @@
       1
     ]
   }
+  "rigid_mode" : 1,
+  "total_mass" : 1.5,
+  "total_inertial":[0.1,0.01,0.1]
 }
