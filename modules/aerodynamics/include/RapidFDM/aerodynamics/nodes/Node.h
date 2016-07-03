@@ -47,8 +47,6 @@ namespace RapidFDM
 
             std::string type_str = "node";
 
-            rapidjson::Value describer;
-            rapidjson::Document & source_document;
         public:
 
             Joint *parent = nullptr;
@@ -59,9 +57,7 @@ namespace RapidFDM
 
             Node(Joint *_parent = nullptr);
 
-            Node(rapidjson::Document &document, Joint *_parent = nullptr);
-
-            Node(const rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent = nullptr);
+            Node(const rapidjson::Value &_json, Joint *_parent = nullptr);
 
             //! Calucate total force of this node
             /*!
@@ -210,7 +206,7 @@ namespace RapidFDM
                 return flying_states;
             }
 
-            void init(rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent);
+            void init(rapidjson::Value &_json, Joint *_parent);
 
             virtual Node *instance()
             {

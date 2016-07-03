@@ -52,9 +52,9 @@ namespace RapidFDM
             rapidjson::Value joint_define;
 
         public:
-            Joint(rapidjson::Value &v, std::map<std::string, Node *> nodes);
+            Joint(const rapidjson::Value &v, std::map<std::string, Node *> nodes);
 
-            Joint(rapidjson::Value &v, Node *_parent, Node *_child);
+            Joint(const rapidjson::Value &v, Node *_parent, Node *_child);
 
             Joint(Node *_parent, Node *_child);
 

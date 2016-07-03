@@ -16,7 +16,7 @@ namespace RapidFDM {
     namespace Aerodynamics {
         class JointHelper {
         public:
-            static Joint *create_joint_from_json(rapidjson::Value &v, std::map<std::string, Node *> nodeDB) {
+            static Joint *create_joint_from_json(const rapidjson::Value &v, std::map<std::string, Node *> nodeDB) {
                 assert(v.IsObject());
                 std::string type = fast_string(v, "type");
                 if (type == "fixed") {

@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <map>
 #include <string>
+#include <rapidjson/document.h>
 #include "FlyingData.h"
 
 using namespace RapidFDM::Utils;
@@ -26,6 +27,7 @@ namespace RapidFDM
 
             double time = 0;
 //            std::vector<std::string> control_frame;
+            rapidjson::Document source_document;
         public:
             BaseComponent()
             {
@@ -43,7 +45,7 @@ namespace RapidFDM
                 }
 
                 this->unique_id = this->name + "_" + _id;
-
+                this->source_document.CopyFrom(v,source_document.GetAllocator());
             }
 
 

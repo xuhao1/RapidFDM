@@ -12,13 +12,13 @@ namespace RapidFDM {
     namespace Aerodynamics {
         class FixedJoint : public Joint {
         public:
-            FixedJoint(rapidjson::Value &v, std::map<std::string, Node *> nodes) :
+            FixedJoint(const rapidjson::Value &v, std::map<std::string, Node *> nodes) :
                     Joint(v, nodes) {
                 this->type = "fixed";
                 this->joint_type = AerodynamicsJointType ::AerodynamicsFixedJoint;
             }
 
-            FixedJoint(rapidjson::Value &v, Node *_parent, Node *_child) :
+            FixedJoint(const rapidjson::Value &v, Node *_parent, Node *_child) :
                     Joint(v, _parent, _child) {
                 this->type = "fixed";
                 this->joint_type = AerodynamicsJointType ::AerodynamicsFixedJoint;

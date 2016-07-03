@@ -21,29 +21,21 @@ namespace RapidFDM
             name = "";
         }
 
-        Node::Node(const rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent) :
+        Node::Node(const rapidjson::Value &_json, Joint *_parent) :
                 BaseComponent(_json)
         {
             assert(_json.IsObject());
-            init(_json, document, _parent);
+            init(_json, _parent);
         }
 
-        Node::Node(rapidjson::Document &document, Joint *_parent)
-        {
-            rapidjson::Value &v = document;
-            init(v, document, _parent);
-        }
 
-        void Node::init(rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent)
+        void Node::init(const rapidjson::Value &_json, Joint *_parent)
         {
             this->parent = _parent;
             this->params.mass = fast_value(_json, "mass");
             this->params.mass_center = fast_vector3(_json, "mass_center");
             this->params.Inertial = fast_vector3(_json, "inertial");
             this->name = fast_string(_json, "name");
-
-            this->describer.CopyFrom(_json, document.GetAllocator());
-            this->source_document = document;
         }
 
         Eigen::Quaterniond Node::get_ground_attitude()

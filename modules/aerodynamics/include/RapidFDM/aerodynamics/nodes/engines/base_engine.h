@@ -22,14 +22,9 @@ namespace RapidFDM
                 abort();
                 return Eigen::Vector3d(0,0,0);
             }
-            BaseEngineNode(rapidjson::Document & document, Joint *_parent = nullptr):
-                    Node(document,_parent)
-            {
-                this->type_str = "engine_node";
-            }
 
-            BaseEngineNode(rapidjson::Value &_json, rapidjson::Document &document, Joint *_parent = nullptr)
-                    :Node(_json,document,_parent)
+            BaseEngineNode(const rapidjson::Value &_json, Joint *_parent = nullptr)
+                    :Node(_json,_parent)
             {
                 this->type_str = "engine_node";
             }

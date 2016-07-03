@@ -19,17 +19,16 @@ namespace RapidFDM {
     namespace Aerodynamics {
         class NodeHelper {
         public:
-            static Node *create_node_from_json(rapidjson::Value &v, rapidjson::Document &d) {
+            static Node *create_node_from_json(const rapidjson::Value &v) {
                 assert(v.IsObject());
-                assert(d.IsObject());
                 std::string type = fast_string(v, "type");
                 if (type == "aircraft") {
                     printf("Parse Aircraft node\n");
-                    return new AircraftNode(v, d);
+                    return new AircraftNode(v);
                 }
                 if (type == "wing") {
                     printf("Parse Wing node\n");
-                    return new WingNode(v, d);
+                    return new WingNode(v);
                 }
                 std::cerr << "Cannot parse Node Type : " << type << std::endl;
                 return nullptr;
@@ -38,7 +37,7 @@ namespace RapidFDM {
             static Node *create_node_from_json(std::string json) {
                 rapidjson::Document document;
                 document.Parse(json.c_str());
-                return create_node_from_json(document, document);
+                return create_node_from_json(document);
             }
 
             static Node *create_node_from_file(std::string file) {

@@ -22,16 +22,11 @@ namespace RapidFDM {
                 this->type_str = "wing";
                 enableControl = getWing()->params.enableControl;
             }
-            WingNode(const rapidjson::Value &v, rapidjson::Document &d, Joint *_parent = nullptr) :
-                    Node(v, d, _parent) {
+            WingNode(const rapidjson::Value &v, Joint *_parent = nullptr) :
+                    Node(v, _parent) {
                 init(v);
             }
 
-            WingNode(rapidjson::Document &document, Joint *_parent = nullptr):
-                    Node(document,_parent)
-            {
-                init(document);
-            }
         };
     }
 }

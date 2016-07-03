@@ -8,23 +8,29 @@
 #include <RapidFDM/aerodynamics/geometrys/base_geometry.h>
 #include <RapidFDM/utils.h>
 
-namespace RapidFDM {
-    namespace Aerodynamics {
-        class WingGeometry : public BaseGeometry {
+namespace RapidFDM
+{
+    namespace Aerodynamics
+    {
+        class WingGeometry : public BaseGeometry
+        {
         public:
-            virtual float getLift(ComponentData state, AirState airState) {
+            virtual float getLift(ComponentData state, AirState airState)
+            {
                 std::cerr << "Code not wrote" << std::endl;
                 abort();
                 return 0;
             }
 
-            virtual float getDrag(ComponentData state, AirState airState) {
+            virtual float getDrag(ComponentData state, AirState airState)
+            {
                 std::cerr << "Code not wrote" << std::endl;
                 abort();
                 return 0;
             }
 
-            virtual float getSide(ComponentData state, AirState airState) {
+            virtual float getSide(ComponentData state, AirState airState)
+            {
                 std::cerr << "Code not wrote" << std::endl;
                 abort();
                 return 0;
@@ -42,7 +48,8 @@ namespace RapidFDM {
                 ctrlSurfFrac = 0.2          //Value from 0-1, percentage of the part that is a flap; only used by FARControlableSurface
                 wing part: 0 control wing on negative part of y-axis, 1 on positive part, 3 both
             */
-            struct {
+            struct
+            {
                 float b_2;
                 float Mac;
                 bool nonSideAttach = true;
@@ -55,7 +62,9 @@ namespace RapidFDM {
 
             } params;
 
-            WingGeometry(const rapidjson::Value &v) {
+            WingGeometry(const rapidjson::Value &v) :
+                    BaseGeometry(v)
+            {
                 params.b_2 = fast_value(v, "b_2", 0);
                 params.Mac = fast_value(v, "Mac", 0);
                 params.nonSideAttach = fast_value(v, "nonSideAttch", 1);
@@ -69,7 +78,8 @@ namespace RapidFDM {
                 this->type = "WingGeometry";
             }
 
-            virtual void brief() {
+            virtual void brief()
+            {
                 if (this->params.enableControl)
                     printf("WindControlable\n");
                 else

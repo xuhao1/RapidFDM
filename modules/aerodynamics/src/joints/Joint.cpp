@@ -45,13 +45,14 @@ namespace RapidFDM
             child->parent = this;
         }
 
-        Joint::Joint(rapidjson::Value &v, Node *_parent, Node *_child) :
+        Joint::Joint(const rapidjson::Value &v, Node *_parent, Node *_child) :
                 BaseComponent(v)
         {
             init(v, _parent, _child);
         }
 
-        Joint::Joint(rapidjson::Value &v, std::map<std::string, Node *> nodes)
+        Joint::Joint(const rapidjson::Value & v, std::map<std::string, Node *> nodes):
+            BaseComponent(v)
         {
             Node *parent = nullptr;
             Node *child = nullptr;

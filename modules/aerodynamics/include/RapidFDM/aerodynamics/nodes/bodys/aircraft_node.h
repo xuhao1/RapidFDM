@@ -67,16 +67,10 @@ namespace RapidFDM
             Eigen::Vector3d mass_center_offset = Eigen::Vector3d(0, 0, 0);
 
         public:
-            AircraftNode(const rapidjson::Value &_json, rapidjson::Document &document) :
-                    Node(_json, document)
+            AircraftNode(const rapidjson::Value &_json) :
+                    Node(_json)
             {
                 init(_json);
-            }
-
-            AircraftNode(rapidjson::Document &document) :
-                    Node(document)
-            {
-                init(document);
             }
 
             void init(const rapidjson::Value &_json)

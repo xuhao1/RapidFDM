@@ -14,13 +14,22 @@
 namespace RapidFDM {
     namespace Aerodynamics {
 
-        class BaseGeometry {
+        class BaseGeometry : BaseComponent{
         protected:
             float Aero = 0;
             /*!< aera for aerodynamics calucation */
             std::string type = "base";
         public:
-            BaseGeometry() { }
+            BaseGeometry():
+                    BaseComponent()
+            {
+
+            }
+            BaseGeometry(const rapidjson::Value & v):
+                    BaseComponent(v)
+            {
+
+            }
 
             std::string get_type() {
                 return type;

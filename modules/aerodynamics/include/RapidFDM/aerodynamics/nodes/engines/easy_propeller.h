@@ -84,7 +84,7 @@ namespace RapidFDM
             }
 
 
-            EasyPropellerNode(rapidjson::Document &document) :
+            EasyPropellerNode(const rapidjson::Value &document) :
                     BaseEngineNode(document)
             {
                 if (document.HasMember("geometry") && document["geometry"].IsObject()) {
