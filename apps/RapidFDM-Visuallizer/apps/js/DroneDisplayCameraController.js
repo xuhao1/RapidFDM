@@ -4,7 +4,7 @@ var DroneDisplayCameraController = function(camera)
     this.camera = camera;
     camera.position.x = 2;
     camera.position.y = 0;
-    camera.position.z = 0.3;
+    camera.position.z = 1;
 
 
     this.camera.up.x = 0;

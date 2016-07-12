@@ -8,10 +8,12 @@
 #include <RapidFDM/aerodynamics/nodes/Node.h>
 #include <RapidFDM/aerodynamics/nodes/bodys/aircraft_node.h>
 #include <RapidFDM/aerodynamics/nodes/wings/wing_node.h>
+#include <RapidFDM/aerodynamics/nodes/engines/easy_propeller.h>
 #include <rapidjson/document.h>
 #include <RapidFDM/utils.h>
 #include <iostream>
 #include <fstream>
+#include "Nodes.h"
 
 using namespace RapidFDM::Utils;
 
@@ -29,6 +31,11 @@ namespace RapidFDM {
                 if (type == "wing") {
                     printf("Parse Wing node\n");
                     return new WingNode(v);
+                }
+                if (type == "easy_propeller")
+                {
+                    printf("Parse propeller node\n");
+                    return new EasyPropellerNode(v);
                 }
                 std::cerr << "Cannot parse Node Type : " << type << std::endl;
                 return nullptr;

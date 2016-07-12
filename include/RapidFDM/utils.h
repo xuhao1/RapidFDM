@@ -44,7 +44,7 @@ namespace RapidFDM {
                 const rapidjson::Value &array = _json[key.c_str()];
                 return Eigen::Vector3d(fast_value(array, 0), fast_value(array, 1), fast_value(array, 2));
             }
-            std::cerr << "Get vector of key " << key << "failed" << std::endl;
+            std::cerr << "Get vector of key <" << key << "> failed" << std::endl;
             return optional_value;
         }
 
@@ -56,7 +56,7 @@ namespace RapidFDM {
                                           fast_value(array, 2),
                                           fast_value(array, 3));
             }
-            std::cerr << "Get quaternion of key " << key << "failed" << std::endl;
+            std::cerr << "Get quaternion of key <" << key << "> failed" << std::endl;
             return Eigen::Quaterniond(1, 0, 0, 0);
         }
 
@@ -64,7 +64,7 @@ namespace RapidFDM {
             if (_json.HasMember(key.c_str()) && _json[key.c_str()].IsString()) {
                 return _json[key.c_str()].GetString();
             }
-            std::cerr << "Get string of key " << key << "failed" << std::endl;
+            std::cerr << "Get string of key <" << key << "> failed" << std::endl;
             return "";
         }
 
@@ -86,7 +86,7 @@ namespace RapidFDM {
                 }
             }
 
-            std::cerr << "Get attitude of key " << key << "failed" << std::endl;
+            std::cerr << "Get attitude of key <" << key << "> failed" << std::endl;
             return Eigen::Quaterniond(1, 0, 0, 0);
         }
 
@@ -94,7 +94,7 @@ namespace RapidFDM {
                                  std::string name = "attitude") {
             rapidjson::Value v(rapidjson::kArrayType);
             rapidjson::Value namev(rapidjson::kStringType);
-            namev.SetString(rapidjson::StringRef(name.c_str()));
+            namev.SetString(name.c_str(),d.GetAllocator());
             v.PushBack(trans.w(), d.GetAllocator());
             v.PushBack(trans.x(), d.GetAllocator());
             v.PushBack(trans.y(), d.GetAllocator());
@@ -105,14 +105,14 @@ namespace RapidFDM {
         inline void add_value(rapidjson::Value & _json,double v,rapidjson::Document & d,std::string name)
         {
             rapidjson::Value namev(rapidjson::kStringType);
-            namev.SetString(rapidjson::StringRef(name.c_str()));
+            namev.SetString(name.c_str(),d.GetAllocator());
             _json.AddMember(namev, v, d.GetAllocator());
         }
         inline void add_vector(rapidjson::Value &_json, Eigen::Vector3d vec, rapidjson::Document &d,
                                std::string name = "vector") {
             rapidjson::Value v(rapidjson::kArrayType);
             rapidjson::Value namev(rapidjson::kStringType);
-            namev.SetString(rapidjson::StringRef(name.c_str()));
+            namev.SetString(name.c_str(),d.GetAllocator());
             v.PushBack(vec.x(), d.GetAllocator());
             v.PushBack(vec.y(), d.GetAllocator());
             v.PushBack(vec.z(), d.GetAllocator());
@@ -123,7 +123,7 @@ namespace RapidFDM {
                                   std::string name = "transform") {
             rapidjson::Value v(rapidjson::kObjectType);
             rapidjson::Value namev(rapidjson::kStringType);
-            namev.SetString(rapidjson::StringRef(name.c_str()));
+            namev.SetString(name.c_str(),d.GetAllocator());
             add_attitude(v, (Eigen::Quaterniond) trans.rotation(), d);
             add_vector(v, (Eigen::Vector3d) trans.translation(), d);
 
@@ -137,11 +137,27 @@ namespace RapidFDM {
                 namespace fs = boost::filesystem;
 
                 fs::path apk_path(path);
-                fs::recursive_directory_iterator end;
+                fs::directory_iterator end;
 
-                for (fs::recursive_directory_iterator i(apk_path); i != end; ++i) {
+                for (fs::directory_iterator i(apk_path); i != end; ++i) {
                     const fs::path cp = (*i);
                     m_file_list.push_back(cp.string());
+                }
+            }
+            return m_file_list;
+        }
+
+        inline std::vector<std::string> get_filename_list(const std::string &path) {
+            std::vector<std::string> m_file_list;
+            if (!path.empty()) {
+                namespace fs = boost::filesystem;
+
+                fs::path apk_path(path);
+                fs::directory_iterator end;
+
+                for (fs::directory_iterator i(apk_path); i != end; ++i) {
+                    const fs::path cp = (*i);
+                    m_file_list.push_back(cp.filename().string());
                 }
             }
             return m_file_list;

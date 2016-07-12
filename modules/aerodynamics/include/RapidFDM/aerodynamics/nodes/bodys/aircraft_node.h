@@ -107,6 +107,10 @@ namespace RapidFDM
 
 
             virtual Node *instance() override;
+
+            virtual const rapidjson::Value & getJsonDefine() override;
+            virtual const rapidjson::Document * getComponentsDefine();
+
         };
     }
 }

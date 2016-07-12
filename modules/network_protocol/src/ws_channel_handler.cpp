@@ -62,6 +62,7 @@ namespace RapidFDM
                 std::string opcode = fast_string(d, "opcode");
                 if (json_handler.find(opcode) != json_handler.end()) {
                     if (d.HasMember("data")) {
+                        std::cout << "Msg enter callback\n";
                         const rapidjson::Value & v = d["data"];
                         json_handler[opcode](v);
                     }

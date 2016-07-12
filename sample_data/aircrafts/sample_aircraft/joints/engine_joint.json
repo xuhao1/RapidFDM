@@ -1,8 +1,9 @@
 {
-  "name": "test-joint",
+  "name": "engine-joint",
   "type": "fixed",
+  "id": "0",
   "base_position": [
-    0,
+    -0.1,
     0,
     0
   ],
@@ -17,6 +18,7 @@
     0,
     0
   ],
-  "parent": "sample_fuse_lage_0",
-  "child": "sample_wing_0"
+  "parent": "main_fuse_lage_0",
+  "child": "main_engine_0"
+
 }

@@ -31,21 +31,22 @@ namespace RapidFDM
         {
         protected:
             std::string root_path;
-            parser * parser1 = nullptr;
-            typedef  std::function<rapidjson::Document * (const rapidjson::Value &)> query_function;
-            std::map<std::string,query_function> query_functions;
-            AircraftNode * aircraftNode;
+            parser *parser1 = nullptr;
+            typedef std::function<rapidjson::Document *(const rapidjson::Value &)> query_function;
+            std::map<std::string, query_function> query_functions;
+            std::map<std::string, query_function> query_configure_functions;
+            AircraftNode *aircraftNode;
         public:
             aerodynamics_configurer(std::string root_path);
 
             //! Chroot to a folder
-            void chroot_folder(std::string path);
+            std::vector<std::string> chroot_folder(std::string path);
 
             //!List model
             std::vector<std::string> list_model();
 
             //!Load model from root
-            void load_model(std::string name);
+            const rapidjson::Value & load_model(std::string name);
 
             //!Save model to root
             void save_model(std::string name);
@@ -54,9 +55,11 @@ namespace RapidFDM
             void update_model(const rapidjson::Value &v);
 
             //!Query information of this model
-            rapidjson::Document * query_model(const rapidjson::Value & v);
+            rapidjson::Document *query_model(const rapidjson::Value &v);
 
-            //!
+            //!Operation of this configurer
+            rapidjson::Document *query_configurer(const rapidjson::Value &v);
+
 
             void init_query_functions();
         };

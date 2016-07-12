@@ -6,6 +6,7 @@ namespace RapidFDM
     {
         parser::parser(std::string path)
         {
+            std::cout << "Trying to load mode at " << path << std::endl;
             //TODO:
             //Instancing nodes
             this->nodes = NodeHelper::scan_node_folder(path + "/nodes/");
@@ -22,7 +23,7 @@ namespace RapidFDM
             assert(d.IsObject());
 
             std::string root_id = fast_string(d, "root");
-            this->aircraftNode = static_cast<AircraftNode *> (this->nodes[root_id]);
+            this->aircraftNode = dynamic_cast<AircraftNode *> (this->nodes[root_id]);
             if (this->aircraftNode == nullptr) {
                 std::cerr << "Error while parse aircraft! No aircraft node " << root_id << "found!!!" << std::endl;
                 std::abort();

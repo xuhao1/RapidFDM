@@ -1,11 +1,11 @@
 {
-  "name": "sample_fuse_lage",
+  "name": "main_fuselage",
   "id" : "0",
   "type": "aircraft",
   "mass": 1.5,
   "mass_center": [
-    0.1,
-    -0.1,
+    0,
+    0,
     0
   ],
   "inertial": [
@@ -16,11 +16,15 @@
   "geometry": {
     "type": "box",
     "scale": [
-      1,
-      1,
-      1
-    ]
-  }
+      1.2,
+      0.1,
+      0.1
+    ],
+    "transform": {
+      "vector": [0.6,0,0]
+    },
+    "attitude":[1,0,0,0]
+  },
   "rigid_mode" : 1,
   "total_mass" : 1.5,
   "total_inertial":[0.1,0.01,0.1]

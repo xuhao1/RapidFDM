@@ -30,7 +30,6 @@ namespace RapidFDM
         class websocket_server
         {
         public:
-            AircraftNode * node = nullptr;
             ws_server server;
 
             std::map<std::string,message_handle_function> message_handlers;

@@ -124,6 +124,12 @@ namespace RapidFDM
                 return this->unique_id;
             }
 
+        public:
+            virtual const rapidjson::Value & getJsonDefine()
+            {
+                return this->source_document;
+            }
+
         };
     }
 }

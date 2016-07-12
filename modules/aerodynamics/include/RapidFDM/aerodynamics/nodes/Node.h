@@ -218,6 +218,11 @@ namespace RapidFDM
                 abort();
                 return nullptr;
             }
+            virtual const rapidjson::Value & getJsonDefine() override
+            {
+                add_transform(source_document,get_body_transform(),source_document);
+                return source_document;
+            }
 
         };
     }

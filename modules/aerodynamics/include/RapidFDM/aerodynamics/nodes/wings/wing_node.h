@@ -12,7 +12,7 @@ namespace RapidFDM {
             bool enableControl = false;
 
             WingGeometry *getWing() {
-                return static_cast<WingGeometry *>(this->geometry);
+                return dynamic_cast<WingGeometry *>(this->geometry);
             }
 
         public:

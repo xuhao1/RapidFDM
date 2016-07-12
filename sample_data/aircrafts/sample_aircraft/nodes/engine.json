@@ -1,0 +1,17 @@
+{
+  "name" : "main_engine",
+  "id" : "0",
+  "type" : "easy_propeller",
+  "mass" : 0.2,
+  "mass_center" : [
+    0,0,0
+  ],
+  "D": 0.254,
+  "max_rpm"  : 10000,
+  "direction" : 1,
+  "inertial" : [1e-4,1e-4,1e-4],
+  "geometry" : {
+    "type": "propeller",
+    "D" : 0.254
+  }
+}

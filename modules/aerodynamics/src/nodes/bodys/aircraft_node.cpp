@@ -88,6 +88,7 @@ namespace RapidFDM
                 Node *node_ptr = pair.second;
                 res += node_ptr->get_realtime_force(node_ptr->get_component_data());
             }
+            std::cout << "Total force:" <<  res<< std::endl;
             return res;
         }
 
@@ -97,7 +98,7 @@ namespace RapidFDM
             Eigen::Vector3d res;
             for (auto pair : node_list) {
                 Node *node_ptr = pair.second;
-                BaseEngineNode *engineNode_ptr = static_cast<BaseEngineNode *>(node_ptr);
+                BaseEngineNode *engineNode_ptr = dynamic_cast<BaseEngineNode *>(node_ptr);
                 if (engineNode_ptr != nullptr)
                     res += engineNode_ptr->get_engine_force(node_ptr->get_component_data());
             }
@@ -110,7 +111,7 @@ namespace RapidFDM
             Eigen::Vector3d res;
             for (auto pair : node_list) {
                 Node *node_ptr = pair.second;
-                BaseEngineNode *engineNode_ptr = static_cast<BaseEngineNode *>(node_ptr);
+                BaseEngineNode *engineNode_ptr = dynamic_cast<BaseEngineNode *>(node_ptr);
                 if (engineNode_ptr != nullptr) {
                     Eigen::Vector3d engine_body_r = (Eigen::Vector3d) engineNode_ptr->get_body_transform().translation();
                     ComponentData data = engineNode_ptr->get_component_data();
@@ -213,7 +214,7 @@ namespace RapidFDM
             inited = true;
             this->node_list = _node_list;
             this->joint_list = _joint_list;
-            this->node_list.erase(this->name);
+            this->node_list.erase(this->getUniqueID());
             for (auto pair : node_list) {
                 Node *node_ptr = pair.second;
                 for (auto internal_pair :node_ptr->get_internal_states()) {
@@ -230,6 +231,35 @@ namespace RapidFDM
                             node_control_axis(node_ptr, axis_name);
                 }
             }
+
+        }
+
+        const rapidjson::Value& AircraftNode::getJsonDefine()
+        {
+            add_transform(source_document,get_body_transform(),source_document);
+            rapidjson::Value namev(rapidjson::kStringType);
+            namev.SetString("nodes",source_document.GetAllocator());
+            rapidjson::Value geometrys(rapidjson::kObjectType);
+            geometrys.CopyFrom(*getComponentsDefine(),source_document.GetAllocator());
+            source_document.AddMember(namev,geometrys,source_document.GetAllocator());
+            return source_document;
+        }
+
+
+        const rapidjson::Document * AircraftNode::getComponentsDefine()
+        {
+            rapidjson::Document * d = new rapidjson::Document;
+            d->SetObject();
+
+            for(auto pair:node_list )
+            {
+                rapidjson::Value namev(rapidjson::kStringType);
+                namev.SetString(pair.first.c_str(),d->GetAllocator());
+                rapidjson::Value geo_def(rapidjson::kObjectType);
+                geo_def.CopyFrom(pair.second->getJsonDefine(),d->GetAllocator());
+                d->AddMember(namev,geo_def,d->GetAllocator());
+            }
+            return d;
 
         }
 

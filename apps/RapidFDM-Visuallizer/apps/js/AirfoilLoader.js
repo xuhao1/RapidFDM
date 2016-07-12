@@ -6,8 +6,8 @@ let sample_wing_config = {
     MidChordSweep: 0,
     wing_part: 2,
     center_point_chord: 0.3,
-    deflectAngle : 8,
-    airfoil_name:"naca0015"
+    deflectAngle: 8,
+    airfoil_name: "naca0015"
 };
 if (typeof XMLHttpRequest == "undefined") {
     var XMLHttpRequest = require('xhr2');
@@ -45,14 +45,14 @@ function load_wing_from_uiucdb(wing_config, onLoad) {
     oReq.onload = function (evt) {
         var data = oReq.response;
         console.log(`loaded airfoil ${wing_config.airfoil_name}`);
-        onLoad(construct_wing_from_dat(data,wing_config));
+        onLoad(construct_wing_from_dat(data, wing_config));
     };
     oReq.send(null);
 }
 /*
  * MODULE
  b_2 = 0.5               //distance from wing root to tip; semi-span
- MAC = 0.5               //Mean Aerodynamic Chord
+ Mac = 0.5               //Mean Aerodynamic Chord
  nonSideAttach = 0           //0 for canard-like / normal wing pieces, 1 for ctrlsurfaces attached to the back of other wing parts
  TaperRatio = 0.7            //Ratio of tip chord to root chord generally < 1, must be > 0
  MidChordSweep = 25          //Sweep angle in degrees; measured down the center of the span / midchord position
@@ -69,13 +69,40 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
     var segments = 10;
     if ("segments" in wing_config)
         segments = wing_config.segments;
+
     let b_2 = wing_config.b_2;
-    let TaperRatio = wing_config.TaperRatio;
-    let sweep_angle = wing_config.MidChordSweep * Math.PI / 180.0;
-    let wing_part = wing_config.wing_part;
+
+    if (b_2 === undefined) {
+        console.log("b2 undefined");
+    }
+
+    var TaperRatio = 1.0;
+    if ("TaperRatio" in wing_config)
+        TaperRatio = wing_config.TaperRatio;
+
+    var sweep_angle = 0;
+    if ("MidChordSweep" in wing_config)
+        sweep_angle = wing_config.MidChordSweep * Math.PI / 180.0;
+
+    var wing_part = 2;
+    if ("wing_part" in wing_config)
+        wing_part = wing_config.wing_part;
+
     let center_point_chord = wing_config.center_point_chord;
+
+    if (center_point_chord === undefined) {
+        console.log("center point chord undefined");
+    }
+
     let Mac = wing_config.Mac;
-    let deflectAngle = wing_config.deflectAngle * Math.PI / 180.0;
+
+    if (Mac === undefined) {
+        console.log("Mac undefined");
+    }
+
+    var deflectAngle = 0;
+    if ("deflectAngle" in wing_config)
+        deflectAngle = wing_config.deflectAngle * Math.PI / 180.0;
 
 
     //root_chord (1+TaperRatio) / 2 = Mac
@@ -132,9 +159,9 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
                     // normal from ratio and deleft angle
 
                     normal.normalize();
-                    var alpha =  Math.atan2((1-TaperRatio)*(airfoil_spline[count][1] * chord_length)*root_chord
+                    var alpha = Math.atan2((1 - TaperRatio) * (airfoil_spline[count][1] * chord_length) * root_chord
                         + Math.tan(deflectAngle) * Math.abs(b)
-                        ,b_2);
+                        , b_2);
                     //x cos f - y sin f
                     //y cos f + x sin f
                     let z1 = normal.z * Math.cos(alpha) + normal.y * Math.sin(alpha);
@@ -175,19 +202,23 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
                 positions.setXYZ(index, px, py, pz);
 
                 if (count == 0 || count == airfoil_spline.length - 1) {
-                    normals.setXYZ(index, 0, 1, 0);
+                    if (count == 0) {
+                        normals.setXYZ(index, 1, 0, 0);
+                    }
+                    else {
+                        normals.setXYZ(index, -1, 0, 0);
+                    }
                 }
-                else
-                {
+                else {
                     let dx = airfoil_spline[count + 1][0] - airfoil_spline[count - 1][0];
                     let dy = airfoil_spline[count + 1][1] - airfoil_spline[count - 1][1];
                     var normal = new THREE.Vector3(dy, 0, -dx);
                     // normal from ratio and deleft angle
 
                     normal.normalize();
-                    var alpha = -Math.atan2((1-TaperRatio)*(airfoil_spline[count][1] * chord_length)*root_chord
+                    var alpha = -Math.atan2((1 - TaperRatio) * (airfoil_spline[count][1] * chord_length) * root_chord
                         + Math.tan(deflectAngle) * Math.abs(b)
-                        ,b_2);
+                        , b_2);
                     //x cos f - y sin f
                     //y cos f + x sin f
                     let z1 = normal.z * Math.cos(alpha) + normal.y * Math.sin(alpha);
@@ -273,21 +304,23 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
     geometry.addAttribute('position', positions);
     geometry.addAttribute('normal', normals);
     geometry.setIndex(new THREE.Uint32Attribute(indices, 1));
-    //console.log(geometry);
+    console.log(geometry);
     return geometry;
 }
 
-function construct_wing_from_dat(dat_file,wing_config) {
+function construct_wing_from_dat(dat_file, wing_config) {
     var pts = [];
     let lines = load_airfoil_from_dat(dat_file);
     for (var i in lines) {
         pts.push(new THREE.Vector2(lines[i][0] * 0.5, lines[i][1] * 0.5));
     }
     var shape = new THREE.Shape(pts);
-    var geometry = construct_wing_geometry_from_data(dat_file,wing_config);
+    var geometry = construct_wing_geometry_from_data(dat_file, wing_config);
     var material = new THREE.MeshPhongMaterial({
-        color: 0x0000ff,
-        wireframe: false
+        wireframe: false,
+        side: THREE.DoubleSide,
+        shading: THREE.SmoothShading,
+        color: 0x898989
     });
     return new THREE.Mesh(geometry, material);
 }

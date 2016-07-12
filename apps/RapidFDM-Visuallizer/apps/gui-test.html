@@ -16,21 +16,69 @@
     <script src="js/DroneDisplayCameraController.js"></script>
     <script src="js/DroneDisplayEngine.js"></script>
     <script src="js/AirfoilLoader.js"></script>
+    <script src="js/configurer_driver.js"></script>
+    <script src="js/components_geometry_loader.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/editor-ui.css">
 </head>
 <body>
 <div id="container">
 </div>
+<div id="logs">
+    <textarea id="log_plant" readonly="readonly" ></textarea>
+</div>
+<button onclick="list_model()" id="list_model_button">List model</button>
+<button onclick="load_model()" id="load_model_button">Load model</button>
+<button onclick="get_internal_states_list()" id="list_state_model_button">List inertial</button>
+<button onclick="get_control_axis_list()" id="list_axis_model_button">List Axis</button>
+<button onclick="get_total_forces_torques()" id="get_total_forces_torques_button">List Forces</button>
 
 <script>
+    document.documentElement.style.overflow='hidden';
 
     var dis = new DroneDisplayEngine(document.getElementById("container"),
             window.innerWidth, window.innerHeight);
     DroneDisplayEngine.animate(dis);
-    load_wing_from_uiucdb(sample_wing_config,function(mesh)
-    {
-        dis.addObject(mesh);
-    });
+//    load_wing_from_uiucdb(sample_wing_config, function (mesh) {
+//        log("Load wing from uiuc");
+//        dis.addObject(mesh);
+//    });
+    var log = function (msg) {
+        var d = new Date();
+        var new_msg = `[${d.toLocaleTimeString()}] ${msg}`;
+        var textarea = $("#log_plant");
+        textarea.text(textarea.text() + new_msg + "\n");
+        textarea.scrollTop(textarea[0].scrollHeight);
+    };
+    var con = new ConfigurerDriver();
+    function list_model() {
+        con.list_model(function (data) {
+            log(`model list ${JSON.stringify(data)}`);
+        });
+    }
+    function load_model() {
+        con.load_model(function (data) {
+//            log(`model is ${JSON.stringify(data)}`);
+            LoadAircraftGeometry(data,dis);
+        });
+    }
 
+    function get_internal_states_list() {
+        con.query_state(function (data) {
+            log(JSON.stringify(data))
+        });
+    }
+
+    function get_control_axis_list() {
+        con.query_control_axis(function (data) {
+            log(JSON.stringify(data))
+        });
+    }
+
+    function get_total_forces_torques() {
+        con.get_total_forces_torques(function (data) {
+            log(JSON.stringify(data))
+        });
+    }
 </script>
 </body>
 </html>

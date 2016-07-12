@@ -17,22 +17,22 @@ namespace RapidFDM
         public:
             virtual float getLift(ComponentData state, AirState airState)
             {
-                std::cerr << "Code not wrote" << std::endl;
-                abort();
+//                std::cerr << "Code not wrote" << std::endl;
+//                abort();
                 return 0;
             }
 
             virtual float getDrag(ComponentData state, AirState airState)
             {
-                std::cerr << "Code not wrote" << std::endl;
-                abort();
+//                std::cerr << "Code not wrote" << std::endl;
+//                abort();
                 return 0;
             }
 
             virtual float getSide(ComponentData state, AirState airState)
             {
-                std::cerr << "Code not wrote" << std::endl;
-                abort();
+//                std::cerr << "Code not wrote" << std::endl;
+//                abort();
                 return 0;
             }
             //!Build a wing

@@ -8,6 +8,7 @@ include_directories(./include
         /usr/local/include/eigen3
         /usr/local/include
         ../../3rdparty/websocketpp
+        ../network_protocol/include
         )
 
 set(AIRDYNAMICS_MODULE_SOURCES
@@ -40,10 +41,13 @@ set(AIRDYNAMICS_MODULE_SOURCES
         include/RapidFDM/aerodynamics/joints/joint_helper.h
         include/RapidFDM/aerodynamics/aerodynamics_configurer.h
 
+        include/RapidFDM/aerodynamics/aerodynamics_configurer.h
+        src/aerodynamics_configurer.cpp
         )
 
 SET(AERODYNAMICS_CONFIGURER_SOURCES
         src/aerodynamics_configurer.cpp
+        src/aerodynamics_configure_server.cpp
         include/RapidFDM/aerodynamics/aerodynamics_configurer.h
         )
 

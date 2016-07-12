@@ -40,16 +40,20 @@ namespace RapidFDM
 
         Eigen::Quaterniond Node::get_ground_attitude()
         {
-            if (!inSimulate)
+            if (!inSimulate) {
+                assert(parent!= nullptr);
                 return this->parent->get_ground_attitude();
+            }
             else
                 return Eigen::Quaterniond(this->flying_states.transform.rotation());
         }
 
         Eigen::Affine3d Node::get_body_transform()
         {
-            if (!inSimulate)
+            if (!inSimulate) {
+                assert(parent!= nullptr);
                 return this->parent->get_body_transform();
+            }
             else
                 return this->flying_states.body_transform;
         }
@@ -57,6 +61,7 @@ namespace RapidFDM
         Eigen::Affine3d Node::get_ground_transform()
         {
             if (!inSimulate) {
+                assert(parent!= nullptr);
                 return this->parent->get_ground_transform();
             }
             else
@@ -65,8 +70,10 @@ namespace RapidFDM
 
         Eigen::Vector3d Node::get_angular_velocity()
         {
-            if (!inSimulate)
+            if (!inSimulate) {
+                assert(parent != nullptr);
                 return this->parent->get_angular_velocity();
+            }
             else
                 return this->flying_states.angular_velocity;
         }
@@ -74,8 +81,10 @@ namespace RapidFDM
 
         Eigen::Vector3d Node::get_ground_velocity()
         {
-            if (!inSimulate)
+            if (!inSimulate) {
+                assert(parent!= nullptr);
                 return parent->get_ground_velocity();
+            }
             else
                 return this->flying_states.velocity;
         }

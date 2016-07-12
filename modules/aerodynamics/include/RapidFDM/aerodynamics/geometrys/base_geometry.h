@@ -14,7 +14,7 @@
 namespace RapidFDM {
     namespace Aerodynamics {
 
-        class BaseGeometry : BaseComponent{
+        class BaseGeometry : public BaseComponent{
         protected:
             float Aero = 0;
             /*!< aera for aerodynamics calucation */

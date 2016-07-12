@@ -16,7 +16,10 @@ var DroneDisplayEngine = function (container,w,h)
     this.light.position.copy( this.camera.position );
     scene.add( this.light );
 
-    let renderer = this.renderer = new THREE.WebGLRenderer();
+    let renderer = this.renderer = new THREE.WebGLRenderer({
+        antialias:true,
+        depth:true
+    });
     renderer.setClearColor(0xbfd1e5);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(w, h);

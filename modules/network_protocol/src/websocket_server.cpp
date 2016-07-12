@@ -20,6 +20,10 @@ namespace RapidFDM
             {
                 message_handlers[uri->get_resource()](s,hdl,msg);
             }
+            else
+            {
+                std::cerr << "no callback " << uri->get_resource() <<  " found \n";
+            }
         }
 
         void websocket_server::add_message_hande_function(std::string uri, message_handle_function func)

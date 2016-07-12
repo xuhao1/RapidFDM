@@ -33402,13 +33402,13 @@ THREE.TorusGeometry = function ( radius, tube, radialSegments, tubularSegments, 
 			var u = i / tubularSegments * arc;
 			var v = j / radialSegments * Math.PI * 2;
 
-			center.x = radius * Math.cos( u );
+			center.z = radius * Math.cos( u );
 			center.y = radius * Math.sin( u );
 
 			var vertex = new THREE.Vector3();
-			vertex.x = ( radius + tube * Math.cos( v ) ) * Math.cos( u );
+			vertex.z = ( radius + tube * Math.cos( v ) ) * Math.cos( u );
 			vertex.y = ( radius + tube * Math.cos( v ) ) * Math.sin( u );
-			vertex.z = tube * Math.sin( v );
+			vertex.x = tube * Math.sin( v );
 
 			this.vertices.push( vertex );
 
