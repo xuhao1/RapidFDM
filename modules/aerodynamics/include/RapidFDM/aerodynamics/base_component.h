@@ -45,7 +45,7 @@ namespace RapidFDM
                 }
 
                 this->unique_id = this->name + "_" + _id;
-                this->source_document.CopyFrom(v,source_document.GetAllocator());
+                this->source_document.CopyFrom(v, source_document.GetAllocator());
             }
 
 
@@ -90,19 +90,27 @@ namespace RapidFDM
                 return res;
             }
 
-            virtual std::map<std::string,double> get_control_axis()
+            virtual std::map<std::string, double> get_control_axis()
             {
                 return control_axis;
             };
 
-            virtual void set_control_value(std::string name, double v)
+            virtual int set_control_value(std::string name, double v)
             {
-                this->control_axis[name] = v;
+                if (this->control_axis.find(name) != this->control_axis.end()) {
+                    this->control_axis[name] = v;
+                    return 0;
+                }
+                return -1;
             }
 
-            virtual void set_internal_state(std::string name,double v)
+            virtual int set_internal_state(std::string name, double v)
             {
-                this->internal_states[name] = v;
+                if (this->internal_states.find(name) != this->internal_states.end()) {
+                    this->internal_states[name] = v;
+                    return 0;
+                }
+                return -1;
             }
 
             virtual void iter_internal_state(double deltatime)
@@ -125,7 +133,7 @@ namespace RapidFDM
             }
 
         public:
-            virtual const rapidjson::Value & getJsonDefine()
+            virtual const rapidjson::Value &getJsonDefine()
             {
                 return this->source_document;
             }

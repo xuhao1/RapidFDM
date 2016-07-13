@@ -60,7 +60,7 @@ function load_wing_from_uiucdb(wing_config, onLoad) {
  controlSurfacePivot = 1, 0, 0;      //Local vector that obj_ctrlSrf pivots about; defaults to 1, 0, 0 (right)
  ctrlSurfFrac = 0.2          //Value from 0-1, percentage of the part that is a flap; only used by FARControlableSurface
  wing_part: 0 control wing on negative part of y-axis, 1 on positive part, 2 both
- center_point_chord : 0.3
+ center_point_chord : 0.0
  deflectAngle = 15
  */
 
@@ -92,6 +92,7 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
 
     if (center_point_chord === undefined) {
         console.log("center point chord undefined");
+        center_point_chord = 0;
     }
 
     let Mac = wing_config.Mac;
@@ -150,7 +151,16 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
                 //TODO:
                 //Use correct normals
                 if (count == 0 || count == airfoil_spline.length - 1) {
-                    normals.setXYZ(index, 0, 1, 0);
+                    if (count == 0) {
+                        let dx = airfoil_spline[count + 1][0] - airfoil_spline[count][0];
+                        let dy = airfoil_spline[count + 1][1] - airfoil_spline[count][1];
+                        normals.setXYZ(index, dy, 0, -dx);
+                    }
+                    else {
+                        let dx = airfoil_spline[count ][0] - airfoil_spline[count-1][0];
+                        let dy = airfoil_spline[count ][1] - airfoil_spline[count-1][1];
+                        normals.setXYZ(index, dy, 0, -dx);
+                    }
                 }
                 else {
                     let dx = airfoil_spline[count + 1][0] - airfoil_spline[count - 1][0];
@@ -203,10 +213,14 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
 
                 if (count == 0 || count == airfoil_spline.length - 1) {
                     if (count == 0) {
-                        normals.setXYZ(index, 1, 0, 0);
+                        let dx = airfoil_spline[count + 1][0] - airfoil_spline[count][0];
+                        let dy = airfoil_spline[count + 1][1] - airfoil_spline[count][1];
+                        normals.setXYZ(index, dy, 0, -dx);
                     }
                     else {
-                        normals.setXYZ(index, -1, 0, 0);
+                        let dx = airfoil_spline[count ][0] - airfoil_spline[count-1][0];
+                        let dy = airfoil_spline[count ][1] - airfoil_spline[count-1][1];
+                        normals.setXYZ(index, dy, 0, -dx);
                     }
                 }
                 else {
@@ -304,7 +318,7 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
     geometry.addAttribute('position', positions);
     geometry.addAttribute('normal', normals);
     geometry.setIndex(new THREE.Uint32Attribute(indices, 1));
-    console.log(geometry);
+    // console.log(geometry);
     return geometry;
 }
 

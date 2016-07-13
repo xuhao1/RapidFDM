@@ -41,6 +41,8 @@ namespace RapidFDM
                 double wind_speed = get_air_velocity(data).x();
                 double n = internal_states["n"];
                 double J = wind_speed / n / D;
+                if (wind_speed < 0.1 || n < 1)
+                    J = 0;
                 return A_ct * J + B_ct;
             }
 
@@ -65,14 +67,14 @@ namespace RapidFDM
 
             virtual Eigen::Vector3d get_engine_force(ComponentData data) override
             {
-                //Force to positive x axis
-                return Eigen::Vector3d(get_propeller_force(data), 0, 0);
+                //Force to negative x axis
+                return Eigen::Vector3d(-get_propeller_force(data), 0, 0);
             }
 
             virtual Eigen::Vector3d get_engine_torque(ComponentData data) override
             {
-                //Torque at x axis
-                return Eigen::Vector3d(get_propeller_torque(data), 0, 0);
+                //Torque at negative x axis
+                return Eigen::Vector3d(-get_propeller_torque(data), 0, 0);
             }
 
             virtual Node *instance() override

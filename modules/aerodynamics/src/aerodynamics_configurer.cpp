@@ -26,7 +26,7 @@ namespace RapidFDM
             return get_filename_list(root_path);
         }
 
-        const rapidjson::Value & aerodynamics_configurer::load_model(std::string name)
+        const rapidjson::Value &aerodynamics_configurer::load_model(std::string name)
         {
             if (parser1 != nullptr) {
                 delete parser1;
@@ -156,6 +156,45 @@ namespace RapidFDM
                 d->AddMember("data", value, d->GetAllocator());
                 return d;
             };
+            query_functions["set_control_axis_value"] = [&](const rapidjson::Value &v) {
+                rapidjson::Document *d = new rapidjson::Document;
+                d->SetObject();
+                d->AddMember("opcode", "response_query", d->GetAllocator());
+                d->AddMember("type", "set_control_axis_value", d->GetAllocator());
+
+                std::string axis_name = fast_string(v,"control_axis_name");
+                double axis_value = fast_value(v,"value");
+                if (aircraftNode->set_control_value(axis_name,axis_value) == 0)
+                {
+                    d->AddMember("data", "successful", d->GetAllocator());
+                }
+                else
+                {
+                    d->AddMember("data", "failed", d->GetAllocator());
+                }
+
+                return d;
+            };
+
+            query_functions["set_internal_state_value"] = [&](const rapidjson::Value &v) {
+                rapidjson::Document *d = new rapidjson::Document;
+                d->SetObject();
+                d->AddMember("opcode", "response_query", d->GetAllocator());
+                d->AddMember("type", "set_internal_state_value", d->GetAllocator());
+
+                std::string internal_name = fast_string(v,"internal_state_name");
+                double internal_value = fast_value(v,"value");
+                if (aircraftNode->set_internal_state(internal_name,internal_value) == 0)
+                {
+                    d->AddMember("data", "successful", d->GetAllocator());
+                }
+                else
+                {
+                    d->AddMember("data", "failed", d->GetAllocator());
+                }
+
+                return d;
+            };
 
             query_configure_functions["list_model"] = [&](const rapidjson::Value &v) {
                 rapidjson::Document *d = new rapidjson::Document;
@@ -183,9 +222,9 @@ namespace RapidFDM
 
                 std::string model_name = v["name"].GetString();
                 rapidjson::Value data_field(rapidjson::kStringType);
-                data_field.SetString("data",d->GetAllocator());
+                data_field.SetString("data", d->GetAllocator());
                 rapidjson::Value value(rapidjson::kObjectType);
-                value.CopyFrom(load_model(model_name),d->GetAllocator());
+                value.CopyFrom(load_model(model_name), d->GetAllocator());
                 d->AddMember(data_field, value, d->GetAllocator());
                 return d;
             };

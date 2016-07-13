@@ -49,8 +49,8 @@ namespace RapidFDM
 
         int websocket_server::init(int port)
         {
-            server.set_access_channels(websocketpp::log::alevel::all);
-            server.clear_access_channels(websocketpp::log::alevel::frame_payload);
+            server.set_access_channels(websocketpp::log::alevel::none);
+            server.clear_access_channels(websocketpp::log::alevel::all);
             server.init_asio();
             // Register our message handler
             server.set_message_handler(bind(&websocket_server::on_message, this, &server, ::_1, ::_2));

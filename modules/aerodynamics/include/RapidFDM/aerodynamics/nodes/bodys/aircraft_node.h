@@ -73,7 +73,9 @@ namespace RapidFDM
 
             virtual void set_air_state(AirState air_state) override;
 
-            virtual void set_control_value(std::string name, double v) override;
+            virtual int set_control_value(std::string name, double v) override;
+
+            virtual int set_internal_state(std::string name,double v) override;
 
             virtual void iter_internal_state(double deltatime) override;
 

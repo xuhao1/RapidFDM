@@ -24,7 +24,7 @@ namespace RapidFDM
             server_ptr->add_message_hande_function("/" + channel, [&](ws_server *ws, websocketpp::connection_hdl hdl,
                                                                       message_ptr msg) {
                 this->on_message(msg->get_payload());
-                std::cout << "ws channel handle get msg " << std::endl;
+//                std::cout << "ws channel handle get msg " << std::endl;
             });
 
         }
@@ -62,7 +62,7 @@ namespace RapidFDM
                 std::string opcode = fast_string(d, "opcode");
                 if (json_handler.find(opcode) != json_handler.end()) {
                     if (d.HasMember("data")) {
-                        std::cout << "Msg enter callback\n";
+//                        std::cout << "Msg enter callback\n";
                         const rapidjson::Value & v = d["data"];
                         json_handler[opcode](v);
                     }
