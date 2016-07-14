@@ -9,7 +9,7 @@
   ],
   "base_rotation": [
     0,
-    10,
+    0,
     0
   ],
   "child_reference_point": [
@@ -17,6 +17,6 @@
     0,
     0
   ],
-  "parent": "main_fuse_lage_0",
+  "parent": "main_fuselage_0",
   "child": "horizon_wing_0"
 }

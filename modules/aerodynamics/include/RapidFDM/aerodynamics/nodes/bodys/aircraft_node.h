@@ -64,7 +64,7 @@ namespace RapidFDM
 
             Eigen::Vector3d total_inertial = Eigen::Vector3d(0, 0, 0);
             double total_mass = 0;
-            Eigen::Vector3d mass_center_offset = Eigen::Vector3d(0, 0, 0);
+            Eigen::Vector3d mass_center = Eigen::Vector3d(0, 0, 0);
             void init(const rapidjson::Value &_json);
 
         public:

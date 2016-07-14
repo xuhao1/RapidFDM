@@ -2,7 +2,7 @@
   "name": "main_wing",
   "type": "wing",
   "id" : "0",
-  "mass": 0.1,
+  "mass": 2.5,
   "mass_center": [
     0,
     0,

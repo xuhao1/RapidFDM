@@ -34,12 +34,13 @@ var DroneDisplayEngine = function (container,w,h)
     var axiscale = 1000;
     var axisHelper = new THREE.AxisHelper(axiscale);
     scene.add(axisHelper);
-    scene.add(axisHelper);
+    this.axisHelpe = axisHelper;
     var size = 1000;
     var step = 10;
 
 
 };
+
 
 DroneDisplayEngine.prototype.constructor = DroneDisplayEngine;
 

@@ -22,11 +22,11 @@ namespace RapidFDM
          */
         void Joint::init(const rapidjson::Value &v, Node *_parent, Node *_child)
         {
+
             assert(_child != nullptr);
+            assert(_parent != nullptr);
             this->child = _child;
-            if (_parent != nullptr) {
-                _parent->add_joint(this);
-            }
+            _parent->add_joint(this);
 
             Eigen::Vector3d base_pos = fast_vector3(v, "base_position");
             Eigen::Quaterniond base_rot = fast_attitude(v, "base_rotation");
@@ -40,7 +40,7 @@ namespace RapidFDM
                     Eigen::Quaterniond(1, 0, 0, 0),
                     Eigen::Vector3d(1, 1, 1)
             );
-
+            this->parent = _parent;
             child->parent = this;
         }
 
@@ -50,20 +50,19 @@ namespace RapidFDM
             init(v, _parent, _child);
         }
 
-        Joint::Joint(const rapidjson::Value & v, std::map<std::string, Node *> nodes):
-            BaseComponent(v)
+        Joint::Joint(const rapidjson::Value &v, std::map<std::string, Node *> nodes) :
+                BaseComponent(v)
         {
-            Node *parent = nullptr;
-            Node *child = nullptr;
             std::string parent_id;
             std::string child_id;
 
-            if (v.HasMember("parent") && v["parent"].IsString()) {
-                parent_id = v["parent"].GetString();
-            }
-            if (v.HasMember("child") && v["child"].IsString()) {
-                child_id = v["child"].GetString();
-            }
+            assert (v.HasMember("parent") && v["parent"].IsString());
+            parent_id = v["parent"].GetString();
+            assert (v.HasMember("child") && v["child"].IsString());
+            child_id = v["child"].GetString();
+
+            assert(nodes.find(parent_id)!=nodes.end());
+            assert(nodes.find(child_id)!=nodes.end());
 
             parent = nodes[parent_id];
             child = nodes[child_id];
@@ -73,16 +72,14 @@ namespace RapidFDM
 
         Eigen::Affine3d Joint::get_ground_transform()
         {
-            if (parent != nullptr)
-                return parent->get_ground_transform() * get_relative_transform();
-            return get_relative_transform();
+            assert(parent != nullptr);
+            return parent->get_ground_transform() * get_relative_transform();
         }
 
         Eigen::Affine3d Joint::get_body_transform()
         {
-            if (parent != nullptr)
-                return parent->get_body_transform() * get_relative_transform();
-            return get_relative_transform();
+            assert(parent != nullptr);
+            return parent->get_body_transform() * get_relative_transform();
         }
 
         Joint::Joint(Node *_parent, Node *_child)

@@ -144,6 +144,7 @@ namespace RapidFDM
             //Overrides
             virtual Eigen::Quaterniond get_ground_attitude() override;
 
+            //Body transform is relative to mass center, not the inititalized center
             virtual Eigen::Affine3d get_body_transform() override;
 
             virtual Eigen::Affine3d get_ground_transform() override;
@@ -216,7 +217,7 @@ namespace RapidFDM
             }
             virtual const rapidjson::Value & getJsonDefine() override
             {
-                add_transform(source_document,get_body_transform(),source_document);
+                add_transform(source_document,get_ground_transform(),source_document);
                 return source_document;
             }
 

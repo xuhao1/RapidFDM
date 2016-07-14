@@ -19,7 +19,6 @@ namespace RapidFDM
             //Stall
             if (abs(state.get_angle_of_attack(airState) * 180 / M_PI) > 15)
                 cl = 0;
-            printf("wing id: %s cl :%f \n", this->getUniqueID().c_str(), cl);
             return cl * state.get_q_bar(airState) * this->aera;
 
         }
@@ -37,6 +36,7 @@ namespace RapidFDM
 //                abort();
             return 0;
         }
+
         //!Build a wing
         /*flow KAR parameter
          * MODULE
@@ -84,6 +84,11 @@ namespace RapidFDM
             else
                 printf("Wing on both side\n");
 
+        }
+
+        Eigen::Vector3d WingGeometry::get_aerodynamics_center()
+        {
+            return Eigen::Vector3d(params.Mac * 0.3,0,0);
         }
     }
 }

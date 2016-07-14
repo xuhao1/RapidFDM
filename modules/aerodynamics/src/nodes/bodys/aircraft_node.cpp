@@ -31,7 +31,7 @@ namespace RapidFDM
                     total_inertial_defined = true;
                     this->total_mass = fast_value(_json, "total_mass");
                     this->total_inertial = fast_vector3(_json, "total_inertial");
-                    this->mass_center_offset = fast_vector3(_json, "mass_center");
+                    this->mass_center = fast_vector3(_json, "mass_center");
                 }
             }
         }
@@ -93,12 +93,19 @@ namespace RapidFDM
 
         Eigen::Affine3d AircraftNode::get_body_transform()
         {
-            return Eigen::Affine3d::Identity();
+            //origin point is mass center
+            Eigen::Affine3d transform_relative_masscenter;
+            transform_relative_masscenter.fromPositionOrientationScale(
+                    -mass_center,
+                    Eigen::Quaterniond(1, 0, 0, 0), Eigen::Vector3d(1, 1, 1));
+            return transform_relative_masscenter;
         }
 
         Eigen::Affine3d AircraftNode::get_ground_transform()
         {
-            return Eigen::Affine3d::Identity();
+            if (!inSimulate)
+                return Eigen::Affine3d::Identity();
+            return flying_states.transform;
         }
 
         Eigen::Vector3d AircraftNode::get_total_force()
@@ -179,8 +186,18 @@ namespace RapidFDM
             Eigen::Vector3d res;
             for (auto pair : node_list) {
                 Node *node_ptr = pair.second;
-                Eigen::Vector3d node_body_r = (Eigen::Vector3d) node_ptr->get_body_transform().translation();
                 ComponentData data = node_ptr->get_component_data();
+                Eigen::Vector3d node_body_r = (Eigen::Vector3d) node_ptr->get_body_transform().translation();
+                Eigen::Vector3d force = node_ptr->get_airdynamics_force(data);
+//                printf("%s node_body_r :%5f %5f %5f force %5f %5f %5f\n",
+//                       node_ptr->getUniqueID().c_str(),
+//                       node_body_r.x(),
+//                       node_body_r.y(),
+//                       node_body_r.z(),
+//                       force.x(),
+//                       force.y(),
+//                       force.z()
+//                );
                 res += node_ptr->get_airdynamics_torque(data) +
                        node_body_r.cross(node_ptr->get_airdynamics_force(data));
 
@@ -220,7 +237,7 @@ namespace RapidFDM
         Eigen::Vector3d AircraftNode::get_total_mass_center()
         {
             if (rigid_mode && total_inertial_defined) {
-                return mass_center_offset;
+                return mass_center;
             }
             else {
                 for (auto pair : node_list) {
@@ -264,7 +281,7 @@ namespace RapidFDM
 
         const rapidjson::Value &AircraftNode::getJsonDefine()
         {
-            add_transform(source_document, get_body_transform(), source_document);
+            add_transform(source_document, get_ground_transform(), source_document);
             rapidjson::Value namev(rapidjson::kStringType);
             namev.SetString("nodes", source_document.GetAllocator());
             rapidjson::Value geometrys(rapidjson::kObjectType);

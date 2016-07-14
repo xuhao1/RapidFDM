@@ -4,7 +4,7 @@
   "type": "aircraft",
   "mass": 2.5,
   "mass_center": [
-    0.2,
+    0.4,
     0,
     0
   ],

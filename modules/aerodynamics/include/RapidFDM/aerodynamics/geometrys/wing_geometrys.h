@@ -51,6 +51,8 @@ namespace RapidFDM
             WingGeometry(const rapidjson::Value &v);
 
             virtual void brief();
+
+            virtual Eigen::Vector3d get_aerodynamics_center();
         };
     }
 }

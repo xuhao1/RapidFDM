@@ -111,6 +111,7 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
     let taper_chord = Mac * 2 * TaperRatio / (1 + TaperRatio);
     //offset on X
     let root_offset = -center_point_chord * root_chord;
+    // let root_offset = 0;
 
     var positions, normals, uvs, vertices = [];
     if (wing_part == 1 || wing_part == 0) {
