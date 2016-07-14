@@ -162,14 +162,12 @@ namespace RapidFDM
                 d->AddMember("opcode", "response_query", d->GetAllocator());
                 d->AddMember("type", "set_control_axis_value", d->GetAllocator());
 
-                std::string axis_name = fast_string(v,"control_axis_name");
-                double axis_value = fast_value(v,"value");
-                if (aircraftNode->set_control_value(axis_name,axis_value) == 0)
-                {
+                std::string axis_name = fast_string(v, "control_axis_name");
+                double axis_value = fast_value(v, "value");
+                if (aircraftNode->set_control_value(axis_name, axis_value) == 0) {
                     d->AddMember("data", "successful", d->GetAllocator());
                 }
-                else
-                {
+                else {
                     d->AddMember("data", "failed", d->GetAllocator());
                 }
 
@@ -182,19 +180,34 @@ namespace RapidFDM
                 d->AddMember("opcode", "response_query", d->GetAllocator());
                 d->AddMember("type", "set_internal_state_value", d->GetAllocator());
 
-                std::string internal_name = fast_string(v,"internal_state_name");
-                double internal_value = fast_value(v,"value");
-                if (aircraftNode->set_internal_state(internal_name,internal_value) == 0)
-                {
+                std::string internal_name = fast_string(v, "internal_state_name");
+                double internal_value = fast_value(v, "value");
+                if (aircraftNode->set_internal_state(internal_name, internal_value) == 0) {
                     d->AddMember("data", "successful", d->GetAllocator());
                 }
-                else
-                {
+                else {
                     d->AddMember("data", "failed", d->GetAllocator());
                 }
 
                 return d;
             };
+
+            query_functions["set_air_state"] = [&](const rapidjson::Value &v) {
+                rapidjson::Document *d = new rapidjson::Document;
+                d->SetObject();
+                d->AddMember("opcode", "response_query", d->GetAllocator());
+                d->AddMember("type", "set_air_state", d->GetAllocator());
+
+                AirState airState;
+                airState.rho = fast_value(v, "rho");
+                airState.ground_air_speed = fast_vector3(v, "ground_air_speed");
+
+                aircraftNode->set_air_state(airState);
+                d->AddMember("data", "successful", d->GetAllocator());
+
+                return d;
+            };
+
 
             query_configure_functions["list_model"] = [&](const rapidjson::Value &v) {
                 rapidjson::Document *d = new rapidjson::Document;

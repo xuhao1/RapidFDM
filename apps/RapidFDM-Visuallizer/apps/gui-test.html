@@ -57,7 +57,7 @@
     var aircraftview = 0;
     function load_model() {
         log("Load model");
-        var aircraftview = new AircraftView({
+        aircraftview = new AircraftView({
             driver:con,
             dis:dis,
             scale:2,
@@ -65,49 +65,6 @@
         });
     }
 
-    function get_internal_states_list() {
-        con.query_state(function (data) {
-            log(JSON.stringify(data))
-        });
-    }
-
-    function get_control_axis_list() {
-        con.query_control_axis(function (data) {
-            log(JSON.stringify(data))
-        });
-    }
-
-    function get_total_forces_torques() {
-        con.get_total_forces_torques(function (data) {
-            log(JSON.stringify(data));
-            var engine_force = new THREE.Vector3(
-                    data.total_engine_force[0],
-                    data.total_engine_force[1],
-                    data.total_engine_force[2]
-            );
-
-            var dir = engine_force.clone();
-            dir.normalize();
-            var origin = new THREE.Vector3( 0, 0, 0 );
-            var length = engine_force.length() / mass / 9.8 * 2;
-            var hex = 0xff0000;
-
-            var arrowHelper = new THREE.ArrowHelper( dir, origin, length, hex );
-            dis.addObject(arrowHelper);
-
-        });
-    }
-    
-    function set_value_test() {
-        con.set_control_axis_value("main_engine_0/thrust",0.5,function (data) {
-            log(`set control value ${JSON.stringify(data)}`);
-            get_total_forces_torques();
-        });
-        con.set_internal_state_value("main_engine_0/n",100,function (data) {
-            log(`set internal value ${JSON.stringify(data)}`);
-            get_total_forces_torques();
-        });
-    }
 </script>
 </body>
 </html>

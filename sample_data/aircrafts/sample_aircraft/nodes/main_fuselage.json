@@ -2,7 +2,7 @@
   "name": "main_fuselage",
   "id" : "0",
   "type": "aircraft",
-  "mass": 1.5,
+  "mass": 2.5,
   "mass_center": [
     0.2,
     0,

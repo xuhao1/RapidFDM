@@ -43,7 +43,7 @@ set(AIRDYNAMICS_MODULE_SOURCES
 
         include/RapidFDM/aerodynamics/aerodynamics_configurer.h
         src/aerodynamics_configurer.cpp
-        )
+        src/geometrys/wing_geometrys.cpp)
 
 SET(AERODYNAMICS_CONFIGURER_SOURCES
         src/aerodynamics_configurer.cpp

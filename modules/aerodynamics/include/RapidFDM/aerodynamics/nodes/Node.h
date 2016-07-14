@@ -126,23 +126,19 @@ namespace RapidFDM
             }
 
 
-            virtual Eigen::Vector3d get_wind_speed(ComponentData data)
-            {
-                return data.airState.ground_air_speed;
-            }
-
-
             //!Air velocity relative to node in local transform,shall consider velocity from angular speed at center point
             //
             virtual Eigen::Vector3d get_air_velocity(ComponentData data) {
-                return data.velocity + get_wind_speed(data);
+                return data.get_relative_airspeed(airState);
             }
 
             virtual void set_air_state(AirState air_state)
             {
-                this->flying_states.airState = air_state;
+                this->airState = air_state;
             }
 
+
+            virtual void init_component_data();
 
 
             //Overrides

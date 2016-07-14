@@ -38,7 +38,7 @@ namespace RapidFDM
 
         void AircraftNode::set_air_state(AirState air_state)
         {
-            this->flying_states.airState = air_state;
+            this->airState = air_state;
             for (auto pair : node_list) {
                 Node *node_ptr = pair.second;
                 node_ptr->set_air_state(air_state);
@@ -96,13 +96,19 @@ namespace RapidFDM
             return Eigen::Affine3d::Identity();
         }
 
+        Eigen::Affine3d AircraftNode::get_ground_transform()
+        {
+            return Eigen::Affine3d::Identity();
+        }
+
         Eigen::Vector3d AircraftNode::get_total_force()
         {
             assert(inited);
             Eigen::Vector3d res;
             for (auto pair : node_list) {
                 Node *node_ptr = pair.second;
-                res += node_ptr->get_body_transform().linear() * node_ptr->get_realtime_force(node_ptr->get_component_data());
+                res += node_ptr->get_body_transform().linear() *
+                       node_ptr->get_realtime_force(node_ptr->get_component_data());
 //                std::cout << node_ptr->getName() << " force : " <<
 //                node_ptr->get_realtime_force(node_ptr->get_component_data()) << std::endl;
             }
@@ -118,7 +124,8 @@ namespace RapidFDM
                 Node *node_ptr = pair.second;
                 BaseEngineNode *engineNode_ptr = dynamic_cast<BaseEngineNode *>(node_ptr);
                 if (engineNode_ptr != nullptr)
-                    res += node_ptr->get_body_transform().linear() * engineNode_ptr->get_engine_force(node_ptr->get_component_data());
+                    res += node_ptr->get_body_transform().linear() *
+                           engineNode_ptr->get_engine_force(node_ptr->get_component_data());
             }
             return res;
         }
@@ -146,7 +153,8 @@ namespace RapidFDM
             Eigen::Vector3d res;
             for (auto pair : node_list) {
                 Node *node_ptr = pair.second;
-                res += node_ptr->get_body_transform().linear() * node_ptr->get_airdynamics_force(node_ptr->get_component_data());
+                res += node_ptr->get_body_transform().linear() *
+                       node_ptr->get_airdynamics_force(node_ptr->get_component_data());
             }
             return res;
         }
@@ -233,8 +241,10 @@ namespace RapidFDM
             this->node_list = _node_list;
             this->joint_list = _joint_list;
             this->node_list.erase(this->getUniqueID());
+            this->init_component_data();
             for (auto pair : node_list) {
                 Node *node_ptr = pair.second;
+                node_ptr->init_component_data();
                 for (auto internal_pair :node_ptr->get_internal_states()) {
                     std::string state_name = internal_pair.first;
                     this->internal_states[node_ptr->getUniqueID() + "/" + state_name] = internal_pair.second;
@@ -288,6 +298,7 @@ namespace RapidFDM
             node->geometry = this->geometry->instance();
             return node;
         }
+
 
     }
 }

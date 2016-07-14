@@ -83,6 +83,8 @@ namespace RapidFDM
 
             virtual Eigen::Affine3d get_body_transform() override;
 
+            virtual Eigen::Affine3d get_ground_transform() override;
+
             virtual Eigen::Vector3d get_total_force();
 
             virtual Eigen::Vector3d get_total_engine_force();

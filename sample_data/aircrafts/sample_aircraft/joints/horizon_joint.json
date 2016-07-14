@@ -8,9 +8,8 @@
     0
   ],
   "base_rotation": [
-    1,
     0,
-    0,
+    10,
     0
   ],
   "child_reference_point": [

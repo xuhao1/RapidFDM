@@ -15,27 +15,12 @@ namespace RapidFDM
         class WingGeometry : public BaseGeometry
         {
         public:
-            virtual float getLift(ComponentData state, AirState airState)
-            {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
-                return 0;
-            }
+            virtual float getLift(ComponentData state, AirState airState);
 
-            virtual float getDrag(ComponentData state, AirState airState)
-            {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
-                return 0;
-            }
+            virtual float getDrag(ComponentData state, AirState airState);
 
-            virtual float getSide(ComponentData state, AirState airState)
-            {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
-                return 0;
-            }
-            //!Build a wing
+            virtual float getSide(ComponentData state, AirState airState);
+
             /*flow KAR parameter
              * MODULE
                 b_2 = 0.5               //distance from wing root to tip; semi-span
@@ -61,38 +46,11 @@ namespace RapidFDM
                 int wingPart = 3;
 
             } params;
+            double aera = 0;
 
-            WingGeometry(const rapidjson::Value &v) :
-                    BaseGeometry(v)
-            {
-                params.b_2 = fast_value(v, "b_2", 0);
-                params.Mac = fast_value(v, "Mac", 0);
-                params.nonSideAttach = fast_value(v, "nonSideAttch", 1);
-                params.TarperRatio = fast_value(v, "TaperRatio", 1);
-                params.MidChordSweep = fast_value(v, "MidChordSweep", 0);
-                params.maxdeflect = fast_value(v, "maxdeflect", 15);
-                params.enableControl = fast_value(v, "enableControl", 0) == 1;
-                if (params.enableControl)
-                    params.ctrlSurfFrac = fast_value(v, "ctrlSurfFrac", 0.2);
-                params.wingPart = fast_value(v, "wingPart", 3);
-                this->type = "WingGeometry";
-            }
+            WingGeometry(const rapidjson::Value &v);
 
-            virtual void brief()
-            {
-                if (this->params.enableControl)
-                    printf("WindControlable\n");
-                else
-                    printf("WingDiscontrolable\n");
-                printf("b_2 %f\n", params.b_2);
-                if (params.wingPart == 0)
-                    printf("wing on left side\n");
-                else if (params.wingPart == 1)
-                    printf("Wing on right side\n");
-                else
-                    printf("Wing on both side\n");
-
-            }
+            virtual void brief();
         };
     }
 }

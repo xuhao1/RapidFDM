@@ -61,7 +61,9 @@ namespace RapidFDM {
             }
 
             Eigen::Vector3d getForce(ComponentData state, AirState airState) {
-                return Eigen::Vector3d(-getDrag(state, airState), -getSide(state, airState), -getLift(state, airState));
+                //TODO:
+                //fix these codes
+                return Eigen::Vector3d(getDrag(state, airState), getSide(state, airState), getLift(state, airState));
             }
 
             virtual BaseGeometry * instance()

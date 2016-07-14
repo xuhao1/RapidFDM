@@ -23,7 +23,7 @@ namespace RapidFDM
             //T = rho * n^2 * D^4 * Ct
             //Cq = 0.05 / 2pi
             //Q = rho * n^2 * D^5 * Cq
-            double A_ct = -0.15;
+            double A_ct = -0.05;
             double B_ct = 0.09;
             double C_q = 0.007961783439;
             double D;
@@ -38,7 +38,7 @@ namespace RapidFDM
 
             virtual float get_ct(ComponentData data)
             {
-                double wind_speed = get_air_velocity(data).x();
+                double wind_speed = - get_air_velocity(data).x();
                 double n = internal_states["n"];
                 double J = wind_speed / n / D;
                 if (wind_speed < 0.1 || n < 1)
