@@ -9,7 +9,7 @@
 #include <map>
 #include <string>
 #include <rapidjson/document.h>
-#include "FlyingData.h"
+#include "flying_data_defines.h"
 
 using namespace RapidFDM::Utils;
 

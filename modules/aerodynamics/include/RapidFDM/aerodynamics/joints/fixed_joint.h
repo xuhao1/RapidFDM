@@ -5,27 +5,27 @@
 #ifndef RAPIDFDM_AIRDYNAMICS_FIXED_JOINT_H
 #define RAPIDFDM_AIRDYNAMICS_FIXED_JOINT_H
 
-#include <RapidFDM/aerodynamics/joints/Joint.h>
-#include <RapidFDM/aerodynamics/nodes/Node.h>
+#include <RapidFDM/aerodynamics/joints/base_joint.h>
+#include <RapidFDM/aerodynamics/nodes/base_node.h>
 
 namespace RapidFDM {
     namespace Aerodynamics {
-        class FixedJoint : public Joint {
+        class FixedJoint : public BaseJoint {
         public:
-            FixedJoint(const rapidjson::Value &v, std::map<std::string, Node *> nodes) :
-                    Joint(v, nodes) {
+            FixedJoint(const rapidjson::Value &v, std::map<std::string, BaseNode *> nodes) :
+                    BaseJoint(v, nodes) {
                 this->type = "fixed";
                 this->joint_type = AerodynamicsJointType ::AerodynamicsFixedJoint;
             }
 
-            FixedJoint(const rapidjson::Value &v, Node *_parent, Node *_child) :
-                    Joint(v, _parent, _child) {
+            FixedJoint(const rapidjson::Value &v, BaseNode *_parent, BaseNode *_child) :
+                    BaseJoint(v, _parent, _child) {
                 this->type = "fixed";
                 this->joint_type = AerodynamicsJointType ::AerodynamicsFixedJoint;
             }
 
-            FixedJoint(Node *_parent, Node *_child) :
-                    Joint(_parent, _child) {
+            FixedJoint(BaseNode *_parent, BaseNode *_child) :
+                    BaseJoint(_parent, _child) {
                 this->type = "fixed";
                 this->joint_type = AerodynamicsJointType ::AerodynamicsFixedJoint;
             }

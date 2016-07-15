@@ -12,16 +12,16 @@ namespace RapidFDM {
     namespace Aerodynamics {
         class parser {
         protected:
-            std::map<std::string,Node * > nodes;
-            std::map<std::string,Joint *> joints;
+            std::map<std::string,BaseNode * > nodes;
+            std::map<std::string,BaseJoint *> joints;
             AircraftNode * aircraftNode;
         public:
             parser(std::string path);
-            std::map<std::string,Node * > get_nodes()
+            std::map<std::string,BaseNode * > get_nodes()
             {
                 return nodes;
             };
-            std::map<std::string,Joint * > get_joints()
+            std::map<std::string,BaseJoint * > get_joints()
             {
                 return joints;
             };

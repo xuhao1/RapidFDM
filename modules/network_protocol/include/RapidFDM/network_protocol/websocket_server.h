@@ -5,7 +5,7 @@
 #ifndef RAPIDFDM_AERODYNAMICS_CONFIGURE_SERVER_H
 #define RAPIDFDM_AERODYNAMICS_CONFIGURE_SERVER_H
 
-#include <RapidFDM/aerodynamics/FlyingData.h>
+#include <RapidFDM/aerodynamics/flying_data_defines.h>
 #include <websocketpp/config/asio_no_tls.hpp>
 #include <websocketpp/server.hpp>
 #include <RapidFDM/aerodynamics/airdynamics_parser.h>

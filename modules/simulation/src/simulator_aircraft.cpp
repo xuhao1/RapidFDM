@@ -52,7 +52,7 @@ namespace RapidFDM
             );
         }
 
-        PxRigidBody *SimulatorAircraft::construct_rigid(Aerodynamics::Node *node)
+        PxRigidBody *SimulatorAircraft::construct_rigid(Aerodynamics::BaseNode *node)
         {
             assert(node != nullptr);
             node->setSimulate(true);
@@ -81,7 +81,7 @@ namespace RapidFDM
             return actor;
         }
 
-        PxJoint *SimulatorAircraft::construct_joint(Aerodynamics::Node *root, Aerodynamics::Joint *joint,
+        PxJoint *SimulatorAircraft::construct_joint(Aerodynamics::BaseNode *root, Aerodynamics::BaseJoint *joint,
                                                     PxRigidBody *root_rigid, PxRigidBody *child_rigid)
         {
             assert(root != nullptr);
@@ -114,16 +114,16 @@ namespace RapidFDM
         }
 
         void SimulatorAircraft::dfs_create_rigids(
-                Aerodynamics::Node *root,
-                std::map<Node *, PxRigidBody *> &nodes,
-                std::map<Joint *, PxJoint *> &joints,
+                Aerodynamics::BaseNode *root,
+                std::map<BaseNode *, PxRigidBody *> &nodes,
+                std::map<BaseJoint *, PxJoint *> &joints,
                 PxRigidBody *root_rigid
         )
         {
             assert(root != nullptr);
 
             printf("Scanning node %s\n", root->getName().c_str());
-            for (Aerodynamics::Joint *joint : root->get_linked_joints()) {
+            for (Aerodynamics::BaseJoint *joint : root->get_linked_joints()) {
                 auto child = joint->getChild();
                 printf("Scan for joint :%s with node %s\n",
                        joint->getName().c_str(),
@@ -146,7 +146,7 @@ namespace RapidFDM
             Eigen::Affine3d root_transform = transform_p2e(nodes[aircraftNode]->getGlobalPose());
             for (auto pair : nodes) {
                 Aerodynamics::ComponentData data;
-                Aerodynamics::Node *node = pair.first;
+                Aerodynamics::BaseNode *node = pair.first;
                 PxRigidBody *rigidBody = pair.second;
                 data.transform = transform_p2e(rigidBody->getGlobalPose());
 

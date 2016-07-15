@@ -1,4 +1,4 @@
-#include <RapidFDM/aerodynamics/nodes/Node.h>
+#include <RapidFDM/aerodynamics/nodes/BaseNode.h>
 
 #include <iostream>
 #include "RapidFDM/aerodynamics/nodes/node_helper.h"

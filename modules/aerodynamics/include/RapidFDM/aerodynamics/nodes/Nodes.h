@@ -5,7 +5,7 @@
 #ifndef RAPIDFDM_NODES_H
 #define RAPIDFDM_NODES_H
 
-#include <RapidFDM/aerodynamics/nodes/Node.h>
+#include <RapidFDM/aerodynamics/nodes/base_node.h>
 #include <RapidFDM/aerodynamics/nodes/node_helper.h>
 #include <RapidFDM/aerodynamics/nodes/bodys/aircraft_node.h>
 #include <RapidFDM/aerodynamics/nodes/wings/wing_node.h>

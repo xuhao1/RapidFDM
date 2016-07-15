@@ -5,7 +5,7 @@ namespace RapidFDM
     namespace Aerodynamics
     {
         AircraftNode::AircraftNode(const rapidjson::Value &_json) :
-                Node(_json)
+                BaseNode(_json)
         {
             init(_json);
         }
@@ -20,9 +20,9 @@ namespace RapidFDM
             else {
                 this->geometry = new BaseGeometry();
             }
-            this->type_str = "aircraft_node";
+            this->node_type = AerodynamicsNodeType ::AerodynamicsAircraftNode;
             printf("Success parse aircraft_node\n");
-            printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->type_str.c_str(),
+            printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->get_type_str().c_str(),
                    geometry->get_type().c_str());
 
             this->rigid_mode = fast_value(_json, "rigid_mode", 0) > 0;
@@ -40,7 +40,7 @@ namespace RapidFDM
         {
             this->airState = air_state;
             for (auto pair : node_list) {
-                Node *node_ptr = pair.second;
+                BaseNode *node_ptr = pair.second;
                 node_ptr->set_air_state(air_state);
             }
         }
@@ -77,7 +77,7 @@ namespace RapidFDM
         {
             for (auto pair:internal_state_mapper) {
                 std::string global_name = pair.first;
-                Node *node_ptr = pair.second.node_ptr;
+                BaseNode *node_ptr = pair.second.node_ptr;
                 std::string state_name = pair.second.state;
                 node_ptr->iter_internal_state(deltatime);
                 this->internal_states[global_name] = node_ptr->get_internal_states()[state_name];
@@ -86,9 +86,9 @@ namespace RapidFDM
 
 
         AircraftNode::AircraftNode() :
-                Node()
+                BaseNode()
         {
-            this->type_str = "aircraft_node";
+            this->node_type = AerodynamicsNodeType ::AerodynamicsAircraftNode;
         }
 
         Eigen::Affine3d AircraftNode::get_body_transform()
@@ -113,7 +113,7 @@ namespace RapidFDM
             assert(inited);
             Eigen::Vector3d res;
             for (auto pair : node_list) {
-                Node *node_ptr = pair.second;
+                BaseNode *node_ptr = pair.second;
                 res += node_ptr->get_body_transform().linear() *
                        node_ptr->get_realtime_force(node_ptr->get_component_data());
 //                std::cout << node_ptr->getName() << " force : " <<
@@ -128,7 +128,7 @@ namespace RapidFDM
             assert(inited);
             Eigen::Vector3d res;
             for (auto pair : node_list) {
-                Node *node_ptr = pair.second;
+                BaseNode *node_ptr = pair.second;
                 BaseEngineNode *engineNode_ptr = dynamic_cast<BaseEngineNode *>(node_ptr);
                 if (engineNode_ptr != nullptr)
                     res += node_ptr->get_body_transform().linear() *
@@ -142,7 +142,7 @@ namespace RapidFDM
             assert(inited);
             Eigen::Vector3d res;
             for (auto pair : node_list) {
-                Node *node_ptr = pair.second;
+                BaseNode *node_ptr = pair.second;
                 BaseEngineNode *engineNode_ptr = dynamic_cast<BaseEngineNode *>(node_ptr);
                 if (engineNode_ptr != nullptr) {
                     Eigen::Vector3d engine_body_r = (Eigen::Vector3d) engineNode_ptr->get_body_transform().translation();
@@ -159,7 +159,7 @@ namespace RapidFDM
             assert(inited);
             Eigen::Vector3d res;
             for (auto pair : node_list) {
-                Node *node_ptr = pair.second;
+                BaseNode *node_ptr = pair.second;
                 res += node_ptr->get_body_transform().linear() *
                        node_ptr->get_airdynamics_force(node_ptr->get_component_data());
             }
@@ -171,7 +171,7 @@ namespace RapidFDM
             assert(inited);
             Eigen::Vector3d res;
             for (auto pair : node_list) {
-                Node *node_ptr = pair.second;
+                BaseNode *node_ptr = pair.second;
                 Eigen::Vector3d node_body_r = (Eigen::Vector3d) node_ptr->get_body_transform().translation();
                 ComponentData data = node_ptr->get_component_data();
                 res += node_ptr->get_realtime_torque(data)
@@ -185,19 +185,10 @@ namespace RapidFDM
             assert(inited);
             Eigen::Vector3d res;
             for (auto pair : node_list) {
-                Node *node_ptr = pair.second;
+                BaseNode *node_ptr = pair.second;
                 ComponentData data = node_ptr->get_component_data();
                 Eigen::Vector3d node_body_r = (Eigen::Vector3d) node_ptr->get_body_transform().translation();
                 Eigen::Vector3d force = node_ptr->get_airdynamics_force(data);
-//                printf("%s node_body_r :%5f %5f %5f force %5f %5f %5f\n",
-//                       node_ptr->getUniqueID().c_str(),
-//                       node_body_r.x(),
-//                       node_body_r.y(),
-//                       node_body_r.z(),
-//                       force.x(),
-//                       force.y(),
-//                       force.z()
-//                );
                 res += node_ptr->get_airdynamics_torque(data) +
                        node_body_r.cross(node_ptr->get_airdynamics_force(data));
 
@@ -251,8 +242,8 @@ namespace RapidFDM
         }
 
         void AircraftNode::init_after_construct(
-                std::map<std::string, Node *> _node_list,
-                std::map<std::string, Joint *> _joint_list)
+                std::map<std::string, BaseNode *> _node_list,
+                std::map<std::string, BaseJoint *> _joint_list)
         {
             inited = true;
             this->node_list = _node_list;
@@ -260,7 +251,7 @@ namespace RapidFDM
             this->node_list.erase(this->getUniqueID());
             this->init_component_data();
             for (auto pair : node_list) {
-                Node *node_ptr = pair.second;
+                BaseNode *node_ptr = pair.second;
                 node_ptr->init_component_data();
                 for (auto internal_pair :node_ptr->get_internal_states()) {
                     std::string state_name = internal_pair.first;
@@ -308,7 +299,7 @@ namespace RapidFDM
         }
 
 
-        Node *AircraftNode::instance()
+        BaseNode *AircraftNode::instance()
         {
             AircraftNode *node = new AircraftNode;
             memcpy(node, this, sizeof(AircraftNode));

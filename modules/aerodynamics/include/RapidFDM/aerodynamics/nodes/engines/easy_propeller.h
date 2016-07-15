@@ -28,7 +28,7 @@ namespace RapidFDM
             double C_q = 0.007961783439;
             double D;
             double max_n;
-            //!Direction = 1 means 顺时针 产生负力矩
+            //! Direction = 1 means 顺时针 产生负力矩
             int direction = 1;
 
             virtual float get_cq(ComponentData data)
@@ -55,7 +55,7 @@ namespace RapidFDM
             virtual float get_propeller_torque(ComponentData data)
             {
                 double n = internal_states["n"];
-                return -get_cq(data) * air_rho * n * n * pow(D, 5) * direction;
+                return get_cq(data) * air_rho * n * n * pow(D, 5) * direction;
             }
 
         public:
@@ -74,10 +74,10 @@ namespace RapidFDM
             virtual Eigen::Vector3d get_engine_torque(ComponentData data) override
             {
                 //Torque at negative x axis
-                return Eigen::Vector3d(-get_propeller_torque(data), 0, 0);
+                return Eigen::Vector3d(get_propeller_torque(data), 0, 0);
             }
 
-            virtual Node *instance() override
+            virtual BaseNode *instance() override
             {
                 BaseEngineNode *node = new BaseEngineNode;
                 memcpy(node, this, sizeof(BaseEngineNode));
@@ -98,9 +98,9 @@ namespace RapidFDM
                 D = fast_value(document, "D", 0.254);
                 direction = fast_value(document, "direction", 1);
                 max_n = fast_value(document, "max_rpm", 10000.0) / 60.0;
-                this->type_str = "propeller_node";
+                this->node_type = AerodynamicsNodeType ::AerodynamicsEasyPropellerNode;
                 printf("Success parse propeller_node\n");
-                printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->type_str.c_str(),
+                printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->get_type_str().c_str(),
                        geometry->get_type().c_str());
 
                 this->internal_states["n"] = 0;

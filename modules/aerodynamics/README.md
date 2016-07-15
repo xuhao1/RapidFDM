@@ -9,8 +9,8 @@
  - Relative Attitude
  
  joint :{
-    parent: Node
-    pos: location on Node
+    parent: BaseNode
+    pos: location on BaseNode
     type:
     lowwer:
     upper:

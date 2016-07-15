@@ -5,7 +5,7 @@
 #ifndef RAPIDFDM_AERODYNAMICS_CONFIGURER_H
 #define RAPIDFDM_AERODYNAMICS_CONFIGURER_H
 
-#include "FlyingData.h"
+#include "flying_data_defines.h"
 #include "aerodynamics.h"
 #include <vector>
 #include <map>

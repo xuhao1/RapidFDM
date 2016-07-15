@@ -24,9 +24,7 @@ namespace RapidFDM
                     , -cos(alpha) * sin(beta), cos(beta), -sin(alpha) * sin(beta)
                     , -sin(alpha), 0, cos(alpha);
 
-            printf("force tmp %5.4f %5.4f %5.4f \n",force_tmp.x(),force_tmp.y(),force_tmp.z());
             force_tmp = body2wind.inverse() * force_tmp;
-            printf("force     %5.4f %5.4f %5.4f \n",force_tmp.x(),force_tmp.y(),force_tmp.z());
             return force_tmp;
 
 

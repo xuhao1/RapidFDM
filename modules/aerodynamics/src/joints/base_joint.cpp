@@ -2,10 +2,10 @@
 // Created by xuhao on 2016/5/2.
 //
 
-#include <RapidFDM/aerodynamics/joints/Joint.h>
+#include <RapidFDM/aerodynamics/joints/base_joint.h>
 #include <RapidFDM/utils.h>
-#include <RapidFDM/aerodynamics/joints/Joint.h>
-#include <RapidFDM/aerodynamics/nodes/Node.h>
+#include <RapidFDM/aerodynamics/joints/base_joint.h>
+#include <RapidFDM/aerodynamics/nodes/base_node.h>
 
 using namespace RapidFDM::Utils;
 
@@ -13,14 +13,14 @@ namespace RapidFDM
 {
     namespace Aerodynamics
     {
-        //!Construct Joint from a series of json
+        //!Construct BaseJoint from a series of json
         /*!
             \param value
                 - base_position: [x y z] required
                 - base_rotation : [x y z] / [w x y z] required
                 - child_reference_point [x y z] optional [0 0 0]
          */
-        void Joint::init(const rapidjson::Value &v, Node *_parent, Node *_child)
+        void BaseJoint::init(const rapidjson::Value &v, BaseNode *_parent, BaseNode *_child)
         {
 
             assert(_child != nullptr);
@@ -44,13 +44,13 @@ namespace RapidFDM
             child->parent = this;
         }
 
-        Joint::Joint(const rapidjson::Value &v, Node *_parent, Node *_child) :
+        BaseJoint::BaseJoint(const rapidjson::Value &v, BaseNode *_parent, BaseNode *_child) :
                 BaseComponent(v)
         {
             init(v, _parent, _child);
         }
 
-        Joint::Joint(const rapidjson::Value &v, std::map<std::string, Node *> nodes) :
+        BaseJoint::BaseJoint(const rapidjson::Value &v, std::map<std::string, BaseNode *> nodes) :
                 BaseComponent(v)
         {
             std::string parent_id;
@@ -70,19 +70,19 @@ namespace RapidFDM
 
         }
 
-        Eigen::Affine3d Joint::get_ground_transform()
+        Eigen::Affine3d BaseJoint::get_ground_transform()
         {
             assert(parent != nullptr);
             return parent->get_ground_transform() * get_relative_transform();
         }
 
-        Eigen::Affine3d Joint::get_body_transform()
+        Eigen::Affine3d BaseJoint::get_body_transform()
         {
             assert(parent != nullptr);
             return parent->get_body_transform() * get_relative_transform();
         }
 
-        Joint::Joint(Node *_parent, Node *_child)
+        BaseJoint::BaseJoint(BaseNode *_parent, BaseNode *_child)
         {
             assert(_child != nullptr);
             if (_parent != nullptr) {

@@ -21,19 +21,19 @@ namespace RapidFDM
 {
     namespace Aerodynamics
     {
-        class Node;
+        class BaseNode;
 
-        class Joint : public BaseComponent
+        class BaseJoint : public BaseComponent
         {
         protected:
-            Node *parent = nullptr;
-            /*!< Parent Node for this joint*/
-            Node *child = nullptr;
+            BaseNode *parent = nullptr;
+            /*!< Parent BaseNode for this joint*/
+            BaseNode *child = nullptr;
             /*!< Child node for this joint*/
 
             struct
             {
-                //! The base transform for the joint on parent node,this transform is value middle point for the Joint
+                //! The base transform for the joint on parent node,this transform is value middle point for the BaseJoint
                 Eigen::Affine3d parent_base_transform;
                 //! This is the center point for the joint on the child node
                 Eigen::Affine3d child_transform;
@@ -50,22 +50,22 @@ namespace RapidFDM
             std::string type = "base_joint";
             AerodynamicsJointType joint_type = AerodynamicsJointType::AerodyanmicsBaseJoint;
             rapidjson::Value joint_define;
-            void init(const rapidjson::Value &v, Node *_parent, Node *_child);
+            void init(const rapidjson::Value &v, BaseNode *_parent, BaseNode *_child);
 
         public:
-            Joint(const rapidjson::Value &v, std::map<std::string, Node *> nodes);
+            BaseJoint(const rapidjson::Value &v, std::map<std::string, BaseNode *> nodes);
 
-            Joint(const rapidjson::Value &v, Node *_parent, Node *_child);
+            BaseJoint(const rapidjson::Value &v, BaseNode *_parent, BaseNode *_child);
 
-            Joint(Node *_parent, Node *_child);
+            BaseJoint(BaseNode *_parent, BaseNode *_child);
 
 
-            void init(rapidjson::Value &v, Node *_parent, Node *_child);
+            void init(rapidjson::Value &v, BaseNode *_parent, BaseNode *_child);
             //! Get the parent node for this joint
             /*!
                \return parent
              */
-            Node *getParent()
+            BaseNode *getParent()
             {
                 return parent;
             }
@@ -73,7 +73,7 @@ namespace RapidFDM
             /*!
                \return child
              */
-            Node *getChild()
+            BaseNode *getChild()
             {
                 return child;
             }

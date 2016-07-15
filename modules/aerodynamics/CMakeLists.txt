@@ -14,18 +14,18 @@ include_directories(./include
 set(AIRDYNAMICS_MODULE_SOURCES
         src/airdynamics_parser.cpp
         src/base_component.cpp
-        src/joints/Joint.cpp
+        src/joints/base_joint.cpp
         src/joints/fixed_joint.cpp
         src/nodes/bodys/aircraft_node.cpp
-        src/nodes/Node.cpp
+        src/nodes/base_node.cpp
         src/aerodynamics_configurer.cpp
-        include/RapidFDM/aerodynamics/FlyingData.h
+        include/RapidFDM/aerodynamics/flying_data_defines.h
         include/RapidFDM/aerodynamics/base_component.h
         include/RapidFDM/aerodynamics/aerodynamics.h
         include/RapidFDM/aerodynamics/airdynamics_parser.h
-        include/RapidFDM/aerodynamics/joints/Joint.h
+        include/RapidFDM/aerodynamics/joints/base_joint.h
         include/RapidFDM/aerodynamics/joints/joints.h
-        include/RapidFDM/aerodynamics/nodes/Node.h
+        include/RapidFDM/aerodynamics/nodes/base_node.h
         include/RapidFDM/aerodynamics/nodes/nodes.h
         include/RapidFDM/aerodynamics/nodes/bodys/aircraft_node.h
         include/RapidFDM/aerodynamics/nodes/node_helper.h

@@ -44,8 +44,8 @@ namespace RapidFDM
 
             Aerodynamics::AircraftNode *aircraftNode = nullptr;
             ControlSystem::BaseController *baseController = nullptr;
-            std::map<Node *, PxRigidBody *> nodes;
-            std::map<Joint *, PxJoint *> joints;
+            std::map<BaseNode *, PxRigidBody *> nodes;
+            std::map<BaseJoint *, PxJoint *> joints;
             PxScene *pxScene = nullptr;
             PxPhysics *mPhysics = nullptr;
 //            std::
@@ -61,19 +61,19 @@ namespace RapidFDM
             );
 
             void dfs_create_rigids(
-                    Aerodynamics::Node *root,
-                    std::map<Node *, PxRigidBody *> &nodes,
-                    std::map<Joint *, PxJoint *> &joints,
+                    Aerodynamics::BaseNode *root,
+                    std::map<BaseNode *, PxRigidBody *> &nodes,
+                    std::map<BaseJoint *, PxJoint *> &joints,
                     PxRigidBody *root_rigid
             );
 
             void construct_rigid_dynamics_from_aircraft();
 
-            PxRigidBody *construct_rigid(Aerodynamics::Node *node);
+            PxRigidBody *construct_rigid(Aerodynamics::BaseNode *node);
 
             PxJoint *construct_joint(
-                    Aerodynamics::Node *root,
-                    Aerodynamics::Joint *joint,
+                    Aerodynamics::BaseNode *root,
+                    Aerodynamics::BaseJoint *joint,
                     PxRigidBody *root_rigid,
                     PxRigidBody *child_rigid
             );

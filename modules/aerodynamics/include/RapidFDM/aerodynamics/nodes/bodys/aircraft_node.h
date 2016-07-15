@@ -1,8 +1,8 @@
 #ifndef __RAPIDFDM_AERODYNAMIC_NODE_H__
 #define __RAPIDFDM_AERODYNAMIC_NODE_H__
 
-#include <RapidFDM/aerodynamics/nodes/Node.h>
-#include <RapidFDM/aerodynamics/FlyingData.h>
+#include <RapidFDM/aerodynamics/nodes/base_node.h>
+#include <RapidFDM/aerodynamics/flying_data_defines.h>
 #include <RapidFDM/aerodynamics/nodes/engines/base_engine.h>
 #include <rapidjson/document.h>
 #include <RapidFDM/aerodynamics/geometrys/geometry_helper.h>
@@ -15,14 +15,14 @@ namespace RapidFDM
     {
         struct node_control_axis
         {
-            Node *node_ptr = nullptr;
+            BaseNode *node_ptr = nullptr;
             std::string axis;
 
             node_control_axis()
             {
             }
 
-            node_control_axis(Node *_node_ptr, std::string _axis)
+            node_control_axis(BaseNode *_node_ptr, std::string _axis)
             {
                 node_ptr = _node_ptr;
                 axis = _axis;
@@ -31,14 +31,14 @@ namespace RapidFDM
 
         struct node_internal_state
         {
-            Node *node_ptr = nullptr;
+            BaseNode *node_ptr = nullptr;
             std::string state;
 
             node_internal_state()
             {
             }
 
-            node_internal_state(Node *_node_ptr, std::string _state)
+            node_internal_state(BaseNode *_node_ptr, std::string _state)
             {
                 node_ptr = _node_ptr;
                 state = _state;
@@ -46,12 +46,12 @@ namespace RapidFDM
         };
 
         //! This node stand for the base of a aircraft
-        class AircraftNode : public Node
+        class AircraftNode : public BaseNode
         {
         protected:
             bool inited = false;
-            std::map<std::string, Node *> node_list;
-            std::map<std::string, Joint *> joint_list;
+            std::map<std::string, BaseNode *> node_list;
+            std::map<std::string, BaseJoint *> joint_list;
 
             std::map<std::string, node_control_axis> control_axis_mapper;
             std::map<std::string, node_internal_state> internal_state_mapper;
@@ -106,11 +106,11 @@ namespace RapidFDM
             virtual Eigen::Vector3d get_total_mass_center();
 
             void init_after_construct(
-                    std::map<std::string, Node *> _node_list,
-                    std::map<std::string, Joint *> _joint_list);
+                    std::map<std::string, BaseNode *> _node_list,
+                    std::map<std::string, BaseJoint *> _joint_list);
 
 
-            virtual Node *instance() override;
+            virtual BaseNode *instance() override;
 
             virtual const rapidjson::Value & getJsonDefine() override;
             virtual const rapidjson::Document * getComponentsDefine();

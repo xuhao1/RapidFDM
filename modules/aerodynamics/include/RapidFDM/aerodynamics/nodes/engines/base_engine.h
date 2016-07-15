@@ -5,13 +5,13 @@
 #ifndef RAPIDFDM_BASE_ENGINE_H
 #define RAPIDFDM_BASE_ENGINE_H
 
-#include <RapidFDM/aerodynamics/nodes/Node.h>
+#include <RapidFDM/aerodynamics/nodes/base_node.h>
 
 namespace RapidFDM
 {
     namespace Aerodynamics
     {
-        class  BaseEngineNode : public Node
+        class  BaseEngineNode : public BaseNode
         {
         public:
             virtual Eigen::Vector3d get_engine_force(ComponentData data){
@@ -23,10 +23,10 @@ namespace RapidFDM
                 return Eigen::Vector3d(0,0,0);
             }
 
-            BaseEngineNode(const rapidjson::Value &_json, Joint *_parent = nullptr)
-                    :Node(_json,_parent)
+            BaseEngineNode(const rapidjson::Value &_json, BaseJoint *_parent = nullptr)
+                    :BaseNode(_json,_parent)
             {
-                this->type_str = "engine_node";
+                this->node_type = AerodynamicsNodeType ::AerodynamicsBaseEngineNode;
             }
 
             virtual Eigen::Vector3d get_realtime_force (ComponentData data) override
@@ -40,10 +40,10 @@ namespace RapidFDM
 
             BaseEngineNode()
             {
-                this->type_str = "engine_node";
+                this->node_type = AerodynamicsNodeType ::AerodynamicsBaseEngineNode;
             }
 
-            virtual Node * instance() override
+            virtual BaseNode * instance() override
             {
                 BaseEngineNode *node = new BaseEngineNode;
                 memcpy(node, this, sizeof(BaseEngineNode));

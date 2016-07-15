@@ -5,7 +5,7 @@
 #ifndef RAPIDFDM_NODE_HELPER_H
 #define RAPIDFDM_NODE_HELPER_H
 
-#include <RapidFDM/aerodynamics/nodes/Node.h>
+#include <RapidFDM/aerodynamics/nodes/base_node.h>
 #include <RapidFDM/aerodynamics/nodes/bodys/aircraft_node.h>
 #include <RapidFDM/aerodynamics/nodes/wings/wing_node.h>
 #include <RapidFDM/aerodynamics/nodes/engines/easy_propeller.h>
@@ -21,7 +21,7 @@ namespace RapidFDM {
     namespace Aerodynamics {
         class NodeHelper {
         public:
-            static Node *create_node_from_json(const rapidjson::Value &v) {
+            static BaseNode *create_node_from_json(const rapidjson::Value &v) {
                 assert(v.IsObject());
                 std::string type = fast_string(v, "type");
                 if (type == "aircraft") {
@@ -37,17 +37,17 @@ namespace RapidFDM {
                     printf("Parse propeller node\n");
                     return new EasyPropellerNode(v);
                 }
-                std::cerr << "Cannot parse Node Type : " << type << std::endl;
+                std::cerr << "Cannot parse BaseNode Type : " << type << std::endl;
                 return nullptr;
             }
 
-            static Node *create_node_from_json(std::string json) {
+            static BaseNode *create_node_from_json(std::string json) {
                 rapidjson::Document document;
                 document.Parse(json.c_str());
                 return create_node_from_json(document);
             }
 
-            static Node *create_node_from_file(std::string file) {
+            static BaseNode *create_node_from_file(std::string file) {
                 std::ifstream ifs(file);
                 std::string content((std::istreambuf_iterator<char>(ifs)),
                                     (std::istreambuf_iterator<char>()));
@@ -56,13 +56,13 @@ namespace RapidFDM {
             }
 
             //This function return a list of nodes
-            static std::map<std::string, Node *> scan_node_folder(std::string path) {
+            static std::map<std::string, BaseNode *> scan_node_folder(std::string path) {
                 printf("Scanning node foilder %s \n",path.c_str());
-                std::map<std::string, Node *> nodeDB;
+                std::map<std::string, BaseNode *> nodeDB;
                 std::vector<std::string> file_list = get_file_list(path);
                 for (std::string file_path : file_list) {
                     printf("Scan file : %s\n", file_path.c_str());
-                    Node *tmp = create_node_from_file(file_path);
+                    BaseNode *tmp = create_node_from_file(file_path);
                     if (tmp != nullptr) {
                         nodeDB[tmp->getUniqueID()] = tmp;
                     }
