@@ -60,6 +60,7 @@ namespace RapidFDM {
             return Eigen::Quaterniond(1, 0, 0, 0);
         }
 
+
         inline std::string fast_string(const rapidjson::Value &_json, std::string key) {
             if (_json.HasMember(key.c_str()) && _json[key.c_str()].IsString()) {
                 return _json[key.c_str()].GetString();
@@ -88,6 +89,19 @@ namespace RapidFDM {
 
             std::cerr << "Get attitude of key <" << key << "> failed" << std::endl;
             return Eigen::Quaterniond(1, 0, 0, 0);
+        }
+        inline Eigen::Affine3d fast_transform(const rapidjson::Value & _json,std::string key)
+        {
+            if (_json.HasMember(key.c_str()) && _json[key.c_str()].IsObject()) {
+                Eigen::Affine3d trans;
+                trans.fromPositionOrientationScale(
+                        fast_vector3(_json[key.c_str()],"vector"),
+                        fast_attitude(_json[key.c_str()],"attitude"),
+                        Eigen::Vector3d(1,1,1)
+                );
+                return trans;
+            }
+            return Eigen::Affine3d::Identity();
         }
 
         inline void add_attitude(rapidjson::Value &_json, Eigen::Quaterniond trans, rapidjson::Document &d,

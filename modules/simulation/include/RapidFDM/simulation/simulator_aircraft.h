@@ -69,11 +69,11 @@ namespace RapidFDM
                     PxRigidBody *root_rigid
             );
 
-            void construct_rigid_dynamics_from_aircraft(PxTransform init_trans ,double init_speed = 0);
+            void construct_rigid_dynamics_from_aircraft();
 
             PxRigidBody *construct_rigid(Aerodynamics::BaseNode *node);
 
-            PxRigidBody * construct_rigid_aircraft(PxTransform init_trans,double init_speed = 0 );
+            PxRigidBody * construct_rigid_aircraft();
 
             virtual void fetch_forces_torques_from_aerodynamics();
 
@@ -83,7 +83,10 @@ namespace RapidFDM
                     PxRigidBody *root_rigid,
                     PxRigidBody *child_rigid
             );
-
+            void reset_aircraft(
+                    PxTransform init_trans = PxTransform::createIdentity(),
+                    double init_speed = 0
+            );
             void update_states_from_physx();
 
             AircraftNode * get_aircraft_node()

@@ -23,7 +23,7 @@ namespace RapidFDM
             //T = rho * n^2 * D^4 * Ct
             //Cq = 0.05 / 2pi
             //Q = rho * n^2 * D^5 * Cq
-            double A_ct = -0.15;
+            double A_ct = -0.10;
             double B_ct = 0.09;
             double C_q = 0.007961783439;
             double D;
