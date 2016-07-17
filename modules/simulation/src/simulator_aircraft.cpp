@@ -26,7 +26,8 @@ namespace RapidFDM
                 Aerodynamics::AircraftNode *_aircraftNode,
                 ControlSystem::BaseController *_baseController,
                 SimulatorWorld *_simulator,
-                PxTransform init_trans
+                PxTransform init_trans,
+                double init_speed
         ) :
                 aircraftNode(_aircraftNode), baseController(_baseController)
         {
@@ -39,15 +40,15 @@ namespace RapidFDM
             assert(aircraftNode != nullptr);
             assert(baseController != nullptr);
             printf("Construct simulator aircraft %s \n", aircraftNode->getName().c_str());
-            construct_rigid_dynamics_from_aircraft(init_trans);
+            construct_rigid_dynamics_from_aircraft(init_trans,init_speed);
             printf("Construct simulator success %s \n", aircraftNode->getName().c_str());
         }
 
-        void SimulatorAircraft::construct_rigid_dynamics_from_aircraft(PxTransform init_trans)
+        void SimulatorAircraft::construct_rigid_dynamics_from_aircraft(PxTransform init_trans,double init_speed)
         {
             if (aircraftNode->is_rigid()) {
                 //Create rigidbody aircraft
-                nodes[aircraftNode] = construct_rigid_aircraft(init_trans);
+                nodes[aircraftNode] = construct_rigid_aircraft(init_trans,init_speed);
             }
             else {
                 //Create a multi rigidbody aircraft
@@ -60,11 +61,10 @@ namespace RapidFDM
             }
         }
 
-        PxRigidBody *SimulatorAircraft::construct_rigid_aircraft(PxTransform init_trans)
+        PxRigidBody *SimulatorAircraft::construct_rigid_aircraft(PxTransform init_trans,double init_speed)
         {
             assert(aircraftNode != nullptr);
             printf("Construct rigidbody by aircraft %s \n", aircraftNode->getUniqueID().c_str());
-
 
             //TODO:
             //add gyroscope
@@ -79,16 +79,19 @@ namespace RapidFDM
             assert(actor != nullptr);
             actor->setMass(aircraftNode->get_total_mass());
             actor->setMassSpaceInertiaTensor(vector_e2p(aircraftNode->get_total_inertial()));
-            actor->setCMassLocalPose(
-                    PxTransform(
-                            vector_e2p(aircraftNode->get_total_mass_center()),
-                            PxQuat(0, 0, 0, 1)
-                    )
-            );
+//            actor->setCMassLocalPose(
+//                    PxTransform(
+//                            vector_e2p(aircraftNode->get_total_mass_center()),
+//                            PxQuat(0, 0, 0, 1)
+//                    )
+//            );
             pxScene->addActor(*actor);
 
             //Debug !!!!
-            actor->setLinearVelocity(PxVec3(-25, 0, 0));
+            PxVec3 init_speed_vec = PxVec3(-init_speed,0,0);
+            init_speed_vec = init_trans.rotate(init_speed_vec);
+
+            actor->setLinearVelocity(init_speed_vec);
 
             aircraftNode->setSimulate(true);
             return actor;

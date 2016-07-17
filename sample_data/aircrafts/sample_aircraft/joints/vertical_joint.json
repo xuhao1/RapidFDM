@@ -3,14 +3,14 @@
   "type": "fixed",
   "id": "0",
   "base_position": [
-    1.5,
+    1.2,
     0,
     0
   ],
   "base_rotation": [
     -90,
     0,
-    0
+    3
   ],
   "child_reference_point": [
     0,

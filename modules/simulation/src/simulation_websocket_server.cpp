@@ -38,14 +38,17 @@ public:
         aircraftNode = parser1.get_aircraft_node();
         assert(aircraftNode != nullptr);
 
+        PxTransform init_trans = PxTransform::createIdentity();
+        init_trans.p.z = 100;
+        init_trans.q = PxQuat(5 * M_PI / 180,PxVec3(1,0,0));
         ControlSystem::BaseController *baseController = new ControlSystem::BaseController(aircraftNode);
-        simulatorAircraft = simulatorWorld.create_aircraft(aircraftNode, baseController);
+        simulatorAircraft = simulatorWorld.create_aircraft(aircraftNode, baseController,init_trans,30);
 
         handler_realtime_output = new ws_json_channel_handler((websocket_server *) this, "output");
 
         timer = new boost::asio::deadline_timer(io_service, interval);
         this->tick_time = tick_time;
-//        aircraftNode->set_internal_state("main_engine_0/n",180);
+        aircraftNode->set_internal_state("main_engine_0/n",220);
 
     }
 

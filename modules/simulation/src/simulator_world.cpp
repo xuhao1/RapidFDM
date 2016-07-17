@@ -50,6 +50,10 @@ namespace RapidFDM
             assert(pxScene!= nullptr);
             assert(mPhysics!= nullptr);
 
+            PxMaterial * aMaterial =  mPhysics->createMaterial(0.5f, 0.5f, 0.5f);    //static friction, dynamic friction, restitution
+            PxRigidStatic * plane =  PxCreatePlane(*mPhysics, PxPlane(PxVec3(0,0,1), 0), *aMaterial);
+            pxScene->addActor(*plane);
+
             printf("Init physics successful!\n");
 
         }

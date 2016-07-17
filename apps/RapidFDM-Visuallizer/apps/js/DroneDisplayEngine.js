@@ -37,7 +37,18 @@ var DroneDisplayEngine = function (container,w,h)
     this.axisHelpe = axisHelper;
     var size = 1000;
     var step = 10;
+    var loader = new THREE.TextureLoader();
+    loader.load('../static/textures/grass_texture236.jpg', function ( texture ) {
+        var geometry = new THREE.PlaneGeometry( 10000, 10000, 1,1 );
+        texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(1000,1000);
+        var material = new THREE.MeshBasicMaterial({map: texture});
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.z = -10;
+        scene.add(mesh);
+    });
 
+    
 
 };
 

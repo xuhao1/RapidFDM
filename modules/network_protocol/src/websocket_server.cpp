@@ -40,7 +40,6 @@ namespace RapidFDM
         {
             websocketpp::server<websocketpp::config::asio>::connection_ptr con = server.get_con_from_hdl(hdl);
             websocketpp::uri_ptr uri = con->get_uri();
-//            std::cout << "on_message called with hdl: " << hdl.lock().get() << " URI:" << uri->get_resource() << std::endl;
             if (open_handlers.find(uri->get_resource())!= open_handlers.end())
             {
                 open_handlers[uri->get_resource()](s,hdl);
@@ -51,6 +50,7 @@ namespace RapidFDM
         void websocket_server::on_failed(ws_server *s, websocketpp::connection_hdl hdl)
         {
             online = false;
+            printf("ws Failed or closed\n");
         }
 
         int websocket_server::init(int port)
@@ -61,7 +61,8 @@ namespace RapidFDM
             // Register our message handler
             server.set_message_handler(bind(&websocket_server::on_message, this, &server, ::_1, ::_2));
             server.set_open_handler(bind(&websocket_server::on_connect,this,&server,::_1));
-            server.set_fail_handler(bind(&websocket_server::on_connect,this,&server,::_1));
+            server.set_fail_handler(bind(&websocket_server::on_failed,this,&server,::_1));
+            server.set_close_handler(bind(&websocket_server::on_failed,this,&server,::_1));
             // Listen on port
             server.listen(port);
             return 0;
