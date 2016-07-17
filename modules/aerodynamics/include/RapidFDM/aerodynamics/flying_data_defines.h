@@ -34,7 +34,7 @@ namespace RapidFDM
             /*!< Body transform from simulator */
             Eigen::Affine3d body_transform = Eigen::Affine3d::Identity();
 
-            /*!< Angular velocity from simulator on component transform*/
+            /*!< Angular velocity from simulator on component transform should be in body cooridinate*/
             Eigen::Vector3d angular_velocity = Eigen::Vector3d(0,0,0);
 
             /*!< Ground velocity for this component */

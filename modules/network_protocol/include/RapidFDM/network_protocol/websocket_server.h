@@ -11,6 +11,7 @@
 #include <RapidFDM/aerodynamics/airdynamics_parser.h>
 #include <functional>
 #include <stdio.h>
+#include <mutex>
 
 typedef websocketpp::server<websocketpp::config::asio> ws_server;
 using websocketpp::lib::placeholders::_1;
@@ -30,6 +31,7 @@ namespace RapidFDM
         class websocket_server
         {
         public:
+            bool online = false;
             ws_server server;
 
             std::map<std::string,message_handle_function> message_handlers;
@@ -40,6 +42,7 @@ namespace RapidFDM
             void on_connect(ws_server* s,websocketpp::connection_hdl hdl);
             void add_message_hande_function(std::string uri,message_handle_function func);
             void add_open_hande_function(std::string uri,open_handle_function func);
+            void on_failed(ws_server *s,websocketpp::connection_hdl hdl);
             websocket_server(int port)
             {
                 std::cout << "Create ws on port " << port << std::endl;

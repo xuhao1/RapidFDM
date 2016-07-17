@@ -205,13 +205,13 @@ namespace RapidFDM
 
                 PxRigidBody *rigidBody = nodes[aircraftNode];
                 data.transform = root_transform;
-                data.angular_velocity = vector_p2e(rigidBody->getAngularVelocity());
+                data.angular_velocity = aircraftNode->get_ground_transform().linear().inverse() * vector_p2e(rigidBody->getAngularVelocity());
                 data.ground_velocity = vector_p2e(rigidBody->getLinearVelocity());
                 data.body_transform = aircraftNode->get_body_transform();
                 aircraftNode->setStatefromsimulator(data);
 
                 static int count = 0;
-                if (count++ % 100 == 0) {
+                if (count++ % 100 == -1) {
 
                     Eigen::Quaterniond quat = (Eigen::Quaterniond) root_transform.rotation();
                     Eigen::Vector3d rpy = quat.toRotationMatrix().eulerAngles(0, 1, 2) * 180 / M_PI;

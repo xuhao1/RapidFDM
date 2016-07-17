@@ -322,6 +322,7 @@ namespace RapidFDM
                             data.angular_velocity.cross((Eigen::Vector3d)node_data.body_transform.translation());
                     node_data.transform = data.transform * node_data.body_transform;
                     node_ptr->setStatefromsimulator(node_data);
+
                 }
             }
             else

@@ -45,6 +45,12 @@ namespace RapidFDM
             {
                 open_handlers[uri->get_resource()](s,hdl);
             }
+            online = true;
+        }
+
+        void websocket_server::on_failed(ws_server *s, websocketpp::connection_hdl hdl)
+        {
+            online = false;
         }
 
         int websocket_server::init(int port)
@@ -55,6 +61,7 @@ namespace RapidFDM
             // Register our message handler
             server.set_message_handler(bind(&websocket_server::on_message, this, &server, ::_1, ::_2));
             server.set_open_handler(bind(&websocket_server::on_connect,this,&server,::_1));
+            server.set_fail_handler(bind(&websocket_server::on_connect,this,&server,::_1));
             // Listen on port
             server.listen(port);
             return 0;
