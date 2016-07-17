@@ -88,7 +88,7 @@ namespace RapidFDM
             /*!
                \return transform
              */
-            virtual Eigen::Affine3d get_relative_transform()
+            virtual Eigen::Affine3d get_relative_transform() const
             {
                 return states.parent_base_transform * states.relative_transform * states.child_transform;
             }
@@ -97,29 +97,29 @@ namespace RapidFDM
             /*!
                \return transform
              */
-            virtual Eigen::Affine3d get_body_transform() override;
+            virtual Eigen::Affine3d get_body_transform() const override;
 
             //! Get the ground attitude for the parent node
             /*!
                \return transform
              */
-            virtual Eigen::Quaterniond get_ground_attitude() override
+            virtual Eigen::Quaterniond get_ground_attitude() const override
             {
                 return Eigen::Quaterniond(this->get_ground_transform().rotation());
             }
 
-            virtual Eigen::Vector3d get_ground_velocity() override
+            virtual Eigen::Vector3d get_ground_velocity() const override
             {
                 abort();
             }
 
-            virtual Eigen::Vector3d get_angular_velocity() override
+            virtual Eigen::Vector3d get_angular_velocity() const override
             {
                 abort();
             }
 
 
-            virtual Eigen::Affine3d get_ground_transform() override;
+            virtual Eigen::Affine3d get_ground_transform() const override;
 
             virtual void brief() override
             {

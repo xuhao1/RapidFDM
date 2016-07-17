@@ -15,11 +15,11 @@ namespace RapidFDM
         class WingGeometry : public BaseGeometry
         {
         public:
-            virtual float getLift(ComponentData state, AirState airState);
+            virtual float getLift(ComponentData state, AirState airState) const override ;
 
-            virtual float getDrag(ComponentData state, AirState airState);
+            virtual float getDrag(ComponentData state, AirState airState) const override ;
 
-            virtual float getSide(ComponentData state, AirState airState);
+            virtual float getSide(ComponentData state, AirState airState) const override ;
 
             /*flow KAR parameter
              * MODULE
@@ -52,7 +52,6 @@ namespace RapidFDM
 
             virtual void brief();
 
-            virtual Eigen::Vector3d get_aerodynamics_center();
         };
     }
 }

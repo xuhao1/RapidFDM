@@ -91,7 +91,7 @@ namespace RapidFDM
             this->node_type = AerodynamicsNodeType ::AerodynamicsAircraftNode;
         }
 
-        Eigen::Affine3d AircraftNode::get_body_transform()
+        Eigen::Affine3d AircraftNode::get_body_transform() const
         {
             //origin point is mass center
             Eigen::Affine3d transform_relative_masscenter;
@@ -101,14 +101,14 @@ namespace RapidFDM
             return transform_relative_masscenter;
         }
 
-        Eigen::Affine3d AircraftNode::get_ground_transform()
+        Eigen::Affine3d AircraftNode::get_ground_transform() const
         {
             if (!inSimulate)
                 return Eigen::Affine3d::Identity();
             return flying_states.transform;
         }
 
-        Eigen::Vector3d AircraftNode::get_total_force()
+        Eigen::Vector3d AircraftNode::get_total_force() const
         {
             assert(inited);
             Eigen::Vector3d res;
@@ -116,14 +116,11 @@ namespace RapidFDM
                 BaseNode *node_ptr = pair.second;
                 res += node_ptr->get_body_transform().linear() *
                        node_ptr->get_realtime_force(node_ptr->get_component_data());
-//                std::cout << node_ptr->getName() << " force : " <<
-//                node_ptr->get_realtime_force(node_ptr->get_component_data()) << std::endl;
             }
-//            std::cout << "Total force:" << res << std::endl;
             return res;
         }
 
-        Eigen::Vector3d AircraftNode::get_total_engine_force()
+        Eigen::Vector3d AircraftNode::get_total_engine_force() const
         {
             assert(inited);
             Eigen::Vector3d res;
@@ -137,7 +134,7 @@ namespace RapidFDM
             return res;
         }
 
-        Eigen::Vector3d AircraftNode::get_total_engine_torque()
+        Eigen::Vector3d AircraftNode::get_total_engine_torque() const
         {
             assert(inited);
             Eigen::Vector3d res;
@@ -154,19 +151,19 @@ namespace RapidFDM
             return res;
         }
 
-        Eigen::Vector3d AircraftNode::get_total_aerodynamics_force()
+        Eigen::Vector3d AircraftNode::get_total_aerodynamics_force() const
         {
             assert(inited);
             Eigen::Vector3d res;
             for (auto pair : node_list) {
                 BaseNode *node_ptr = pair.second;
                 res += node_ptr->get_body_transform().linear() *
-                       node_ptr->get_airdynamics_force(node_ptr->get_component_data());
+                       node_ptr->get_aerodynamics_force(node_ptr->get_component_data());
             }
             return res;
         }
 
-        Eigen::Vector3d AircraftNode::get_total_torque()
+        Eigen::Vector3d AircraftNode::get_total_torque() const
         {
             assert(inited);
             Eigen::Vector3d res;
@@ -180,7 +177,7 @@ namespace RapidFDM
             return res;
         }
 
-        Eigen::Vector3d AircraftNode::get_total_aerodynamics_torque()
+        Eigen::Vector3d AircraftNode::get_total_aerodynamics_torque() const
         {
             assert(inited);
             Eigen::Vector3d res;
@@ -188,9 +185,9 @@ namespace RapidFDM
                 BaseNode *node_ptr = pair.second;
                 ComponentData data = node_ptr->get_component_data();
                 Eigen::Vector3d node_body_r = (Eigen::Vector3d) node_ptr->get_body_transform().translation();
-                Eigen::Vector3d force = node_ptr->get_airdynamics_force(data);
-                res += node_ptr->get_airdynamics_torque(data) +
-                       node_body_r.cross(node_ptr->get_airdynamics_force(data));
+                Eigen::Vector3d force = node_ptr->get_aerodynamics_force(data);
+                res += node_ptr->get_aerodynamics_torque(data) +
+                       node_body_r.cross(node_ptr->get_aerodynamics_force(data));
 
             }
             return res;
@@ -198,7 +195,7 @@ namespace RapidFDM
 
         //TODO:
         //Consider inertial matrix is not a diagonal matrix.
-        Eigen::Vector3d AircraftNode::get_total_inertial()
+        Eigen::Vector3d AircraftNode::get_total_inertial() const
         {
             if (rigid_mode && total_inertial_defined) {
                 return total_inertial;
@@ -211,21 +208,22 @@ namespace RapidFDM
             }
         }
 
-        double AircraftNode::get_total_mass()
+        double AircraftNode::get_total_mass() const
         {
             if (rigid_mode && total_inertial_defined) {
                 return total_mass;
             }
             else {
-                total_mass = this->get_mass();
-                for (auto pair : node_list) {
-                    total_mass += pair.second->get_mass();
-                }
-                return total_mass;
+//                total_mass = this->get_mass();
+//                for (auto pair : node_list) {
+//                    total_mass += pair.second->get_mass();
+//                }
+//                return total_mass;
             }
+                return 0;
         }
 
-        Eigen::Vector3d AircraftNode::get_total_mass_center()
+        Eigen::Vector3d AircraftNode::get_total_mass_center() const
         {
             if (rigid_mode && total_inertial_defined) {
                 return mass_center;

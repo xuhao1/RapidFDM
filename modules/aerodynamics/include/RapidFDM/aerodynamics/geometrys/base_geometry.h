@@ -42,38 +42,34 @@ namespace RapidFDM
 
             //TODO:
             //Write codes
-            virtual float getLift(ComponentData state, AirState airState)
+            virtual float getLift(ComponentData state, AirState airState) const
             {
 //                std::cerr << "Code not wrote" << std::endl;
 //                abort();
                 return 0;
             }
 
-            virtual float getDrag(ComponentData state, AirState airState)
+            virtual float getDrag(ComponentData state, AirState airState) const
             {
 //                std::cerr << "Code not wrote" << std::endl;
 //                abort();
                 return 0;
             }
 
-            virtual float getSide(ComponentData state, AirState airState)
+            virtual float getSide(ComponentData state, AirState airState) const
             {
 //                std::cerr << "Code not wrote" << std::endl;
 //                abort();
                 return 0;
             }
 
-            virtual Eigen::Vector3d get_aerodynamics_center()
+            virtual Eigen::Vector3d getTorque(ComponentData state, AirState airState) const
             {
-                return Eigen::Vector3d(0, 0, 0);
+//                return get_aerodynamics_center().cross(getForce(state, airState));
+                return Eigen::Vector3d(0,0,0);
             }
 
-            virtual Eigen::Vector3d getTorque(ComponentData state, AirState airState)
-            {
-                return get_aerodynamics_center().cross(getForce(state, airState));
-            }
-
-            Eigen::Vector3d getForce(ComponentData state, AirState airState);
+            Eigen::Vector3d getForce(ComponentData state, AirState airState) const;
 
             virtual BaseGeometry *instance()
             {

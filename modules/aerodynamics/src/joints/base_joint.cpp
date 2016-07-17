@@ -70,13 +70,13 @@ namespace RapidFDM
 
         }
 
-        Eigen::Affine3d BaseJoint::get_ground_transform()
+        Eigen::Affine3d BaseJoint::get_ground_transform() const
         {
             assert(parent != nullptr);
             return parent->get_ground_transform() * get_relative_transform();
         }
 
-        Eigen::Affine3d BaseJoint::get_body_transform()
+        Eigen::Affine3d BaseJoint::get_body_transform() const
         {
             assert(parent != nullptr);
             return parent->get_body_transform() * get_relative_transform();

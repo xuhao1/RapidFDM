@@ -17,71 +17,77 @@ namespace RapidFDM
 {
     namespace Aerodynamics
     {
-        class BaseComponent
+        class BaseMoveableComponent
+        {
+        public:
+            virtual Eigen::Vector3d get_ground_velocity() const
+            {
+                std::abort();
+            }
+
+            virtual Eigen::Vector3d get_angular_velocity() const
+            {
+                std::abort();
+            }
+
+            virtual Eigen::Affine3d get_ground_transform() const
+            {
+                std::abort();
+            }
+
+
+            virtual Eigen::Quaterniond get_ground_attitude() const
+            {
+                std::abort();
+            }
+
+
+            virtual Eigen::Affine3d get_body_transform() const
+            {
+                std::abort();
+            }
+
+
+        };
+
+        class BaseAerodynamicsComponent
         {
         protected:
-            std::string name;
-            std::string unique_id;
+            ComponentData flying_states;
+            AirState airState;
+        public:
+            /*!
+              \return The calucated realtime aerodynamics force
+            */
+            virtual Eigen::Vector3d get_aerodynamics_force(ComponentData data) const
+            {
+                return Eigen::Vector3d(0, 0, 0);
+            }
+
+            //! Calucate aerodynamics torque of this node
+            /*!
+              \return The calucated realtime aerodynamics torque
+            */
+            virtual Eigen::Vector3d get_aerodynamics_torque(ComponentData data) const
+            {
+                return Eigen::Vector3d(0, 0, 0);
+            }
+
+
+        };
+
+        class BaseControllableComponent
+        {
+        protected:
             std::map<std::string, double> internal_states;
             std::map<std::string, double> control_axis;
-
-            double time = 0;
-//            std::vector<std::string> control_frame;
-            rapidjson::Document source_document;
         public:
-            BaseComponent()
-            {
-            }
-
-            BaseComponent(const rapidjson::Value &v)
-            {
-                assert(v.IsObject());
-                this->name = fast_string(v, "name");
-                std::string _id = fast_string(v, "id");
-                if (_id == "") {
-                    char buffer[9] = {0};
-                    sprintf(buffer, "%d", rand() % 100000000);
-                    _id = std::string(buffer);
-                }
-
-                this->unique_id = this->name + "_" + _id;
-                this->source_document.CopyFrom(v, source_document.GetAllocator());
-            }
-
-
-            virtual Eigen::Vector3d get_ground_velocity()
-            {
-                std::abort();
-            }
-
-            virtual Eigen::Vector3d get_angular_velocity()
-            {
-                std::abort();
-            }
-
-            virtual Eigen::Affine3d get_ground_transform()
-            {
-                std::abort();
-            }
-
-
-            virtual Eigen::Quaterniond get_ground_attitude()
-            {
-                std::abort();
-            }
-
-
-            virtual Eigen::Affine3d get_body_transform()
-            {
-                std::abort();
-            }
-
-            virtual std::map<std::string, double> get_internal_states()
+            virtual std::map<std::string, double> get_internal_states() const
             {
                 return this->internal_states;
             };
 
-            virtual std::vector<std::string> get_control_frame()
+            virtual std::vector<std::string> get_control_frame() const
             {
                 std::vector<std::string> res;
                 for (auto s : control_axis) {
@@ -90,7 +96,7 @@ namespace RapidFDM
                 return res;
             }
 
-            virtual std::map<std::string, double> get_control_axis()
+            virtual std::map<std::string, double> get_control_axis() const
             {
                 return control_axis;
             };
@@ -116,6 +122,38 @@ namespace RapidFDM
             virtual void iter_internal_state(double deltatime)
             {
             }
+
+        };
+
+        class BaseComponent : public BaseMoveableComponent , public BaseAerodynamicsComponent, public BaseControllableComponent
+        {
+        protected:
+            std::string name;
+            std::string unique_id;
+
+            double time = 0;
+//            std::vector<std::string> control_frame;
+            rapidjson::Document source_document;
+        public:
+            BaseComponent()
+            {
+            }
+
+            BaseComponent(const rapidjson::Value &v)
+            {
+                assert(v.IsObject());
+                this->name = fast_string(v, "name");
+                std::string _id = fast_string(v, "id");
+                if (_id == "") {
+                    char buffer[9] = {0};
+                    sprintf(buffer, "%d", rand() % 100000000);
+                    _id = std::string(buffer);
+                }
+
+                this->unique_id = this->name + "_" + _id;
+                this->source_document.CopyFrom(v, source_document.GetAllocator());
+            }
+
 
             virtual void brief()
             {

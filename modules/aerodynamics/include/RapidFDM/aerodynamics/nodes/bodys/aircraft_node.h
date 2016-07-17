@@ -81,29 +81,29 @@ namespace RapidFDM
 
             AircraftNode();
 
-            virtual Eigen::Affine3d get_body_transform() override;
+            virtual Eigen::Affine3d get_body_transform() const override;
 
-            virtual Eigen::Affine3d get_ground_transform() override;
+            virtual Eigen::Affine3d get_ground_transform() const override;
 
-            virtual Eigen::Vector3d get_total_force();
+            virtual Eigen::Vector3d get_total_force() const;
 
-            virtual Eigen::Vector3d get_total_engine_force();
+            virtual Eigen::Vector3d get_total_engine_force() const;
 
-            virtual Eigen::Vector3d get_total_engine_torque();
+            virtual Eigen::Vector3d get_total_engine_torque() const;
 
-            virtual Eigen::Vector3d get_total_aerodynamics_force();
+            virtual Eigen::Vector3d get_total_aerodynamics_force() const;
 
-            virtual Eigen::Vector3d get_total_torque();
+            virtual Eigen::Vector3d get_total_torque() const;
 
-            virtual Eigen::Vector3d get_total_aerodynamics_torque();
+            virtual Eigen::Vector3d get_total_aerodynamics_torque() const;
 
             //TODO:
             //Consider inertial matrix is not a diagonal matrix.
-            virtual Eigen::Vector3d get_total_inertial();
+            virtual Eigen::Vector3d get_total_inertial() const;
 
-            virtual double get_total_mass();
+            virtual double get_total_mass() const;
 
-            virtual Eigen::Vector3d get_total_mass_center();
+            virtual Eigen::Vector3d get_total_mass_center() const;
 
             void init_after_construct(
                     std::map<std::string, BaseNode *> _node_list,

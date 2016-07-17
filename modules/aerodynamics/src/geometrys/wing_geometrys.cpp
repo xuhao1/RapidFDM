@@ -9,7 +9,7 @@ namespace RapidFDM
 {
     namespace Aerodynamics
     {
-        float WingGeometry::getLift(ComponentData state, AirState airState)
+        float WingGeometry::getLift(ComponentData state, AirState airState) const
         {
 //                std::cerr << "Code not wrote" << std::endl;
 //                abort();
@@ -27,7 +27,7 @@ namespace RapidFDM
 
         }
 
-        float WingGeometry::getDrag(ComponentData state, AirState airState)
+        float WingGeometry::getDrag(ComponentData state, AirState airState) const
         {
 //                std::cerr << "Code not wrote" << std::endl;
 //                abort();
@@ -43,7 +43,7 @@ namespace RapidFDM
             return cd * state.get_q_bar(airState) * this->aera;
         }
 
-        float WingGeometry::getSide(ComponentData state, AirState airState)
+        float WingGeometry::getSide(ComponentData state, AirState airState) const
         {
 //                std::cerr << "Code not wrote" << std::endl;
 //                abort();
@@ -99,10 +99,6 @@ namespace RapidFDM
 
         }
 
-        Eigen::Vector3d WingGeometry::get_aerodynamics_center()
-        {
-            return Eigen::Vector3d(params.Mac * 0.3,0,0);
-        }
     }
 }
 

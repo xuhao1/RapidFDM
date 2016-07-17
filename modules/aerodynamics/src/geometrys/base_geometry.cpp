@@ -8,7 +8,7 @@ namespace RapidFDM
 {
     namespace Aerodynamics
     {
-        Eigen::Vector3d BaseGeometry::getForce(ComponentData state, AirState airState)
+        Eigen::Vector3d BaseGeometry::getForce(ComponentData state, AirState airState) const
         {
             //TODO:
             //fix these codes

@@ -13,6 +13,9 @@
 #include <thread>
 #include <boost/asio.hpp>
 #include <mutex>
+#include <cstdlib>
+#include <csetjmp>
+#include <csignal>
 
 using namespace RapidFDM::NetworkProtocol;
 using namespace RapidFDM::Simulation;
@@ -139,13 +142,21 @@ public:
 
 };
 
+void onexit(int signum)
+{
+    printf("Good bye,world\n");
+    exit(0);
+}
+
 int main(int argc, char **argv)
 {
     std::string path = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/sample_aircraft";
+    signal(SIGABRT, &onexit);
     if (argc > 1) {
         path = std::string(argv[1]);
     }
 
+//    at_quick_exit(onexit);
     simulation_websocket_server server(9093, path);
 
     new std::thread([&] {
