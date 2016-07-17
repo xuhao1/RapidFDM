@@ -307,6 +307,30 @@ namespace RapidFDM
             return node;
         }
 
+        void AircraftNode::setStatefromsimulator(const ComponentData & data)
+        {
+            if (rigid_mode)
+            {
+                this->flying_states = data;
+                for (auto pair : node_list)
+                {
+                    BaseNode * node_ptr = pair.second;
+                    ComponentData node_data;
+                    node_data.body_transform = node_ptr->get_body_transform();
+                    node_data.angular_velocity = node_data.body_transform.linear() * data.angular_velocity;
+                    node_data.ground_velocity =  data.ground_velocity +
+                            data.angular_velocity.cross((Eigen::Vector3d)node_data.body_transform.translation());
+                    node_data.transform = data.transform * node_data.body_transform;
+                    node_ptr->setStatefromsimulator(node_data);
+                }
+            }
+            else
+            {
+                this->flying_states = data;
+            }
+
+        }
+
 
     }
 }

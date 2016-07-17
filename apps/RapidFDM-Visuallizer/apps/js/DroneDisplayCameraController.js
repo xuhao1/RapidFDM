@@ -21,7 +21,7 @@ var DroneDisplayCameraController = function(camera)
 DroneDisplayCameraController.prototype.constructor = DroneDisplayCameraController;
 DroneDisplayCameraController.prototype.update = function () {
     let camera = this.camera;
-    this.total_time = this.total_time + 0.015;
+    // this.total_time = this.total_time + 0.015;
     camera.position.x = Math.cos(this.total_time/this.rotate_time*6.28) * this.radius;
     camera.position.y = Math.sin(this.total_time/this.rotate_time*6.28) * this.radius;
     // console.log(camera);

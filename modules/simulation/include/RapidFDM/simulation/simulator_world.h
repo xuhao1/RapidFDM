@@ -34,6 +34,7 @@ namespace RapidFDM
             PxSceneDesc *sceneDesc;
 
         public:
+            SimulatorAircraft * aircraft = nullptr;
             SimulatorWorld(float dt)
             {
                 init(substep_deltatime);
@@ -46,10 +47,13 @@ namespace RapidFDM
 
             void Step(float deltatime);
 
+            void pre_sim_setup();
+
             SimulatorAircraft * create_aircraft(Aerodynamics::AircraftNode *_aircraftNode,
                               ControlSystem::BaseController *_baseController)
             {
-                return new SimulatorAircraft(_aircraftNode,_baseController,this);
+                aircraft = new SimulatorAircraft(_aircraftNode,_baseController,this);
+                return aircraft;
             }
         };
     };

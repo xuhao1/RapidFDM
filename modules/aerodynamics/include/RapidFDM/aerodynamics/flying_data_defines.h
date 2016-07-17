@@ -38,12 +38,12 @@ namespace RapidFDM
             Eigen::Vector3d angular_velocity = Eigen::Vector3d(0,0,0);
 
             /*!< Ground velocity for this component */
-            Eigen::Vector3d velocity = Eigen::Vector3d(0,0,0);
+            Eigen::Vector3d ground_velocity = Eigen::Vector3d(0,0,0);
 
 
             Eigen::Vector3d get_relative_airspeed(AirState airState)
             {
-                Eigen::Vector3d speed_in_air = velocity + airState.ground_air_speed;
+                Eigen::Vector3d speed_in_air = - ground_velocity + airState.ground_air_speed;
                 return - (transform.linear().inverse() * speed_in_air);
             }
 
@@ -86,7 +86,7 @@ namespace RapidFDM
                 add_transform(v, transform, d, "transform");
                 add_transform(v, body_transform, d, "body_transform");
                 add_vector(v, angular_velocity, d, "angular_velocity");
-                add_vector(v, velocity, d, "velocity");
+                add_vector(v, ground_velocity, d, "velocity");
                 return v;
             }
         };

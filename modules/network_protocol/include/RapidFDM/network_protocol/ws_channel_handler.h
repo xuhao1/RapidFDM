@@ -21,6 +21,7 @@ namespace RapidFDM
             ws_server * wsServer;
             std::string channel_name = "";
             websocketpp::connection_hdl connection_hdl;
+            bool opened = false;
             virtual void on_message(std::string msg);
         public:
             ws_channel_handler(websocket_server * server_ptr,std::string channel);

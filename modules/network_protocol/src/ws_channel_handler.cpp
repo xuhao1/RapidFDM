@@ -19,6 +19,7 @@ namespace RapidFDM
             server_ptr->add_open_hande_function("/" + channel, [&](ws_server *ws, websocketpp::connection_hdl hdl) {
                 this->wsServer = ws;
                 connection_hdl = hdl;
+                opened = true;
                 std::cout << "ws channel handle get open " << std::endl;
             });
             server_ptr->add_message_hande_function("/" + channel, [&](ws_server *ws, websocketpp::connection_hdl hdl,
@@ -46,6 +47,9 @@ namespace RapidFDM
 
         void ws_json_channel_handler::send_json(rapidjson::Document &document)
         {
+            if (!opened)
+                return;
+//            printf("Trying to send json\n");
             int32_t size;
             const char * str = json_to_buffer(document,size);
             wsServer->send(connection_hdl,str,size,websocketpp::frame::opcode::text);

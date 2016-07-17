@@ -2,8 +2,8 @@
 // Created by Hao Xu on 16/6/12.
 //
 
-#ifndef RAPIDFDM_UTILS_H
-#define RAPIDFDM_UTILS_H
+#ifndef RAPIDFDM_SIMULATION_UTILS_H
+#define RAPIDFDM_SIMULATION_UTILS_H
 
 #include <Eigen/Eigen>
 #ifndef NDEBUG
@@ -24,6 +24,7 @@ namespace RapidFDM
     {
         namespace Utils
         {
+            //we use north-east-sky coordinate
             inline PxVec3 vector_e2p(const Eigen::Vector3d &vec)
             {
                 return PxVec3(vec.x(), vec.y(), vec.z());

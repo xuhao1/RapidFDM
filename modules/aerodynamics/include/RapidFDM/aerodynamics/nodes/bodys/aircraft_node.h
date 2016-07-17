@@ -114,6 +114,11 @@ namespace RapidFDM
 
             virtual const rapidjson::Value & getJsonDefine() override;
             virtual const rapidjson::Document * getComponentsDefine();
+            virtual void setStatefromsimulator(const ComponentData & data) override;
+            bool is_rigid()
+            {
+                return rigid_mode;
+            }
 
         };
     }

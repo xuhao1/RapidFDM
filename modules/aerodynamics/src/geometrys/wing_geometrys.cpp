@@ -15,10 +15,14 @@ namespace RapidFDM
 //                abort();
             double velocity = state.get_airspeed_mag(airState);
 
-            double cl = 2 * M_PI * state.get_angle_of_attack(airState);
+            double x = state.get_angle_of_attack(airState);
+            double cl = 0.25 + 5.27966 * x + 0.812763 * x * x - 5.66835  * x * x * x - 13.7039 * x * x * x  *x;
+//            double cl = 2 * M_PI * x;
+            cl = cl /4.302;
             //Stall
-            if (abs(state.get_angle_of_attack(airState) * 180 / M_PI) > 15)
+            if (x * 180 / M_PI > 15 || x * 180 / M_PI < -15)
                 cl = 0;
+
             return cl * state.get_q_bar(airState) * this->aera;
 
         }
@@ -27,7 +31,16 @@ namespace RapidFDM
         {
 //                std::cerr << "Code not wrote" << std::endl;
 //                abort();
-            return 0;
+            double alpha = state.get_angle_of_attack(airState);
+            double x = alpha;
+
+            double cl = 0.25 + 5.27966 * x + 0.812763 * x * x - 5.66835  * x * x * x - 13.7039 * x * x * x  *x;
+            cl = cl /4.302;
+
+            double cd = 0.0109392 + 0.494631 * alpha * alpha + 0.04 * cl * cl;
+            cd = cd /4.302;
+//            printf("Cd : %f \n",cd);
+            return cd * state.get_q_bar(airState) * this->aera;
         }
 
         float WingGeometry::getSide(ComponentData state, AirState airState)

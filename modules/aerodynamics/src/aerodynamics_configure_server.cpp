@@ -4,7 +4,6 @@
 
 #include <RapidFDM/aerodynamics/aerodynamics_configurer.h>
 #include <RapidFDM/network_protocol/ws_channel_handler.h>
-#include <RapidFDM/network_protocol/websocket_server.h>
 
 using namespace RapidFDM::NetworkProtocol;
 using namespace RapidFDM::Aerodynamics;

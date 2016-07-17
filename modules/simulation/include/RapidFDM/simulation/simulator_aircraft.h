@@ -50,14 +50,15 @@ namespace RapidFDM
             PxPhysics *mPhysics = nullptr;
 //            std::
         public:
-            SimulatorAircraft()
+            SimulatorAircraft(PxTransform init_trans = PxTransform::createIdentity())
             {
             }
 
             SimulatorAircraft(
                     Aerodynamics::AircraftNode *_aircraftNode,
                     ControlSystem::BaseController *_baseController,
-                    SimulatorWorld *_simulator
+                    SimulatorWorld *_simulator,
+                    PxTransform init_trans = PxTransform::createIdentity()
             );
 
             void dfs_create_rigids(
@@ -67,9 +68,13 @@ namespace RapidFDM
                     PxRigidBody *root_rigid
             );
 
-            void construct_rigid_dynamics_from_aircraft();
+            void construct_rigid_dynamics_from_aircraft(PxTransform init_trans );
 
             PxRigidBody *construct_rigid(Aerodynamics::BaseNode *node);
+
+            PxRigidBody * construct_rigid_aircraft(PxTransform init_trans );
+
+            virtual void fetch_forces_torques_from_aerodynamics();
 
             PxJoint *construct_joint(
                     Aerodynamics::BaseNode *root,
@@ -79,6 +84,11 @@ namespace RapidFDM
             );
 
             void update_states_from_physx();
+
+            AircraftNode * get_aircraft_node()
+            {
+                return aircraftNode;
+            }
 
         };
     }

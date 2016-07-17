@@ -11,8 +11,6 @@
 
 #undef NDEBUG
 
-#include <assert.h>
-
 namespace RapidFDM
 {
     namespace Simulation
@@ -54,6 +52,23 @@ namespace RapidFDM
 
             printf("Init physics successful!\n");
 
+        }
+
+        void SimulatorWorld::Step(float deltatime)
+        {
+            for (int j=0; j<deltatime/substep_deltatime; j++)
+            {
+                pre_sim_setup();
+                pxScene->simulate(substep_deltatime);
+                pxScene->fetchResults(true);
+            }
+        }
+
+        void SimulatorWorld::pre_sim_setup()
+        {
+            assert(aircraft!= nullptr);
+            aircraft->update_states_from_physx();
+            aircraft->fetch_forces_torques_from_aerodynamics();
         }
     }
 }

@@ -42,7 +42,6 @@ namespace RapidFDM
             void add_open_hande_function(std::string uri,open_handle_function func);
             websocket_server(int port)
             {
-//                printf("Create ws on port %d",port);
                 std::cout << "Create ws on port " << port << std::endl;
                 if (init(port) == 1)
                     exit(1);

@@ -3,9 +3,9 @@
   "type": "fixed",
   "id": "0",
   "base_position": [
-    1,
+    1.5,
     0,
-    0.1
+    0
   ],
   "base_rotation": [
     -90,
