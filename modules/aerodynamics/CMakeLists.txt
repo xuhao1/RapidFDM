@@ -59,9 +59,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${build_dir}/bin")
 
 add_library(rapidfdm_aerodynamics STATIC ${AIRDYNAMICS_MODULE_SOURCES})
 
-add_executable(rapidfdm_aerodynamics_test ${AIRDYNAMICS_TEST_SOURCES})
+#add_executable(rapidfdm_aerodynamics_test ${AIRDYNAMICS_TEST_SOURCES})
 
-target_link_libraries(rapidfdm_aerodynamics_test rapidfdm_aerodynamics)
+#target_link_libraries(rapidfdm_aerodynamics_test rapidfdm_aerodynamics)
 
 add_executable(rapidfdm_aerodynamics_configure_server ${AERODYNAMICS_CONFIGURER_SOURCES})
 target_link_libraries(rapidfdm_aerodynamics_configure_server rapidfdm_aerodynamics rapidfdm_network_protocol)

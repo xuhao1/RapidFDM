@@ -12,6 +12,8 @@
 #include <functional>
 #include <stdio.h>
 #include <mutex>
+#include <boost/bind.hpp>
+#include <vector>
 
 typedef websocketpp::server<websocketpp::config::asio> ws_server;
 using websocketpp::lib::placeholders::_1;
@@ -36,6 +38,7 @@ namespace RapidFDM
 
             std::map<std::string,message_handle_function> message_handlers;
             std::map<std::string,open_handle_function> open_handlers;
+            std::vector <websocketpp::connection_hdl> hdls;
 
             int init(int port);
             void on_message(ws_server* s, websocketpp::connection_hdl hdl, message_ptr msg);
@@ -49,10 +52,24 @@ namespace RapidFDM
                 if (init(port) == 1)
                     exit(1);
             }
-
+            void stop_server()
+            {
+                printf("Trying to stop server\n");
+                for (websocketpp::connection_hdl hdl : hdls)
+                {
+                    ws_server::connection_ptr con = server.get_con_from_hdl(hdl);
+                    con->close(0,"");
+                }
+                this->server.stop_listening();
+                this->server.stop();
+                exit(0);
+            }
             void main_thread()
             {
                 std::cout << "start accept ws server\n";
+                boost::asio::signal_set signals(server.get_io_service(), SIGINT, SIGTERM);
+                signals.async_wait(
+                        boost::bind(&websocket_server::stop_server, this));
                 server.start_accept();
                 server.run();
             }

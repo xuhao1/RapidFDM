@@ -44,6 +44,7 @@ namespace RapidFDM
             {
                 open_handlers[uri->get_resource()](s,hdl);
             }
+            hdls.push_back(hdl);
             online = true;
         }
 
@@ -64,6 +65,7 @@ namespace RapidFDM
             server.set_fail_handler(bind(&websocket_server::on_failed,this,&server,::_1));
             server.set_close_handler(bind(&websocket_server::on_failed,this,&server,::_1));
             // Listen on port
+            server.set_reuse_addr(true);
             server.listen(port);
             return 0;
         }

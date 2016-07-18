@@ -7,6 +7,7 @@
 #include <RapidFDM/control_system/control_system.h>
 #include <RapidFDM/simulation/simulator_aircraft.h>
 #include <RapidFDM/aerodynamics/airdynamics_parser.h>
+#include <thread>
 #include <boost/asio.hpp>
 
 using namespace RapidFDM::Simulation::Utils;
@@ -94,37 +95,43 @@ void convert_tests()
 void test_construct_aircraft()
 {
     SimulatorWorld world(0.001);
-    RapidFDM::Aerodynamics::parser * parser1 = new RapidFDM::Aerodynamics::parser("/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/sample_aircraft");
-    BaseController * controller = new BaseController(parser1->get_aircraft_node());
+    RapidFDM::Aerodynamics::parser *parser1 = new RapidFDM::Aerodynamics::parser(
+            "/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/sample_aircraft");
+    BaseController *controller = new BaseController(parser1->get_aircraft_node());
     printf("\nTrying to construct simulator aircraft\n");
-    SimulatorAircraft * simulatorAircraft = world.create_aircraft(parser1->get_aircraft_node(),controller);
-    AircraftNode * node = simulatorAircraft->get_aircraft_node();
-    node->set_internal_state("main_engine_0/n",180);
+    SimulatorAircraft *simulatorAircraft = world.create_aircraft(parser1->get_aircraft_node(), controller);
+    AircraftNode *node = simulatorAircraft->get_aircraft_node();
+    node->set_internal_state("main_engine_0/n", 180);
     printf("Simulator aircraft construct successfully\n");
-    for (int i = 0 ;i < 100000 ;i++)
-    {
+    for (int i = 0; i < 100000; i++) {
         world.Step(0.01);
     }
 
 }
-    void handler(
-            const boost::system::error_code& error,
-            int signal_number)
-    {
-        if (!error)
-        {
-            // A signal occurred.
+
+void handler(
+        const boost::system::error_code &error,
+        int signal_number)
+{
+    if (!error) {
+        // A signal occurred.
             printf("Good bye world\n");
-        }
+        abort();
     }
+        printf("Good bye world2\n");
+    abort();
+}
 
 int main()
 {
-    printf("Hello,world\n");
+    printf("Hello,world2\n");
     boost::asio::io_service io_service;
-    boost::asio::signal_set signals(io_service, SIGINT, SIGTERM,SIGABRT);
+    boost::asio::signal_set signals(io_service, SIGINT, SIGTERM);
     signals.async_wait(handler);
-    test_construct_aircraft();
+    new std::thread([&] {
+        test_construct_aircraft();
+    });
+    io_service.run();
     printf("Test finish\n");
 }
 
