@@ -47,13 +47,6 @@ namespace RapidFDM
                 return 0;
             }
 
-            virtual Eigen::Vector3d getTorque(ComponentData state, AirState airState) const override
-            {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
-                return Eigen::Vector3d(0, 0, 0);
-            }
-
             virtual void brief() override
             {
                 printf("Box geometry \n");

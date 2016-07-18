@@ -54,12 +54,11 @@ namespace RapidFDM
         {
         protected:
             ComponentData flying_states;
-            AirState airState;
         public:
             /*!
               \return The calucated realtime aerodynamics force
             */
-            virtual Eigen::Vector3d get_aerodynamics_force(ComponentData data) const
+            virtual Eigen::Vector3d get_aerodynamics_force(ComponentData data,AirState airState) const
             {
                 return Eigen::Vector3d(0, 0, 0);
             }
@@ -68,7 +67,7 @@ namespace RapidFDM
             /*!
               \return The calucated realtime aerodynamics torque
             */
-            virtual Eigen::Vector3d get_aerodynamics_torque(ComponentData data) const
+            virtual Eigen::Vector3d get_aerodynamics_torque(ComponentData data,AirState airState) const
             {
                 return Eigen::Vector3d(0, 0, 0);
             }

@@ -31,32 +31,35 @@ namespace RapidFDM
             //! Direction = 1 means 顺时针 产生负力矩
             int direction = 1;
 
-            virtual float get_cq(ComponentData data)
+            virtual float get_cq(ComponentData data,AirState airState) const
             {
                 return 0;
                 return C_q;
             }
 
-            virtual float get_ct(ComponentData data)
+            virtual float get_ct(ComponentData data,AirState airState) const
             {
-                double wind_speed = - get_air_velocity(data).x();
-                double n = internal_states["n"];
+                double wind_speed = - get_air_velocity(data,airState).x();
+                auto pair =internal_states.find("n");
+                double n = pair->second;
                 double J = wind_speed / n / D;
                 if (wind_speed < 0.1 || n < 1)
                     J = 0;
                 return A_ct * J + B_ct;
             }
 
-            virtual float get_propeller_force(ComponentData data)
+            virtual float get_propeller_force(ComponentData data,AirState airState) const
             {
-                double n = internal_states["n"];
-                return get_ct(data) * air_rho * n * n * pow(D, 4);
+                auto pair =internal_states.find("n");
+                double n = pair->second;
+                return get_ct(data,airState) * air_rho * n * n * pow(D, 4);
             }
 
-            virtual float get_propeller_torque(ComponentData data)
+            virtual float get_propeller_torque(ComponentData data,AirState airState) const
             {
-                double n = internal_states["n"];
-                return get_cq(data) * air_rho * n * n * pow(D, 5) * direction;
+                auto pair =internal_states.find("n");
+                double n = pair->second;
+                return get_cq(data,airState) * air_rho * n * n * pow(D, 5) * direction;
             }
 
         public:
@@ -66,16 +69,16 @@ namespace RapidFDM
                 internal_states["n"] = max_n * control_axis["thrust"];
             }
 
-            virtual Eigen::Vector3d get_engine_force(ComponentData data) override
+            virtual Eigen::Vector3d get_engine_force(ComponentData data,AirState airState) const override
             {
                 //Force to negative x axis
-                return Eigen::Vector3d(-get_propeller_force(data), 0, 0);
+                return Eigen::Vector3d(-get_propeller_force(data,airState), 0, 0);
             }
 
-            virtual Eigen::Vector3d get_engine_torque(ComponentData data) override
+            virtual Eigen::Vector3d get_engine_torque(ComponentData data,AirState airState) const override
             {
                 //Torque at negative x axis
-                return Eigen::Vector3d(get_propeller_torque(data), 0, 0);
+                return Eigen::Vector3d(get_propeller_torque(data,airState), 0, 0);
             }
 
             virtual BaseNode *instance() override

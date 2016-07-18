@@ -8,12 +8,13 @@ namespace RapidFDM
 {
     namespace Aerodynamics
     {
-        Eigen::Vector3d BaseGeometry::getForce(ComponentData state, AirState airState) const
+        Eigen::Vector3d BaseGeometry::get_aerodynamics_force(ComponentData state, AirState airState) const
         {
             //TODO:
             //fix these codes
-            Eigen::Vector3d force_tmp = Eigen::Vector3d(getDrag(state, airState), getSide(state, airState),
-                                                        getLift(state, airState));
+            Eigen::Vector3d force_tmp = Eigen::Vector3d
+                    (getDrag(state, airState), getSide(state, airState),
+                     getLift(state, airState));
 
             double alpha = state.get_angle_of_attack(airState);
             double beta = state.get_sideslip(airState);

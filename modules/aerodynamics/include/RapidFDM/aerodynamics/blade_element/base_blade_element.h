@@ -19,33 +19,37 @@ namespace RapidFDM
         public:
 
             BaseBladeElement(BaseGeometry * geo,Eigen::Vector3d _relative_pos = Eigen::Vector3d(0,0,0));
+            virtual Eigen::Vector3d get_aerodynamics_force(ComponentData data,AirState airState) const override;
+            virtual Eigen::Vector3d get_aerodynamics_torque(ComponentData data,AirState airState) const override ;
+
 
             virtual Eigen::Vector3d get_position_relative_geometry() const;
 
             Eigen::Affine3d get_relative_transform() const;
 
-            virtual Eigen::Vector3d get_ground_velocity();
+            virtual Eigen::Vector3d get_ground_velocity() const override ;
 
-            virtual Eigen::Vector3d get_angular_velocity();
+            virtual Eigen::Vector3d get_angular_velocity() const override ;
 
-            virtual Eigen::Affine3d get_ground_transform();
+            virtual Eigen::Affine3d get_ground_transform() const override ;
 
-            virtual Eigen::Quaterniond get_ground_attitude();
+            virtual Eigen::Quaterniond get_ground_attitude() const override ;
 
-            virtual Eigen::Affine3d get_body_transform();
+            virtual Eigen::Affine3d get_body_transform() const override ;
+
 
             ComponentData make_component_data_from_geometry(ComponentData data) const;
-            virtual float getLift(ComponentData state, AirState airState)
+            virtual float getLift(ComponentData state, AirState airState) const
             {
                 return 0;
             }
 
-            virtual float getDrag(ComponentData state, AirState airState)
+            virtual float getDrag(ComponentData state, AirState airState) const
             {
                 return 0;
             }
 
-            virtual float getSide(ComponentData state, AirState airState)
+            virtual float getSide(ComponentData state, AirState airState) const
             {
                 return 0;
             }

@@ -39,10 +39,6 @@ namespace RapidFDM
         void AircraftNode::set_air_state(AirState air_state)
         {
             this->airState = air_state;
-            for (auto pair : node_list) {
-                BaseNode *node_ptr = pair.second;
-                node_ptr->set_air_state(air_state);
-            }
         }
 
         int AircraftNode::set_control_value(std::string name, double v)
@@ -115,7 +111,7 @@ namespace RapidFDM
             for (auto pair : node_list) {
                 BaseNode *node_ptr = pair.second;
                 res += node_ptr->get_body_transform().linear() *
-                       node_ptr->get_realtime_force(node_ptr->get_component_data());
+                       node_ptr->get_realtime_force(node_ptr->get_component_data(),airState);
             }
             return res;
         }
@@ -129,7 +125,7 @@ namespace RapidFDM
                 BaseEngineNode *engineNode_ptr = dynamic_cast<BaseEngineNode *>(node_ptr);
                 if (engineNode_ptr != nullptr)
                     res += node_ptr->get_body_transform().linear() *
-                           engineNode_ptr->get_engine_force(node_ptr->get_component_data());
+                           engineNode_ptr->get_engine_force(node_ptr->get_component_data(),airState);
             }
             return res;
         }
@@ -144,8 +140,8 @@ namespace RapidFDM
                 if (engineNode_ptr != nullptr) {
                     Eigen::Vector3d engine_body_r = (Eigen::Vector3d) engineNode_ptr->get_body_transform().translation();
                     ComponentData data = engineNode_ptr->get_component_data();
-                    res += engineNode_ptr->get_engine_torque(data)
-                           + engine_body_r.cross(engineNode_ptr->get_engine_force(data));
+                    res += engineNode_ptr->get_engine_torque(data,airState)
+                           + engine_body_r.cross(engineNode_ptr->get_engine_force(data,airState));
                 }
             }
             return res;
@@ -158,7 +154,7 @@ namespace RapidFDM
             for (auto pair : node_list) {
                 BaseNode *node_ptr = pair.second;
                 res += node_ptr->get_body_transform().linear() *
-                       node_ptr->get_aerodynamics_force(node_ptr->get_component_data());
+                       node_ptr->get_aerodynamics_force(node_ptr->get_component_data(),airState);
             }
             return res;
         }
@@ -171,8 +167,8 @@ namespace RapidFDM
                 BaseNode *node_ptr = pair.second;
                 Eigen::Vector3d node_body_r = (Eigen::Vector3d) node_ptr->get_body_transform().translation();
                 ComponentData data = node_ptr->get_component_data();
-                res += node_ptr->get_realtime_torque(data)
-                       + node_body_r.cross(node_ptr->get_realtime_force(data));
+                res += node_ptr->get_realtime_torque(data,airState)
+                       + node_body_r.cross(node_ptr->get_realtime_force(data,airState));
             }
             return res;
         }
@@ -185,9 +181,8 @@ namespace RapidFDM
                 BaseNode *node_ptr = pair.second;
                 ComponentData data = node_ptr->get_component_data();
                 Eigen::Vector3d node_body_r = (Eigen::Vector3d) node_ptr->get_body_transform().translation();
-                Eigen::Vector3d force = node_ptr->get_aerodynamics_force(data);
-                res += node_ptr->get_aerodynamics_torque(data) +
-                       node_body_r.cross(node_ptr->get_aerodynamics_force(data));
+                res += node_ptr->get_aerodynamics_torque(data,airState) +
+                       node_body_r.cross(node_ptr->get_aerodynamics_force(data,airState));
 
             }
             return res;

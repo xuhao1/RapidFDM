@@ -67,11 +67,10 @@ namespace RapidFDM
             Eigen::Vector3d mass_center = Eigen::Vector3d(0, 0, 0);
             void init(const rapidjson::Value &_json);
 
+            AirState airState;
         public:
             AircraftNode(const rapidjson::Value &_json);
 
-
-            virtual void set_air_state(AirState air_state) override;
 
             virtual int set_control_value(std::string name, double v) override;
 
@@ -115,6 +114,8 @@ namespace RapidFDM
             virtual const rapidjson::Value & getJsonDefine() override;
             virtual const rapidjson::Document * getComponentsDefine();
             virtual void setStatefromsimulator(const ComponentData & data) override;
+
+            void set_air_state(AirState air_state);
             bool is_rigid()
             {
                 return rigid_mode;

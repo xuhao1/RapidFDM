@@ -25,29 +25,29 @@ namespace RapidFDM{
             );
             return trans;
         }
-        Eigen::Affine3d BaseBladeElement::get_body_transform()
+        Eigen::Affine3d BaseBladeElement::get_body_transform() const
         {
 //            return geometry->get_body_transform() * get_relative_transform();
             assert(true);
         }
-        Eigen::Affine3d BaseBladeElement::get_ground_transform()
+        Eigen::Affine3d BaseBladeElement::get_ground_transform() const
         {
 //            return geometry->get_ground_transform() * get_relative_transform();
             assert(true);
         }
-        Eigen::Vector3d BaseBladeElement::get_ground_velocity()
+        Eigen::Vector3d BaseBladeElement::get_ground_velocity() const
         {
 //            return geometry->get_ground_velocity() +
 //                    geometry->get_angular_velocity().cross(
 //                            get_position_relative_geometry());
             assert(true);
         }
-        Eigen::Vector3d BaseBladeElement::get_angular_velocity()
+        Eigen::Vector3d BaseBladeElement::get_angular_velocity() const
         {
 //            return geometry->get_angular_velocity();
             assert(true);
         }
-        Eigen::Quaterniond BaseBladeElement::get_ground_attitude()
+        Eigen::Quaterniond BaseBladeElement::get_ground_attitude() const
         {
 //            return geometry->get_ground_attitude();
             assert(true);

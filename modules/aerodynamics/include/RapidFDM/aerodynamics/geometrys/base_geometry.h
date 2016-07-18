@@ -63,13 +63,13 @@ namespace RapidFDM
                 return 0;
             }
 
-            virtual Eigen::Vector3d getTorque(ComponentData state, AirState airState) const
+            virtual Eigen::Vector3d get_aerodynamics_torque(ComponentData state, AirState airState) const override
             {
 //                return get_aerodynamics_center().cross(getForce(state, airState));
                 return Eigen::Vector3d(0,0,0);
             }
 
-            Eigen::Vector3d getForce(ComponentData state, AirState airState) const;
+            Eigen::Vector3d get_aerodynamics_force(ComponentData state, AirState airState) const override;
 
             virtual BaseGeometry *instance()
             {

@@ -14,11 +14,11 @@ namespace RapidFDM
         class  BaseEngineNode : public BaseNode
         {
         public:
-            virtual Eigen::Vector3d get_engine_force(ComponentData data){
+            virtual Eigen::Vector3d get_engine_force(ComponentData data,AirState airState) const{
                 abort();
                 return Eigen::Vector3d(0,0,0);
             }
-            virtual Eigen::Vector3d get_engine_torque(ComponentData data){
+            virtual Eigen::Vector3d get_engine_torque(ComponentData data,AirState airState) const {
                 abort();
                 return Eigen::Vector3d(0,0,0);
             }
@@ -29,13 +29,13 @@ namespace RapidFDM
                 this->node_type = AerodynamicsNodeType ::AerodynamicsBaseEngineNode;
             }
 
-            virtual Eigen::Vector3d get_realtime_force (ComponentData data) override
+            virtual Eigen::Vector3d get_realtime_force (ComponentData data,AirState airState) const override
             {
-                return get_engine_force(data);
+                return get_engine_force(data,airState);
             }
-            virtual Eigen::Vector3d get_realtime_torque (ComponentData data) override
+            virtual Eigen::Vector3d get_realtime_torque (ComponentData data,AirState airState) const override
             {
-                return get_engine_torque(data);
+                return get_engine_torque(data,airState);
             }
 
             BaseEngineNode()

@@ -7,6 +7,7 @@
 #include <RapidFDM/control_system/control_system.h>
 #include <RapidFDM/simulation/simulator_aircraft.h>
 #include <RapidFDM/aerodynamics/airdynamics_parser.h>
+#include <boost/asio.hpp>
 
 using namespace RapidFDM::Simulation::Utils;
 using namespace RapidFDM::Simulation;
@@ -106,10 +107,23 @@ void test_construct_aircraft()
     }
 
 }
+    void handler(
+            const boost::system::error_code& error,
+            int signal_number)
+    {
+        if (!error)
+        {
+            // A signal occurred.
+            printf("Good bye world\n");
+        }
+    }
 
 int main()
 {
     printf("Hello,world\n");
+    boost::asio::io_service io_service;
+    boost::asio::signal_set signals(io_service, SIGINT, SIGTERM,SIGABRT);
+    signals.async_wait(handler);
     test_construct_aircraft();
     printf("Test finish\n");
 }
