@@ -29,7 +29,7 @@ DroneDisplayCameraController.prototype.constructor = DroneDisplayCameraControlle
 DroneDisplayCameraController.prototype.update = function () {
     let camera = this.camera;
     if (this.target != 0) {
-        var relative_position = new THREE.Vector3(2,0,1);
+        var relative_position = new THREE.Vector3(2,2,2);
         relative_position.applyQuaternion(this.target.attitude);
         relative_position.add(this.target.position);
         

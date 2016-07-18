@@ -15,15 +15,12 @@ namespace RapidFDM
         class BaseBladeElement : public BaseMoveableComponent , public BaseAerodynamicsComponent {
         protected:
             BaseGeometry * geometry = nullptr;
-            Eigen::Vector3d relative_pos;
         public:
 
-            BaseBladeElement(BaseGeometry * geo,Eigen::Vector3d _relative_pos = Eigen::Vector3d(0,0,0));
+            BaseBladeElement(BaseGeometry * geo);
             virtual Eigen::Vector3d get_aerodynamics_force(ComponentData data,AirState airState) const override;
             virtual Eigen::Vector3d get_aerodynamics_torque(ComponentData data,AirState airState) const override ;
 
-
-            virtual Eigen::Vector3d get_position_relative_geometry() const;
 
             Eigen::Affine3d get_relative_transform() const;
 

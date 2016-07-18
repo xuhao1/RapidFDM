@@ -325,6 +325,11 @@ namespace RapidFDM
 
         }
 
+        void AircraftNode::calcuate_washes(AirState airState)
+        {
+            this->bladeElementManager.calculate_washes(airState);
+        }
+
 
     }
 }

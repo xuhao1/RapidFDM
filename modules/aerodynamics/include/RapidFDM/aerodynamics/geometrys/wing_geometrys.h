@@ -44,6 +44,9 @@ namespace RapidFDM
                 float ctrlSurfFrac = 0.0;
                 bool enableControl = false;
                 int wingPart = 3;
+                double deflectAngle = 0;
+                double root_chord_length = 0;
+                double taper_chord_length = 0;
 
             } params;
             double aera = 0;

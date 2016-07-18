@@ -55,13 +55,25 @@ namespace RapidFDM
         protected:
             ComponentData flying_states;
         public:
+            virtual float getLift(ComponentData state, AirState airState) const
+            {
+                return 0;
+            }
+
+            virtual float getDrag(ComponentData state, AirState airState) const
+            {
+                return 0;
+            }
+
+            virtual float getSide(ComponentData state, AirState airState) const
+            {
+                return 0;
+            }
+
             /*!
               \return The calucated realtime aerodynamics force
             */
-            virtual Eigen::Vector3d get_aerodynamics_force(ComponentData data,AirState airState) const
-            {
-                return Eigen::Vector3d(0, 0, 0);
-            }
+            virtual Eigen::Vector3d get_aerodynamics_force(ComponentData data,AirState airState) const;
 
             //! Calucate aerodynamics torque of this node
             /*!

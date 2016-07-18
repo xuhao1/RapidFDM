@@ -20,6 +20,6 @@
   "enableControl": 1,
   "airfoil_name":"naca0015",
   "deflectAngle" : 5,
-  "MidChordSweep": 15,
+  "MidChordSweep": 0,
   "TaperRatio":0.6
 }

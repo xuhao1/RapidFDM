@@ -5,7 +5,6 @@ let sample_wing_config = {
     TaperRatio: 0.7,
     MidChordSweep: 0,
     wing_part: 2,
-    center_point_chord: 0.3,
     deflectAngle: 8,
     airfoil_name: "naca0015"
 };
@@ -88,12 +87,12 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
     if ("wing_part" in wing_config)
         wing_part = wing_config.wing_part;
 
-    let center_point_chord = wing_config.center_point_chord;
+    let center_point_chord = 0.25;
 
-    if (center_point_chord === undefined) {
-        console.log("center point chord undefined");
-        center_point_chord = 0;
-    }
+    // if (center_point_chord === undefined) {
+    //     console.log("center point chord undefined");
+    //     center_point_chord = 0;
+    // }
 
     let Mac = wing_config.Mac;
 
@@ -110,8 +109,7 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
     let root_chord = Mac * 2 / (1 + TaperRatio);
     let taper_chord = Mac * 2 * TaperRatio / (1 + TaperRatio);
     //offset on X
-    let root_offset = -center_point_chord * root_chord;
-    // let root_offset = 0;
+    let root_offset = 0;
 
     var positions, normals, uvs, vertices = [];
     if (wing_part == 1 || wing_part == 0) {

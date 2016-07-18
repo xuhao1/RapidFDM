@@ -4,6 +4,7 @@
 
 
 #include <RapidFDM/aerodynamics/geometrys/wing_geometrys.h>
+#include <RapidFDM/aerodynamics/geometrys/Geometrys.h>
 
 namespace RapidFDM
 {
@@ -14,7 +15,6 @@ namespace RapidFDM
 //                std::cerr << "Code not wrote" << std::endl;
 //                abort();
             double velocity = state.get_airspeed_mag(airState);
-
             double x = state.get_angle_of_attack(airState);
             double cl = 0.25 + 5.27966 * x + 0.812763 * x * x - 5.66835  * x * x * x - 13.7039 * x * x * x  *x;
 //            double cl = 2 * M_PI * x;
@@ -29,8 +29,6 @@ namespace RapidFDM
 
         float WingGeometry::getDrag(ComponentData state, AirState airState) const
         {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
             double alpha = state.get_angle_of_attack(airState);
             double x = alpha;
 
@@ -39,14 +37,11 @@ namespace RapidFDM
 
             double cd = 0.0109392 + 0.494631 * alpha * alpha + 0.04 * cl * cl;
             cd = cd /4.302;
-//            printf("Cd : %f \n",cd);
             return cd * state.get_q_bar(airState) * this->aera;
         }
 
         float WingGeometry::getSide(ComponentData state, AirState airState) const
         {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
             return 0;
         }
 
@@ -70,17 +65,20 @@ namespace RapidFDM
             params.Mac = fast_value(v, "Mac", 0);
             params.nonSideAttach = fast_value(v, "nonSideAttch", 1);
             params.TarperRatio = fast_value(v, "TaperRatio", 1);
-            params.MidChordSweep = fast_value(v, "MidChordSweep", 0);
+            params.MidChordSweep = fast_value(v, "MidChordSweep", 0) * 180 / M_PI;
             params.maxdeflect = fast_value(v, "maxdeflect", 15);
             params.enableControl = fast_value(v, "enableControl", 0) == 1;
             if (params.enableControl)
                 params.ctrlSurfFrac = fast_value(v, "ctrlSurfFrac", 0.2);
             params.wingPart = fast_value(v, "wingPart", 2);
+            params.deflectAngle = fast_value(v,"deflectAngle")  * 180 / M_PI;
             this->type = "WingGeometry";
             this->aera = params.b_2 * params.Mac;
             if (params.wingPart == 2) {
                 this->aera = params.b_2 * params.Mac * 2;
             }
+            params.root_chord_length = params.Mac * 2 / (1+params.TarperRatio) ;
+            params.taper_chord_length = params.Mac * 2 * params.TarperRatio / (1+params.TarperRatio) ;
         }
 
         void WingGeometry::brief()

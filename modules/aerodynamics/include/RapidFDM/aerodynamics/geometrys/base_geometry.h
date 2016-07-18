@@ -40,36 +40,6 @@ namespace RapidFDM
                 return type;
             };
 
-            //TODO:
-            //Write codes
-            virtual float getLift(ComponentData state, AirState airState) const
-            {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
-                return 0;
-            }
-
-            virtual float getDrag(ComponentData state, AirState airState) const
-            {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
-                return 0;
-            }
-
-            virtual float getSide(ComponentData state, AirState airState) const
-            {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
-                return 0;
-            }
-
-            virtual Eigen::Vector3d get_aerodynamics_torque(ComponentData state, AirState airState) const override
-            {
-//                return get_aerodynamics_center().cross(getForce(state, airState));
-                return Eigen::Vector3d(0,0,0);
-            }
-
-            Eigen::Vector3d get_aerodynamics_force(ComponentData state, AirState airState) const override;
 
             virtual BaseGeometry *instance()
             {

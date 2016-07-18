@@ -8,6 +8,7 @@
 #include <RapidFDM/aerodynamics/geometrys/geometry_helper.h>
 #include <stdio.h>
 #include <RapidFDM/aerodynamics/nodes/engines/base_engine.h>
+#include <RapidFDM/aerodynamics/blade_element/blade_element_manager.h>
 
 namespace RapidFDM
 {
@@ -68,6 +69,7 @@ namespace RapidFDM
             void init(const rapidjson::Value &_json);
 
             AirState airState;
+            BladeElementManager bladeElementManager;
         public:
             AircraftNode(const rapidjson::Value &_json);
 
@@ -121,6 +123,7 @@ namespace RapidFDM
                 return rigid_mode;
             }
 
+            void calcuate_washes(AirState airState);
         };
     }
 }
