@@ -14,11 +14,12 @@ namespace RapidFDM
 
         Eigen::Vector3d WingGeometry::get_aerodynamics_force(ComponentData state, AirState airState) const
         {
-            Eigen::Vector3d res;
+            Eigen::Vector3d res = Eigen::Vector3d(0,0,0);
             for (auto blade : blades) {
                 ComponentData data = blade->make_component_data_from_geometry(state);
                 auto convert_coord = blade->get_relative_transform().linear();
                        res += convert_coord *blade->get_aerodynamics_force(data,airState);
+//                res += blade->get_aerodynamics_force(data,airState);
 
             }
             return res;
@@ -27,7 +28,7 @@ namespace RapidFDM
 
         Eigen::Vector3d WingGeometry::get_aerodynamics_torque(ComponentData state, AirState airState) const
         {
-            Eigen::Vector3d res;
+            Eigen::Vector3d res = Eigen::Vector3d(0,0,0);
             for (auto blade : blades) {
                 ComponentData data = blade->make_component_data_from_geometry(state);
                 auto convert_coord = blade->get_relative_transform().linear();

@@ -75,6 +75,7 @@ namespace RapidFDM
             assert(aMaterial != nullptr);
             Eigen::Vector3d boundingbox = aircraftNode->get_bounding_box();
             auto init_trans = PxTransform::createIdentity();
+            init_trans.p.z = 10;
             printf("init trans pos %f %f %f\n",init_trans.p.x,init_trans.p.y,init_trans.p.z);
             PxRigidBody *actor = PxCreateDynamic(
                     *mPhysics,
@@ -195,7 +196,7 @@ namespace RapidFDM
             nodes[aircraftNode]->setGlobalPose(init_trans);
             nodes[aircraftNode]->setLinearVelocity(init_speed_vec);
             nodes[aircraftNode]->setAngularVelocity(PxVec3(0,0,0));
-//            aircraftNode->set_internal_state("main_engine_0/n",200);
+            aircraftNode->set_internal_state("main_engine_0/n",180);
         }
 
         void SimulatorAircraft::update_states_from_physx()

@@ -110,7 +110,7 @@ namespace RapidFDM
         Eigen::Vector3d AircraftNode::get_total_force() const
         {
             assert(inited);
-            Eigen::Vector3d res;
+            Eigen::Vector3d res = Eigen::Vector3d(0,0,0);
             for (auto pair : node_list) {
                 BaseNode *node_ptr = pair.second;
                 res += node_ptr->get_body_transform().linear() *
@@ -122,7 +122,7 @@ namespace RapidFDM
         Eigen::Vector3d AircraftNode::get_total_engine_force() const
         {
             assert(inited);
-            Eigen::Vector3d res;
+            Eigen::Vector3d res = Eigen::Vector3d(0,0,0);
             for (auto pair : node_list) {
                 BaseNode *node_ptr = pair.second;
                 BaseEngineNode *engineNode_ptr = dynamic_cast<BaseEngineNode *>(node_ptr);
@@ -136,7 +136,7 @@ namespace RapidFDM
         Eigen::Vector3d AircraftNode::get_total_engine_torque() const
         {
             assert(inited);
-            Eigen::Vector3d res;
+            Eigen::Vector3d res = Eigen::Vector3d(0,0,0);
             for (auto pair : node_list) {
                 BaseNode *node_ptr = pair.second;
                 auto convert_coord = node_ptr->get_body_transform().linear();
@@ -154,7 +154,7 @@ namespace RapidFDM
         Eigen::Vector3d AircraftNode::get_total_aerodynamics_force() const
         {
             assert(inited);
-            Eigen::Vector3d res;
+            Eigen::Vector3d res = Eigen::Vector3d(0,0,0);
             for (auto pair : node_list) {
                 BaseNode *node_ptr = pair.second;
                 res += node_ptr->get_body_transform().linear() *
@@ -166,7 +166,7 @@ namespace RapidFDM
         Eigen::Vector3d AircraftNode::get_total_torque() const
         {
             assert(inited);
-            Eigen::Vector3d res;
+            Eigen::Vector3d res = Eigen::Vector3d(0,0,0);
             for (auto pair : node_list) {
                 BaseNode *node_ptr = pair.second;
                 auto convert_coord = node_ptr->get_body_transform().linear();
@@ -181,7 +181,7 @@ namespace RapidFDM
         Eigen::Vector3d AircraftNode::get_total_aerodynamics_torque() const
         {
             assert(inited);
-            Eigen::Vector3d res;
+            Eigen::Vector3d res = Eigen::Vector3d(0,0,0);
             for (auto pair : node_list) {
                 BaseNode *node_ptr = pair.second;
                 auto convert_coord = node_ptr->get_body_transform().linear();

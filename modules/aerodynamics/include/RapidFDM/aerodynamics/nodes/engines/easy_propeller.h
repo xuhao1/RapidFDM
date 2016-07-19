@@ -25,7 +25,7 @@ namespace RapidFDM
             //Q = rho * n^2 * D^5 * Cq
             double A_ct = -0.10;
             double B_ct = 0.09;
-            double C_q = 0.007961783439;
+            double C_q = 0.00;
             double D;
             double max_n;
             //! Direction = 1 means 顺时针 产生负力矩
@@ -33,7 +33,6 @@ namespace RapidFDM
 
             virtual float get_cq(ComponentData data,AirState airState) const
             {
-                return 0;
                 return C_q;
             }
 

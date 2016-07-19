@@ -57,9 +57,9 @@ namespace RapidFDM
         float WingBladeElement::getLift(ComponentData state, AirState airState) const
         {
             double velocity = state.get_airspeed_mag(airState);
-//            printf("vel %f \n",velocity);
             double cl = get_cl(state, airState);
-            return cl * state.get_q_bar(airState) * this->Mac * this->element_span_length;
+            double lift = cl * state.get_q_bar(airState) * this->Mac * this->element_span_length;
+            return lift;
         }
 
         float WingBladeElement::getDrag(ComponentData state, AirState airState) const
