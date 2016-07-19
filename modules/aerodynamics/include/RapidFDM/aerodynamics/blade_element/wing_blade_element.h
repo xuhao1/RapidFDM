@@ -22,17 +22,21 @@ namespace RapidFDM
         public:
             WingBladeElement(BaseGeometry * geo,double inner_span_percent,double outer_span_percent);
 
+            virtual Eigen::Vector3d get_aerodynamics_torque(ComponentData data,AirState airState) const override;
+
+            virtual Eigen::Affine3d get_relative_transform() const override ;
             virtual float get_cl(ComponentData state,AirState airState) const;
 
             virtual float get_cd(ComponentData state,AirState airState) const;
 
-//            virtual float get_cs(ComponentData state,AirState airState) const;
+            virtual float get_cm(ComponentData state,AirState airState) const;
 
             virtual float getLift(ComponentData state, AirState airState) const override;
 
             virtual float getDrag(ComponentData state, AirState airState) const override;
 
             virtual float getSide(ComponentData state, AirState airState) const override;
+
 
 
         };

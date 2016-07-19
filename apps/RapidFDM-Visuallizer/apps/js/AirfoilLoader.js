@@ -84,8 +84,8 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
         sweep_angle = wing_config.MidChordSweep * Math.PI / 180.0;
 
     var wing_part = 2;
-    if ("wing_part" in wing_config)
-        wing_part = wing_config.wing_part;
+    if ("wingPart" in wing_config)
+        wing_part = wing_config.wingPart;
 
     let center_point_chord = 0.25;
 

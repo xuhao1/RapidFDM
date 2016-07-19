@@ -21,5 +21,6 @@
   "airfoil_name":"naca0015",
   "deflectAngle" : 4,
   "MidChordSweep": 0,
-  "TaperRatio":0.8
+  "TaperRatio":0.8,
+  "pieces": 2
 }

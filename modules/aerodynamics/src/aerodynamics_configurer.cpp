@@ -108,15 +108,30 @@ namespace RapidFDM
                 d->AddMember("type", "get_total_forces_torques", d->GetAllocator());
                 rapidjson::Value value(rapidjson::kObjectType);
 
-                add_vector(value, aircraftNode->get_total_force(), *d, "total_force");
-                add_vector(value, aircraftNode->get_total_torque(), *d, "total_torue");
+                add_vector(value, aircraftNode->get_ground_transform().linear() * aircraftNode->get_total_force(), *d,
+                           "total_force");
+                add_vector(value, aircraftNode->get_ground_transform().linear() * aircraftNode->get_total_torque(), *d,
+                           "total_torue");
 
-                add_vector(value, aircraftNode->get_total_aerodynamics_force(), *d, "total_airdynamics_force");
-                add_vector(value, aircraftNode->get_total_aerodynamics_torque(), *d, "total_airdynamics_torque");
+                add_vector(value,
+                           aircraftNode->get_ground_transform().linear() * aircraftNode->get_total_aerodynamics_force(),
+                           *d, "total_airdynamics_force");
+                add_vector(value, aircraftNode->get_ground_transform().linear() *
+                                  aircraftNode->get_total_aerodynamics_torque(), *d, "total_airdynamics_torque");
 
-                add_vector(value, aircraftNode->get_total_engine_torque(), *d, "total_engine_torque");
-                add_vector(value, aircraftNode->get_total_engine_force(), *d, "total_engine_force");
+                add_vector(value,
+                           aircraftNode->get_ground_transform().linear() * aircraftNode->get_total_engine_torque(), *d,
+                           "total_engine_torque");
+                add_vector(value,
+                           aircraftNode->get_ground_transform().linear() * aircraftNode->get_total_engine_force(), *d,
+                           "total_engine_force");
 
+                rapidjson::Value blade_array(rapidjson::kArrayType);
+                blade_array.CopyFrom(
+                       *aircraftNode->bladeElementManager.get_blades_information() ,
+                        d->GetAllocator()
+                );
+                value.AddMember("blades",blade_array,d->GetAllocator());
                 d->AddMember("data", value, d->GetAllocator());
                 return d;
             };

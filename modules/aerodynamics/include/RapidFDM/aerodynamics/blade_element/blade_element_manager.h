@@ -8,6 +8,7 @@
 #include <RapidFDM/aerodynamics/blade_element/base_blade_element.h>
 #include <RapidFDM/aerodynamics/blade_element/blade_element_manager.h>
 #include <vector>
+#include <rapidjson/document.h>
 
 namespace RapidFDM
 {
@@ -24,7 +25,10 @@ namespace RapidFDM
 
             AirState get_blade_element_airstate(BaseBladeElement * element);
 
-            void calculate_washes(AirState airState);
+            //If deltatime < 0 ,then we will get stabilized result ...
+            void calculate_washes(AirState airState,double delatime = -1);
+
+            rapidjson::Document * get_blades_information();
         };
     }
 }

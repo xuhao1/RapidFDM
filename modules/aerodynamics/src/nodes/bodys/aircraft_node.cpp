@@ -16,9 +16,11 @@ namespace RapidFDM
 
             if (_json.HasMember("geometry") && _json["geometry"].IsObject()) {
                 this->geometry = GeometryHelper::create_geometry_from_json(_json["geometry"]);
+                this->geometry->_parent = this;
             }
             else {
                 this->geometry = new BaseGeometry();
+                this->geometry->_parent = this;
             }
             this->node_type = AerodynamicsNodeType ::AerodynamicsAircraftNode;
             printf("Success parse aircraft_node\n");
@@ -39,6 +41,7 @@ namespace RapidFDM
         void AircraftNode::set_air_state(AirState air_state)
         {
             this->airState = air_state;
+            bladeElementManager.calculate_washes(air_state,-1);
         }
 
         int AircraftNode::set_control_value(std::string name, double v)
@@ -246,6 +249,7 @@ namespace RapidFDM
             for (auto pair : node_list) {
                 BaseNode *node_ptr = pair.second;
                 node_ptr->init_component_data();
+                this->bladeElementManager.add_blade_elements(node_ptr->geometry->get_blade_elements());
                 for (auto internal_pair :node_ptr->get_internal_states()) {
                     std::string state_name = internal_pair.first;
                     this->internal_states[node_ptr->getUniqueID() + "/" + state_name] = internal_pair.second;
@@ -325,9 +329,9 @@ namespace RapidFDM
 
         }
 
-        void AircraftNode::calcuate_washes(AirState airState)
+        void AircraftNode::calculate_washes(AirState airState,double deltatime)
         {
-            this->bladeElementManager.calculate_washes(airState);
+            this->bladeElementManager.calculate_washes(airState,deltatime);
         }
 
 

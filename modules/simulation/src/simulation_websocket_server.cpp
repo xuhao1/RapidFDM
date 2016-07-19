@@ -39,7 +39,7 @@ protected:
 
     std::mutex phys_engine_lock;
 public:
-    simulation_websocket_server(int port, std::string aircraft_path, float deltatime = 0.005, float tick_time = 0.02) :
+    simulation_websocket_server(int port, std::string aircraft_path, float deltatime = 0.005, float tick_time = 0.03) :
             websocket_server(port), simulatorWorld(deltatime), interval(tick_time)
     {
 
@@ -114,6 +114,13 @@ public:
         add_vector(value, trans_body_2_world * aircraftNode->get_total_engine_torque(), d, "total_engine_torque");
         add_vector(value, trans_body_2_world * aircraftNode->get_total_engine_force(), d, "total_engine_force");
 
+        rapidjson::Value blade_array(rapidjson::kArrayType);
+        blade_array.CopyFrom(
+                *aircraftNode->bladeElementManager.get_blades_information() ,
+                d.GetAllocator()
+        );
+        value.AddMember("blades",blade_array,d.GetAllocator());
+
         d.AddMember("forces_torques", value, d.GetAllocator());
 
         rapidjson::Value airspeed_value(rapidjson::kObjectType);
@@ -157,7 +164,7 @@ int main(int argc, char **argv)
     }
 
 //    at_quick_exit(onexit);
-    simulation_websocket_server server(9093, path);
+    simulation_websocket_server server(9093, path,0.01,0.04);
 
     new std::thread([&] {
         printf("run server thread\n");

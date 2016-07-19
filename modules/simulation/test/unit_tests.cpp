@@ -94,7 +94,7 @@ void convert_tests()
 
 void test_construct_aircraft()
 {
-    SimulatorWorld world(0.001);
+    SimulatorWorld world(0.01);
     RapidFDM::Aerodynamics::parser *parser1 = new RapidFDM::Aerodynamics::parser(
             "/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/sample_aircraft");
     BaseController *controller = new BaseController(parser1->get_aircraft_node());
@@ -104,7 +104,7 @@ void test_construct_aircraft()
     node->set_internal_state("main_engine_0/n", 180);
     printf("Simulator aircraft construct successfully\n");
     for (int i = 0; i < 100000; i++) {
-        world.Step(0.01);
+        world.Step(0.05);
     }
 
 }

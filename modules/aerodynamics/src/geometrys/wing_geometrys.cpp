@@ -5,6 +5,7 @@
 
 #include <RapidFDM/aerodynamics/geometrys/wing_geometrys.h>
 #include <RapidFDM/aerodynamics/geometrys/Geometrys.h>
+#include <RapidFDM/aerodynamics/blade_element/wing_blade_element.h>
 
 namespace RapidFDM
 {
@@ -12,37 +13,48 @@ namespace RapidFDM
     {
         float WingGeometry::getLift(ComponentData state, AirState airState) const
         {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
-            double velocity = state.get_airspeed_mag(airState);
-            double x = state.get_angle_of_attack(airState);
-            double cl = 0.25 + 5.27966 * x + 0.812763 * x * x - 5.66835  * x * x * x - 13.7039 * x * x * x  *x;
-//            double cl = 2 * M_PI * x;
-            cl = cl /4.302;
-            //Stall
-            if (x * 180 / M_PI > 15 || x * 180 / M_PI < -15)
-                cl = 0;
-
-            return cl * state.get_q_bar(airState) * this->aera;
-
+            double total_lift = 0;
+            for (BaseBladeElement * element : this->blades)
+            {
+                state = element->make_component_data_from_geometry(state);
+                total_lift += element->getLift(state,airState);
+            }
+            return total_lift;
         }
 
         float WingGeometry::getDrag(ComponentData state, AirState airState) const
         {
-            double alpha = state.get_angle_of_attack(airState);
-            double x = alpha;
-
-            double cl = 0.25 + 5.27966 * x + 0.812763 * x * x - 5.66835  * x * x * x - 13.7039 * x * x * x  *x;
-            cl = cl /4.302;
-
-            double cd = 0.0109392 + 0.494631 * alpha * alpha + 0.04 * cl * cl;
-            cd = cd /4.302;
-            return cd * state.get_q_bar(airState) * this->aera;
+            double total_drag = 0;
+            for (BaseBladeElement * element : this->blades)
+            {
+                state = element->make_component_data_from_geometry(state);
+                total_drag += element->getDrag(state,airState);
+            }
+            return total_drag;
         }
 
         float WingGeometry::getSide(ComponentData state, AirState airState) const
         {
-            return 0;
+            double total_side = 0;
+            for (BaseBladeElement * element : this->blades)
+            {
+                state = element->make_component_data_from_geometry(state);
+                total_side += element->getSide(state,airState);
+            }
+            return total_side;
+        }
+
+        Eigen::Vector3d WingGeometry::get_aerodynamics_torque(ComponentData state, AirState airState) const
+        {
+            Eigen::Vector3d res;
+            for (auto blade : blades) {
+                ComponentData data = blade->make_component_data_from_geometry(state);
+                Eigen::Vector3d node_body_r = (Eigen::Vector3d) blade->get_relative_transform().translation();
+                res += blade->get_aerodynamics_torque(data,airState) +
+                       node_body_r.cross(blade->get_aerodynamics_force(data,airState));
+
+            }
+            return res;
         }
 
         //!Build a wing
@@ -65,20 +77,32 @@ namespace RapidFDM
             params.Mac = fast_value(v, "Mac", 0);
             params.nonSideAttach = fast_value(v, "nonSideAttch", 1);
             params.TarperRatio = fast_value(v, "TaperRatio", 1);
-            params.MidChordSweep = fast_value(v, "MidChordSweep", 0) * 180 / M_PI;
+            params.MidChordSweep = fast_value(v, "MidChordSweep", 0) * M_PI / 180;
             params.maxdeflect = fast_value(v, "maxdeflect", 15);
             params.enableControl = fast_value(v, "enableControl", 0) == 1;
+            int pieces = fast_value(v,"pieces",5);
             if (params.enableControl)
                 params.ctrlSurfFrac = fast_value(v, "ctrlSurfFrac", 0.2);
             params.wingPart = fast_value(v, "wingPart", 2);
-            params.deflectAngle = fast_value(v,"deflectAngle")  * 180 / M_PI;
+            params.deflectAngle = fast_value(v, "deflectAngle") *  M_PI / 180;
             this->type = "WingGeometry";
             this->aera = params.b_2 * params.Mac;
             if (params.wingPart == 2) {
                 this->aera = params.b_2 * params.Mac * 2;
             }
-            params.root_chord_length = params.Mac * 2 / (1+params.TarperRatio) ;
-            params.taper_chord_length = params.Mac * 2 * params.TarperRatio / (1+params.TarperRatio) ;
+            params.root_chord_length = params.Mac * 2 / (1 + params.TarperRatio);
+            params.taper_chord_length = params.Mac * 2 * params.TarperRatio / (1 + params.TarperRatio);
+            for (int i = 0; i < pieces; i ++) {
+                double k = ((double)i) / ((double) pieces);
+                if (params.wingPart == 1 || params.wingPart == 2)
+                    this->blades.push_back(
+                            new WingBladeElement(this, k, k + 1/((double)pieces))
+                    );
+                if (params.wingPart == 0 || params.wingPart == 2)
+                    this->blades.push_back(
+                            new WingBladeElement(this, -k, -k - 1/((double)pieces))
+                    );
+            }
         }
 
         void WingGeometry::brief()

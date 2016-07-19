@@ -38,7 +38,7 @@ namespace RapidFDM
 
             SimulatorWorld(float dt)
             {
-                init(substep_deltatime);
+                init(dt);
             }
 
             PxScene *pxScene = nullptr;

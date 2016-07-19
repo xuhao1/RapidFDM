@@ -69,8 +69,8 @@ namespace RapidFDM
             void init(const rapidjson::Value &_json);
 
             AirState airState;
-            BladeElementManager bladeElementManager;
         public:
+            BladeElementManager bladeElementManager;
             AircraftNode(const rapidjson::Value &_json);
 
 
@@ -123,7 +123,7 @@ namespace RapidFDM
                 return rigid_mode;
             }
 
-            void calcuate_washes(AirState airState);
+            void calculate_washes(AirState airState,double deltatime = -1);
         };
     }
 }

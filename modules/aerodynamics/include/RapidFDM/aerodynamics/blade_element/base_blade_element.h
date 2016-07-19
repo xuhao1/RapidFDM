@@ -15,14 +15,12 @@ namespace RapidFDM
         class BaseBladeElement : public BaseMoveableComponent , public BaseAerodynamicsComponent {
         protected:
             BaseGeometry * geometry = nullptr;
+
         public:
 
             BaseBladeElement(BaseGeometry * geo);
-            virtual Eigen::Vector3d get_aerodynamics_force(ComponentData data,AirState airState) const override;
-            virtual Eigen::Vector3d get_aerodynamics_torque(ComponentData data,AirState airState) const override ;
 
-
-            Eigen::Affine3d get_relative_transform() const;
+            virtual Eigen::Affine3d get_relative_transform() const;
 
             virtual Eigen::Vector3d get_ground_velocity() const override ;
 
@@ -36,6 +34,7 @@ namespace RapidFDM
 
 
             ComponentData make_component_data_from_geometry(ComponentData data) const;
+            ComponentData get_component_data_from_geometry();
             virtual float getLift(ComponentData state, AirState airState) const
             {
                 return 0;
@@ -50,6 +49,7 @@ namespace RapidFDM
             {
                 return 0;
             }
+
 
         };
     }

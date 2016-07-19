@@ -19,6 +19,7 @@ namespace RapidFDM {
             void init(const rapidjson::Value & v)
             {
                 this->geometry = new WingGeometry(v);
+                this->geometry->_parent = this;
                 this->node_type = AerodynamicsNodeType ::AerodynamicsWingNode;
                 enableControl = getWing()->params.enableControl;
             }
