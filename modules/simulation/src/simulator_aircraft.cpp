@@ -110,12 +110,6 @@ namespace RapidFDM
             assert(actor != nullptr);
             actor->setMass(node->get_mass());
             actor->setMassSpaceInertiaTensor(vector_e2p(node->get_inertial()));
-//            actor->setCMassLocalPose(
-//                    PxTransform(
-//                            vector_e2p(node->get_mass_center()),
-//                            PxQuat(0, 0, 0, 1)
-//                    )
-//            );
             pxScene->addActor(*actor);
             node->setSimulate(true);
             return actor;
@@ -201,7 +195,7 @@ namespace RapidFDM
             nodes[aircraftNode]->setGlobalPose(init_trans);
             nodes[aircraftNode]->setLinearVelocity(init_speed_vec);
             nodes[aircraftNode]->setAngularVelocity(PxVec3(0,0,0));
-            aircraftNode->set_internal_state("main_engine_0/n",200);
+//            aircraftNode->set_internal_state("main_engine_0/n",200);
         }
 
         void SimulatorAircraft::update_states_from_physx()

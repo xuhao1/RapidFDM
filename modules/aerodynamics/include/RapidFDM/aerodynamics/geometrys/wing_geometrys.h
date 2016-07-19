@@ -16,13 +16,8 @@ namespace RapidFDM
         {
         protected:
         public:
-            virtual float getLift(ComponentData state, AirState airState) const override ;
-
-            virtual float getDrag(ComponentData state, AirState airState) const override ;
-
-            virtual float getSide(ComponentData state, AirState airState) const override ;
-
             virtual Eigen::Vector3d get_aerodynamics_torque(ComponentData state,AirState airState) const override ;
+            virtual Eigen::Vector3d get_aerodynamics_force(ComponentData state,AirState airState) const override ;
 
             /*flow KAR parameter
              * MODULE

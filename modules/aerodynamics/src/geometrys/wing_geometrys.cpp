@@ -11,47 +11,29 @@ namespace RapidFDM
 {
     namespace Aerodynamics
     {
-        float WingGeometry::getLift(ComponentData state, AirState airState) const
+
+        Eigen::Vector3d WingGeometry::get_aerodynamics_force(ComponentData state, AirState airState) const
         {
-            double total_lift = 0;
-            for (BaseBladeElement * element : this->blades)
-            {
-                state = element->make_component_data_from_geometry(state);
-                total_lift += element->getLift(state,airState);
+            Eigen::Vector3d res;
+            for (auto blade : blades) {
+                ComponentData data = blade->make_component_data_from_geometry(state);
+                auto convert_coord = blade->get_relative_transform().linear();
+                       res += convert_coord *blade->get_aerodynamics_force(data,airState);
+
             }
-            return total_lift;
+            return res;
         }
 
-        float WingGeometry::getDrag(ComponentData state, AirState airState) const
-        {
-            double total_drag = 0;
-            for (BaseBladeElement * element : this->blades)
-            {
-                state = element->make_component_data_from_geometry(state);
-                total_drag += element->getDrag(state,airState);
-            }
-            return total_drag;
-        }
-
-        float WingGeometry::getSide(ComponentData state, AirState airState) const
-        {
-            double total_side = 0;
-            for (BaseBladeElement * element : this->blades)
-            {
-                state = element->make_component_data_from_geometry(state);
-                total_side += element->getSide(state,airState);
-            }
-            return total_side;
-        }
 
         Eigen::Vector3d WingGeometry::get_aerodynamics_torque(ComponentData state, AirState airState) const
         {
             Eigen::Vector3d res;
             for (auto blade : blades) {
                 ComponentData data = blade->make_component_data_from_geometry(state);
+                auto convert_coord = blade->get_relative_transform().linear();
                 Eigen::Vector3d node_body_r = (Eigen::Vector3d) blade->get_relative_transform().translation();
-                res += blade->get_aerodynamics_torque(data,airState) +
-                       node_body_r.cross(blade->get_aerodynamics_force(data,airState));
+                res += convert_coord * blade->get_aerodynamics_torque(data,airState) +
+                       node_body_r.cross(convert_coord * blade->get_aerodynamics_force(data,airState));
 
             }
             return res;
