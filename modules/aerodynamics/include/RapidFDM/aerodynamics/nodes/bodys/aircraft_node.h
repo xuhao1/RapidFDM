@@ -68,8 +68,8 @@ namespace RapidFDM
             Eigen::Vector3d mass_center = Eigen::Vector3d(0, 0, 0);
             void init(const rapidjson::Value &_json);
 
-            AirState airState;
         public:
+            AirState airState;
             BladeElementManager bladeElementManager;
             AircraftNode(const rapidjson::Value &_json);
 

@@ -309,6 +309,7 @@ namespace RapidFDM
 
         void AircraftNode::setStatefromsimulator(const ComponentData & data)
         {
+            this->setSimulate(true);
             if (rigid_mode)
             {
                 this->flying_states = data;

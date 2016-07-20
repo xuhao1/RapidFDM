@@ -171,12 +171,12 @@ namespace RapidFDM
             }
 
 
-            std::string getName()
+            std::string getName() const
             {
                 return this->name;
             }
 
-            std::string getUniqueID()
+            std::string getUniqueID() const
             {
                 return this->unique_id;
             }

@@ -223,6 +223,32 @@ namespace RapidFDM
                 return d;
             };
 
+            query_functions["set_flying_state"] = [&](const rapidjson::Value &v) {
+                rapidjson::Document *d = new rapidjson::Document;
+                d->SetObject();
+                d->AddMember("opcode", "response_query", d->GetAllocator());
+                d->AddMember("type", "set_flying_state", d->GetAllocator());
+
+                ComponentData data;
+                data.angular_velocity = fast_vector3(v, "angular_velocity");
+                data.transform = fast_transform(v,"transform");
+                data.body_transform = Eigen::Affine3d::Identity();
+                data.ground_velocity = fast_vector3(v,"ground_velocity");
+                aircraftNode->setStatefromsimulator(data);
+                rapidjson::Value transdata(rapidjson::kObjectType);
+                add_transform(transdata,aircraftNode->get_ground_transform(),*d);
+                rapidjson::Value airspeed_value(rapidjson::kObjectType);
+
+                AirState  airState =aircraftNode->airState;
+                add_value(airspeed_value, data.get_airspeed_mag(airState), *d, "airspeed");
+                add_value(airspeed_value, data.get_angle_of_attack(airState) * 180 / M_PI, *d, "angle_of_attack");
+                add_value(airspeed_value, data.get_sideslip(airState), *d, "sideslip");
+                transdata.AddMember("airstate", airspeed_value, d->GetAllocator());
+
+
+                d->AddMember("data", transdata, d->GetAllocator());
+                return d;
+            };
 
             query_configure_functions["list_model"] = [&](const rapidjson::Value &v) {
                 rapidjson::Document *d = new rapidjson::Document;

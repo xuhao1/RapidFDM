@@ -79,6 +79,20 @@ public:
             printf("Trying to resume simulator \n");
             simulator_running = true;
         });
+
+        handler_realtime_output->add_json_handler("set_internal_state", [&](const rapidjson::Value &value) {
+            for (rapidjson::Value::ConstMemberIterator itr = value.MemberBegin();
+                 itr != value.MemberEnd(); ++itr)
+            {
+//                printf("member %s\n",
+//                       itr->name.GetString());
+                aircraftNode->set_internal_state(
+                        itr->name.GetString(),itr->value.GetDouble()
+                );
+
+            }
+
+        });
     }
 
     void run_next_tick()

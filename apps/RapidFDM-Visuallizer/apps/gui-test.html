@@ -21,6 +21,7 @@
     <script src="js/AirfoilLoader.js"></script>
     <script src="js/configurer_driver.js"></script>
     <script src="js/components_geometry_loader.js"></script>
+    <script src="js/aircraft_input.js"></script>
     <link rel="stylesheet" type="text/css" href="css/editor-ui.css"/>
 
     <script src="../static/js/jquery-1.11.3.min.js" type="text/javascript"></script>
@@ -32,12 +33,27 @@
 <div id="logs">
     <textarea id="log_plant" readonly="readonly"></textarea>
 </div>
-<button onclick="list_model()" id="list_model_button">List model</button>
-<button onclick="load_model()" id="load_model_button">Load model</button>
-<button id="list_axis_model_button">List Axis</button>
-<button id="get_total_forces_torques_button">Debug</button>
-<!--<input  type="range" id="wind_aoa_input" min="-45" max="45"/>-->
+<!--<button onclick="list_model()" id="list_model_button">List model</button>-->
+<!--<button onclick="load_model()" id="load_model_button">Load model</button>-->
+<!--<button id="list_axis_model_button">List Axis</button>-->
+<!--<button id="get_total_forces_torques_button">Debug</button>-->
+<!--<input  t<divype="range" id="wind_aoa_input" min="-45" max="45"/>-->
+<div id="flight_status">
+    <p> EnginForce: <span id = "engine_force">0</span></p>
+    <p> Angle of attack: <span id = "angle_of_attack">0</span></p>
+    <p> Sideslip: <span id = "sideslip">0</span></p>
+    <p> Air speed: <span id = "air_speed">0</span></p>
+</div>
 <div id="wind_aoa_input"></div>
+<div id="wind_sideslip_input"></div>
+<div id="gamepad_status">
+    <p id="gamepad_connection"  >Gamepad offline </p>
+    <div id="gamepad_value_aileron" ></div>
+    <div id="gamepad_value_elevator" ></div>
+    <div id="gamepad_value_throttle" ></div>
+    <div id="gamepad_value_rudder" ></div>
+    <!--<div id="internal_states"></div>-->
+</div>
 
 <script src="js/aircraft_view.js"></script>
 <script>
@@ -64,6 +80,7 @@
             });
         }
 
+
         var aircraftview = 0;
 
         function load_model() {
@@ -75,25 +92,34 @@
                 name: "sample_aircraft",
                 camera_controller : dis.controller
             });
+            window.aircraftview = aircraftview;
+            var input = new AircraftInput(aircraftview);
         }
-
+        var aoa_sp = 0;
+        var sideslip_sp = 0;
         var sliderOpts = {
-            change: function () {
-//                log("change");
-            },
             min: -15,
             max: 15,
             value : 0,
             slide: function (e,ui) {
-                aircraftview.set_wind_speed(25,ui.value);
-                log(`set wind speed to ${ui.value}`);
+                aoa_sp = ui.value;
+                aircraftview.set_wind_speed(25,aoa_sp,sideslip_sp);
+                log(`set wind aoa to ${ui.value}`);
             }
-//            start: function () {
-//            },
-//            stop: function () {
-//            }
         };
         $("#wind_aoa_input").slider(sliderOpts);
+        var sliderOpts2 = {
+            min: -15,
+            max: 15,
+            value : 0,
+            slide: function (e,ui) {
+                sideslip_sp = ui.value;
+                aircraftview.set_wind_speed(25,aoa_sp,sideslip_sp);
+                log(`set wind sideslip to ${ui.value}`);
+            }
+        };
+
+        $("#wind_sideslip_input").slider(sliderOpts2);
 
     });
 

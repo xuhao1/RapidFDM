@@ -4,13 +4,13 @@
   "type": "aircraft",
   "mass": 2.5,
   "mass_center": [
-    0.35,
+    0.20,
     0,
     0
   ],
   "inertial": [
     0.2,
-    1,
+    0.2,
     0.2
   ],
   "geometry": {

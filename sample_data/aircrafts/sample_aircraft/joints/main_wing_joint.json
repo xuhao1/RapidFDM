@@ -3,13 +3,13 @@
   "type": "fixed",
   "id": "0",
   "base_position": [
-    0.3,
+    0.15,
     0,
     0
   ],
   "base_rotation": [
     0,
-    2,
+    5,
     0
   ],
   "child_reference_point": [

@@ -10,6 +10,7 @@ namespace RapidFDM
 {
     namespace Aerodynamics
     {
+        class WingNode;
         class WingBladeElement : public BaseBladeElement {
         protected:
             //This transform shall be relative to
@@ -19,6 +20,7 @@ namespace RapidFDM
             float deflectAngle;
             float MidChordSweep;
             float element_span_length;
+            float mid_span_length;
         public:
             WingBladeElement(BaseGeometry * geo,double inner_span_percent,double outer_span_percent);
 
@@ -36,6 +38,8 @@ namespace RapidFDM
             virtual float getDrag(ComponentData state, AirState airState) const override;
 
             virtual float getSide(ComponentData state, AirState airState) const override;
+
+            WingNode * get_wing_node() const;
 
 
 

@@ -71,7 +71,14 @@ namespace RapidFDM
 
             double get_sideslip(AirState airState)
             {
-                return 0;
+                if (get_airspeed_mag(airState) < 0.1)
+                {
+                    return 0;
+                }
+
+                auto relative_airspeed = get_relative_airspeed(airState);
+                double beta =  atan2(- relative_airspeed.y(), - relative_airspeed.x());
+                return beta;
             }
 
             ComponentData()

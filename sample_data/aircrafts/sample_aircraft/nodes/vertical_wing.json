@@ -19,8 +19,6 @@
   "wingPart": 0,
   "enableControl": 1,
   "airfoil_name":"naca0015",
-  "deflectAngle" : 4,
-  "MidChordSweep": 15,
   "TaperRatio":0.6,
-  "pieces":5
+  "pieces":2
 }

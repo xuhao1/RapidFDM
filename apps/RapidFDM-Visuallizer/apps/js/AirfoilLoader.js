@@ -13,7 +13,7 @@ if (typeof XMLHttpRequest == "undefined") {
 }
 
 function gen_airfoil_url(airfoil_name) {
-    //return `../../data/airfoils/${airfoil_name}.dat`;
+    return `../static/airfoils/${airfoil_name}.dat`;
     return `http://m-selig.ae.illinois.edu/ads/coord/${airfoil_name}.dat`;
 }
 
