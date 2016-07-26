@@ -20,5 +20,5 @@
   "enableControl": 1,
   "airfoil_name":"naca0015",
   "TaperRatio":0.6,
-  "pieces":2
+  "pieces":5
 }

@@ -16,8 +16,8 @@ var DroneDisplayCameraController = function (camera) {
 
     this.mode = "third_person_follow";
 
-    this.theta = Math.PI / 4.0;
-    this.phi = Math.PI / 6;
+    this.theta = 0;
+    this.phi = 0;
     this.height = 3;
     this.wx = 0;
     this.wy = 0;
@@ -27,22 +27,22 @@ var DroneDisplayCameraController = function (camera) {
     let obj = this;
     document.addEventListener('keydown', function (event) {
         switch (event.keyCode) {
-            case 187:
-                obj.zoom(-1);
-                break;
-            case 189:
-                obj.zoom(1);
-                break;
-            case 39:
+            // case 187:
+            //     obj.zoom(-1);
+            //     break;
+            // case 189:
+            //     obj.zoom(1);
+            //     break;
+            case 191:
                 obj.leftright(1);
                 break;
-            case 37:
+            case 188:
                 obj.leftright(-1);
                 break;
-            case 38:
+            case 76:
                 obj.updown(1);
                 break;
-            case 40:
+            case 190:
                 obj.updown(-1);
                 break;
         }
