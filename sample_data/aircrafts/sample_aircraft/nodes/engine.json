@@ -7,7 +7,7 @@
     0,0,0
   ],
   "D": 0.254,
-  "max_rpm"  : 10000,
+  "max_rpm"  : 12000,
   "direction" : 1,
   "inertial" : [1e-4,1e-4,1e-4],
   "geometry" : {

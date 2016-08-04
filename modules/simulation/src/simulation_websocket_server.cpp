@@ -84,15 +84,23 @@ public:
             for (rapidjson::Value::ConstMemberIterator itr = value.MemberBegin();
                  itr != value.MemberEnd(); ++itr)
             {
-//                printf("member %s\n",
-//                       itr->name.GetString());
                 aircraftNode->set_internal_state(
                         itr->name.GetString(),itr->value.GetDouble()
                 );
-
             }
-
         });
+
+        handler_realtime_output->add_json_handler("set_control_value", [&](const rapidjson::Value &value) {
+            for (rapidjson::Value::ConstMemberIterator itr = value.MemberBegin();
+                 itr != value.MemberEnd(); ++itr)
+            {
+                aircraftNode->set_control_value(
+                        itr->name.GetString(),itr->value.GetDouble()
+                );
+            }
+        });
+
+
     }
 
     void run_next_tick()
@@ -163,19 +171,9 @@ public:
 
 };
 
-void onexit(int signum)
-{
-    printf("Good bye,world\n");
-    exit(0);
-}
-
 int main(int argc, char **argv)
 {
     std::string path = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/sample_aircraft";
-    signal(SIGABRT, &onexit);
-    if (argc > 1) {
-        path = std::string(argv[1]);
-    }
 
 //    at_quick_exit(onexit);
     simulation_websocket_server server(9093, path,0.01,0.04);

@@ -15,7 +15,5 @@ set(CONTROL_SYSTEM_MODULE_SOURCES
         src/base_controller.cpp
         include/RapidFDM/control_system/base_controller.h
         include/RapidFDM/control_system/control_system.h
-        )
+        include/RapidFDM/control_system/mixer.h src/mixer.cpp)
 add_library(rapidfdm_control_system STATIC ${CONTROL_SYSTEM_MODULE_SOURCES})
-find_package(Boost REQUIRED
-        COMPONENTS filesystem)

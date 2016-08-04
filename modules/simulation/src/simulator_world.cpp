@@ -63,6 +63,9 @@ namespace RapidFDM
             for (int j=0; j<deltatime/substep_deltatime; j++)
             {
                 pre_sim_setup();
+                //TODO:
+                //Move this
+                aircraft->get_aircraft_node()->iter_internal_state(substep_deltatime);
                 pxScene->simulate(substep_deltatime);
                 pxScene->fetchResults(true);
             }

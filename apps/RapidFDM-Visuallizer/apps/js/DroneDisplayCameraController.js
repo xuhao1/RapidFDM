@@ -23,6 +23,8 @@ var DroneDisplayCameraController = function (camera) {
     this.wy = 0;
     this.min_cam_height = 1;
     this.max_cam_height = 10;
+    
+    this.relative_center_point = new THREE.Vector3(0,0,0.5);
 
     let obj = this;
     document.addEventListener('keydown', function (event) {
@@ -89,12 +91,13 @@ DroneDisplayCameraController.prototype.update = function () {
 
 
         //Lookat must be after position
-        this.camera.lookAt(new THREE.Vector3(
+        var target = new THREE.Vector3(
             this.target.position.x,
             this.target.position.y,
             this.target.position.z
-            )
         );
+        target.add(this.relative_center_point.clone().applyQuaternion(this.target.attitude));
+        this.camera.lookAt(target);
        
     }
 };

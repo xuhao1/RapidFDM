@@ -72,7 +72,6 @@ namespace RapidFDM
 
         float WingBladeElement::getDrag(ComponentData state, AirState airState) const
         {
-            double velocity = state.get_airspeed_mag(airState);
             double cd = get_cd(state, airState);
             return cd * state.get_q_bar(airState) * this->Mac * this->element_span_length;
         }
@@ -87,7 +86,6 @@ namespace RapidFDM
         float WingBladeElement::get_cl(ComponentData state, AirState airState) const
         {
             WingGeometry *wingGeometry = dynamic_cast<WingGeometry * >(geometry);
-            double velocity = state.get_airspeed_mag(airState);
             double x = state.get_angle_of_attack(airState);
 
 

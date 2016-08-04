@@ -196,7 +196,6 @@ namespace RapidFDM
             nodes[aircraftNode]->setGlobalPose(init_trans);
             nodes[aircraftNode]->setLinearVelocity(init_speed_vec);
             nodes[aircraftNode]->setAngularVelocity(PxVec3(0,0,0));
-            aircraftNode->set_internal_state("main_engine_0/n",180);
         }
 
         void SimulatorAircraft::update_states_from_physx()

@@ -25,21 +25,21 @@ namespace RapidFDM
             //Q = rho * n^2 * D^5 * Cq
             double A_ct = -0.10;
             double B_ct = 0.09;
-            double C_q = 0.00;
+            double C_q = 0.0;
             double D;
             double max_n;
             //! Direction = 1 means 顺时针 产生负力矩
             int direction = 1;
 
-            virtual float get_cq(ComponentData data,AirState airState) const
+            virtual float get_cq(ComponentData data, AirState airState) const
             {
                 return C_q;
             }
 
-            virtual float get_ct(ComponentData data,AirState airState) const
+            virtual float get_ct(ComponentData data, AirState airState) const
             {
-                double wind_speed = - get_air_velocity(data,airState).x();
-                auto pair =internal_states.find("n");
+                double wind_speed = -get_air_velocity(data, airState).x();
+                auto pair = internal_states.find("n");
                 double n = pair->second;
                 double J = wind_speed / n / D;
                 if (wind_speed < 0.1 || n < 1)
@@ -47,18 +47,18 @@ namespace RapidFDM
                 return A_ct * J + B_ct;
             }
 
-            virtual float get_propeller_force(ComponentData data,AirState airState) const
+            virtual float get_propeller_force(ComponentData data, AirState airState) const
             {
-                auto pair =internal_states.find("n");
+                auto pair = internal_states.find("n");
                 double n = pair->second;
-                return get_ct(data,airState) * air_rho * n * n * pow(D, 4);
+                return get_ct(data, airState) * air_rho * n * n * pow(D, 4);
             }
 
-            virtual float get_propeller_torque(ComponentData data,AirState airState) const
+            virtual float get_propeller_torque(ComponentData data, AirState airState) const
             {
-                auto pair =internal_states.find("n");
+                auto pair = internal_states.find("n");
                 double n = pair->second;
-                return get_cq(data,airState) * air_rho * n * n * pow(D, 5) * direction;
+                return get_cq(data, airState) * air_rho * n * n * pow(D, 5) * direction;
             }
 
         public:
@@ -68,16 +68,16 @@ namespace RapidFDM
                 internal_states["n"] = max_n * control_axis["thrust"];
             }
 
-            virtual Eigen::Vector3d get_engine_force(ComponentData data,AirState airState) const override
+            virtual Eigen::Vector3d get_engine_force(ComponentData data, AirState airState) const override
             {
                 //Force to negative x axis
-                return Eigen::Vector3d(-get_propeller_force(data,airState), 0, 0);
+                return Eigen::Vector3d(-get_propeller_force(data, airState), 0, 0);
             }
 
-            virtual Eigen::Vector3d get_engine_torque(ComponentData data,AirState airState) const override
+            virtual Eigen::Vector3d get_engine_torque(ComponentData data, AirState airState) const override
             {
                 //Torque at negative x axis
-                return Eigen::Vector3d(get_propeller_torque(data,airState), 0, 0);
+                return Eigen::Vector3d(get_propeller_torque(data, airState), 0, 0);
             }
 
             virtual BaseNode *instance() override
@@ -101,7 +101,7 @@ namespace RapidFDM
                 D = fast_value(document, "D", 0.254);
                 direction = fast_value(document, "direction", 1);
                 max_n = fast_value(document, "max_rpm", 10000.0) / 60.0;
-                this->node_type = AerodynamicsNodeType ::AerodynamicsEasyPropellerNode;
+                this->node_type = AerodynamicsNodeType::AerodynamicsEasyPropellerNode;
                 printf("Success parse propeller_node\n");
                 printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->get_type_str().c_str(),
                        geometry->get_type().c_str());

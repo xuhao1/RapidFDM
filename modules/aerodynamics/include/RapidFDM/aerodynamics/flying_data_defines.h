@@ -49,7 +49,9 @@ namespace RapidFDM
 
             double get_q_bar(AirState airState)
             {
-                return airState.rho * this->get_airspeed_mag(airState) * this->get_airspeed_mag(airState) / 2;
+                //Q bar will get airspeed on x & y axis!!!!
+                return airState.rho * this->get_front_airspeed(airState) * this->get_front_airspeed(airState) / 2;
+//                return airState.rho * this->get_airspeed_mag(airState) * this->get_airspeed_mag(airState) / 2;
             }
 
             double get_angle_of_attack(AirState airState)
@@ -63,7 +65,11 @@ namespace RapidFDM
                 double aoa =  atan2(- relative_airspeed.z(), - relative_airspeed.x());
                 return aoa;
             }
-
+            double get_front_airspeed(AirState airState)
+            {
+                return - sqrt(pow(get_relative_airspeed(airState).x(),2) +
+                        pow(get_relative_airspeed(airState).z(),2));
+            }
             double get_airspeed_mag(AirState airState)
             {
                 return get_relative_airspeed(airState).norm();
@@ -77,7 +83,7 @@ namespace RapidFDM
                 }
 
                 auto relative_airspeed = get_relative_airspeed(airState);
-                double beta =  atan2(- relative_airspeed.y(), - relative_airspeed.x());
+                double beta =  atan2(relative_airspeed.y(), - relative_airspeed.x());
                 return beta;
             }
 
