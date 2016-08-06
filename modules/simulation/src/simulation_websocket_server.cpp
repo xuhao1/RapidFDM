@@ -145,7 +145,7 @@ public:
                     *aircraftNode->bladeElementManager.get_blades_information(),
                     d.GetAllocator()
             );
-            value.AddMember("blades", blade_array, d.GetAllocator());
+//            value.AddMember("blades", blade_array, d.GetAllocator());
     
             d.AddMember("forces_torques", value, d.GetAllocator());
         }

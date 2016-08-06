@@ -27,6 +27,6 @@ add_subdirectory(modules/network_protocol)
 add_subdirectory(modules/aerodynamics)
 add_subdirectory(modules/control_system)
 add_subdirectory(modules/simulation)
-set(SOURCE_LISTS include/RapidFDM/utils.h ./main.cpp)
+set(SOURCE_LISTS include/RapidFDM/utils.h ./main.cpp include/spline.h)
 
 add_executable(test_main ${SOURCE_LISTS})

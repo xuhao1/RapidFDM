@@ -1,0 +1,8 @@
+//
+// Created by Hao Xu on 16/8/6.
+//
+
+#ifndef RAPIDFDM_DISCRETE_DATA_LOADER_H
+#define RAPIDFDM_DISCRETE_DATA_LOADER_H
+
+#endif //RAPIDFDM_DISCRETE_DATA_LOADER_H
