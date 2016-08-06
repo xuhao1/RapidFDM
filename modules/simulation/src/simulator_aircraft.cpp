@@ -101,7 +101,7 @@ namespace RapidFDM
             PxTransform trans = transform_e2p(node->get_body_transform());
             //TODO:
             //Material params
-            PxMaterial *aMaterial = mPhysics->createMaterial(0.01f, 0.01f, 0.5);
+            PxMaterial *aMaterial = mPhysics->createMaterial(0.01f, 0.0f, 0.5);
             assert(aMaterial != nullptr);
             Eigen::Vector3d boundingbox = node->get_bounding_box();
             PxRigidBody *actor = PxCreateDynamic(*mPhysics,

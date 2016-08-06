@@ -17,7 +17,7 @@ var DroneDisplayCameraController = function (camera) {
     this.mode = "third_person_follow";
 
     this.theta = 0;
-    this.phi = 0;
+    this.phi = Math.PI * 20 / 180;
     this.height = 3;
     this.wx = 0;
     this.wy = 0;

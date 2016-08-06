@@ -114,11 +114,6 @@ namespace RapidFDM
             //Stall
             if (x * 180 / M_PI > 20 || x * 180 / M_PI < -20) {
                 cl = 0;
-                if (this->geometry->getName() == "vertical_wing_0")
-                {
-                    printf("stalll!!!!!!\n");
-                }
-
             }
             return cl;
         }

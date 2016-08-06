@@ -2,16 +2,16 @@
   "name": "main_fuselage",
   "id" : "0",
   "type": "aircraft",
-  "mass": 2.0,
+  "mass": 1.0,
   "mass_center": [
     0.20,
     0,
     0
   ],
   "inertial": [
+    0.15,
     0.2,
-    0.2,
-    0.2
+    0.15
   ],
   "geometry": {
     "type": "box",

@@ -118,32 +118,37 @@ public:
 
     void output()
     {
+        static int count = 0;
         rapidjson::Document d;
         d.SetObject();
 
         add_transform(d, aircraftNode->get_ground_transform(), d);
 
-        rapidjson::Value value(rapidjson::kObjectType);
-        auto trans_body_2_world = aircraftNode->get_ground_transform().linear();
-        add_vector(value, trans_body_2_world * aircraftNode->get_total_force(), d, "total_force");
-        add_vector(value, trans_body_2_world * aircraftNode->get_total_torque(), d, "total_torque");
+        add_vector(d,aircraftNode->get_angular_velocity(),d,"angular_velocity");
 
-        add_vector(value, trans_body_2_world * aircraftNode->get_total_aerodynamics_force(), d,
-                   "total_airdynamics_force");
-        add_vector(value, trans_body_2_world * aircraftNode->get_total_aerodynamics_torque(), d,
-                   "total_airdynamics_torque");
-
-        add_vector(value, trans_body_2_world * aircraftNode->get_total_engine_torque(), d, "total_engine_torque");
-        add_vector(value, trans_body_2_world * aircraftNode->get_total_engine_force(), d, "total_engine_force");
-
-        rapidjson::Value blade_array(rapidjson::kArrayType);
-        blade_array.CopyFrom(
-                *aircraftNode->bladeElementManager.get_blades_information() ,
-                d.GetAllocator()
-        );
-        value.AddMember("blades",blade_array,d.GetAllocator());
-
-        d.AddMember("forces_torques", value, d.GetAllocator());
+        if (count ++ % 3 == 0) {
+            rapidjson::Value value(rapidjson::kObjectType);
+            auto trans_body_2_world = aircraftNode->get_ground_transform().linear();
+            add_vector(value, trans_body_2_world * aircraftNode->get_total_force(), d, "total_force");
+            add_vector(value, trans_body_2_world * aircraftNode->get_total_torque(), d, "total_torque");
+    
+            add_vector(value, trans_body_2_world * aircraftNode->get_total_aerodynamics_force(), d,
+                       "total_airdynamics_force");
+            add_vector(value, trans_body_2_world * aircraftNode->get_total_aerodynamics_torque(), d,
+                       "total_airdynamics_torque");
+    
+            add_vector(value, trans_body_2_world * aircraftNode->get_total_engine_torque(), d, "total_engine_torque");
+            add_vector(value, trans_body_2_world * aircraftNode->get_total_engine_force(), d, "total_engine_force");
+    
+            rapidjson::Value blade_array(rapidjson::kArrayType);
+            blade_array.CopyFrom(
+                    *aircraftNode->bladeElementManager.get_blades_information(),
+                    d.GetAllocator()
+            );
+            value.AddMember("blades", blade_array, d.GetAllocator());
+    
+            d.AddMember("forces_torques", value, d.GetAllocator());
+        }
 
         rapidjson::Value airspeed_value(rapidjson::kObjectType);
         ComponentData data = aircraftNode->get_component_data();

@@ -12,6 +12,7 @@ namespace RapidFDM{
 
             double alpha = data.get_angle_of_attack(airState);
             double beta =  - data.get_sideslip(airState);
+//            beta = 0;
 
             Eigen::Matrix3d body2wind;
 

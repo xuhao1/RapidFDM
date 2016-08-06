@@ -43,6 +43,8 @@
     <p> Angle of attack: <span id = "angle_of_attack">0</span></p>
     <p> Sideslip: <span id = "sideslip">0</span></p>
     <p> Air speed: <span id = "air_speed">0</span></p>
+    <p> angular velocity <span id="angular_velocity"></span></p>
+    <p> aerodynamics torque <span id="aerodynamics_torque"></span></p>
 </div>
 <div id="wind_aoa_input"></div>
 <div id="wind_sideslip_input"></div>
@@ -110,8 +112,8 @@
         };
         $("#wind_aoa_input").slider(sliderOpts);
         var sliderOpts2 = {
-            min: -15,
-            max: 15,
+            min: -45,
+            max: 45,
             value : 0,
             slide: function (e,ui) {
                 sideslip_sp = ui.value;

@@ -20,5 +20,6 @@
   "enableControl": 1,
   "airfoil_name":"naca0015",
   "TaperRatio":0.6,
-  "pieces":5
+  "pieces":3,
+  "MidChordSweep": 15
 }

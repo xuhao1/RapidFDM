@@ -338,6 +338,11 @@ namespace RapidFDM
             this->bladeElementManager.calculate_washes(airState,deltatime);
         }
 
+        Eigen::Vector3d AircraftNode::get_angular_velocity() const
+        {
+            return this->flying_states.angular_velocity;
+        }
+
 
     }
 }
