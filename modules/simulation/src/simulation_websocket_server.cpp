@@ -5,6 +5,7 @@
 
 #include <RapidFDM/simulation/simulator_world.h>
 #include <RapidFDM/simulation/utils.h>
+#include <RapidFDM/simulation/simulation_dji_a3_adapter.h>
 #include <RapidFDM/network_protocol/websocket_server.h>
 #include <RapidFDM/network_protocol/ws_channel_handler.h>
 #include <RapidFDM/aerodynamics/airdynamics_parser.h>
@@ -31,15 +32,17 @@ protected:
     SimulatorWorld simulatorWorld;
     ws_json_channel_handler *handler_realtime_output = nullptr;
 
-    boost::asio::io_service io_service;
-    boost::posix_time::seconds interval;
+    boost::posix_time::milliseconds interval;
     boost::asio::deadline_timer *timer = nullptr;
     float tick_time;
     bool simulator_running = false;
+    websocketpp::lib::asio::io_service  realtime_calc_io_service;
 
     std::mutex phys_engine_lock;
+    
+    simulation_dji_a3_adapter * a3_adapter = nullptr;
 public:
-    simulation_websocket_server(int port, std::string aircraft_path, float deltatime = 0.005, float tick_time = 0.03) :
+    simulation_websocket_server(int port, std::string aircraft_path, float deltatime = 0.005, int tick_time = 30,bool use_a3 = false) :
             websocket_server(port), simulatorWorld(deltatime), interval(tick_time)
     {
 
@@ -52,7 +55,7 @@ public:
 
         handler_realtime_output = new ws_json_channel_handler((websocket_server *) this, "output");
 
-        timer = new boost::asio::deadline_timer(io_service, interval);
+        timer = new boost::asio::deadline_timer(realtime_calc_io_service, interval);
         this->tick_time = tick_time;
 
         handler_realtime_output->add_json_handler(
@@ -99,8 +102,12 @@ public:
                 );
             }
         });
-
-
+    
+        if(use_a3)
+        {
+            a3_adapter = new simulation_dji_a3_adapter(this->aircraftNode);
+            a3_adapter->main_thread();
+        }
     }
 
     void run_next_tick()
@@ -110,10 +117,12 @@ public:
         });
     }
 
-    void timer_thread()
+    void calc_thread()
     {
         run_next_tick();
-        io_service.run();
+        new std::thread([&]{
+            realtime_calc_io_service.run();
+        });
     }
 
     void output()
@@ -167,7 +176,7 @@ public:
         if (simulator_running) {
 
             phys_engine_lock.lock();
-            simulatorWorld.Step(ticktime);
+            simulatorWorld.Step(ticktime/1000);
             output();
             phys_engine_lock.unlock();
         }
@@ -179,15 +188,12 @@ public:
 int main(int argc, char **argv)
 {
     std::string path = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/sample_aircraft";
+    bool use_a3 = true;
 
-//    at_quick_exit(onexit);
-    simulation_websocket_server server(9093, path,0.01,0.04);
-
-    new std::thread([&] {
-        printf("run server thread\n");
-        server.main_thread();
-    });
-    printf("wait for simulation begin\n");
-    server.timer_thread();
+    simulation_websocket_server server(9093, path,0.01,40,use_a3);
+    
+    printf("run server thread\n");
+    server.calc_thread();
+    server.main_thread();
 
 }

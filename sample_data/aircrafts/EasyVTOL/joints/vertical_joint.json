@@ -1,0 +1,22 @@
+{
+  "name": "vertical-wing-joint",
+  "type": "fixed",
+  "id": "0",
+  "base_position": [
+    0.8,
+    0,
+    0
+  ],
+  "base_rotation": [
+    -90,
+    0,
+    0
+  ],
+  "child_reference_point": [
+    0,
+    0,
+    0
+  ],
+  "parent": "main_fuselage_0",
+  "child": "vertical_wing_0"
+}

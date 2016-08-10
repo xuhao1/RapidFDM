@@ -35,6 +35,7 @@ namespace RapidFDM
         public:
             bool online = false;
             ws_server server;
+            websocketpp::lib::asio::io_service * io_service_ptr = nullptr;
 
             std::map<std::string,message_handle_function> message_handlers;
             std::map<std::string,open_handle_function> open_handlers;
@@ -51,6 +52,7 @@ namespace RapidFDM
                 std::cout << "Create ws on port " << port << std::endl;
                 if (init(port) == 1)
                     exit(1);
+                io_service_ptr  = &server.get_io_service();
             }
             void stop_server()
             {
