@@ -9,7 +9,7 @@ namespace RapidFDM
     namespace Simulation
     {
         simulation_dji_a3_adapter::simulation_dji_a3_adapter(AircraftNode * aircraft):
-            interval(20)
+            interval(10)
         {
             this->aircraft = aircraft;
             
