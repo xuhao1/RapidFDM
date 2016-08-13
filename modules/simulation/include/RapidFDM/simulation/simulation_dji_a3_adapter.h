@@ -55,7 +55,13 @@ namespace RapidFDM
             AircraftNode * aircraft = nullptr;
             boost::posix_time::milliseconds interval;
             websocketpp::connection_hdl sim_connection_hdl;
+            float pwm[8] = {0};
+            float RcA = 0, RcE = 0,RcR= 0,RcT = 0;
         public:
+            bool motor_starter = false;
+            bool sim_online = false;
+            bool assiant_online = false;
+            SimulatorAircraft * sim_air = nullptr;
             simulation_dji_a3_adapter(AircraftNode * aircraft);
             
             void tick();
@@ -66,6 +72,12 @@ namespace RapidFDM
             void on_message_simulator(client *c, websocketpp::connection_hdl hdl, message_ptr msg);
             
             void on_simulator_link_open(client *c,websocketpp::connection_hdl hdl);
+            void on_simulator_link_failed(client *c,websocketpp::connection_hdl hdl);
+            
+            void on_assitant_failed(client *c,websocketpp::connection_hdl hdl);
+            void on_assitant_open(client *c,websocketpp::connection_hdl hdl);
+            
+            void add_values(rapidjson::Document & d);
             
             void main_thread()
             {

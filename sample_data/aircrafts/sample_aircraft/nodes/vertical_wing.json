@@ -21,5 +21,6 @@
   "airfoil_name":"naca0015",
   "TaperRatio":0.6,
   "pieces":3,
-  "MidChordSweep": 15
+  "MidChordSweep": 15,
+  "flap_coeff":2
 }

@@ -107,7 +107,9 @@ namespace RapidFDM
                 else {
                     internal = get_wing_node()->get_internal_states().find("flap")->second;
                 }
-                cl_by_control = 0.1 * internal;
+    
+                WingGeometry *wingGeometry = dynamic_cast<WingGeometry * >(this->geometry);
+                cl_by_control = 0.1 * internal * wingGeometry->params.flap_coeff;
             }
             double cl = 5.27966 * x + 0.812763 * x * x - 5.66835 * x * x * x - 13.7039 * x * x * x * x;
             cl = cl / 4.302 + cl_by_control;

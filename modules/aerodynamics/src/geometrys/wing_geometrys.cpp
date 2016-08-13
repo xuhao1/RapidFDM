@@ -60,6 +60,7 @@ namespace RapidFDM
             params.MidChordSweep = fast_value(v, "MidChordSweep", 0) * M_PI / 180;
             params.maxdeflect = fast_value(v, "maxdeflect", 15);
             params.enableControl = fast_value(v, "enableControl", 0) == 1;
+            params.flap_coeff = fast_value(v,"flap_coeff",1);
             int pieces = fast_value(v,"pieces",5);
             if (params.enableControl)
                 params.ctrlSurfFrac = fast_value(v, "ctrlSurfFrac", 0.2);

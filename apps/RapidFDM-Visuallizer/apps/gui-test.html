@@ -44,6 +44,7 @@
     <p> Sideslip: <span id = "sideslip">0</span></p>
     <p> Air speed: <span id = "air_speed">0</span></p>
     <p> angular velocity <span id="angular_velocity"></span></p>
+    <p> PWM <span id="pwm"></span></p>
     <p> aerodynamics torque <span id="aerodynamics_torque"></span></p>
 </div>
 <div id="wind_aoa_input"></div>
@@ -87,7 +88,7 @@
         var aircraftview = 0;
 
         function load_model() {
-            log("Load model");
+            log("Load modelzz");
             aircraftview = new AircraftView({
                 driver: con,
                 dis: dis,
@@ -97,6 +98,8 @@
             });
             window.aircraftview = aircraftview;
             var input = new AircraftInput(aircraftview);
+            aircraftview.input = input;
+            console.log(window.aircraftview);
         }
         var aoa_sp = 0;
         var sideslip_sp = 0;

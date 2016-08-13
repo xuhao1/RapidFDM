@@ -51,7 +51,7 @@ target_link_libraries(rapidfdm_simulator
 
 add_executable(rapidfdm_simulator_test ${SIMULATION_MODULES_TESTS})
 
-add_executable(rapidfdm_simulation_a3 src/simulation_dji_a3.cpp include/RapidFDM/simulation/simulation_dji_a3_adapter.h)
+#add_executable(rapidfdm_simulation_a3 src/simulation_dji_a3.cpp include/RapidFDM/simulation/simulation_dji_a3_adapter.h)
 
 target_link_libraries(rapidfdm_simulator_test
         rapidfdm_simulator)
@@ -59,5 +59,5 @@ target_link_libraries(rapidfdm_simulator_test
 target_link_libraries(rapidfdm_simulator_ws
         rapidfdm_simulator)
 
-target_link_libraries(rapidfdm_simulation_a3
-        rapidfdm_simulator)
+#target_link_libraries(rapidfdm_simulation_a3
+#        rapidfdm_simulator)

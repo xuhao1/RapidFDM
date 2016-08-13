@@ -50,6 +50,7 @@ namespace RapidFDM
             PxPhysics *mPhysics = nullptr;
 //            std::
         public:
+            Eigen::Vector3d gAcc = Eigen::Vector3d(0,0,0);
             SimulatorAircraft(PxTransform init_trans = PxTransform::createIdentity())
             {
             }

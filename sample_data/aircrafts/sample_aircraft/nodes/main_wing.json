@@ -22,5 +22,6 @@
   "deflectAngle" : 2,
   "MidChordSweep": 0,
   "TaperRatio":0.8,
-  "pieces":4
+  "pieces":4,
+  "flap_coeff":2
 }

@@ -106,6 +106,7 @@ public:
         if(use_a3)
         {
             a3_adapter = new simulation_dji_a3_adapter(this->aircraftNode);
+            a3_adapter->sim_air = this->simulatorAircraft;
             a3_adapter->main_thread();
         }
     }
@@ -165,6 +166,11 @@ public:
         add_value(airspeed_value, data.get_airspeed_mag(airState), d, "airspeed");
         add_value(airspeed_value, data.get_angle_of_attack(airState), d, "angle_of_attack");
         add_value(airspeed_value, data.get_sideslip(airState), d, "sideslip");
+        
+        if (a3_adapter != nullptr)
+        {
+            a3_adapter->add_values(d);
+        }
         d.AddMember("airstate", airspeed_value, d.GetAllocator());
 
         handler_realtime_output->send_json(d);
@@ -174,11 +180,21 @@ public:
     {
         timer->expires_at(timer->expires_at() + interval);
         if (simulator_running) {
-
-            phys_engine_lock.lock();
-            simulatorWorld.Step(ticktime/1000);
-            output();
-            phys_engine_lock.unlock();
+            if (a3_adapter != nullptr)
+            {
+                phys_engine_lock.lock();
+                if (a3_adapter->motor_starter) {
+                    simulatorWorld.Step(ticktime / 1000);
+                }
+                output();
+                phys_engine_lock.unlock();
+            }
+            else {
+                phys_engine_lock.lock();
+                simulatorWorld.Step(ticktime / 1000);
+                output();
+                phys_engine_lock.unlock();
+            }
         }
         run_next_tick();
     }
