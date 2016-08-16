@@ -27,9 +27,11 @@ namespace RapidFDM
 
         Eigen::Vector3d BaseBladeElement::get_ground_velocity() const
         {
-            return geometry->get_ground_velocity() +
-                    geometry->get_angular_velocity().cross(
-                            (Eigen::Vector3d) get_relative_transform().translation());
+            std::cerr << "No get ground velocity for base blade element" << std::endl;
+            abort();
+//            return geometry->get_ground_velocity() +
+//                    geometry->get_angular_velocity().cross(
+//                            (Eigen::Vector3d) get_relative_transform().translation());
         }
 
         Eigen::Vector3d BaseBladeElement::get_angular_velocity() const
@@ -59,9 +61,23 @@ namespace RapidFDM
             data.angular_velocity = get_relative_transform().linear().inverse() * data.angular_velocity;
             return data;
         }
+        
+        ComponentData BaseBladeElement::update_component_data_from_geometry(ComponentData data)
+        {
+            assert(geometry!= nullptr);
+            this->flying_states = make_component_data_from_geometry(data);
+            return data;
+        }
+      
+        
         ComponentData BaseBladeElement::get_component_data_from_geometry()
         {
-            return make_component_data_from_geometry(this->geometry->get_flying_state());
+            return  make_component_data_from_geometry(this->geometry->get_flying_state());
         }
+        ComponentData BaseBladeElement::get_seted_component_data()
+        {
+            return flying_states;
+        }
+
     }
 }

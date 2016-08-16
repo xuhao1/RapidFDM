@@ -234,7 +234,7 @@ namespace RapidFDM
                 data.transform = fast_transform(v,"transform");
                 data.body_transform = Eigen::Affine3d::Identity();
                 data.ground_velocity = fast_vector3(v,"ground_velocity");
-                aircraftNode->setStatefromsimulator(data);
+                aircraftNode->setStatefromsimulator(data,0);
                 rapidjson::Value transdata(rapidjson::kObjectType);
                 add_transform(transdata,aircraftNode->get_ground_transform(),*d);
                 rapidjson::Value airspeed_value(rapidjson::kObjectType);

@@ -210,16 +210,12 @@ public:
         if (simulator_running) {
             if (a3_adapter != nullptr)
             {
-//                phys_engine_lock.lock();
                 if (a3_adapter->motor_starter || !a3_adapter->assiant_online) {
                     simulatorWorld.Step(ticktime / 1000);
                 }
-//                phys_engine_lock.unlock();
             }
             else {
-//                phys_engine_lock.lock();
                 simulatorWorld.Step(ticktime / 1000);
-//                phys_engine_lock.unlock();
             }
         }
         long long t2 = current_timestamp();

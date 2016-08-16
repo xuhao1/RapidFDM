@@ -32,9 +32,10 @@ namespace RapidFDM
 
             virtual Eigen::Affine3d get_body_transform() const override ;
 
-
             ComponentData make_component_data_from_geometry(ComponentData data) const;
+            ComponentData update_component_data_from_geometry(ComponentData data);
             ComponentData get_component_data_from_geometry();
+            ComponentData get_seted_component_data();
             virtual float getLift(ComponentData state, AirState airState) const
             {
                 return 0;

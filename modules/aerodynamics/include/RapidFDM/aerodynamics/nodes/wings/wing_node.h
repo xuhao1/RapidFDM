@@ -57,7 +57,7 @@ namespace RapidFDM {
                     this->internal_states["flap"] = this->control_axis["flap"] * (1-MIXER_RATIO) + MIXER_RATIO *this->internal_states["flap_0"];
                 }
             }
-
+    
 
         };
     }

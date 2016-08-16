@@ -58,5 +58,32 @@ namespace RapidFDM
             return d;
 
         }
+        void BladeElementManager::calculate_forces_and_torques()
+        {
+            forces = Eigen::Vector3d(0,0,0);
+            torques = Eigen::Vector3d(0,0,0);
+            for (auto pair : blade_elements) {
+                AirState airState = *pair.second;
+                BaseBladeElement * blade =pair.first;
+                ComponentData data = pair.first->get_seted_component_data();
+                auto convert_coord = blade->get_body_transform().linear();
+                Eigen::Vector3d force_body = convert_coord *blade->get_aerodynamics_force(data,airState);
+                forces += force_body;
+                
+                Eigen::Vector3d node_body_r = (Eigen::Vector3d) blade->get_body_transform().translation();
+                   torques += convert_coord * blade->get_aerodynamics_torque(data,airState) +
+                       node_body_r.cross(force_body);
+            }
+        }
+        
+        Eigen::Vector3d BladeElementManager::get_total_force()
+        {
+            return forces;
+        }
+        Eigen::Vector3d BladeElementManager::get_total_torque()
+        {
+            return torques;
+        }
     }
+    
 }

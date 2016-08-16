@@ -204,6 +204,7 @@ namespace RapidFDM
 
         void SimulatorAircraft::update_states_from_physx()
         {
+            static int count = 0;
             if (aircraftNode->is_rigid()) {
                 Eigen::Affine3d root_transform = transform_p2e(nodes[aircraftNode]->getGlobalPose());
                 Aerodynamics::ComponentData data;
@@ -216,7 +217,7 @@ namespace RapidFDM
                                         vector_p2e(rigidBody->getAngularVelocity());
                 data.ground_velocity = vector_p2e(rigidBody->getLinearVelocity());
                 data.body_transform = aircraftNode->get_body_transform();
-                aircraftNode->setStatefromsimulator(data);
+                aircraftNode->setStatefromsimulator(data,count);
 
             }
             else {

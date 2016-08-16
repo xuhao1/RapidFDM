@@ -15,6 +15,9 @@ namespace RapidFDM
     namespace Aerodynamics{
         class BladeElementManager {
             std::map < BaseBladeElement * ,AirState * > blade_elements;
+        protected:
+            Eigen::Vector3d forces;
+            Eigen::Vector3d torques;
         public:
             BladeElementManager() {
 
@@ -27,6 +30,10 @@ namespace RapidFDM
 
             //If deltatime < 0 ,then we will get stabilized result ...
             void calculate_washes(AirState airState,double delatime = -1);
+            void calculate_forces_and_torques();
+            
+            Eigen::Vector3d get_total_force();
+            Eigen::Vector3d get_total_torque();
 
             rapidjson::Document * get_blades_information();
         };

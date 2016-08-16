@@ -67,7 +67,11 @@ namespace RapidFDM
             double total_mass = 0;
             Eigen::Vector3d mass_center = Eigen::Vector3d(0, 0, 0);
             void init(const rapidjson::Value &_json);
-
+            
+            int simulation_stamp = 0;
+            
+            Eigen::Vector3d sum_force;
+            Eigen::Vector3d sum_torque;
         public:
             AirState airState;
             BladeElementManager bladeElementManager;
@@ -86,15 +90,18 @@ namespace RapidFDM
 
             virtual Eigen::Affine3d get_ground_transform() const override;
 
+            virtual Eigen::Vector3d get_total_force(int stamp);
+            virtual Eigen::Vector3d get_total_torque(int stamp);
+    
             virtual Eigen::Vector3d get_total_force() const;
-
+            virtual Eigen::Vector3d get_total_torque() const;
+            
             virtual Eigen::Vector3d get_total_engine_force() const;
 
             virtual Eigen::Vector3d get_total_engine_torque() const;
 
             virtual Eigen::Vector3d get_total_aerodynamics_force() const;
 
-            virtual Eigen::Vector3d get_total_torque() const;
 
             virtual Eigen::Vector3d get_total_aerodynamics_torque() const;
 
@@ -117,7 +124,7 @@ namespace RapidFDM
 
             virtual const rapidjson::Value & getJsonDefine() override;
             virtual const rapidjson::Document * getComponentsDefine();
-            virtual void setStatefromsimulator(const ComponentData & data) override;
+            virtual void setStatefromsimulator(const ComponentData & data,int stamp);
 
             void set_air_state(AirState air_state);
             bool is_rigid()

@@ -20,12 +20,6 @@ namespace RapidFDM
                 auto convert_coord = blade->get_relative_transform().linear();
                 res += convert_coord *blade->get_aerodynamics_force(data,airState);
             }
-//            if (this->getName() == "vertical_wing")
-//            {
-//                printf("aoa %f qbar %f force %f %f %f\n",state.get_angle_of_attack(airState) * 180.0 / M_PI,
-//                       state.get_q_bar(airState),res.x(),res.y(),res.z()
-//                );
-//            }
             return res;
         }
 
@@ -111,6 +105,13 @@ namespace RapidFDM
             else
                 printf("Wing on both side\n");
 
+        }
+        
+        void WingGeometry::set_flying_state(const ComponentData &data)
+        {
+            for (auto blade : blades) {
+                blade->update_component_data_from_geometry(data);
+            }
         }
 
     }

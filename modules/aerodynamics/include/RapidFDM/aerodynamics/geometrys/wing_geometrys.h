@@ -18,7 +18,8 @@ namespace RapidFDM
         public:
             virtual Eigen::Vector3d get_aerodynamics_torque(ComponentData state,AirState airState) const override ;
             virtual Eigen::Vector3d get_aerodynamics_force(ComponentData state,AirState airState) const override ;
-
+    
+            virtual void set_flying_state(const ComponentData & data);
             /*flow KAR parameter
              * MODULE
                 b_2 = 0.5               //distance from wing root to tip; semi-span
@@ -59,6 +60,7 @@ namespace RapidFDM
 
             virtual void brief();
 
+            
         };
     }
 }
