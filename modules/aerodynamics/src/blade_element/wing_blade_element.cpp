@@ -86,8 +86,7 @@ namespace RapidFDM
         float WingBladeElement::get_cl(ComponentData state, AirState airState) const
         {
             WingGeometry *wingGeometry = dynamic_cast<WingGeometry * >(geometry);
-            double x = state.get_angle_of_attack(airState);
-
+            double x = state.get_angle_of_attack(airState) * 180.0 / M_PI;
 
             double cl_by_control = 0;
             if (get_wing_node()->enableControl)
@@ -108,13 +107,12 @@ namespace RapidFDM
                     internal = get_wing_node()->get_internal_states().find("flap")->second;
                 }
     
-                WingGeometry *wingGeometry = dynamic_cast<WingGeometry * >(this->geometry);
                 cl_by_control = 0.1 * internal * wingGeometry->params.flap_coeff;
             }
-            double cl = 5.27966 * x + 0.812763 * x * x - 5.66835 * x * x * x - 13.7039 * x * x * x * x;
-            cl = cl / 4.302 + cl_by_control;
+            double cl = wingGeometry->params.cl0 + wingGeometry->params.cl_by_deg * x;
+            cl = cl + cl_by_control;
             //Stall
-            if (x * 180 / M_PI > 20 || x * 180 / M_PI < -20) {
+            if (x  > wingGeometry->params.stall_angle || x < - wingGeometry->params.stall_angle) {
                 cl = 0;
             }
             return cl;
@@ -122,10 +120,11 @@ namespace RapidFDM
 
         float WingBladeElement::get_cd(ComponentData state, AirState airState) const
         {
-            double alpha = state.get_angle_of_attack(airState);
+            WingGeometry *wingGeometry = dynamic_cast<WingGeometry * >(geometry);
+            double alpha = state.get_angle_of_attack(airState) * 180 / M_PI;
             double cl = get_cl(state, airState);
-            double cd = 0.0109392 + 0.494631 * alpha * alpha;
-            cd = cd / 4.302 + cl * cl;
+            double cd = wingGeometry->params.cd0 + wingGeometry->params.cd_by_deg2 * alpha * alpha;
+            cd = cd + cl * cl / M_PI / (2 * wingGeometry->params.b_2 / wingGeometry->params.Mac);
             return cd;
         }
 

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 set(the_description "The Control System Module")
 
 find_package(Boost REQUIRED
-        COMPONENTS filesystem)
+        COMPONENTS filesystem thread)
 
 include_directories(./include
         ../../include/
@@ -14,6 +14,7 @@ include_directories(./include
         ../../3rdparty/websocketpp
         ../aerodynamics/include/
         ../network_protocol/include
+        /usr/local/Cellar/boost/1.60.0_2/include
         )
 
 set(NETWORK_PROTOCOL_MODULE_SOURCES
@@ -21,7 +22,7 @@ set(NETWORK_PROTOCOL_MODULE_SOURCES
         include/RapidFDM/network_protocol/ws_channel_handler.h
         src/websocket_server.cpp
         src/ws_channel_handler.cpp
-        )
+        include/RapidFDM/network_protocol/serial_port.h src/serial_port.cpp)
 set(NETWORK_PROTOCOL_MODULE_TEST_SOURCES
         tests/network_protocol_test.cpp
         )

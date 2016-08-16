@@ -14,14 +14,14 @@
     1e-2
   ],
   "b_2": 0.705,
-  "Mac": 0.3,
+  "Mac": 0.25,
   "nonSideAttach": 1,
   "wingPart": 2,
   "enableControl": 1,
   "airfoil_name":"naca0015",
-  "deflectAngle" : 2,
+  "deflectAngle" : 0,
   "MidChordSweep": 0,
   "TaperRatio":0.8,
-  "pieces":4,
-  "flap_coeff":2
+  "pieces":7,
+  "flap_coeff":10
 }

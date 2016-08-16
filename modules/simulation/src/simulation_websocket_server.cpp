@@ -33,7 +33,9 @@ protected:
     ws_json_channel_handler *handler_realtime_output = nullptr;
 
     boost::posix_time::milliseconds interval;
+    boost::posix_time::milliseconds output_interval;
     boost::asio::deadline_timer *timer = nullptr;
+    boost::asio::deadline_timer *output_timer = nullptr;
     float tick_time;
     bool simulator_running = false;
     websocketpp::lib::asio::io_service  realtime_calc_io_service;
@@ -43,7 +45,7 @@ protected:
     simulation_dji_a3_adapter * a3_adapter = nullptr;
 public:
     simulation_websocket_server(int port, std::string aircraft_path, float deltatime = 0.005, int tick_time = 30,bool use_a3 = false) :
-            websocket_server(port), simulatorWorld(deltatime), interval(tick_time)
+            websocket_server(port), simulatorWorld(deltatime), interval(tick_time),output_interval(15)
     {
 
         parser parser1(aircraft_path);
@@ -56,6 +58,8 @@ public:
         handler_realtime_output = new ws_json_channel_handler((websocket_server *) this, "output");
 
         timer = new boost::asio::deadline_timer(realtime_calc_io_service, interval);
+        output_timer = new boost::asio::deadline_timer(*this->io_service_ptr,output_interval);
+        
         this->tick_time = tick_time;
 
         handler_realtime_output->add_json_handler(
@@ -71,6 +75,7 @@ public:
                     if (!simulator_running) {
                         simulator_running = true;
                         run_next_tick();
+    
                     }
                 });
 
@@ -103,6 +108,10 @@ public:
             }
         });
     
+        output_timer->async_wait([&](const boost::system::error_code &) {
+            this->output();
+        });
+        
         if(use_a3)
         {
             a3_adapter = new simulation_dji_a3_adapter(this->aircraftNode);
@@ -128,52 +137,60 @@ public:
 
     void output()
     {
-        static int count = 0;
-        rapidjson::Document d;
-        d.SetObject();
-
-        add_transform(d, aircraftNode->get_ground_transform(), d);
-
-        add_vector(d,aircraftNode->get_angular_velocity(),d,"angular_velocity");
-
-        if (count ++ % 3 == 0) {
-            rapidjson::Value value(rapidjson::kObjectType);
-            auto trans_body_2_world = aircraftNode->get_ground_transform().linear();
-            add_vector(value, trans_body_2_world * aircraftNode->get_total_force(), d, "total_force");
-            add_vector(value, trans_body_2_world * aircraftNode->get_total_torque(), d, "total_torque");
+        output_timer->expires_at(output_timer->expires_at() + output_interval);
+        if (simulator_running) {
+            static int count = 0;
+            rapidjson::Document d;
+            d.SetObject();
     
-            add_vector(value, trans_body_2_world * aircraftNode->get_total_aerodynamics_force(), d,
-                       "total_airdynamics_force");
-            add_vector(value, trans_body_2_world * aircraftNode->get_total_aerodynamics_torque(), d,
-                       "total_airdynamics_torque");
+            add_transform(d, aircraftNode->get_ground_transform(), d);
     
-            add_vector(value, trans_body_2_world * aircraftNode->get_total_engine_torque(), d, "total_engine_torque");
-            add_vector(value, trans_body_2_world * aircraftNode->get_total_engine_force(), d, "total_engine_force");
+            add_vector(d, aircraftNode->get_angular_velocity(), d, "angular_velocity");
     
-            rapidjson::Value blade_array(rapidjson::kArrayType);
-            blade_array.CopyFrom(
-                    *aircraftNode->bladeElementManager.get_blades_information(),
-                    d.GetAllocator()
-            );
-//            value.AddMember("blades", blade_array, d.GetAllocator());
-    
-            d.AddMember("forces_torques", value, d.GetAllocator());
-        }
-
-        rapidjson::Value airspeed_value(rapidjson::kObjectType);
-        ComponentData data = aircraftNode->get_component_data();
-        AirState airState;
-        add_value(airspeed_value, data.get_airspeed_mag(airState), d, "airspeed");
-        add_value(airspeed_value, data.get_angle_of_attack(airState), d, "angle_of_attack");
-        add_value(airspeed_value, data.get_sideslip(airState), d, "sideslip");
+            if (count++ % 3 == 0) {
+                rapidjson::Value value(rapidjson::kObjectType);
+                auto trans_body_2_world = aircraftNode->get_ground_transform().linear();
+                add_vector(value, trans_body_2_world * aircraftNode->get_total_force(), d, "total_force");
+                add_vector(value, trans_body_2_world * aircraftNode->get_total_torque(), d, "total_torque");
         
-        if (a3_adapter != nullptr)
-        {
-            a3_adapter->add_values(d);
+                add_vector(value, trans_body_2_world * aircraftNode->get_total_aerodynamics_force(), d,
+                           "total_airdynamics_force");
+                add_vector(value, trans_body_2_world * aircraftNode->get_total_aerodynamics_torque(), d,
+                           "total_airdynamics_torque");
+        
+                add_vector(value, trans_body_2_world * aircraftNode->get_total_engine_torque(), d,
+                           "total_engine_torque");
+                add_vector(value, trans_body_2_world * aircraftNode->get_total_engine_force(), d, "total_engine_force");
+        
+                rapidjson::Value blade_array(rapidjson::kArrayType);
+                blade_array.CopyFrom(
+                        *aircraftNode->bladeElementManager.get_blades_information(),
+                        d.GetAllocator()
+                );
+//            value.AddMember("blades", blade_array, d.GetAllocator());
+        
+                d.AddMember("forces_torques", value, d.GetAllocator());
+            }
+    
+            rapidjson::Value airspeed_value(rapidjson::kObjectType);
+            ComponentData data = aircraftNode->get_component_data();
+            AirState airState;
+            add_value(airspeed_value, data.get_airspeed_mag(airState), d, "airspeed");
+            add_value(airspeed_value, data.get_angle_of_attack(airState), d, "angle_of_attack");
+            add_value(airspeed_value, data.get_sideslip(airState), d, "sideslip");
+    
+            if (a3_adapter != nullptr) {
+                a3_adapter->add_values(d);
+            }
+            d.AddMember("airstate", airspeed_value, d.GetAllocator());
+    
+            handler_realtime_output->send_json(d);
         }
-        d.AddMember("airstate", airspeed_value, d.GetAllocator());
-
-        handler_realtime_output->send_json(d);
+    
+    
+        output_timer->async_wait([&](const boost::system::error_code &) {
+            this->output();
+        });
     }
 
     void tick(float ticktime)
@@ -183,16 +200,14 @@ public:
             if (a3_adapter != nullptr)
             {
                 phys_engine_lock.lock();
-                if (a3_adapter->motor_starter) {
+                if (a3_adapter->motor_starter || !a3_adapter->assiant_online) {
                     simulatorWorld.Step(ticktime / 1000);
                 }
-                output();
                 phys_engine_lock.unlock();
             }
             else {
                 phys_engine_lock.lock();
                 simulatorWorld.Step(ticktime / 1000);
-                output();
                 phys_engine_lock.unlock();
             }
         }
@@ -206,7 +221,7 @@ int main(int argc, char **argv)
     std::string path = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/sample_aircraft";
     bool use_a3 = true;
 
-    simulation_websocket_server server(9093, path,0.01,40,use_a3);
+    simulation_websocket_server server(9093, path,0.008,50,use_a3);
     
     printf("run server thread\n");
     server.calc_thread();

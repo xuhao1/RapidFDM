@@ -20,6 +20,12 @@ namespace RapidFDM
                 auto convert_coord = blade->get_relative_transform().linear();
                 res += convert_coord *blade->get_aerodynamics_force(data,airState);
             }
+//            if (this->getName() == "vertical_wing")
+//            {
+//                printf("aoa %f qbar %f force %f %f %f\n",state.get_angle_of_attack(airState) * 180.0 / M_PI,
+//                       state.get_q_bar(airState),res.x(),res.y(),res.z()
+//                );
+//            }
             return res;
         }
 
@@ -61,6 +67,11 @@ namespace RapidFDM
             params.maxdeflect = fast_value(v, "maxdeflect", 15);
             params.enableControl = fast_value(v, "enableControl", 0) == 1;
             params.flap_coeff = fast_value(v,"flap_coeff",1);
+            params.cl0 = fast_value(v,"cl0",0);
+            params.cl_by_deg = fast_value(v,"cl0",0.1f);
+            params.cd0 = fast_value(v,"cd0",0.01);
+            params.cd_by_deg2 = fast_value(v,"cd_by_deg",6e-5);
+            params.stall_angle = fast_value(v,"stall_angle",20);
             int pieces = fast_value(v,"pieces",5);
             if (params.enableControl)
                 params.ctrlSurfFrac = fast_value(v, "ctrlSurfFrac", 0.2);

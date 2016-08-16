@@ -41,20 +41,20 @@ namespace RapidFDM
             Eigen::Vector3d ground_velocity = Eigen::Vector3d(0,0,0);
 
 
-            Eigen::Vector3d get_relative_airspeed(AirState airState)
+            Eigen::Vector3d get_relative_airspeed(AirState airState) const
             {
                 Eigen::Vector3d speed_in_air = - ground_velocity + airState.ground_air_speed;
                 return - (transform.linear().inverse() * speed_in_air);
             }
 
-            double get_q_bar(AirState airState)
+            double get_q_bar(AirState airState) const
             {
                 //Q bar will get airspeed on x & y axis!!!!
                 return airState.rho * this->get_front_airspeed(airState) * this->get_front_airspeed(airState) / 2;
 //                return airState.rho * this->get_airspeed_mag(airState) * this->get_airspeed_mag(airState) / 2;
             }
 
-            double get_angle_of_attack(AirState airState)
+            double get_angle_of_attack(AirState airState) const
             {
                 if (get_airspeed_mag(airState) < 0.1)
                 {
@@ -65,17 +65,17 @@ namespace RapidFDM
                 double aoa =  atan2(- relative_airspeed.z(), - relative_airspeed.x());
                 return aoa;
             }
-            double get_front_airspeed(AirState airState)
+            double get_front_airspeed(AirState airState) const
             {
                 return - sqrt(pow(get_relative_airspeed(airState).x(),2) +
                         pow(get_relative_airspeed(airState).z(),2));
             }
-            double get_airspeed_mag(AirState airState)
+            double get_airspeed_mag(AirState airState) const
             {
                 return get_relative_airspeed(airState).norm();
             }
 
-            double get_sideslip(AirState airState)
+            double get_sideslip(AirState airState) const
             {
                 if (get_airspeed_mag(airState) < 0.1)
                 {

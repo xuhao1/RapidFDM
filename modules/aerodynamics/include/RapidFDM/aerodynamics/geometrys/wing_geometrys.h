@@ -46,6 +46,11 @@ namespace RapidFDM
                 double root_chord_length = 0;
                 double taper_chord_length = 0;
                 double flap_coeff = 1;
+                double cl0;
+                double cl_by_deg;
+                double cd0;
+                double cd_by_deg2;
+                double stall_angle;
 
             } params;
             double aera = 0;

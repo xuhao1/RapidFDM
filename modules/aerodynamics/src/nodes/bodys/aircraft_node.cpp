@@ -172,8 +172,18 @@ namespace RapidFDM
                 auto convert_coord = node_ptr->get_body_transform().linear();
                 Eigen::Vector3d node_body_r = (Eigen::Vector3d) node_ptr->get_body_transform().translation();
                 ComponentData data = node_ptr->get_component_data();
-                res += convert_coord * node_ptr->get_realtime_torque(data,airState)
+                Eigen::Vector3d force = convert_coord * node_ptr->get_realtime_force(data,airState);
+                Eigen::Vector3d torque = convert_coord * node_ptr->get_realtime_torque(data,airState)
                        + node_body_r.cross(convert_coord * node_ptr->get_realtime_force(data,airState));
+                res+= torque;
+//                if (node_ptr->getName() == "vertical_wing") {
+//                    printf("torque %s %f %f %f\n", node_ptr->getName().c_str(), torque.x(), torque.y(), torque.z());
+//                    printf("sideslip %f wz %f\n",
+//                           flying_states.get_sideslip(airState) * 180.0 / M_PI,
+//                           flying_states.angular_velocity.z()
+//                    );
+//                    printf("force %f %f %f\n",force.x(),force.y(),force.z());
+//                }
             }
             return res;
         }
@@ -319,9 +329,11 @@ namespace RapidFDM
                     ComponentData node_data;
                     node_data.body_transform = node_ptr->get_body_transform();
                     node_data.angular_velocity = node_data.body_transform.linear() * data.angular_velocity;
-                    node_data.ground_velocity =  data.ground_velocity +
-                            data.angular_velocity.cross((Eigen::Vector3d)node_data.body_transform.translation());
                     node_data.transform = data.transform * node_data.body_transform;
+                    node_data.ground_velocity =  data.ground_velocity +
+                            data.angular_velocity.cross(
+                                    data.transform.linear() *( (Eigen::Vector3d) node_data.body_transform.translation())
+                            );
                     node_ptr->setStatefromsimulator(node_data);
 
                 }

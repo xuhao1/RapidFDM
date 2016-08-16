@@ -8,6 +8,7 @@
 #include <RapidFDM/aerodynamics/nodes/engines/base_engine.h>
 #include <spline.h>
 #include <fstream>
+#define PROP_MIXER_RATIO 0.70
 
 namespace RapidFDM
 {
@@ -75,7 +76,7 @@ namespace RapidFDM
 
             virtual void iter_internal_state(double deltatime) override
             {
-                internal_states["n"] = max_n * control_axis["thrust"];
+                internal_states["n"] = max_n * control_axis["thrust"] * (1 - PROP_MIXER_RATIO) + internal_states["n"] * PROP_MIXER_RATIO;
             }
 
             virtual Eigen::Vector3d get_engine_force(ComponentData data, AirState airState) const override

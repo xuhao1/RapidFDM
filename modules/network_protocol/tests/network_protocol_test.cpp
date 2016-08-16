@@ -4,9 +4,11 @@
 
 #include <RapidFDM/network_protocol/websocket_server.h>
 #include <RapidFDM/network_protocol/ws_channel_handler.h>
+#include <RapidFDM/network_protocol/serial_port.h>
+#include <unistd.h>
 
 using namespace RapidFDM::NetworkProtocol;
-int main()
+int network()
 {
     printf("Hello,world\n");
     websocket_server ws(9091);
@@ -23,6 +25,19 @@ int main()
     );
 //    handle
     ws.main_thread();
+    return 0;
+}
 
+int serial()
+{
+    printf("Starting test serial\n");
+    SerialPort serialPort;
+    serialPort.start("/dev/cu.usbmodem1421",230400);
+    usleep(6000000);
+    serialPort.stop();
+}
+
+int main(){
+    serial();
 }
 
