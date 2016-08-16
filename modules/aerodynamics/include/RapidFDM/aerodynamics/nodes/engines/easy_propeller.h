@@ -8,7 +8,7 @@
 #include <RapidFDM/aerodynamics/nodes/engines/base_engine.h>
 #include <spline.h>
 #include <fstream>
-#define PROP_MIXER_RATIO 0.70
+#define PROP_MIXER_RATIO 0.0
 
 namespace RapidFDM
 {

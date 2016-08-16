@@ -13,8 +13,8 @@
     1e-2,
     1e-2
   ],
-  "b_2": 0.25,
-  "Mac": 0.15,
+  "b_2": 0.2,
+  "Mac": 0.1,
   "nonSideAttach": 1,
   "wingPart": 0,
   "enableControl": 1,

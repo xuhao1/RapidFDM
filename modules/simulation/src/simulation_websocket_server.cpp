@@ -17,6 +17,16 @@
 #include <cstdlib>
 #include <csetjmp>
 #include <csignal>
+#include <sys/time.h>
+
+
+long long current_timestamp() {
+    struct timeval te;
+    gettimeofday(&te, NULL); // get current time
+    long long milliseconds = te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
+    // printf("milliseconds: %lld\n", milliseconds);
+    return milliseconds;
+}
 
 using namespace RapidFDM::NetworkProtocol;
 using namespace RapidFDM::Simulation;
@@ -196,21 +206,25 @@ public:
     void tick(float ticktime)
     {
         timer->expires_at(timer->expires_at() + interval);
+        long long t1 = current_timestamp();
         if (simulator_running) {
             if (a3_adapter != nullptr)
             {
-                phys_engine_lock.lock();
+//                phys_engine_lock.lock();
                 if (a3_adapter->motor_starter || !a3_adapter->assiant_online) {
                     simulatorWorld.Step(ticktime / 1000);
                 }
-                phys_engine_lock.unlock();
+//                phys_engine_lock.unlock();
             }
             else {
-                phys_engine_lock.lock();
+//                phys_engine_lock.lock();
                 simulatorWorld.Step(ticktime / 1000);
-                phys_engine_lock.unlock();
+//                phys_engine_lock.unlock();
             }
         }
+        long long t2 = current_timestamp();
+        long long diff = t2 - t1;
+        std::cout << "use mills" << " simrun " << simulator_running << " t : " <<  diff << t1 << std::endl;
         run_next_tick();
     }
 
@@ -221,7 +235,7 @@ int main(int argc, char **argv)
     std::string path = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/sample_aircraft";
     bool use_a3 = true;
 
-    simulation_websocket_server server(9093, path,0.008,50,use_a3);
+    simulation_websocket_server server(9093, path,0.01,50,use_a3);
     
     printf("run server thread\n");
     server.calc_thread();

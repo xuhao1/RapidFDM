@@ -9,7 +9,7 @@ namespace RapidFDM
     namespace Simulation
     {
         simulation_dji_a3_adapter::simulation_dji_a3_adapter(AircraftNode *aircraft) :
-                interval(30)
+                interval(20)
         {
             this->aircraft = aircraft;
             
@@ -125,7 +125,7 @@ namespace RapidFDM
             d.AddMember("CMD", "start_sim", d.GetAllocator());
             d.AddMember("latitude", 0, d.GetAllocator());
             d.AddMember("longitude", 0, d.GetAllocator());
-            d.AddMember("frequency", 30, d.GetAllocator());
+            d.AddMember("frequency", 50, d.GetAllocator());
             d.AddMember("only_aircraft", 1, d.GetAllocator());
             sim_connection_hdl = hdl;
             int32_t size;

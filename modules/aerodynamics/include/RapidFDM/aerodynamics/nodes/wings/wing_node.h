@@ -5,7 +5,7 @@
 #include <RapidFDM/aerodynamics/geometrys/wing_geometrys.h>
 #include <RapidFDM/aerodynamics/joints/base_joint.h>
 #include <RapidFDM/aerodynamics/geometrys/Geometrys.h>
-#define MIXER_RATIO 0.70
+#define MIXER_RATIO 0.0
 
 namespace RapidFDM {
     namespace Aerodynamics {
