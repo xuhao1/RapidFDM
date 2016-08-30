@@ -9,14 +9,14 @@ namespace RapidFDM
     namespace Simulation
     {
         simulation_dji_a3_adapter::simulation_dji_a3_adapter(AircraftNode *aircraft) :
-                interval(20)
+                interval(10)
         {
             this->aircraft = aircraft;
-            
+
 //            root_uri = "ws://10.60.23.132:19870/general/";
 //            sim_uri = "ws://10.60.23.132:19870/controller/simulator/";
-            root_uri = "ws://localhost:19870/general";
-            sim_uri = "ws://localhost:19870/controller/simulator/";
+            root_uri = "ws://10.211.55.9:19870/general";
+            sim_uri = "ws://10.211.55.9:19870/controller/simulator/";
             
             c_root.set_access_channels(websocketpp::log::alevel::none);
             c_root.clear_access_channels(websocketpp::log::alevel::all);
@@ -90,7 +90,7 @@ namespace RapidFDM
         void simulation_dji_a3_adapter::reconnect_simulator()
         {
             std::cout << "Try to connect simulator on " << file_name << std::endl;
-    
+            
             std::string uri = sim_uri + file_name;
             websocketpp::lib::error_code ec;
             std::cout << uri << std::endl;
@@ -125,7 +125,7 @@ namespace RapidFDM
             d.AddMember("CMD", "start_sim", d.GetAllocator());
             d.AddMember("latitude", 0, d.GetAllocator());
             d.AddMember("longitude", 0, d.GetAllocator());
-            d.AddMember("frequency", 50, d.GetAllocator());
+            d.AddMember("frequency", 100, d.GetAllocator());
             d.AddMember("only_aircraft", 1, d.GetAllocator());
             sim_connection_hdl = hdl;
             int32_t size;
@@ -145,8 +145,8 @@ namespace RapidFDM
             
             if (sim_online) {
                 static int fcount = 0;
-                if(fcount ++ % 30 == 0) {
-                    printf("fcount %d d tick %d\n",fcount, dcount);
+                if (fcount++ % 30 == 0) {
+                    printf("fcount %d d tick %d\n", fcount, dcount);
                     dcount = 0;
                 }
                 if (!data_update) {
@@ -160,20 +160,17 @@ namespace RapidFDM
                 if (no_data_count > 100) {
                     printf("Simulator off line: nodata, will reconnect later\n");
                     std::string reason = "reconnect";
-                    c_simulator->close(sim_hdl,websocketpp::close::status::normal,reason);
+                    c_simulator->close(sim_hdl, websocketpp::close::status::normal, reason);
                     sim_online = false;
                 }
                 else {
                     send_realtime_data();
                 }
             }
-            else
-            {
-                if (assiant_online)
-                {
+            else {
+                if (assiant_online) {
                     static int count = 0;
-                    if(count ++ % 100 == 0)
-                    {
+                    if (count++ % 100 == 0) {
                         printf("Reconnect simulator\n");
                         reconnect_simulator();
                     }
@@ -232,45 +229,30 @@ namespace RapidFDM
             d.Parse(msg->get_payload().c_str());
             
             assert(d.IsObject());
-            if (fast_string(d, "EVENT") != "sim_state") {
-                if (this->sim_online)
-                    return;
-                if (fast_string(d, "ERROR") == "SUCCESS" && fast_string(d, "SEQ") == "FUCK") {
-                    this->sim_online = true;
+            this->sim_online = true;
+            if (fast_string(d, "EVENT") == "sim_state") {
+                motor_starter = fast_value(d, "MotorStarted") > 0;
+                RcA = fast_value(d, "RcA");
+                RcE = fast_value(d, "RcE");
+                RcR = fast_value(d, "RcR");
+                RcT = fast_value(d, "RcT");
+            }
+            else if (fast_string(d, "EVENT") == "sim_pwm") {
+                for (int chn = 0; chn < 8; chn++) {
+                    pwm[chn] = d["channels"][chn].GetDouble();
+                    pwm[chn] = (pwm[chn] / 10000 - 0.5)*2;
                 }
-                return;
+                aircraft->set_control_value("main_engine_0/thrust", (pwm[0] + 1) * 0.5);
+                aircraft->set_control_value("main_wing_0/flap_0", pwm[2]);
+                aircraft->set_control_value("main_wing_0/flap_1", - pwm[2]);
+                aircraft->set_control_value("horizon_wing_0/flap_0", pwm[3]);
+                aircraft->set_control_value("horizon_wing_0/flap_1", pwm[3]);
+                aircraft->set_control_value("vertical_wing_0/flap", pwm[4]);
             }
-            const char *channel_list[] = {
-                    "Roll",
-                    "Pitch",
-                    "Yaw",
-                    "VelocityX",
-                    "VelocityY",
-                    "VelocityZ",
-                    "Quaternion0",
-                    "Quaternion1",
-            };
-            motor_starter = fast_value(d, "MotorStarted") > 0;
-            for (int chn = 0; chn < 8; chn++) {
-                pwm[chn] = fast_value(d, channel_list[chn]);
-            }
-            RcA = fast_value(d, "RcA");
-            RcE = fast_value(d, "RcE");
-            RcR = fast_value(d, "RcR");
-            RcT = fast_value(d, "RcT");
-            
-            aircraft->set_control_value("main_engine_0/thrust", pwm[0] / 100);
-            aircraft->set_control_value("main_wing_0/flap_0", (pwm[2] / 50 - 1) / 5);
-            aircraft->set_control_value("main_wing_0/flap_1", (1 - pwm[2] / 50) / 5);
-            aircraft->set_control_value("horizon_wing_0/flap_0", pwm[3] / 50);
-            aircraft->set_control_value("horizon_wing_0/flap_1",  pwm[3] / 50);
-            aircraft->set_control_value("vertical_wing_0/flap", pwm[4] / 50 - 1);
-            static int count = 0;
-            count ++ ;
             
             data_update = true;
             
-            dcount ++ ;
+            dcount++;
         }
         
         void simulation_dji_a3_adapter::add_values(rapidjson::Document &d)
@@ -286,7 +268,7 @@ namespace RapidFDM
             rapidjson::Value pwm_array(rapidjson::kArrayType);
             
             for (int ch = 0; ch < 8; ch++) {
-                pwm_array.PushBack(pwm[ch], d.GetAllocator());
+                pwm_array.PushBack(pwm[ch] * 100, d.GetAllocator());
             }
             
             a3_value.AddMember("PWM", pwm_array, d.GetAllocator());
@@ -316,31 +298,35 @@ namespace RapidFDM
             rapidjson::Document d;
             d.SetObject();
             d.AddMember("SEQ", "FUCK", d.GetAllocator());
-            d.AddMember("CMD", "set_status", d.GetAllocator());
+            d.AddMember("CMD", "set_fixed_wing", d.GetAllocator());
             Eigen::Quaterniond convert = (Eigen::Quaterniond) Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitY());
             //TODO:Fix convention
+            
+            d.AddMember("tick", (int64_t)simulator_tick, d.GetAllocator());
+            d.AddMember("lon", 1.2f, d.GetAllocator());
+            d.AddMember("lati", 2.2f, d.GetAllocator());
+            d.AddMember("height", 100.0f, d.GetAllocator());
+            d.AddMember("rho", 1.29f, d.GetAllocator());
+            
+            AirState airState;
+            ComponentData data = aircraft->get_component_data();
+            add_value(d, data.get_airspeed_mag(airState), d, "airspeed");
+            
             Eigen::Vector3d acc = sim_air->gAcc;
             acc = convert * acc;
-            add_value(d, acc.x(), d, "pos0");
-            add_value(d, acc.y(), d, "pos1");
-            add_value(d, acc.z(), d, "pos2");
+            add_vector(d, acc, d, "acc");
             
             Eigen::Vector3d vel = convert * aircraft->get_ground_velocity();
-            add_value(d, vel.x(), d, "vel0");
-            add_value(d, vel.y(), d, "vel1");
-            add_value(d, vel.z(), d, "vel2");
+            add_vector(d, vel, d, "vel");
             
             Eigen::Vector3d w = convert * aircraft->get_angular_velocity();
-            add_value(d, w.x(), d, "w0");
-            add_value(d, w.y(), d, "w1");
-            add_value(d, w.z(), d, "w2");
+            add_vector(d, w, d, "angular_vel");
             
             Eigen::Quaterniond quat =
                     convert * (Eigen::Quaterniond) aircraft->get_ground_transform().rotation() * convert;
-            add_value(d, quat.w(), d, "q0");
-            add_value(d, quat.x(), d, "q1");
-            add_value(d, quat.y(), d, "q2");
-            add_value(d, quat.z(), d, "q3");
+            
+            add_attitude(d, quat, d, "q");
+            
             
             int32_t size;
             const char *str = json_to_buffer(d, size);

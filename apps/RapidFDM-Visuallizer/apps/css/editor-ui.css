@@ -1,0 +1,109 @@
+#list_model_button {
+    position: fixed;
+    left: 5em;
+    bottom: 5em;
+}
+
+#load_model_button {
+    position: fixed;
+    left: 5em;
+    bottom: 3em;
+}
+
+#list_state_model_button {
+    position: fixed;
+    left: 5em;
+    bottom: 1em;
+}
+
+#list_axis_model_button {
+    position: fixed;
+    left: 15em;
+    bottom: 5em;
+}
+
+#get_total_forces_torques_button {
+    position: fixed;
+    left: 15em;
+    bottom: 3em;
+}
+
+#log_plant {
+    position: fixed;
+    right: 2em;
+    bottom: 2em;
+    width: 50%;
+    height: 10em;
+    background-color: aliceblue;
+    opacity: 0.5;
+    word-break: break-all;
+}
+
+#container {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+#wind_aoa_input{
+    position: fixed;
+    right: 2em;
+    bottom: 15em;
+    width: 30%;
+}
+#wind_sideslip_input{
+    position: fixed;
+    right: 2em;
+    bottom: 10em;
+    width: 30%;
+}
+
+
+#gamepad_status {
+    position: fixed;
+    right:2em;
+    top:2em;
+    color : red;
+    width: 22em;
+}
+
+#flight_status {
+    position: fixed;
+    left:2em;
+    bottom: 2em;
+}
+
+#gamepad_left_hand {
+    position: absolute;
+    width: 10em;
+    height: 10em;
+    background-color: #aaaaaa;
+    opacity: 0.5;
+    color: red;
+}
+#gamepad_right_hand {
+    position: absolute;
+    left: 12em;
+    width: 10em;
+    height: 10em;
+    background-color: #aaaaaa;
+    opacity: 0.5;
+    color: red;
+}
+
+
+#left_game_bar{
+    position: absolute;
+    left: 2em;
+    bottom: 2em;
+    font-size: 2em;
+}
+
+#right_game_bar {
+    position: absolute;
+    left: 4em;
+    bottom: 4em;
+    font-size: 2em;
+}

@@ -53,6 +53,7 @@ protected:
     std::mutex phys_engine_lock;
     
     simulation_dji_a3_adapter * a3_adapter = nullptr;
+    long runninged_tick = 0;
 public:
     simulation_websocket_server(int port, std::string aircraft_path, float deltatime = 0.005, int tick_time = 30,bool use_a3 = false) :
             websocket_server(port), simulatorWorld(deltatime), interval(tick_time),output_interval(15)
@@ -74,6 +75,7 @@ public:
 
         handler_realtime_output->add_json_handler(
                 "start", [&](const rapidjson::Value &value) {
+                    this->simulator_running = true;
                     Eigen::Affine3d init_transform = fast_transform(value, "init_transform");
                     auto init_trans = transform_e2p(init_transform);
                     printf("init pos %f %f %f\n", init_trans.p.x, init_trans.p.y, init_trans.p.z);
@@ -82,11 +84,6 @@ public:
                     this->simulatorAircraft->reset_aircraft(transform_e2p(init_transform), init_speed);
                     phys_engine_lock.unlock();
 
-                    if (!simulator_running) {
-                        simulator_running = true;
-                        run_next_tick();
-    
-                    }
                 });
 
         handler_realtime_output->add_json_handler("pause", [&](const rapidjson::Value &value) {
@@ -157,7 +154,7 @@ public:
     
             add_vector(d, aircraftNode->get_angular_velocity(), d, "angular_velocity");
     
-            if (count++ % 3 == 0) {
+            if (count++ % 3 == -1) {
                 rapidjson::Value value(rapidjson::kObjectType);
                 auto trans_body_2_world = aircraftNode->get_ground_transform().linear();
                 add_vector(value, trans_body_2_world * aircraftNode->get_total_force(), d, "total_force");
@@ -177,8 +174,7 @@ public:
                         *aircraftNode->bladeElementManager.get_blades_information(),
                         d.GetAllocator()
                 );
-//            value.AddMember("blades", blade_array, d.GetAllocator());
-        
+            value.AddMember("blades", blade_array, d.GetAllocator());
                 d.AddMember("forces_torques", value, d.GetAllocator());
             }
     
@@ -205,11 +201,14 @@ public:
 
     void tick(float ticktime)
     {
-        timer->expires_at(timer->expires_at() + interval);
-        long long t1 = current_timestamp();
+        timer->expires_at(timer->expires_at() + boost::posix_time::milliseconds(tick_time));
+        static long long first_timestamp = current_timestamp();
+        long long diff = current_timestamp() - first_timestamp;
         if (simulator_running) {
+            runninged_tick ++;
             if (a3_adapter != nullptr)
             {
+                a3_adapter->simulator_tick = runninged_tick;
                 if (a3_adapter->motor_starter || !a3_adapter->assiant_online) {
                     simulatorWorld.Step(ticktime / 1000);
                 }
@@ -218,9 +217,7 @@ public:
                 simulatorWorld.Step(ticktime / 1000);
             }
         }
-        long long t2 = current_timestamp();
-        long long diff = t2 - t1;
-        std::cout << "use mills" << " simrun " << simulator_running << " t : " <<  diff << t1 << std::endl;
+//        std::cout << "tick mills " << ((double) diff)/((double)count)  << std::endl;
         run_next_tick();
     }
 
@@ -231,7 +228,7 @@ int main(int argc, char **argv)
     std::string path = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/sample_aircraft";
     bool use_a3 = true;
 
-    simulation_websocket_server server(9093, path,0.01,50,use_a3);
+    simulation_websocket_server server(9093, path,0.005,10,use_a3);
     
     printf("run server thread\n");
     server.calc_thread();

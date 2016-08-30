@@ -23,5 +23,5 @@
   "MidChordSweep": 8,
   "TaperRatio":0.8,
   "pieces": 2,
-  "flap_coeff":-1.5
+  "flap_coeff":-3
 }

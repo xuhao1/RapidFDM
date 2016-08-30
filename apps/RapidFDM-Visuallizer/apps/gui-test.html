@@ -109,7 +109,7 @@
             value : 0,
             slide: function (e,ui) {
                 aoa_sp = ui.value;
-                aircraftview.set_wind_speed(25,aoa_sp,sideslip_sp);
+                aircraftview.set_wind_speed(15,aoa_sp,sideslip_sp);
                 log(`set wind aoa to ${ui.value}`);
             }
         };
@@ -120,7 +120,7 @@
             value : 0,
             slide: function (e,ui) {
                 sideslip_sp = ui.value;
-                aircraftview.set_wind_speed(25,aoa_sp,sideslip_sp);
+                aircraftview.set_wind_speed(15,aoa_sp,sideslip_sp);
                 log(`set wind sideslip to ${ui.value}`);
             }
         };

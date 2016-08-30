@@ -180,13 +180,11 @@ namespace RapidFDM
         {
             assert(aircraftNode->is_rigid());
             PxRigidBody *rigidBody = nodes[aircraftNode];
-            Eigen::Vector3d total_force = aircraftNode->get_total_force(); //body coordinate
+            Eigen::Vector3d total_force = aircraftNode->get_total_force(count); //body coordinate
             total_force = aircraftNode->get_ground_transform().linear() * total_force;
             assert(this->aircraftNode->is_rigid());
                    
-            gAcc = total_force / this->aircraftNode->get_mass();
-                
-            Eigen::Vector3d total_torque = aircraftNode->get_total_torque();//body
+            Eigen::Vector3d total_torque = aircraftNode->get_total_torque(count);//body
             total_torque = aircraftNode->get_ground_transform().linear() * total_torque;
             rigidBody->addForce(vector_e2p(total_force));
             rigidBody->addTorque(vector_e2p(total_torque));
@@ -204,7 +202,6 @@ namespace RapidFDM
 
         void SimulatorAircraft::update_states_from_physx()
         {
-            static int count = 0;
             if (aircraftNode->is_rigid()) {
                 Eigen::Affine3d root_transform = transform_p2e(nodes[aircraftNode]->getGlobalPose());
                 Aerodynamics::ComponentData data;

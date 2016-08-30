@@ -46,6 +46,7 @@ namespace RapidFDM
         
         int AircraftNode::set_control_value(std::string name, double v)
         {
+            
             if (this->control_axis_mapper.find(name) != this->control_axis_mapper.end()) {
                 this->control_axis[name] = v;
                 node_control_axis node_control = this->control_axis_mapper[name];

@@ -24,7 +24,7 @@ var DroneDisplayCameraController = function (camera) {
     this.min_cam_height = 1;
     this.max_cam_height = 10;
     
-    this.relative_center_point = new THREE.Vector3(0,0,0.5);
+    this.relative_center_point = new THREE.Vector3(0,0,0.0);
 
     let obj = this;
     document.addEventListener('keydown', function (event) {

@@ -14,7 +14,7 @@
     1e-2
   ],
   "b_2": 0.705,
-  "Mac": 0.25,
+  "Mac": 0.2,
   "nonSideAttach": 1,
   "wingPart": 2,
   "enableControl": 1,
@@ -22,6 +22,6 @@
   "deflectAngle" : 3,
   "MidChordSweep": 0,
   "TaperRatio":0.8,
-  "pieces":4,
-  "flap_coeff":10
+  "pieces":10,
+  "flap_coeff":4
 }
