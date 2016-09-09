@@ -4,6 +4,8 @@
 
 #include "RapidFDM/simulation/simulation_dji_a3_adapter.h"
 
+#define C_EARTH 6378137.0f
+
 namespace RapidFDM
 {
     namespace Simulation
@@ -242,6 +244,11 @@ namespace RapidFDM
                     pwm[chn] = d["channels"][chn].GetDouble();
                     pwm[chn] = (pwm[chn] / 10000 - 0.5)*2;
                 }
+//                printf("pwm 0 %f 2: %f 3: %f 4: %f\n",pwm[0],
+//                       pwm[2],
+//                       pwm[3],
+//                       pwm[4]
+//                );
                 aircraft->set_control_value("main_engine_0/thrust", (pwm[0] + 1) * 0.5);
                 aircraft->set_control_value("main_wing_0/flap_0", pwm[2]);
                 aircraft->set_control_value("main_wing_0/flap_1", - pwm[2]);
@@ -302,10 +309,13 @@ namespace RapidFDM
             Eigen::Quaterniond convert = (Eigen::Quaterniond) Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitY());
             //TODO:Fix convention
             
+            Eigen::Vector3d pos = (Eigen::Vector3d) aircraft->get_ground_transform().translation();
+            pos = convert * pos;
+            
             d.AddMember("tick", (int64_t)simulator_tick, d.GetAllocator());
-            d.AddMember("lon", 1.2f, d.GetAllocator());
-            d.AddMember("lati", 2.2f, d.GetAllocator());
-            d.AddMember("height", 100.0f, d.GetAllocator());
+            d.AddMember("lati", intial_lati  + pos.x()/C_EARTH, d.GetAllocator());
+            d.AddMember("lon",intial_lon + pos.y()/ C_EARTH  / cos(intial_lati + pos.x()/C_EARTH), d.GetAllocator());
+            d.AddMember("height",-  pos.z(), d.GetAllocator());
             d.AddMember("rho", 1.29f, d.GetAllocator());
             
             AirState airState;
@@ -314,6 +324,7 @@ namespace RapidFDM
             
             Eigen::Vector3d acc = sim_air->gAcc;
             acc = convert * acc;
+            acc.z() = acc.z() + 9.8;
             add_vector(d, acc, d, "acc");
             
             Eigen::Vector3d vel = convert * aircraft->get_ground_velocity();

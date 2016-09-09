@@ -65,7 +65,8 @@ namespace RapidFDM
             std::string sim_uri;
             int dcount = 0;
             
-            
+            float intial_lati = 0;
+            float intial_lon = 0;
         public:
             long simulator_tick = 0;
             bool motor_starter = false;

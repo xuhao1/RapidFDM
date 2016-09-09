@@ -187,6 +187,7 @@ namespace RapidFDM
             Eigen::Vector3d total_torque = aircraftNode->get_total_torque(count);//body
             total_torque = aircraftNode->get_ground_transform().linear() * total_torque;
             rigidBody->addForce(vector_e2p(total_force));
+            gAcc = total_force / aircraftNode->get_mass();
             rigidBody->addTorque(vector_e2p(total_torque));
         }
 

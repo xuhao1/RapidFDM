@@ -128,6 +128,17 @@ AircraftView.prototype.receive_simulator_data = function () {
                  ${(data.angular_velocity[1] * 180 / 3.1415926).toFixed(1)}\
                  ${(data.angular_velocity[2] * 180 / 3.1415926).toFixed(1)}`
             );
+            $("#attitude").text(
+                `roll:${(data.euler[0]).toFixed(1)}\
+                 pitch:${(data.euler[1]).toFixed(1)}\
+                 yaw:${(data.euler[2]).toFixed(1)}`
+            )
+
+            $("#velocity").text(
+                `X:${(data.vel[0]).toFixed(1)}\
+                 Y:${(data.vel[1]).toFixed(1)}\
+                 Z:${(data.vel[2]).toFixed(1)}`
+            );
 
             if (data.a3_sim_status !== undefined)
             {
@@ -158,7 +169,7 @@ AircraftView.prototype.receive_simulator_data = function () {
             obj.start_simulation({
                 transform: {
                     attitude: [0, 0, 0],
-                    vector: [0, 0, 100]
+                    vector: [10,-30, 300]
                 },
                 init_speed: 20
             });
@@ -300,6 +311,7 @@ AircraftView.prototype.forces_torques_callback = function (data) {
     );
     
     $("#aerodynamics_torque").text(`${aerodynamics_torque_local.x.toFixed(3)} ${aerodynamics_torque_local.y.toFixed(3)} ${aerodynamics_torque_local.z.toFixed(3)}`);
+    $("#aerodynamics_force").text(`${aerodynamics_force.x.toFixed(3)} ${aerodynamics_force.y.toFixed(3)} ${aerodynamics_force.z.toFixed(3)}`);
 
     var aero_origin = force_pos_from_force_torque(aerodynamics_force, aerodynamics_torque)
         .add(this.mass_center);

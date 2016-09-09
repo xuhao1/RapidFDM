@@ -18,6 +18,7 @@
 #include <csetjmp>
 #include <csignal>
 #include <sys/time.h>
+#include "math.h"
 
 
 long long current_timestamp() {
@@ -153,8 +154,10 @@ public:
             add_transform(d, aircraftNode->get_ground_transform(), d);
     
             add_vector(d, aircraftNode->get_angular_velocity(), d, "angular_velocity");
+            add_vector(d,quat2eulers(aircraftNode->get_ground_attitude()) /M_PI * 180.0,d,"euler");
+            add_vector(d,aircraftNode->get_ground_velocity(),d,"vel");
     
-            if (count++ % 3 == -1) {
+            if (count++ % 10 == 1) {
                 rapidjson::Value value(rapidjson::kObjectType);
                 auto trans_body_2_world = aircraftNode->get_ground_transform().linear();
                 add_vector(value, trans_body_2_world * aircraftNode->get_total_force(), d, "total_force");
