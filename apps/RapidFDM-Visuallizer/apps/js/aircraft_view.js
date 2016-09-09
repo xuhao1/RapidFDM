@@ -312,6 +312,7 @@ AircraftView.prototype.forces_torques_callback = function (data) {
     
     $("#aerodynamics_torque").text(`${aerodynamics_torque_local.x.toFixed(3)} ${aerodynamics_torque_local.y.toFixed(3)} ${aerodynamics_torque_local.z.toFixed(3)}`);
     $("#aerodynamics_force").text(`${aerodynamics_force.x.toFixed(3)} ${aerodynamics_force.y.toFixed(3)} ${aerodynamics_force.z.toFixed(3)}`);
+    return;
 
     var aero_origin = force_pos_from_force_torque(aerodynamics_force, aerodynamics_torque)
         .add(this.mass_center);

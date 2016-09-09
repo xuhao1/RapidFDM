@@ -324,7 +324,7 @@ namespace RapidFDM
             
             Eigen::Vector3d acc = sim_air->gAcc;
             acc = convert * acc;
-            acc.z() = acc.z() + 9.8;
+            acc.z() = acc.z() + 9.81;
             add_vector(d, acc, d, "acc");
             
             Eigen::Vector3d vel = convert * aircraft->get_ground_velocity();

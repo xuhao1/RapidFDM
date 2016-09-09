@@ -163,7 +163,7 @@ public:
                 add_vector(value, trans_body_2_world * aircraftNode->get_total_force(), d, "total_force");
                 add_vector(value, trans_body_2_world * aircraftNode->get_total_torque(), d, "total_torque");
         
-                add_vector(value, trans_body_2_world * aircraftNode->get_total_aerodynamics_force(), d,
+                add_vector(value, aircraftNode->get_total_aerodynamics_force(), d,
                            "total_airdynamics_force");
                 add_vector(value, trans_body_2_world * aircraftNode->get_total_aerodynamics_torque(), d,
                            "total_airdynamics_torque");
