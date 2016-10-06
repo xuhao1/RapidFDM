@@ -100,10 +100,9 @@ namespace RapidFDM
 
             virtual Eigen::Vector3d get_total_engine_torque() const;
 
-            virtual Eigen::Vector3d get_total_aerodynamics_force() const;
+            virtual Eigen::Vector3d get_total_aerodynamics_force();
 
-
-            virtual Eigen::Vector3d get_total_aerodynamics_torque() const;
+            virtual Eigen::Vector3d get_total_aerodynamics_torque();
 
             virtual Eigen::Vector3d get_angular_velocity() const;
 

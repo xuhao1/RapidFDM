@@ -1,0 +1,15 @@
+#internal_state_panel {
+    position: fixed;
+    top: 25%;
+    left: 15%;
+    /*transform: translate(-50%, -50%);*/
+    width: 70%;
+    height:50%;
+    visibility: hidden;
+}
+
+#flight_status {
+    position: fixed;
+    right:2em;
+    bottom: 5em;
+}

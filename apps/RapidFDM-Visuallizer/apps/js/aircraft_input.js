@@ -132,8 +132,8 @@ AircraftInput.prototype.update = function () {
                         "horizon_wing_0/flap_0": this.elevator / 10000,
                         "horizon_wing_0/flap_1": this.elevator / 10000,
                         "vertical_wing_0/flap": this.rudder / 10000,
-                        "main_wing_0/flap_0": +this.aileron / 10000,
-                        "main_wing_0/flap_1": -this.aileron / 10000,
+                        "main_wing_0/flap_0": +this.aileron / 10000 - this.elevator / 10000,
+                        "main_wing_0/flap_1": -this.aileron / 10000 - this.elevator / 10000 ,
                         "main_engine_0/thrust": Math.sqrt(this.throttle / 10000)
                     }
                 }));

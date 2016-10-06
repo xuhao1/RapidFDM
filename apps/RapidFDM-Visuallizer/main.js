@@ -1,67 +1,52 @@
 const electron = require('electron');
-// Module to control application life.
 const {app} = electron;
-// Module to create native browser window.
 const {BrowserWindow} = electron;
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let win;
 
 function createWindow() {
-    // Create the browser window.
-
+    global.sharedObj = {aircraftname : process.argv[2]};
     console.log(process.argv[2]);
-
 
     win = new BrowserWindow({width: 1024, height: 768});
 
-    // and load the index.html of the app.
-    win.loadURL(`file://${__dirname}/apps/gui-test.html`);
 
-    // Open the DevTools.
-    // win.webContents.openDevTools();
-
-    // Emitted when the window is closed.
     win.on('closed', () => {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
         win = null;
     });
 
     const spawn = require('child_process').spawn;
-    console.log("launching configurer");
-    const rconfig = spawn('/Users/xuhao/Develop/FixedwingProj/RapidFDM/build/bin/rapidfdm_aerodynamics_configure_server', []);
+    let rconfig = spawn('/Users/xuhao/Develop/FixedwingProj/RapidFDM/build/bin/rapidfdm_aerodynamics_configure_server', [process.argv[2]]);
+    rconfig.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+    });
 
-    if (process.argv[2] == "--enable_dynamics")
+    if (process.argv[3] == "--enable_dynamics")
     {
         console.log("launching simulator");
-        r_sim = spawn('/Users/xuhao/Develop/FixedwingProj/RapidFDM/build/modules/simulation/rapidfdm_simulator_ws', []);
+        r_sim = spawn('/Users/xuhao/Develop/FixedwingProj/RapidFDM/build/modules/simulation/rapidfdm_simulator_ws', [process.argv[2]]);
+        win.loadURL(`file://${__dirname}/apps/gui-test.html`);
+    }
+    else
+    {
+        win.loadURL(`file://${__dirname}/apps/configurer.html`)
     }
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+
 app.on('ready', createWindow);
 
-// Quit when all windows are closed.
+
 app.on('window-all-closed', () => {
-    // On macOS it is common for applications and their menu bar
-    // to stay active until the user quits explicitly with Cmd + Q
+
     if (process.platform !== 'darwin') {
         app.quit();
     }
 });
 
 app.on('activate', () => {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
+
     if (win === null) {
         createWindow();
     }
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.

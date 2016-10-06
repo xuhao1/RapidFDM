@@ -17,8 +17,8 @@ namespace RapidFDM
 
 //            root_uri = "ws://10.60.23.132:19870/general/";
 //            sim_uri = "ws://10.60.23.132:19870/controller/simulator/";
-            root_uri = "ws://10.211.55.9:19870/general";
-            sim_uri = "ws://10.211.55.9:19870/controller/simulator/";
+            root_uri = "ws://10.211.55.3:19870/general";
+            sim_uri = "ws://10.211.55.3:19870/controller/simulator/";
             
             c_root.set_access_channels(websocketpp::log::alevel::none);
             c_root.clear_access_channels(websocketpp::log::alevel::all);
@@ -250,10 +250,10 @@ namespace RapidFDM
 //                       pwm[4]
 //                );
                 aircraft->set_control_value("main_engine_0/thrust", (pwm[0] + 1) * 0.5);
-                aircraft->set_control_value("main_wing_0/flap_0", pwm[2]);
-                aircraft->set_control_value("main_wing_0/flap_1", - pwm[2]);
-                aircraft->set_control_value("horizon_wing_0/flap_0", pwm[3]);
-                aircraft->set_control_value("horizon_wing_0/flap_1", pwm[3]);
+                aircraft->set_control_value("main_wing_0/flap_0",  pwm[2]);
+                aircraft->set_control_value("main_wing_0/flap_1", - pwm[3]);
+                //aircraft->set_control_value("horizon_wing_0/flap_0", pwm[3]);
+                //aircraft->set_control_value("horizon_wing_0/flap_1", pwm[3]);
                 aircraft->set_control_value("vertical_wing_0/flap", pwm[4]);
             }
             

@@ -140,14 +140,12 @@ namespace RapidFDM
                 d->SetObject();
                 d->AddMember("opcode", "response_query", d->GetAllocator());
                 d->AddMember("type", "get_internal_states_list", d->GetAllocator());
-                rapidjson::Value value(rapidjson::kArrayType);
+                rapidjson::Value value(rapidjson::kObjectType);
 
                 for (auto pair : aircraftNode->get_internal_states()) {
-                    rapidjson::Value v(rapidjson::kObjectType);
                     rapidjson::Value name(rapidjson::kStringType);
                     name.SetString(pair.first.c_str(), d->GetAllocator());
-                    v.AddMember(name, pair.second, d->GetAllocator());
-                    value.PushBack(v, d->GetAllocator());
+                    value.AddMember(name, pair.second, d->GetAllocator());
                 }
 
                 d->AddMember("data", value, d->GetAllocator());
@@ -158,14 +156,12 @@ namespace RapidFDM
                 d->SetObject();
                 d->AddMember("opcode", "response_query", d->GetAllocator());
                 d->AddMember("type", "get_control_axis_list", d->GetAllocator());
-                rapidjson::Value value(rapidjson::kArrayType);
+                rapidjson::Value value(rapidjson::kObjectType);
 
                 for (auto pair : aircraftNode->get_control_axis()) {
-                    rapidjson::Value v(rapidjson::kObjectType);
                     rapidjson::Value name(rapidjson::kStringType);
                     name.SetString(pair.first.c_str(), d->GetAllocator());
-                    v.AddMember(name, pair.second, d->GetAllocator());
-                    value.PushBack(v, d->GetAllocator());
+                    value.AddMember(name, pair.second, d->GetAllocator());
                 }
 
                 d->AddMember("data", value, d->GetAllocator());

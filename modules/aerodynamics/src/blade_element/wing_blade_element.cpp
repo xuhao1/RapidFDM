@@ -67,7 +67,7 @@ namespace RapidFDM
 
             double cl = get_cl(state, airState);
             double lift = cl * state.get_q_bar(airState) * this->Mac * this->element_span_length;
-            return lift;
+            return lift + get_flap_lift(state,airState);
         }
 
         float WingBladeElement::getDrag(ComponentData state, AirState airState) const
@@ -82,16 +82,12 @@ namespace RapidFDM
             //real side force
             return 0;
         }
-
-        float WingBladeElement::get_cl(ComponentData state, AirState airState) const
-        {
+        float WingBladeElement::get_flap_lift(ComponentData state, AirState airState) const {
             WingGeometry *wingGeometry = dynamic_cast<WingGeometry * >(geometry);
-            double x = state.get_angle_of_attack(airState) * 180.0 / M_PI;
-
             double cl_by_control = 0;
             if (get_wing_node()->enableControl)
             {
-                float internal = 0;
+                double internal = 0;
                 if(wingGeometry->params.wingPart == 2) {
                     if (this->mid_span_length < 0) {
                         //LEFT SIDE
@@ -106,10 +102,18 @@ namespace RapidFDM
                 else {
                     internal = get_wing_node()->get_internal_states().find("flap")->second;
                 }
-                cl_by_control = 0.1 * internal * wingGeometry->params.flap_coeff;
+                cl_by_control = internal * wingGeometry->params.cl_by_deg * wingGeometry->params.maxdeflect;
             }
+
+            double res =  cl_by_control * state.get_q_bar(airState) * this->Mac * this->element_span_length * wingGeometry->params.ctrlSurfFrac;
+            return res;
+        }
+
+        float WingBladeElement::get_cl(ComponentData state, AirState airState) const
+        {
+            WingGeometry *wingGeometry = dynamic_cast<WingGeometry * >(geometry);
+            double x = state.get_angle_of_attack(airState) * 180.0 / M_PI;
             double cl = wingGeometry->params.cl0 + wingGeometry->params.cl_by_deg * x;
-            cl = cl + cl_by_control;
             //Stall
             if (x  > wingGeometry->params.stall_angle || x < - wingGeometry->params.stall_angle) {
                 cl = 0;
@@ -134,7 +138,9 @@ namespace RapidFDM
 
         Eigen::Vector3d WingBladeElement::get_aerodynamics_torque(ComponentData data, AirState airState) const
         {
-            return Eigen::Vector3d(0, 0, 0);
+            WingGeometry *wingGeometry = dynamic_cast<WingGeometry * >(geometry);
+            double torque_by_flap = this->Mac * (0.75 -  wingGeometry->params.ctrlSurfFrac) * get_flap_lift(data,airState);
+            return Eigen::Vector3d(0, -torque_by_flap, 0);
         }
 
         Eigen::Affine3d WingBladeElement::get_relative_transform() const

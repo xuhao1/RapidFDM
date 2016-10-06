@@ -116,7 +116,7 @@ namespace RapidFDM
                 std::string data_name = fast_string(document,"data_name");
                 if(data_name=="")
                 {
-                    data_name = "apcsp_8x4_2683rd_5009";
+                    data_name = "magf_7x4_2915cm_6998.txt";
                 }
                 printf("Success parse propeller_node\n");
                 printf("Name %s type: %s geometry %s using data %s\n", this->name.c_str(), this->get_type_str().c_str(),

@@ -228,10 +228,13 @@ public:
 
 int main(int argc, char **argv)
 {
-    std::string path = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/sample_aircraft";
+    std::string path = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/";
+    if (argc <= 1)
+        return -1;
+    std::string aircraft_name = argv[1];
     bool use_a3 = true;
-
-    simulation_websocket_server server(9093, path,0.005,10,use_a3);
+    printf("Loading aircraft %s\n",aircraft_name.c_str());
+    simulation_websocket_server server(9093, path + aircraft_name,0.005,10,use_a3);
     
     printf("run server thread\n");
     server.calc_thread();

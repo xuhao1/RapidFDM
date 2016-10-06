@@ -33,6 +33,7 @@ namespace RapidFDM
                 Eigen::Vector3d node_body_r = (Eigen::Vector3d) blade->get_relative_transform().translation();
                 res += convert_coord * blade->get_aerodynamics_torque(data,airState) +
                        node_body_r.cross(convert_coord * blade->get_aerodynamics_force(data,airState));
+
             }
             return res;
         }
@@ -60,15 +61,15 @@ namespace RapidFDM
             params.MidChordSweep = fast_value(v, "MidChordSweep", 0) * M_PI / 180;
             params.maxdeflect = fast_value(v, "maxdeflect", 15);
             params.enableControl = fast_value(v, "enableControl", 0) == 1;
-            params.flap_coeff = fast_value(v,"flap_coeff",1);
-            params.cl0 = fast_value(v,"cl0",0);
-            params.cl_by_deg = fast_value(v,"cl0",0.1f);
+            params.cl0 = fast_value(v,"cl0",0.1f);
+            params.cl_by_deg = fast_value(v,"cl_by_deg",0.1f);
             params.cd0 = fast_value(v,"cd0",0.01);
             params.cd_by_deg2 = fast_value(v,"cd_by_deg",6e-5);
             params.stall_angle = fast_value(v,"stall_angle",20);
             int pieces = fast_value(v,"pieces",5);
-            if (params.enableControl)
-                params.ctrlSurfFrac = fast_value(v, "ctrlSurfFrac", 0.2);
+
+            params.ctrlSurfFrac = fast_value(v, "ctrlSurfFrac", 0.2);
+
             params.wingPart = fast_value(v, "wingPart", 2);
             params.deflectAngle = fast_value(v, "deflectAngle") *  M_PI / 180;
             this->type = "WingGeometry";

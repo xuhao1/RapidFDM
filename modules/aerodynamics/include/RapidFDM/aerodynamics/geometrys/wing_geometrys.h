@@ -46,7 +46,6 @@ namespace RapidFDM
                 double deflectAngle = 0;
                 double root_chord_length = 0;
                 double taper_chord_length = 0;
-                double flap_coeff = 1;
                 double cl0;
                 double cl_by_deg;
                 double cd0;

@@ -27,8 +27,9 @@ var DroneDisplayEngine = function (container,w,h)
     container.appendChild(renderer.domElement);
 
     let stats = this.stats = new Stats();
-    stats.domElement.style.position = 'absolute';
-    stats.domElement.style.top = '0px';
+    stats.domElement.style.position = 'fixed';
+    stats.domElement.style.bottom = '0px';
+    stats.domElement.style.left = '0px';
     container.appendChild(stats.domElement);
 
     var axiscale = 1000;

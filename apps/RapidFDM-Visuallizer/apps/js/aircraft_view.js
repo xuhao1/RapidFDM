@@ -28,7 +28,7 @@ var AircraftView = function (config) {
         obj.component_mesh_list = LoadAircraftGeometry(data, obj.dis);
 
 
-        obj.set_value_test();
+        // obj.set_value_test();
 
         obj.set_wind_speed(15, 0,0);
         
@@ -109,20 +109,20 @@ AircraftView.prototype.receive_simulator_data = function () {
     try {
         this.ws_simulator = new WebSocket("ws://127.0.0.1:9093/output");
         this.ws_simulator.onmessage = function (event) {
-            let data = eval(`(${event.data})`);
+            var data = eval(`(${event.data})`);
             
             if (data.forces_torques !== undefined)
                 this.forces_torques = data.forces_torques;
             if (this.forces_torques !== undefined)
                 obj.forces_torques_callback(this.forces_torques);
             
-            let airstate = data.airstate;
-            
+            var airstate = data.airstate;
+
+            $("#air_speed").text(airstate.airspeed);
+            $("#angle_of_attack").text(airstate.angle_of_attack * 180/3.14);
+            $("#sideslip").text(airstate.sideslip * 180 / 3.14);
+
             obj.set_transform(data.transform);
-            obj.draw_wind(airstate.airspeed,
-                airstate.angle_of_attack * 180 /Math.PI,
-                airstate.sideslip * 180 / Math.PI
-            );
             $("#angular_velocity").text(
                 `${(data.angular_velocity[0] * 180 / 3.1415926).toFixed(1)}\
                  ${(data.angular_velocity[1] * 180 / 3.1415926).toFixed(1)}\
@@ -145,7 +145,7 @@ AircraftView.prototype.receive_simulator_data = function () {
                 obj.input.use_a3 = true;
                 for (var i = 0 ;i < 8 ;i ++)
                 {
-                    data.a3_sim_status.PWM[i] = Math.floor(data.a3_sim_status.PWM[i] - 50);
+                    data.a3_sim_status.PWM[i] = Math.floor(data.a3_sim_status.PWM[i]);
                 }
                 $("#pwm").text(JSON.stringify(data.a3_sim_status.PWM));
                 
@@ -171,7 +171,7 @@ AircraftView.prototype.receive_simulator_data = function () {
                     attitude: [0, 0, 0],
                     vector: [10,-30, 300]
                 },
-                init_speed: 20
+                init_speed: 15
             });
         };
         this.ws_simulator.onclose = function (event) {
@@ -298,7 +298,7 @@ AircraftView.prototype.forces_torques_callback = function (data) {
         data.total_airdynamics_force[1],
         data.total_airdynamics_force[2]
     );
-    
+
 
 
     var aerodynamics_torque = new THREE.Vector3(
@@ -309,10 +309,11 @@ AircraftView.prototype.forces_torques_callback = function (data) {
     var aerodynamics_torque_local = aerodynamics_torque.clone().applyQuaternion(
         this.attitude.clone().inverse()
     );
-    
+
     $("#aerodynamics_torque").text(`${aerodynamics_torque_local.x.toFixed(3)} ${aerodynamics_torque_local.y.toFixed(3)} ${aerodynamics_torque_local.z.toFixed(3)}`);
     $("#aerodynamics_force").text(`${aerodynamics_force.x.toFixed(3)} ${aerodynamics_force.y.toFixed(3)} ${aerodynamics_force.z.toFixed(3)}`);
-    return;
+    if (this.in_realtime_simulator)
+        return;
 
     var aero_origin = force_pos_from_force_torque(aerodynamics_force, aerodynamics_torque)
         .add(this.mass_center);
@@ -387,17 +388,16 @@ AircraftView.prototype.set_internal_state_value = function (name, v) {
 
 AircraftView.prototype.set_value_test = function () {
     let obj = this;
-    // this.set_internal_state_value("main_wing_0/flap_0", 1);
-    // this.set_internal_state_value("main_wing_0/flap_1", -1);
+    this.set_internal_state_value("main_wing_0/flap_0", 1);
+    this.set_internal_state_value("main_wing_0/flap_1", 1);
     this.get_internal_states_list();
 };
 
 AircraftView.prototype.draw_wind = function (speed, alpha, sideslip) {
     $("#air_speed").text(speed);
-
     $("#angle_of_attack").text(alpha);
     $("#sideslip").text(sideslip);
-    
+
     alpha = alpha / 180 * Math.PI;
     sideslip = sideslip / 180 * Math.PI;
 

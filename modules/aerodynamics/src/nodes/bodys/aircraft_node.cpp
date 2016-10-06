@@ -42,6 +42,7 @@ namespace RapidFDM
         {
             this->airState = air_state;
             bladeElementManager.calculate_washes(air_state, -1);
+            bladeElementManager.calculate_forces_and_torques();
         }
         
         int AircraftNode::set_control_value(std::string name, double v)
@@ -184,32 +185,18 @@ namespace RapidFDM
             return res;
         }
         
-        Eigen::Vector3d AircraftNode::get_total_aerodynamics_force() const
+        Eigen::Vector3d AircraftNode::get_total_aerodynamics_force()
         {
             assert(inited);
-            Eigen::Vector3d res = Eigen::Vector3d(0, 0, 0);
-            for (auto pair : node_list) {
-                BaseNode *node_ptr = pair.second;
-                res += node_ptr->get_body_transform().linear() *
-                       node_ptr->get_aerodynamics_force(node_ptr->get_component_data(), airState);
-            }
-            return res;
+            bladeElementManager.calculate_forces_and_torques();
+            return bladeElementManager.get_total_force();
         }
         
-       Eigen::Vector3d AircraftNode::get_total_aerodynamics_torque() const
+       Eigen::Vector3d AircraftNode::get_total_aerodynamics_torque()
         {
             assert(inited);
-            Eigen::Vector3d res = Eigen::Vector3d(0, 0, 0);
-            for (auto pair : node_list) {
-                BaseNode *node_ptr = pair.second;
-                auto convert_coord = node_ptr->get_body_transform().linear();
-                ComponentData data = node_ptr->get_component_data();
-                Eigen::Vector3d node_body_r = (Eigen::Vector3d) node_ptr->get_body_transform().translation();
-                res += convert_coord * node_ptr->get_aerodynamics_torque(data, airState) +
-                       node_body_r.cross(convert_coord * node_ptr->get_aerodynamics_force(data, airState));
-                
-            }
-            return res;
+            bladeElementManager.calculate_forces_and_torques();
+            return bladeElementManager.get_total_torque();
         }
         
         //TODO:

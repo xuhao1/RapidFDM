@@ -71,8 +71,7 @@ namespace RapidFDM
                 forces += force_body;
                 
                 Eigen::Vector3d node_body_r = (Eigen::Vector3d) blade->get_body_transform().translation();
-                   torques += convert_coord * blade->get_aerodynamics_torque(data,airState) +
-                       node_body_r.cross(force_body);
+                torques += convert_coord * blade->get_aerodynamics_torque(data,airState) + node_body_r.cross(force_body);
             }
         }
         
