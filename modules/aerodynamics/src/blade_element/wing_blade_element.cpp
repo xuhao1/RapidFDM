@@ -31,7 +31,7 @@ namespace RapidFDM
 
             mid_span_length =
                     (outer_span_percent + inner_span_percent) * wingGeometry->params.b_2 / 2 / cos(this->deflectAngle);
-            float chord_center_position = 0.25 * wingGeometry->params.root_chord_length // root chord center offset part
+            double chord_center_position = 0.25 * wingGeometry->params.root_chord_length // root chord center offset part
                                           + tan(wingGeometry->params.MidChordSweep) *
                                             fabs(outer_span_percent + inner_span_percent) / 2 *
                                             wingGeometry->params.b_2; // sweep part
@@ -49,7 +49,7 @@ namespace RapidFDM
             Eigen::Quaterniond element_attitude(Eigen::AngleAxisd(deflectAngle, rotate_axis));
             relative_transform.fromPositionOrientationScale(relative_pos, element_attitude, Eigen::Vector3d(1, 1, 1));
 
-            float span_ratio = fabs(outer_span_percent + inner_span_percent) / 2;
+            double span_ratio = fabs(outer_span_percent + inner_span_percent) / 2;
             this->Mac = (1 - span_ratio) * wingGeometry->params.root_chord_length +
                         span_ratio * wingGeometry->params.taper_chord_length;
             printf("name %s span ratio %f root chord %f taper %f\n",

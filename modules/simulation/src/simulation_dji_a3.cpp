@@ -6,6 +6,8 @@
 
 #define C_EARTH 6378137.0f
 
+#define MIXER_GENERAL
+
 namespace RapidFDM
 {
     namespace Simulation
@@ -244,17 +246,34 @@ namespace RapidFDM
                     pwm[chn] = d["channels"][chn].GetDouble();
                     pwm[chn] = (pwm[chn] / 10000 - 0.5)*2;
                 }
-//                printf("pwm 0 %f 2: %f 3: %f 4: %f\n",pwm[0],
-//                       pwm[2],
-//                       pwm[3],
-//                       pwm[4]
-//                );
+#ifdef MIXER_GENERAL
+                aircraft->set_control_value("main_engine_0/thrust", (pwm[0] + 1) * 0.5);
+                aircraft->set_control_value("main_engine_1/thrust", (pwm[1] + 1) * 0.5);
+                aircraft->set_control_value("main_wing_0/flap_0",  pwm[2]);
+                aircraft->set_control_value("main_wing_0/flap_1", - pwm[5]);
+                aircraft->set_control_value("horizon_wing_0/flap_0", pwm[3]);
+                aircraft->set_control_value("horizon_wing_0/flap_1", pwm[3]);
+                aircraft->set_control_value("vertical_wing_0/flap", pwm[4]);
+#endif
+
+#ifdef MIXER_FLYINGWING
                 aircraft->set_control_value("main_engine_0/thrust", (pwm[0] + 1) * 0.5);
                 aircraft->set_control_value("main_wing_0/flap_0",  pwm[2]);
                 aircraft->set_control_value("main_wing_0/flap_1", - pwm[3]);
                 //aircraft->set_control_value("horizon_wing_0/flap_0", pwm[3]);
                 //aircraft->set_control_value("horizon_wing_0/flap_1", pwm[3]);
                 aircraft->set_control_value("vertical_wing_0/flap", pwm[4]);
+#endif
+
+#ifdef MIXER_VTOL
+                aircraft->set_control_value("main_engine_0/thrust", (pwm[0] + 1) * 0.5);
+                aircraft->set_control_value("main_engine_1/thrust", (pwm[1] + 1) * 0.5);
+                aircraft->set_control_value("main_engine_2/thrust", (pwm[2] + 1) * 0.5);
+                aircraft->set_control_value("main_engine_3/thrust", (pwm[3] + 1) * 0.5);
+                aircraft->set_control_value("main_wing_0/flap_0",  pwm[4]);
+                aircraft->set_control_value("main_wing_0/flap_1", - pwm[5]);
+                aircraft->set_control_value("vertical_wing_0/flap", pwm[6]);
+#endif
             }
             
             data_update = true;

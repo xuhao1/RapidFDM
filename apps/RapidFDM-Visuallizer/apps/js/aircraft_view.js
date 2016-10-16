@@ -171,7 +171,7 @@ AircraftView.prototype.receive_simulator_data = function () {
                     attitude: [0, 0, 0],
                     vector: [10,-30, 300]
                 },
-                init_speed: 15
+                init_speed:0
             });
         };
         this.ws_simulator.onclose = function (event) {
