@@ -5,7 +5,7 @@
 #ifndef RAPIDFDM_SIMULATION_DJI_A3_ADAPTER_H
 #define RAPIDFDM_SIMULATION_DJI_A3_ADAPTER_H
 
-#include <printf.h>
+#include <iostream>
 #include <string>
 #include <RapidFDM/simulation/simulator_world.h>
 #include <RapidFDM/simulation/utils.h>
@@ -27,6 +27,7 @@ using namespace RapidFDM;
 
 #include <websocketpp/config/asio_no_tls_client.hpp>
 #include <websocketpp/client.hpp>
+#include <functional>
 
 #include <iostream>
 
@@ -68,6 +69,7 @@ namespace RapidFDM
             float intial_lati = 0;
             float intial_lon = 0;
         public:
+            std::function<void(void)> * on_receive_pwm = nullptr;
             long simulator_tick = 0;
             bool motor_starter = false;
             bool sim_online = false;

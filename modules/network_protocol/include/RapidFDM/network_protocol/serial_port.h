@@ -16,7 +16,7 @@
 #include <vector>
 
 
-#define SERIAL_PORT_READ_BUF_SIZE 256
+#define SERIAL_PORT_READ_BUF_SIZE 1024
 
 typedef boost::shared_ptr<boost::asio::serial_port> serial_port_ptr;
 
@@ -34,8 +34,6 @@ namespace RapidFDM
             char read_buf_raw_[SERIAL_PORT_READ_BUF_SIZE];
             std::string read_buf_str_;
         
-            char end_of_line_char_;
-    
         private:
             SerialPort(const SerialPort &p);
             SerialPort &operator=(const SerialPort &p);
@@ -45,20 +43,15 @@ namespace RapidFDM
             SerialPort(void);
             virtual ~SerialPort(void);
         
-            char end_of_line_char() const;
-            void end_of_line_char(const char &c);
-        
-            virtual bool start(const char *com_port_name, int baud_rate=9600);
+            virtual bool start(std::string com_port_name, int baud_rate=230400);
             virtual void stop();
         
-            int write_some(const std::string &buf);
             int write_some(const char *buf, const int &size);
         
         protected:
             virtual void async_read_some_();
             virtual void on_receive_(const boost::system::error_code& ec, size_t bytes_transferred);
-            virtual void on_receive_(const std::string &data);
-        
+
         };
     }
 }

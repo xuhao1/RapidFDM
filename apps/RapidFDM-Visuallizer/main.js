@@ -25,6 +25,13 @@ function createWindow() {
     {
         console.log("launching simulator");
         r_sim = spawn('/Users/xuhao/Develop/FixedwingProj/RapidFDM/build/modules/simulation/rapidfdm_simulator_ws', [process.argv[2]]);
+        r_sim.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+        });
+
+        r_sim.stderr.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+        });
         win.loadURL(`file://${__dirname}/apps/gui-test.html`);
     }
     else

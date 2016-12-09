@@ -131,7 +131,7 @@ namespace RapidFDM
             //Give a realitics bounding box
             virtual Eigen::Vector3d get_bounding_box()
             {
-                return Eigen::Vector3d(0.1, 0.1, 0.1);
+                return Eigen::Vector3d(1, 1, 1);
             }
 
 

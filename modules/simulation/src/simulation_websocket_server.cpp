@@ -17,16 +17,17 @@
 #include <cstdlib>
 #include <csetjmp>
 #include <csignal>
-#include <sys/time.h>
+//#include <sys/time.h>
 #include "math.h"
 
 
 long long current_timestamp() {
-    struct timeval te;
-    gettimeofday(&te, NULL); // get current time
-    long long milliseconds = te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
+    //struct timeval te;
+    //gettimeofday(&te, NULL); // get current time
+    //long long milliseconds = te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
     // printf("milliseconds: %lld\n", milliseconds);
-    return milliseconds;
+    //return milliseconds;
+	return 0;
 }
 
 using namespace RapidFDM::NetworkProtocol;
@@ -53,10 +54,10 @@ protected:
 
     std::mutex phys_engine_lock;
     
-    simulation_dji_a3_adapter * a3_adapter = nullptr;
     long runninged_tick = 0;
 public:
-    simulation_websocket_server(int port, std::string aircraft_path, float deltatime = 0.005, int tick_time = 30,bool use_a3 = false) :
+    simulation_dji_a3_adapter * a3_adapter = nullptr;
+    simulation_websocket_server(int port, std::string aircraft_path, float deltatime = 1, int tick_time = 2,bool use_a3 = false) :
             websocket_server(port), simulatorWorld(deltatime), interval(tick_time),output_interval(15)
     {
 
@@ -131,7 +132,7 @@ public:
     void run_next_tick()
     {
         timer->async_wait([&](const boost::system::error_code &) {
-            this->tick(tick_time);
+//            this->tick(tick_time);
         });
     }
 
@@ -183,7 +184,7 @@ public:
     
             rapidjson::Value airspeed_value(rapidjson::kObjectType);
             ComponentData data = aircraftNode->get_component_data();
-            AirState airState;
+            AirState airState = aircraftNode->airState;
             add_value(airspeed_value, data.get_airspeed_mag(airState), d, "airspeed");
             add_value(airspeed_value, data.get_angle_of_attack(airState), d, "angle_of_attack");
             add_value(airspeed_value, data.get_sideslip(airState), d, "sideslip");
@@ -202,26 +203,22 @@ public:
         });
     }
 
-    void tick(float ticktime)
+    void run_calc_for_a3(float ticktime)
     {
-        timer->expires_at(timer->expires_at() + boost::posix_time::milliseconds(tick_time));
-        static long long first_timestamp = current_timestamp();
-        long long diff = current_timestamp() - first_timestamp;
-        if (simulator_running) {
+         if (simulator_running) {
             runninged_tick ++;
             if (a3_adapter != nullptr)
             {
                 a3_adapter->simulator_tick = runninged_tick;
                 if (a3_adapter->motor_starter || !a3_adapter->assiant_online) {
-                    simulatorWorld.Step(ticktime / 1000);
+                    simulatorWorld.Step(ticktime);
                 }
+                a3_adapter->send_realtime_data();
             }
             else {
-                simulatorWorld.Step(ticktime / 1000);
+                simulatorWorld.Step(ticktime);
             }
         }
-//        std::cout << "tick mills " << ((double) diff)/((double)count)  << std::endl;
-        run_next_tick();
     }
 
 };
@@ -234,8 +231,12 @@ int main(int argc, char **argv)
     std::string aircraft_name = argv[1];
     bool use_a3 = true;
     printf("Loading aircraft %s\n",aircraft_name.c_str());
-    simulation_websocket_server server(9093, path + aircraft_name,0.005,10,use_a3);
-    
+    simulation_websocket_server server(9093, path + aircraft_name,1,5,use_a3);
+    std::function<void(void)> cb = ([&]{
+        server.run_calc_for_a3(5);
+    });
+    server.a3_adapter->on_receive_pwm = &cb;
+
     printf("run server thread\n");
     server.calc_thread();
     server.main_thread();

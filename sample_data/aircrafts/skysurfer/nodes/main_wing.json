@@ -23,5 +23,7 @@
   "MidChordSweep": 0,
   "TaperRatio":0.8,
   "pieces":10,
-  "flap_coeff":4
+  "cl0":0.17,
+  "freq_cut":3,
+  "maxdeflect" : 30
 }

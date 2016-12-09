@@ -3,7 +3,7 @@ set(the_description "The Control System Module")
 include_directories(./include
         ../../include/
         ../../3rdparty/eigen3
-        ../../3rdparty/rapidjson/
+        ../../3rdparty/rapidjson/include
         /usr/local/include
         /usr/local/include/eigen3
         ../../3rdparty/

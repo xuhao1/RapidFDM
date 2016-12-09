@@ -3,11 +3,11 @@ set(the_description "The Physics Simulation Module")
 
 find_package(Boost REQUIRED
         COMPONENTS filesystem system)
-
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${build_dir}/bin/")
 include_directories(./include
         ../../include/
         ../../3rdparty/eigen3
-        ../../3rdparty/rapidjson/
+        ../../3rdparty/rapidjson/include
         /usr/local/include/eigen3
         ../../3rdparty/PhysX-3.3/PhysXSDK/Include
         ../../3rdparty/PhysX-3.3/PhysXSDK/Include/extensions
@@ -39,7 +39,7 @@ set(SIMULATION_MODULE_SOURCES_WS
 set(SIMULATION_MODULES_TESTS
         test/unit_tests.cpp
         )
-add_library(rapidfdm_simulator SHARED ${SIMULATION_MODULE_SOURCES})
+add_library(rapidfdm_simulator STATIC ${SIMULATION_MODULE_SOURCES})
 add_executable(rapidfdm_simulator_ws ${SIMULATION_MODULE_SOURCES_WS})
 target_link_libraries(rapidfdm_simulator
         ${Boost_LIBRARIES}

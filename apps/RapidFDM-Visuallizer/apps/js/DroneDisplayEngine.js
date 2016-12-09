@@ -45,7 +45,7 @@ var DroneDisplayEngine = function (container,w,h)
         texture.repeat.set(1000,1000);
         var material = new THREE.MeshBasicMaterial({map: texture});
         var mesh = new THREE.Mesh(geometry, material);
-        mesh.position.z = -10;
+        mesh.position.z = -1;
         scene.add(mesh);
     });
 

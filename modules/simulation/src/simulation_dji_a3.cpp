@@ -6,21 +6,22 @@
 
 #define C_EARTH 6378137.0f
 
-#define MIXER_GENERAL
+#define MIXER_VTOL
+//#define MIXER_GENERAL
 
 namespace RapidFDM
 {
     namespace Simulation
     {
         simulation_dji_a3_adapter::simulation_dji_a3_adapter(AircraftNode *aircraft) :
-                interval(10)
+                interval(5)
         {
             this->aircraft = aircraft;
 
 //            root_uri = "ws://10.60.23.132:19870/general/";
 //            sim_uri = "ws://10.60.23.132:19870/controller/simulator/";
-            root_uri = "ws://10.211.55.3:19870/general";
-            sim_uri = "ws://10.211.55.3:19870/controller/simulator/";
+            root_uri = "ws://127.0.0.1:19870/general";
+            sim_uri = "ws://127.0.0.1:19870/controller/simulator/";
             
             c_root.set_access_channels(websocketpp::log::alevel::none);
             c_root.clear_access_channels(websocketpp::log::alevel::all);
@@ -32,7 +33,7 @@ namespace RapidFDM
             c_root.set_close_handler(bind(&simulation_dji_a3_adapter::on_assitant_failed, this, &c_root, ::_1));
             
             c_root.set_open_handler(bind(&simulation_dji_a3_adapter::on_assitant_open, this, &c_root, ::_1));
-            
+
             websocketpp::lib::error_code ec;
             client::connection_ptr con = c_root.get_connection(root_uri, ec);
             if (ec) {
@@ -48,7 +49,10 @@ namespace RapidFDM
             timer->async_wait([&](const boost::system::error_code &) {
                 this->tick();
             });
-            
+
+            intial_lati = 22.5416 * M_PI /180.0;
+            intial_lon = 113.8973 * M_PI /180.0;
+
         }
         
         void simulation_dji_a3_adapter::on_message_root(client *c, websocketpp::connection_hdl hdl, message_ptr msg)
@@ -56,11 +60,17 @@ namespace RapidFDM
             
             rapidjson::Document d;
             d.Parse(msg->get_payload().c_str());
-            if (!d.IsObject() || !d.HasMember("FILE") || !d["FILE"].IsString()) {
+            if (!d.IsObject())
+            {
                 std::wcerr << "Parse a3 assiant document failed!" << std::endl;
+                std::cout << msg->get_payload();
                 return;
             }
-            
+
+            if( !d.HasMember("FILE") || !d["FILE"].IsString()) {
+                return;
+            }
+
             file_name = d["FILE"].GetString();
             std::cout << "Try to connect simulator on " << file_name << std::endl;
             
@@ -128,8 +138,8 @@ namespace RapidFDM
             d.AddMember("SEQ", "FUCK", d.GetAllocator());
             d.AddMember("CMD", "start_sim", d.GetAllocator());
             d.AddMember("latitude", 0, d.GetAllocator());
-            d.AddMember("longitude", 0, d.GetAllocator());
-            d.AddMember("frequency", 100, d.GetAllocator());
+            d.AddMember("longitude", 1, d.GetAllocator());
+            d.AddMember("frequency", 50, d.GetAllocator());
             d.AddMember("only_aircraft", 1, d.GetAllocator());
             sim_connection_hdl = hdl;
             int32_t size;
@@ -149,7 +159,7 @@ namespace RapidFDM
             
             if (sim_online) {
                 static int fcount = 0;
-                if (fcount++ % 30 == 0) {
+                if (fcount++ % 200 == 0) {
                     printf("fcount %d d tick %d\n", fcount, dcount);
                     dcount = 0;
                 }
@@ -167,16 +177,11 @@ namespace RapidFDM
                     c_simulator->close(sim_hdl, websocketpp::close::status::normal, reason);
                     sim_online = false;
                 }
-                else {
-                    send_realtime_data();
-                }
             }
             else {
                 if (assiant_online) {
                     static int count = 0;
-                    if (count++ % 100 == 0) {
-                        printf("Reconnect simulator\n");
-                        reconnect_simulator();
+                    if (count++ % 1000 == 0) {
                     }
                 }
             }
@@ -190,48 +195,11 @@ namespace RapidFDM
         void simulation_dji_a3_adapter::on_message_simulator(client *c, websocketpp::connection_hdl hdl,
                                                              message_ptr msg)
         {
-            /*
-             *      on_message_si
-                    "AccelerometerX": 0,
-                    "AccelerometerY": 0,
-                    "AccelerometerZ": -1,
-                    "EVENT": "sim_state",
-                    "FlyingState": 0,
-                    "GimbalPitch": 0,
-                    "GimbalRoll": 0,
-                    "GimbalYaw": 0,
-                    "GyroX": 0,
-                    "GyroY": 0,
-                    "GyroZ": 0,
-                    "MotorStarted": 0,
-                    "Pitch": 0,
-                    "ProductType": 6,
-                    "Quaternion0": 0,
-                    "Quaternion1": 0,
-                    "Quaternion2": 1.2246468525851679e-16,
-                    "Quaternion3": 0,
-                    "RcA": 0,
-                    "RcE": 0,
-                    "RcR": 0,
-                    "RcT": 0,
-                    "Roll": 0,
-                    "SimulatorCommand": 3,
-                    "Time": 0,
-                    "TransformState": 0,
-                    "VelocityX": 0,
-                    "VelocityY": 0,
-                    "VelocityZ": 0,
-                    "WorldLatitude": 0,
-                    "WorldLongitude": 0,
-                    "WorldX": 0,
-                    "WorldY": 0,
-                    "WorldZ": 0.10000000149011612,
-                    "Yaw": 0
-        }
-             */
+            static int count = 0;
+            count ++;
             rapidjson::Document d;
             d.Parse(msg->get_payload().c_str());
-            
+
             assert(d.IsObject());
             this->sim_online = true;
             if (fast_string(d, "EVENT") == "sim_state") {
@@ -240,12 +208,26 @@ namespace RapidFDM
                 RcE = fast_value(d, "RcE");
                 RcR = fast_value(d, "RcR");
                 RcT = fast_value(d, "RcT");
+                return;
             }
             else if (fast_string(d, "EVENT") == "sim_pwm") {
+                /*
+                 * stdout: {
+    "EVENT": "sim_pwm",
+    "channels": [....    ],
+    "tick": 60
+                 */
+
+                if (count % 500 == 0)
+                {
+                    printf("tick latency %ld\n",this->simulator_tick - (int)(fast_value(d,"tick")));
+                }
                 for (int chn = 0; chn < 8; chn++) {
                     pwm[chn] = d["channels"][chn].GetDouble();
                     pwm[chn] = (pwm[chn] / 10000 - 0.5)*2;
+                    pwm[chn] = float_constrain(pwm[chn],-1,1);
                 }
+
 #ifdef MIXER_GENERAL
                 aircraft->set_control_value("main_engine_0/thrust", (pwm[0] + 1) * 0.5);
                 aircraft->set_control_value("main_engine_1/thrust", (pwm[1] + 1) * 0.5);
@@ -254,6 +236,13 @@ namespace RapidFDM
                 aircraft->set_control_value("horizon_wing_0/flap_0", pwm[3]);
                 aircraft->set_control_value("horizon_wing_0/flap_1", pwm[3]);
                 aircraft->set_control_value("vertical_wing_0/flap", pwm[4]);
+
+//                aircraft->set_control_value("main_engine_0/thrust", (pwm[0] + 1) * 0.5);
+//                aircraft->set_control_value("main_wing_0/flap_0", - pwm[1]);
+//                aircraft->set_control_value("main_wing_0/flap_1", + pwm[1]);
+//                aircraft->set_control_value("horizon_wing_0/flap_0", -pwm[2]);
+//                aircraft->set_control_value("horizon_wing_0/flap_1", -pwm[2]);
+//                aircraft->set_control_value("vertical_wing_0/flap", pwm[3]);
 #endif
 
 #ifdef MIXER_FLYINGWING
@@ -270,12 +259,20 @@ namespace RapidFDM
                 aircraft->set_control_value("main_engine_1/thrust", (pwm[1] + 1) * 0.5);
                 aircraft->set_control_value("main_engine_2/thrust", (pwm[2] + 1) * 0.5);
                 aircraft->set_control_value("main_engine_3/thrust", (pwm[3] + 1) * 0.5);
-                aircraft->set_control_value("main_wing_0/flap_0",  pwm[4]);
-                aircraft->set_control_value("main_wing_0/flap_1", - pwm[5]);
-                aircraft->set_control_value("vertical_wing_0/flap", pwm[6]);
+                aircraft->set_control_value("main_engine_5/thrust", (pwm[4] + 1) * 0.5);
+                aircraft->set_control_value("main_wing_0/flap_0",  + pwm[5]);
+                aircraft->set_control_value("main_wing_0/flap_1", - pwm[6]);
+//                aircraft->set_control_value("horizon_wing_0/flap_0", pwm[6]);
+//                aircraft->set_control_value("horizon_wing_0/flap_1", pwm[6]);
+//                aircraft->set_control_value("vertical_wing_0/flap", pwm[7]);
+
 #endif
             }
-            
+
+            if (on_receive_pwm!= nullptr)
+            {
+                (*on_receive_pwm)();
+            }
             data_update = true;
             
             dcount++;
@@ -342,16 +339,15 @@ namespace RapidFDM
             add_value(d, data.get_airspeed_mag(airState), d, "airspeed");
             
             Eigen::Vector3d acc = sim_air->gAcc;
+            acc.z() = acc.z() -  9.81f;
             acc = convert * acc;
-            acc.z() = acc.z() + 9.81;
             add_vector(d, acc, d, "acc");
             
             Eigen::Vector3d vel = convert * aircraft->get_ground_velocity();
             add_vector(d, vel, d, "vel");
             
-            Eigen::Vector3d w = convert * aircraft->get_angular_velocity();
-            add_vector(d, w, d, "angular_vel");
-            
+            add_vector(d, (convert * aircraft->get_angular_velocity()), d, "angular_vel");
+
             Eigen::Quaterniond quat =
                     convert * (Eigen::Quaterniond) aircraft->get_ground_transform().rotation() * convert;
             
@@ -361,9 +357,9 @@ namespace RapidFDM
             int32_t size;
             const char *str = json_to_buffer(d, size);
             c_simulator->send(sim_connection_hdl, str, size, websocketpp::frame::opcode::text);
-            
+
         }
-        
+
         void simulation_dji_a3_adapter::check_assiant_online()
         {
             static int count = 0;

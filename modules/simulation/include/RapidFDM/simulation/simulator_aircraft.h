@@ -44,7 +44,7 @@ namespace RapidFDM
 
             Aerodynamics::AircraftNode *aircraftNode = nullptr;
             ControlSystem::BaseController *baseController = nullptr;
-            std::map<BaseNode *, PxRigidBody *> nodes;
+            std::map<BaseNode *, PxRigidDynamic *> nodes;
             std::map<BaseJoint *, PxJoint *> joints;
             PxScene *pxScene = nullptr;
             PxPhysics *mPhysics = nullptr;
@@ -66,24 +66,24 @@ namespace RapidFDM
 
             void dfs_create_rigids(
                     Aerodynamics::BaseNode *root,
-                    std::map<BaseNode *, PxRigidBody *> &nodes,
+                    std::map<BaseNode *, PxRigidDynamic *> &nodes,
                     std::map<BaseJoint *, PxJoint *> &joints,
-                    PxRigidBody *root_rigid
+                    PxRigidDynamic *root_rigid
             );
 
             void construct_rigid_dynamics_from_aircraft();
 
-            PxRigidBody *construct_rigid(Aerodynamics::BaseNode *node);
+            PxRigidDynamic *construct_rigid(Aerodynamics::BaseNode *node);
 
-            PxRigidBody * construct_rigid_aircraft();
+            PxRigidDynamic * construct_rigid_aircraft();
 
             virtual void fetch_forces_torques_from_aerodynamics();
 
             PxJoint *construct_joint(
                     Aerodynamics::BaseNode *root,
                     Aerodynamics::BaseJoint *joint,
-                    PxRigidBody *root_rigid,
-                    PxRigidBody *child_rigid
+                    PxRigidDynamic *root_rigid,
+                    PxRigidDynamic *child_rigid
             );
             void reset_aircraft(
                     PxTransform init_trans = PxTransform::createIdentity(),

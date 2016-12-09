@@ -9,12 +9,14 @@
 #include <RapidFDM/aerodynamics/blade_element/blade_element_manager.h>
 #include <vector>
 #include <rapidjson/document.h>
+#include <mutex>
 
 namespace RapidFDM
 {
     namespace Aerodynamics{
         class BladeElementManager {
             std::map < BaseBladeElement * ,AirState * > blade_elements;
+            std::mutex force_torque_lock;
         protected:
             Eigen::Vector3d forces;
             Eigen::Vector3d torques;
