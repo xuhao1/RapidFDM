@@ -179,7 +179,7 @@ namespace RapidFDM
                     Eigen::Vector3d engine_body_r = (Eigen::Vector3d) engineNode_ptr->get_body_transform().translation();
                     ComponentData data = engineNode_ptr->get_component_data();
                     res += convert_coord * engineNode_ptr->get_engine_torque(data, airState)
-                           + engine_body_r.cross(convert_coord * engineNode_ptr->get_engine_force(data, airState));
+                          + engine_body_r.cross(convert_coord * engineNode_ptr->get_engine_force(data, airState));
                 }
             }
             return res;
@@ -188,14 +188,16 @@ namespace RapidFDM
         Eigen::Vector3d AircraftNode::get_total_aerodynamics_force()
         {
             assert(inited);
-            bladeElementManager.calculate_forces_and_torques();
+            if (!inSimulate)
+                bladeElementManager.calculate_forces_and_torques();
             return bladeElementManager.get_total_force();
         }
         
        Eigen::Vector3d AircraftNode::get_total_aerodynamics_torque()
         {
             assert(inited);
-            bladeElementManager.calculate_forces_and_torques();
+            if (!inSimulate)
+                bladeElementManager.calculate_forces_and_torques();
             return bladeElementManager.get_total_torque();
         }
         

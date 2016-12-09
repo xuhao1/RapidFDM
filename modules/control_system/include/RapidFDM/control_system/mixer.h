@@ -9,6 +9,7 @@
 using namespace RapidFDM::Aerodynamics;
 namespace RapidFDM{
     namespace ControlSystem{
+        typedef std::map<std::string,double> channel_mixer;
         //Mixer
         //Output: control values for components
         //Input: control
@@ -16,11 +17,10 @@ namespace RapidFDM{
         {
         protected:
             AircraftNode * aircraftNode = nullptr;
+            std::map<std::string,channel_mixer> mixer_map;
         public:
-            Mixer()
-            {
-
-            }
+            Mixer(rapidjson::Value & v);
+            void run_mixer();
         };
     }
 }

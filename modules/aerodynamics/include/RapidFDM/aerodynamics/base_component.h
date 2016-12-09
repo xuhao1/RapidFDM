@@ -92,6 +92,7 @@ namespace RapidFDM
         protected:
             std::map<std::string, double> internal_states;
             std::map<std::string, double> control_axis;
+            float freq_cut = 3;
         public:
             virtual std::map<std::string, double> get_internal_states() const
             {
@@ -132,6 +133,10 @@ namespace RapidFDM
 
             virtual void iter_internal_state(double deltatime)
             {
+                for (auto pair : this->control_axis) {
+                    this->internal_states[pair.first] = lowpass_filter(this->control_axis[pair.first], this->freq_cut,
+                                                                   this->internal_states[pair.first], deltatime);
+                }
             }
 
         };

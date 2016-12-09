@@ -9,7 +9,7 @@ namespace RapidFDM
 {
     namespace NetworkProtocol
     {
-        SerialPort::SerialPort(void) : end_of_line_char_('\n')
+        SerialPort::SerialPort(void)
         {
         }
         
@@ -18,27 +18,17 @@ namespace RapidFDM
             stop();
         }
         
-        char SerialPort::end_of_line_char() const
-        {
-            return this->end_of_line_char_;
-        }
-        
-        void SerialPort::end_of_line_char(const char &c)
-        {
-            this->end_of_line_char_ = c;
-        }
-        
-        bool SerialPort::start(const char *com_port_name, int baud_rate)
+        bool SerialPort::start(std::string com_port_name, int baud_rate)
         {
             boost::system::error_code ec;
-            
+            std::cout << "try to open" << com_port_name << std::endl;
             if (port_) {
                 std::cout << "error : port is already opened..." << std::endl;
                 return false;
             }
             
             port_ = serial_port_ptr(new boost::asio::serial_port(io_service_));
-            port_->open(com_port_name, ec);
+            port_->open(com_port_name.c_str(), ec);
             if (ec) {
                 std::cout << "error : port_->open() failed...com_port_name="
                           << com_port_name << ", e=" << ec.message().c_str() << std::endl;
@@ -72,11 +62,6 @@ namespace RapidFDM
             }
             io_service_.stop();
             io_service_.reset();
-        }
-        
-        int SerialPort::write_some(const std::string &buf)
-        {
-            return write_some(buf.c_str(), buf.size());
         }
         
         int SerialPort::write_some(const char *buf, const int &size)
@@ -113,22 +98,11 @@ namespace RapidFDM
             
             for (unsigned int i = 0; i < bytes_transferred; ++i) {
                 char c = read_buf_raw_[i];
-                if (c == end_of_line_char_) {
-                    printf("%c",c);
-                    this->on_receive_(read_buf_str_);
-                    read_buf_str_.clear();
-                }
-                else {
-                    read_buf_str_ += c;
-                }
+                printf("%c",c);
             }
             
             async_read_some_();
         }
         
-        void SerialPort::on_receive_(const std::string &data)
-        {
-            std::cout << "SerialPort::on_receive_() : " << data << std::endl;
-        }
     }
 }

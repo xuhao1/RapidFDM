@@ -2,3 +2,4 @@
 3rdparty
 vs-proj
 build
+cmake-build-debug/

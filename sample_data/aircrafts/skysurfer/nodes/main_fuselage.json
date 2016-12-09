@@ -4,7 +4,7 @@
   "type": "aircraft",
   "mass": 1.0,
   "mass_center": [
-    0.20,
+    0.27,
     0,
     0
   ],
@@ -26,6 +26,6 @@
     "attitude":[1,0,0,0]
   },
   "rigid_mode" : 1,
-  "total_mass" : 0.9,
-  "total_inertial":[0.10,0.2,0.1]
+  "total_mass" : 0.7,
+  "total_inertial":[0.04,0.02,0.1]
 }

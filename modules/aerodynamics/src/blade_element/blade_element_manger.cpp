@@ -60,6 +60,7 @@ namespace RapidFDM
         }
         void BladeElementManager::calculate_forces_and_torques()
         {
+            force_torque_lock.lock();
             forces = Eigen::Vector3d(0,0,0);
             torques = Eigen::Vector3d(0,0,0);
             for (auto pair : blade_elements) {
@@ -73,14 +74,20 @@ namespace RapidFDM
                 Eigen::Vector3d node_body_r = (Eigen::Vector3d) blade->get_body_transform().translation();
                 torques += convert_coord * blade->get_aerodynamics_torque(data,airState) + node_body_r.cross(force_body);
             }
+            force_torque_lock.unlock();
         }
         
         Eigen::Vector3d BladeElementManager::get_total_force()
         {
+
+            force_torque_lock.lock();
+            force_torque_lock.unlock();
             return forces;
         }
         Eigen::Vector3d BladeElementManager::get_total_torque()
         {
+            force_torque_lock.lock();
+            force_torque_lock.unlock();
             return torques;
         }
     }

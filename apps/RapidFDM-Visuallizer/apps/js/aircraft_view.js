@@ -132,12 +132,17 @@ AircraftView.prototype.receive_simulator_data = function () {
                 `roll:${(data.euler[0]).toFixed(1)}\
                  pitch:${(data.euler[1]).toFixed(1)}\
                  yaw:${(data.euler[2]).toFixed(1)}`
-            )
+            );
 
             $("#velocity").text(
                 `X:${(data.vel[0]).toFixed(1)}\
                  Y:${(data.vel[1]).toFixed(1)}\
                  Z:${(data.vel[2]).toFixed(1)}`
+            );
+            $("#position").text(
+                `X:${(data.transform.vector[0]).toFixed(1)}\
+                 Y:${(data.transform.vector[1]).toFixed(1)}\
+                 Z:${(data.transform.vector[2]).toFixed(1)}`
             );
 
             if (data.a3_sim_status !== undefined)
@@ -168,8 +173,8 @@ AircraftView.prototype.receive_simulator_data = function () {
             log("open ws from simulator");
             obj.start_simulation({
                 transform: {
-                    attitude: [0, 0, 0],
-                    vector: [10,-30, 300]
+                    attitude: [0,0, 0],
+                    vector: [0,0,1.0]
                 },
                 init_speed:0
             });

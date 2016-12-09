@@ -128,7 +128,7 @@ namespace RapidFDM
             double cl = get_cl(state, airState);
             double cd = wingGeometry->params.cd0 + wingGeometry->params.cd_by_deg2 * alpha * alpha;
             cd = cd + cl * cl / M_PI / (2 * wingGeometry->params.b_2 / wingGeometry->params.Mac);
-            return cd;
+            return float_constrain(cd,-1.2,1.2);
         }
 
         float WingBladeElement::get_cm(ComponentData state, AirState airState) const

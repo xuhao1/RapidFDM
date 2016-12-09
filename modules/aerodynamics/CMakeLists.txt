@@ -43,7 +43,7 @@ set(AIRDYNAMICS_MODULE_SOURCES
 
         include/RapidFDM/aerodynamics/aerodynamics_configurer.h
         src/aerodynamics_configurer.cpp
-        src/geometrys/wing_geometrys.cpp src/geometrys/base_geometry.cpp include/RapidFDM/aerodynamics/blade_element/wing_blade_element.h include/RapidFDM/aerodynamics/blade_element/blade_element_manager.h src/blade_element/wing_blade_element.cpp src/blade_element/blade_element_manger.cpp include/RapidFDM/aerodynamics/blade_element/engine_element.h include/RapidFDM/aerodynamics/blade_element/base_blade_element.h src/blade_element/base_blade_element.cpp include/RapidFDM/aerodynamics/discrete_data_loader.h src/discrete_data_loader.cpp)
+        src/geometrys/wing_geometrys.cpp src/geometrys/base_geometry.cpp include/RapidFDM/aerodynamics/blade_element/wing_blade_element.h include/RapidFDM/aerodynamics/blade_element/blade_element_manager.h src/blade_element/wing_blade_element.cpp src/blade_element/blade_element_manger.cpp include/RapidFDM/aerodynamics/blade_element/engine_element.h include/RapidFDM/aerodynamics/blade_element/base_blade_element.h src/blade_element/base_blade_element.cpp include/RapidFDM/aerodynamics/discrete_data_loader.h src/discrete_data_loader.cpp src/nodes/wing_node.cpp)
 
 SET(AERODYNAMICS_CONFIGURER_SOURCES
         src/aerodynamics_configurer.cpp

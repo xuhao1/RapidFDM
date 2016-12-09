@@ -54,7 +54,7 @@ namespace RapidFDM
             else {
                 assert(true);
                 //Create a multi rigidbody aircraft
-                PxRigidBody *actor = construct_rigid(aircraftNode);
+                PxRigidDynamic *actor = construct_rigid(aircraftNode);
                 assert(actor != nullptr);
                 nodes[aircraftNode] = actor;
                 dfs_create_rigids(
@@ -63,7 +63,7 @@ namespace RapidFDM
             }
         }
 
-        PxRigidBody *SimulatorAircraft::construct_rigid_aircraft()
+        PxRigidDynamic *SimulatorAircraft::construct_rigid_aircraft()
         {
             assert(aircraftNode != nullptr);
             printf("Construct rigidbody by aircraft %s \n", aircraftNode->getUniqueID().c_str());
@@ -71,13 +71,13 @@ namespace RapidFDM
             //TODO:
             //add gyroscope
 
-            PxMaterial *aMaterial = mPhysics->createMaterial(0.01f, 0.01f, 0.5);
+            PxMaterial *aMaterial = mPhysics->createMaterial(0.01f, 0.0f, 0.2);
             assert(aMaterial != nullptr);
             Eigen::Vector3d boundingbox = aircraftNode->get_bounding_box();
             auto init_trans = PxTransform::createIdentity();
             init_trans.p.z = 10;
             printf("init trans pos %f %f %f\n",init_trans.p.x,init_trans.p.y,init_trans.p.z);
-            PxRigidBody *actor = PxCreateDynamic(
+            PxRigidDynamic *actor = PxCreateDynamic(
                     *mPhysics,
                     init_trans,
                     PxBoxGeometry(boundingbox.x(), boundingbox.y(), boundingbox.z()),
@@ -86,25 +86,27 @@ namespace RapidFDM
             assert(actor != nullptr);
             actor->setMass(aircraftNode->get_total_mass());
             actor->setMassSpaceInertiaTensor(vector_e2p(aircraftNode->get_total_inertial()));
+            actor->setAngularDamping(0.1);
+            actor->setMaxAngularVelocity(M_PI);
             pxScene->addActor(*actor);
             actor->setLinearVelocity(PxVec3(0,0,0));
-            //Debug !!!!
+//            actor->setAngularDamping(0.2);
 
             aircraftNode->setSimulate(true);
             return actor;
         }
 
-        PxRigidBody *SimulatorAircraft::construct_rigid(Aerodynamics::BaseNode *node)
+        PxRigidDynamic *SimulatorAircraft::construct_rigid(Aerodynamics::BaseNode *node)
         {
             assert(node != nullptr);
             printf("Construct rigidbody by node: %s\n", node->getName().c_str());
             PxTransform trans = transform_e2p(node->get_body_transform());
             //TODO:
             //Material params
-            PxMaterial *aMaterial = mPhysics->createMaterial(0.01f, 0.0f, 0.5);
+            PxMaterial *aMaterial = mPhysics->createMaterial(0.1f, 0.4f, 0.2);
             assert(aMaterial != nullptr);
             Eigen::Vector3d boundingbox = node->get_bounding_box();
-            PxRigidBody *actor = PxCreateDynamic(*mPhysics,
+            PxRigidDynamic *actor = PxCreateDynamic(*mPhysics,
                                                  trans,
                                                  PxBoxGeometry(boundingbox.x(), boundingbox.y(), boundingbox.z()),
                                                  *aMaterial, 1);
@@ -117,7 +119,7 @@ namespace RapidFDM
         }
 
         PxJoint *SimulatorAircraft::construct_joint(Aerodynamics::BaseNode *root, Aerodynamics::BaseJoint *joint,
-                                                    PxRigidBody *root_rigid, PxRigidBody *child_rigid)
+                                                    PxRigidDynamic *root_rigid, PxRigidDynamic *child_rigid)
         {
             assert(root != nullptr);
             assert(joint != nullptr);
@@ -150,9 +152,9 @@ namespace RapidFDM
 
         void SimulatorAircraft::dfs_create_rigids(
                 Aerodynamics::BaseNode *root,
-                std::map<BaseNode *, PxRigidBody *> &nodes,
+                std::map<BaseNode *, PxRigidDynamic *> &nodes,
                 std::map<BaseJoint *, PxJoint *> &joints,
-                PxRigidBody *root_rigid
+                PxRigidDynamic *root_rigid
         )
         {
             assert(root != nullptr);
@@ -164,7 +166,7 @@ namespace RapidFDM
                        joint->getName().c_str(),
                        child->getName().c_str()
                 );
-                PxRigidBody *actor = construct_rigid(child);
+                PxRigidDynamic *actor = construct_rigid(child);
                 assert(actor != nullptr);
                 PxJoint *pxJoint = construct_joint(root, joint, root_rigid, actor);
                 assert(pxJoint != nullptr);
@@ -179,15 +181,14 @@ namespace RapidFDM
         void SimulatorAircraft::fetch_forces_torques_from_aerodynamics()
         {
             assert(aircraftNode->is_rigid());
-            PxRigidBody *rigidBody = nodes[aircraftNode];
+            PxRigidDynamic *rigidBody = nodes[aircraftNode];
             Eigen::Vector3d total_force = aircraftNode->get_total_force(count); //body coordinate
             total_force = aircraftNode->get_ground_transform().linear() * total_force;
-            assert(this->aircraftNode->is_rigid());
-                   
+
             Eigen::Vector3d total_torque = aircraftNode->get_total_torque(count);//body
-            total_torque = aircraftNode->get_ground_transform().linear() * total_torque;
-            rigidBody->addForce(vector_e2p(total_force));
+            total_torque = aircraftNode->get_ground_transform().linear() *( total_torque);
             gAcc = total_force / aircraftNode->get_total_mass();
+            rigidBody->addForce(vector_e2p(total_force));
             rigidBody->addTorque(vector_e2p(total_torque));
         }
 
@@ -203,13 +204,16 @@ namespace RapidFDM
 
         void SimulatorAircraft::update_states_from_physx()
         {
+            AirState airState;
+            airState.ground_air_speed = Eigen::Vector3d(0,0,0);
+            aircraftNode->set_air_state(airState);
             if (aircraftNode->is_rigid()) {
                 Eigen::Affine3d root_transform = transform_p2e(nodes[aircraftNode]->getGlobalPose());
                 Aerodynamics::ComponentData data;
 
                 assert(nodes.find(aircraftNode) != nodes.end());
 
-                PxRigidBody *rigidBody = nodes[aircraftNode];
+                PxRigidDynamic *rigidBody = nodes[aircraftNode];
                 data.transform = root_transform;
                 data.angular_velocity = aircraftNode->get_ground_transform().linear().inverse() *
                                         vector_p2e(rigidBody->getAngularVelocity());
@@ -223,7 +227,7 @@ namespace RapidFDM
                 for (auto pair : nodes) {
                     Aerodynamics::ComponentData data;
                     Aerodynamics::BaseNode *node = pair.first;
-                    PxRigidBody *rigidBody = pair.second;
+                    PxRigidDynamic *rigidBody = pair.second;
                     data.transform = transform_p2e(rigidBody->getGlobalPose());
 
                     //TODO:

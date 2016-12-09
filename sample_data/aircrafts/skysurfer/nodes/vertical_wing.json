@@ -22,5 +22,6 @@
   "TaperRatio":0.6,
   "pieces":3,
   "MidChordSweep": 15,
-  "flap_coeff":-4
+  "maxdeflect" : -10,
+  "freq_cut":3
 }

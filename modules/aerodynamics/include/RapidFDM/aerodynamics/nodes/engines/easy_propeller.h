@@ -8,7 +8,6 @@
 #include <RapidFDM/aerodynamics/nodes/engines/base_engine.h>
 #include <spline.h>
 #include <fstream>
-#define PROP_MIXER_RATIO 0.0
 
 namespace RapidFDM
 {
@@ -31,21 +30,19 @@ namespace RapidFDM
             double max_n;
             //! Direction = 1 means 顺时针 产生负力矩
             int direction = 1;
-    
+
             //Ct alone j
             //Cq alone j
             tk::spline Ct_spline,Cq_spline;
             
             virtual float getJ(const ComponentData & data,const AirState & airState) const {
                 double wind_speed = -get_air_velocity(data, airState).x();
-                auto pair = internal_states.find("n");
-                double n = pair->second;
-                double J = wind_speed / n / D;
-                if (wind_speed < 0.1 || n < 1)
-                    J = 0;
-    
-                return J;
-                
+                auto pair = internal_states.find("thrust");
+                double n = pair->second * max_n;
+                if (wind_speed < 0.01 || n < 1)
+                    return 0;
+                double J =  wind_speed / n / D;
+                return float_constrain(J,0,1);
             }
 
             virtual float get_cq(const ComponentData & data,const  AirState & airState) const
@@ -60,24 +57,19 @@ namespace RapidFDM
 
             virtual float get_propeller_force(ComponentData data, AirState airState) const
             {
-                auto pair = internal_states.find("n");
-                double n = pair->second;
+                auto pair = internal_states.find("thrust");
+                double n = pair->second * max_n;
                 return get_ct(data, airState) * airState.rho * n * n * pow(D, 4);
             }
 
             virtual float get_propeller_torque(ComponentData data, AirState airState) const
             {
-                auto pair = internal_states.find("n");
-                double n = pair->second;
+                auto pair = internal_states.find("thrust");
+                double n = pair->second * max_n;
                 return get_cq(data, airState) * airState.rho * n * n * pow(D, 5) * direction;
             }
 
         public:
-
-            virtual void iter_internal_state(double deltatime) override
-            {
-                internal_states["n"] = max_n * control_axis["thrust"] * (1 - PROP_MIXER_RATIO) + internal_states["n"] * PROP_MIXER_RATIO;
-            }
 
             virtual Eigen::Vector3d get_engine_force(ComponentData data, AirState airState) const override
             {
@@ -125,7 +117,8 @@ namespace RapidFDM
                 );
                 
                 std::string data_root = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/data";
-                
+
+                this->freq_cut = fast_value(document,"freq_cut",5);
                 std::ifstream ifs(data_root+"/propellers/" + data_name + ".txt");
                 printf("parsing propeller data\n");
                 std::vector<double> jdata,ctdata,cqdata;
@@ -154,8 +147,8 @@ namespace RapidFDM
                     Ct_spline.set_points(jdata, ctdata);
                     Cq_spline.set_points(jdata, cqdata);
                 }
-                this->internal_states["n"] = 0;
                 this->control_axis["thrust"] = 0;
+                this->internal_states["thrust"] = 0;
 
             }
         };
