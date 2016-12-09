@@ -225,13 +225,12 @@ public:
 
 int main(int argc, char **argv)
 {
-    if (argc <= 2)
+    if (argc <= 1)
         return -1;
-    std::string path = argv[0];
-    std::string aircraft_name = argv[1];
+    std::string path = argv[1];
     bool use_a3 = true;
-    printf("Loading aircraft %s\n",aircraft_name.c_str());
-    simulation_websocket_server server(9093, path + aircraft_name,1,5,use_a3);
+    printf("Loading aircraft %s\n",path.c_str());
+    simulation_websocket_server server(9093, path,1,5,use_a3);
     std::function<void(void)> cb = ([&]{
         server.run_calc_for_a3(5);
     });

@@ -1,0 +1,1 @@
+C:\RapidFDM\3rdparty\electron-v1\electron.exe "apps\RapidFDM-Visuallizer"  flyingwing_vtol --enable_dynamics

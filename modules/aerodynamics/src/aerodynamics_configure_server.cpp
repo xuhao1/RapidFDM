@@ -34,9 +34,11 @@ public:
     }
 };
 
-int main()
+int main(int argc,char**argv)
 {
-    aerodynamics_network_configurer configurer("/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts",9091);
+	std::string aircraft_path = argv[1];
+	printf("Start configure server at %s\n",aircraft_path.c_str());
+    aerodynamics_network_configurer configurer(aircraft_path,9091);
     configurer.main_thread();
     printf("Hello,world\n");
 }
