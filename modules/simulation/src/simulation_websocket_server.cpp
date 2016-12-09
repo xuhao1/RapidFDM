@@ -225,9 +225,9 @@ public:
 
 int main(int argc, char **argv)
 {
-    std::string path = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/";
-    if (argc <= 1)
+    if (argc <= 2)
         return -1;
+    std::string path = argv[0];
     std::string aircraft_name = argv[1];
     bool use_a3 = true;
     printf("Loading aircraft %s\n",aircraft_name.c_str());

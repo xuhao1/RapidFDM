@@ -17,6 +17,7 @@
 
 #define CRC16 0x8005
 #define M_PI (3.1415926535)
+
 namespace RapidFDM {
     namespace Utils {
 
