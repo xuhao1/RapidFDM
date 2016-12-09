@@ -1,0 +1,429 @@
+skysurfer_vtol
+launching simulator
+stdout: Create ws on port 9091
+
+stdout: Loading aircraft skysurfer_vtol
+Create ws on port 9093
+Trting to init simulator
+Init physics successful!
+Trying to load mode at /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol
+Scanning node foilder /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/ 
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/engine.json
+Parse propeller node
+Success parse propeller_node
+Name main_engine type: AerodynamicsEasyPropellerNode geometry base using data magf_7x4_2915cm_6998
+parsing propeller data
+J       CT       CP       eta
+0.112000 0.080400 0.012478 0.229000
+0.143000 0.079400 0.012892 0.280000
+0.176000 0.074400 0.012701 0.328000
+0.206000 0.071000 0.012669 0.367000
+0.232000 0.067600 0.012541 0.398000
+0.261000 0.064400 0.012350 0.433000
+0.295000 0.059500 0.012032 0.465000
+0.320000 0.056900 0.011841 0.489000
+0.354000 0.051100 0.011205 0.514000
+0.386000 0.047100 0.010823 0.534000
+0.412000 0.043200 0.010409 0.545000
+0.439000 0.039200 0.009868 0.555000
+0.471000 0.034200 0.009199 0.557000
+0.497000 0.028300 0.008531 0.524000
+0.528000 0.023800 0.007830 0.510000
+0.554000 0.018600 0.007162 0.457000
+0.583000 0.013700 0.006334 0.401000
+0.583000 0.013700 0.002016 0.401000
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/engine_0.json
+Parse propeller node
+Success parse propeller_node
+Name main_engine type: AerodynamicsEasyPropellerNode geometry base using data apcsf_9x6_kt0981_5022
+parsing propeller data
+J       CT       CP       eta
+0.126000 0.145200 0.024701 0.235000
+0.158000 0.142300 0.024669 0.291000
+0.192000 0.138400 0.024574 0.344000
+0.225000 0.133800 0.024351 0.394000
+0.255000 0.128600 0.023969 0.435000
+0.290000 0.122300 0.023459 0.481000
+0.320000 0.117100 0.023046 0.518000
+0.352000 0.111100 0.022441 0.555000
+0.383000 0.105900 0.021963 0.587000
+0.413000 0.100700 0.021486 0.617000
+0.448000 0.094600 0.020849 0.647000
+0.478000 0.089300 0.020308 0.670000
+0.512000 0.083000 0.019481 0.693000
+0.541000 0.077800 0.018844 0.711000
+0.575000 0.071200 0.017985 0.725000
+0.604000 0.065900 0.017284 0.733000
+0.639000 0.058900 0.016266 0.736000
+0.639000 0.058900 0.005178 0.736000
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/engine_1.json
+Parse propeller node
+Success parse propeller_node
+Name main_engine type: AerodynamicsEasyPropellerNode geometry base using data apcsf_9x6_kt0981_5022
+parsing propeller data
+J       CT       CP       eta
+0.126000 0.145200 0.024701 0.235000
+0.158000 0.142300 0.024669 0.291000
+0.192000 0.138400 0.024574 0.344000
+0.225000 0.133800 0.024351 0.394000
+0.255000 0.128600 0.023969 0.435000
+0.290000 0.122300 0.023459 0.481000
+0.320000 0.117100 0.023046 0.518000
+0.352000 0.111100 0.022441 0.555000
+0.383000 0.105900 0.021963 0.587000
+0.413000 0.100700 0.021486 0.617000
+0.448000 0.094600 0.020849 0.647000
+0.478000 0.089300 0.020308 0.670000
+0.512000 0.083000 0.019481 0.693000
+0.541000 0.077800 0.018844 0.711000
+0.575000 0.071200 0.017985 0.725000
+0.604000 0.065900 0.017284 0.733000
+0.639000 0.058900 0.016266 0.736000
+0.639000 0.058900 0.005178 0.736000
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/engine_2.json
+Parse propeller node
+Success parse propeller_node
+Name main_engine type: AerodynamicsEasyPropellerNode geometry base using data apcsf_9x6_kt0981_5022
+parsing propeller data
+J       CT       CP       eta
+0.126000 0.145200 0.024701 0.235000
+0.158000 0.142300 0.024669 0.291000
+0.192000 0.138400 0.024574 0.344000
+0.225000 0.133800 0.024351 0.394000
+0.255000 0.128600 0.023969 0.435000
+0.290000 0.122300 0.023459 0.481000
+0.320000 0.117100 0.023046 0.518000
+0.352000 0.111100 0.022441 0.555000
+0.383000 0.105900 0.021963 0.587000
+0.413000 0.100700 0.021486 0.617000
+0.448000 0.094600 0.020849 0.647000
+0.478000 0.089300 0.020308 0.670000
+0.512000 0.083000 0.019481 0.693000
+0.541000 0.077800 0.018844 0.711000
+0.575000 0.071200 0.017985 0.725000
+0.604000 0.065900 0.017284 0.733000
+0.639000 0.058900 0.016266 0.736000
+0.639000 0.058900 0.005178 0.736000
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/engine_3.json
+Parse propeller node
+Success parse propeller_node
+Name main_engine type: AerodynamicsEasyPropellerNode geometry base using data apcsf_9x6_kt0981_5022
+parsing propeller data
+J       CT       CP       eta
+0.126000 0.145200 0.024701 0.235000
+0.158000 0.142300 0.024669 0.291000
+0.192000 0.138400 0.024574 0.344000
+0.225000 0.133800 0.024351 0.394000
+0.255000 0.128600 0.023969 0.435000
+0.290000 0.122300 0.023459 0.481000
+0.320000 0.117100 0.023046 0.518000
+0.352000 0.111100 0.022441 0.555000
+0.383000 0.105900 0.021963 0.587000
+0.413000 0.100700 0.021486 0.617000
+0.448000 0.094600 0.020849 0.647000
+0.478000 0.089300 0.020308 0.670000
+0.512000 0.083000 0.019481 0.693000
+0.541000 0.077800 0.018844 0.711000
+0.575000 0.071200 0.017985 0.725000
+0.604000 0.065900 0.017284 0.733000
+0.639000 0.058900 0.016266 0.736000
+0.639000 0.058900 0.005178 0.736000
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/horizon_wing.json
+Parse Wing node
+name horizon_wing span ratio 0.250000 root chord 0.122222 taper 0.097778
+name horizon_wing span ratio 0.250000 root chord 0.122222 taper 0.097778
+name horizon_wing span ratio 0.750000 root chord 0.122222 taper 0.097778
+name horizon_wing span ratio 0.750000 root chord 0.122222 taper 0.097778
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/main_fuselage.json
+Parse Aircraft node
+Success parse aircraft_node
+Name main_fuselage type: AerodynamicsAircraftNode geometry base
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/main_wing.json
+Parse Wing node
+name main_wing span ratio 0.050000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.050000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.150000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.150000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.250000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.250000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.350000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.350000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.450000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.450000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.550000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.550000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.650000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.650000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.750000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.750000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.850000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.850000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.950000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.950000 root chord 0.222222 taper 0.177778
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/vertical_wing.json
+Parse Wing node
+name vertical_wing span ratio 0.166667 root chord 0.125000 taper 0.075000
+name vertical_wing span ratio 0.500000 root chord 0.125000 taper 0.075000
+name vertical_wing span ratio 0.833333 root chord 0.125000 taper 0.075000
+Scan folder: /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/ finish
+Nodes name: horizon_wing, id : horizon_wing_0, type : AerodynamicsWingNode
+Nodes name: main_engine, id : main_engine_0, type : AerodynamicsEasyPropellerNode
+Nodes name: main_engine, id : main_engine_1, type : AerodynamicsEasyPropellerNode
+Nodes name: main_engine, id : main_engine_2, type : AerodynamicsEasyPropellerNode
+Nodes name: main_engine, id : main_engine_3, type : AerodynamicsEasyPropellerNode
+Nod
+stdout: Get string of key <name> failed
+Get string of key <id> failed
+
+stdout: es name: main_engine, id : main_engine_5, type : AerodynamicsEasyPropellerNode
+Nodes name: main_fuselage, id : main_fuselage_0, type : AerodynamicsAircraftNode
+Nodes name: main_wing, id : main_wing_0, type : AerodynamicsWingNode
+Nodes name: vertical_wing, id : vertical_wing_0, type : AerodynamicsWingNode
+Scanning joint foilder /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/ 
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/engine_joint.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/engine_joint_0.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/engine_joint_1.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/engine_joint_2.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/engine_joint_3.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/horizon_joint.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/main_wing_joint.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/vertical_joint.json
+Parse fixed joint
+Scan folder: /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/ finish
+Successful parse aircraft :main_fuselage
+
+Construct simulator aircraft main_fuselage 
+Construct rigidbody by aircraft main_fuselage_0 
+init trans pos 0.000000 0.000000 10.000000
+Construct simulator success main_fuselage 
+run server thread
+start accept ws server
+Try to reconnect A3 assiant on ws://10.211.55.3:19870/general
+Connect to A3 successfully
+Try to connect simulator on 7e1857104d1d05f51e46aa58d85d1cdff094161c
+ws://10.211.55.3:19870/controller/simulator/7e1857104d1d05f51e46aa58d85d1cdff094161c
+Connect to A3 successfully
+Try to connect simulator on 7e1857104d1d05f51e46aa58d85d1cdff094161c
+ws://10.211.55.3:19870/controller/simulator/7e1857104d1d05f51e46aa58d85d1cdff094161c
+
+stdout: start accept ws server
+ws channel handle get open 
+
+stdout: Trying to load mode at /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol
+
+stdout: Scanning node foilder /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/ 
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/engine.json
+Parse propeller node
+Success parse propeller_node
+Name main_engine type: AerodynamicsEasyPropellerNode geometry base using data magf_7x4_2915cm_6998
+parsing propeller data
+J       CT       CP       eta
+0.112000 0.080400 0.012478 0.229000
+0.143000 0.079400 0.012892 0.280000
+0.176000 0.074400 0.012701 0.328000
+0.206000 0.071000 0.012669 0.367000
+0.232000 0.067600 0.012541 0.398000
+0.261000 0.064400 0.012350 0.433000
+0.295000 0.059500 0.012032 0.465000
+0.320000 0.056900 0.011841 0.489000
+0.354000 0.051100 0.011205 0.514000
+0.386000 0.047100 0.010823 0.534000
+0.412000 0.043200 0.010409 0.545000
+0.439000 0.039200 0.009868 0.555000
+0.471000 0.034200 0.009199 0.557000
+0.497000 0.028300 0.008531 0.524000
+0.528000 0.023800 0.007830 0.510000
+0.554000 0.018600 0.007162 0.457000
+0.583000 0.013700 0.006334 0.401000
+0.583000 0.013700 0.002016 0.401000
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/engine_0.json
+Parse propeller node
+Success parse propeller_node
+Name main_engine type: AerodynamicsEasyPropellerNode geometry base using data apcsf_9x6_kt0981_5022
+parsing propeller data
+J       CT       CP       eta
+0.126000 0.145200 0.024701 0.235000
+0.158000 0.142300 0.024669 0.291000
+0.192000 0.138400 0.024574 0.344000
+0.225000 0.133800 0.024351 0.394000
+0.255000 0.128600 0.023969 0.435000
+0.290000 0.122300 0.023459 0.481000
+0.320000 0.117100 0.023046 0.518000
+0.352000 0.111100 0.022441 0.555000
+0.383000 0.105900 0.021963 0.587000
+0.413000 0.100700 0.021486 0.617000
+0.448000 0.094600 0.020849 0.647000
+0.478000 0.089300 0.020308 0.670000
+0.512000 0.083000 0.019481 0.693000
+0.541000 0.077800 0.018844 0.711000
+0.575000 0.071200 0.017985 0.725000
+0.604000 0.065900 0.017284 0.733000
+0.639000 0.058900 0.016266 0.736000
+0.639000 0.058900 0.005178 0.736000
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/engine_1.json
+Parse propeller node
+Success parse propeller_node
+Name main_engine type: AerodynamicsEasyPropellerNode geometry base using data apcsf_9x6_kt0981_5022
+parsing propeller data
+J       CT       CP       eta
+0.126000 0.145200 0.024701 0.235000
+0.158000 0.142300 0.024669 0.291000
+0.192000 0.138400 0.024574 0.344000
+0.225000 0.133800 0.024351 0.394000
+0.255000 0.128600 0.023969 0.435000
+0.290000 0.122300 0.023459 0.481000
+0.320000 0.117100 0.023046 0.518000
+0.352000 0.111100 0.022441 0.555000
+0.383000 0.105900 0.021963 0.587000
+0.413000 0.100700 0.021486 0.617000
+0.448000 0.094600 0.020849 0.647000
+0.478000 0.089300 0.020308 0.670000
+0.512000 0.083000 0.019481 0.693000
+0.541000 0.077800 0.018844 0.711000
+0.575000 0.071200 0.017985 0.725000
+0.604000 0.065900 0.017284 0.733000
+0.639000 0.058900 0.016266 0.736000
+0.639000 0.058900 0.005178 0.736000
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/engine_2.json
+Parse propeller node
+Success parse propeller_node
+Name main_engine type: AerodynamicsEasyPropellerNode geometry base using data apcsf_9x6_kt0981_5022
+parsing propeller data
+J       CT       CP       eta
+0.126000 0.145200 0.024701 0.235000
+0.158000 0.142300 0.024669 0.291000
+0.192000 0.138400 0.024574 0.344000
+0.225000 0.133800 0.024351 0.394000
+0.255000 0.128600 0.023969 0.435000
+0.290000 0.122300 0.023459 0.481000
+0.320000 0.117100 0.023046 0.518000
+0.352000 0.111100 0.022441 0.555000
+0.383000 0.105900 0.021963 0.587000
+0.413000 0.100700 0.021486 0.617000
+0.448000 0.094600 0.020849 0.647000
+0.478000 0.089300 0.020308 0.670000
+0.512000 0.083000 0.019481 0.693000
+0.541000 0.077800 0.018844 0.711000
+0.575000 0.071200 0.017985 0.725000
+0.604000 0.065900 0.017284 0.733000
+0.639000 0.058900 0.016266 0.736000
+0.639000 0.058900 0.005178 0.736000
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/engine_3.json
+Parse propeller node
+Success parse propeller_node
+Name main_engine type: AerodynamicsEasyPropellerNode geometry base using data apcsf_9x6_kt0981_5022
+parsing propeller data
+J       CT       CP       eta
+0.126000 0.145200 0.024701 0.235000
+0.158000 0.142300 0.024669 0.291000
+0.192000 0.138400 0.024574 0.344000
+0.225000 0.133800 0.024351 0.394000
+0.255000 0.128600 0.023969 0.435000
+0.290000 0.122300 0.023459 0.481000
+0.320000 0.117100 0.023046 0.518000
+0.352000 0.111100 0.022441 0.555000
+0.383000 0.105900 0.021963 0.587000
+0.413000 0.100700 0.021486 0.617000
+0.448000 0.094600 0.020849 0.647000
+0.478000 0.089300 0.020308 0.670000
+0.512000 0.083000 0.019481 0.693000
+0.541000 0.077800 0.018844 0.711000
+0.575000 0.071200 0.017985 0.725000
+0.604000 0.065900 0.017284 0.733000
+0.639000 0.058900 0.016266 0.736000
+0.639000 0.058900 0.005178 0.736000
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/horizon_wing.json
+Parse Wing node
+name horizon_wing span ratio 0.250000 root chord 0.122222 taper 0.097778
+name horizon_wing span ratio 0.250000 root chord 0.122222 taper 0.097778
+name horizon_wing span ratio 0.750000 root chord 0.122222 taper 0.097778
+name horizon_wing span ratio 0.750000 root chord 0.122222 taper 0.097778
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/main_fuselage.json
+Parse Aircraft node
+
+stdout: Success parse aircraft_node
+Name main_fuselage type: AerodynamicsAircraftNode geometry base
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/main_wing.json
+Parse Wing node
+name main_wing span ratio 0.050000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.050000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.150000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.150000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.250000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.250000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.350000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.350000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.450000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.450000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.550000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.550000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.650000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.650000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.750000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.750000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.850000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.850000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.950000 root chord 0.222222 taper 0.177778
+name main_wing span ratio 0.950000 root chord 0.222222 taper 0.177778
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/vertical_wing.json
+Parse Wing node
+name vertical_wing span ratio 0.166667 root chord 0.125000 taper 0.075000
+name vertical_wing span ratio 0.500000 root chord 0.125000 taper 0.075000
+name vertical_wing span ratio 0.833333 root chord 0.125000 taper 0.075000
+Scan folder: /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/nodes/ finish
+Nodes name: horizon_wing, id : horizon_wing_0, type : AerodynamicsWingNode
+Nodes name: main_engine, id : main_engine_0, type : AerodynamicsEasyPropellerNode
+Nodes name: main_engine, id : main_engine_1, type : AerodynamicsEasyPropellerNode
+Nodes name: main_engine, id : main_engine_2, type : AerodynamicsEasyPropellerNode
+Nodes name: main_engine, id : main_engine_3, type : AerodynamicsEasyPropellerNode
+Nodes name: main_engine, id : main_engine_5, type : AerodynamicsEasyPropellerNode
+Nodes name: main_fuselage, id : main_fuselage_0, type : AerodynamicsAircraftNode
+Nodes name: main_wing, id : main_wing_0, type : AerodynamicsWingNode
+Nodes name: vertical_wing, id : vertical_wing_0, type : AerodynamicsWingNode
+Scanning joint foilder /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/ 
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/engine_joint.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/engine_joint_0.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/engine_joint_1.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/engine_joint_2.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/engine_joint_3.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/horizon_joint.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/main_wing_joint.json
+Parse fixed joint
+Scan file : /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/vertical_joint.json
+Parse fixed joint
+Scan folder: /Users/xuhao/Develop/FixedwingProj/RapidFDM/sample_data/aircrafts/skysurfer_vtol/joints/ finish
+Successful parse aircraft :main_fuselage
+
+
+stdout: fcount 1 d tick 3
+ws channel handle get open 
+
+stdout: init pos 0.000000 0.000000 1.000000
+fcount 201 d tick 400
+fcount 401 d tick 402
+tick latency 4
+fcount 601 d tick 400
+tick latency 8
+fcount 801 d tick 400
+tick latency 4
+fcount 1001 d tick 400
+tick latency 2
+fcount 1201 d tick 400
+tick latency 6
+Trying to stop server
+
+stdout: Trying to stop server
+

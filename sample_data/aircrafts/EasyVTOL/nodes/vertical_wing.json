@@ -1,0 +1,24 @@
+{
+  "name": "vertical_wing",
+  "type": "wing",
+  "id" : "0",
+  "mass": 0.1,
+  "mass_center": [
+    0,
+    0,
+    0
+  ],
+  "inertial": [
+    1e-2,
+    1e-2,
+    1e-2
+  ],
+  "b_2": 0.1,
+  "Mac": 0.09,
+  "wingPart": 0,
+  "enableControl": 0,
+  "airfoil_name":"naca0015",
+  "TaperRatio":0.8,
+  "pieces":3,
+  "MidChordSweep": 25
+}

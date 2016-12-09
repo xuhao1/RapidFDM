@@ -1,0 +1,23 @@
+{
+  "name": "engine-joint",
+  "type": "fixed",
+  "id": "0",
+  "base_position": [
+    0.6,
+    0.3,
+    0
+  ],
+  "base_rotation": [
+    0,
+    90,
+    0
+  ],
+  "child_reference_point": [
+    0,
+    0,
+    0
+  ],
+  "parent": "main_fuselage_0",
+  "child": "main_engine_3"
+
+}

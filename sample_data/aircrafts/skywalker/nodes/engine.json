@@ -1,0 +1,18 @@
+{
+  "name" : "main_engine",
+  "id" : "0",
+  "type" : "easy_propeller",
+  "mass" : 0.2,
+  "mass_center" : [
+    0,0,0
+  ],
+  "D": 0.2286,
+  "max_rpm"  : 14500,
+  "direction" : 1,
+  "inertial" : [1e-4,1e-4,1e-4],
+  "data_name" : "apcsf_9x6_kt0981_5022",
+  "geometry" : {
+    "type": "propeller",
+    "D" : 0.2286
+  }
+}

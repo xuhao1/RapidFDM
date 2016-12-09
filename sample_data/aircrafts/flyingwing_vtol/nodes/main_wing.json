@@ -1,0 +1,30 @@
+{
+  "name": "main_wing",
+  "type": "wing",
+  "id" : "0",
+  "mass": 2.5,
+  "mass_center": [
+    0,
+    0,
+    0
+  ],
+  "inertial": [
+    1e-2,
+    1e-2,
+    1e-2
+  ],
+  "b_2": 0.705,
+  "Mac": 0.25,
+  "nonSideAttach": 1,
+  "wingPart": 2,
+  "enableControl": 1,
+  "airfoil_name":"naca0015",
+  "deflectAngle" : 0,
+  "MidChordSweep": 30,
+  "TaperRatio":0.4,
+  "pieces":10,
+  "cl0":0.17,
+  "freq_cut":3,
+  "maxdeflect" : 15,
+  "ctrlSurfFrac":0.15
+}
