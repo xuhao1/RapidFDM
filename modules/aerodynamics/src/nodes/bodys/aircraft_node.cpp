@@ -129,7 +129,7 @@ namespace RapidFDM
             Eigen::Vector3d res = Eigen::Vector3d(0, 0, 0);
             for (auto pair : node_list) {
                 BaseNode *node_ptr = pair.second;
-                auto convert_coord = node_ptr->get_body_transform().linear();
+				Eigen::Matrix3d convert_coord = node_ptr->get_body_transform().linear();
                 Eigen::Vector3d node_body_r = (Eigen::Vector3d) node_ptr->get_body_transform().translation();
                 ComponentData data = node_ptr->get_component_data();
                 Eigen::Vector3d torque = convert_coord * node_ptr->get_realtime_torque(data, airState)
@@ -173,7 +173,7 @@ namespace RapidFDM
             Eigen::Vector3d res = Eigen::Vector3d(0, 0, 0);
             for (auto pair : node_list) {
                 BaseNode *node_ptr = pair.second;
-                auto convert_coord = node_ptr->get_body_transform().linear();
+				Eigen::Matrix3d convert_coord = node_ptr->get_body_transform().linear();
                 BaseEngineNode *engineNode_ptr = dynamic_cast<BaseEngineNode *>(node_ptr);
                 if (engineNode_ptr != nullptr) {
                     Eigen::Vector3d engine_body_r = (Eigen::Vector3d) engineNode_ptr->get_body_transform().translation();

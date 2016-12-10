@@ -1,0 +1,1 @@
+C:\RapidFDM\build\bin\Release\rapidfdm_aerodynamics_configure_server "C:\RapidFDM\sample_data\aircrafts\flyingwing_vtol"

@@ -26,7 +26,6 @@ function createWindow() {
     rconfig.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
     });
-    
     if (process.argv[3] == "--enable_dynamics")
     {
         console.log("launching simulator");
@@ -34,7 +33,7 @@ function createWindow() {
         var simulator_path = `${app_path}/../../build/bin/rapidfdm_simulator_ws`;
         if(os.type() == "Windows_NT")
             var simulator_path = `${app_path}/../../build/bin/Release/rapidfdm_simulator_ws`;
-        
+       /*
         r_sim = spawn(simulator_path, [aircraft_path+"/"+aircraft]);
         
         r_sim.stdout.on('data', (data) => {
@@ -48,7 +47,7 @@ function createWindow() {
         r_sim.on('close', (code) => {
             console.log(`child process exited with code ${code}`);
         });
-        
+        */
         win.loadURL(`file://${__dirname}/apps/gui-test.html`);
     }
     else

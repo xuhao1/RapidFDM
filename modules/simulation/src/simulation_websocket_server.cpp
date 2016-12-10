@@ -17,17 +17,28 @@
 #include <cstdlib>
 #include <csetjmp>
 #include <csignal>
-//#include <sys/time.h>
+#ifdef WIN32
+#include <windows.h>
+#else
+#include <sys/time.h>
+#endif
 #include "math.h"
 
 
 long long current_timestamp() {
-    //struct timeval te;
-    //gettimeofday(&te, NULL); // get current time
-    //long long milliseconds = te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
-    // printf("milliseconds: %lld\n", milliseconds);
-    //return milliseconds;
-	return 0;
+#ifdef WIN32
+	SYSTEMTIME time;
+	GetSystemTime(&time);
+	LONG time_ms = (time.wSecond * 1000) + time.wMilliseconds;
+	return time_ms;
+#else
+	struct timeval te;
+	gettimeofday(&te, NULL); // get current time
+	long long milliseconds = te.tv_sec*1000LL + te.tv_usec/1000; // caculate milliseconds
+	 printf("milliseconds: %lld\n", milliseconds);
+	return milliseconds;
+
+#endif // WIN32
 }
 
 using namespace RapidFDM::NetworkProtocol;
@@ -160,7 +171,7 @@ public:
     
             if (count++ % 10 == 1) {
                 rapidjson::Value value(rapidjson::kObjectType);
-                auto trans_body_2_world = aircraftNode->get_ground_transform().linear();
+                Eigen::Matrix3d trans_body_2_world = aircraftNode->get_ground_transform().linear();
                 add_vector(value, trans_body_2_world * aircraftNode->get_total_force(), d, "total_force");
                 add_vector(value, trans_body_2_world * aircraftNode->get_total_torque(), d, "total_torque");
         

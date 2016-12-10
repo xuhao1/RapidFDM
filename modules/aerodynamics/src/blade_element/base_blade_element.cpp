@@ -22,6 +22,7 @@ namespace RapidFDM
 
         Eigen::Affine3d BaseBladeElement::get_ground_transform() const
         {
+			//std::cout << "Relative transform\n" << get_relative_transform().matrix() << std::endl;
             return geometry->get_ground_transform() * get_relative_transform();
         }
 

@@ -74,7 +74,7 @@ namespace RapidFDM
             PxMaterial *aMaterial = mPhysics->createMaterial(0.01f, 0.0f, 0.2);
             assert(aMaterial != nullptr);
             Eigen::Vector3d boundingbox = aircraftNode->get_bounding_box();
-            auto init_trans = PxTransform::createIdentity();
+			PxTransform init_trans = PxTransform::createIdentity();
             init_trans.p.z = 10;
             printf("init trans pos %f %f %f\n",init_trans.p.x,init_trans.p.y,init_trans.p.z);
             PxRigidDynamic *actor = PxCreateDynamic(

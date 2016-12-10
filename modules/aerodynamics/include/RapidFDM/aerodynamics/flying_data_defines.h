@@ -61,7 +61,7 @@ namespace RapidFDM
                     return 0;
                 }
 
-                auto relative_airspeed = get_relative_airspeed(airState);
+                Eigen::Vector3d relative_airspeed = get_relative_airspeed(airState);
                 double aoa =  atan2(- relative_airspeed.z(), - relative_airspeed.x());
                 return float_constrain(aoa,-M_PI/2,M_PI/2);
             }
@@ -82,7 +82,7 @@ namespace RapidFDM
                     return 0;
                 }
 
-                auto relative_airspeed = get_relative_airspeed(airState);
+                Eigen::Vector3d relative_airspeed = get_relative_airspeed(airState);
                 double beta =  atan2(relative_airspeed.y(), - relative_airspeed.x());
                 return beta;
             }

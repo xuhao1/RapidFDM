@@ -17,7 +17,7 @@ namespace RapidFDM
             Eigen::Vector3d res = Eigen::Vector3d(0,0,0);
             for (auto blade : blades) {
                 ComponentData data = blade->make_component_data_from_geometry(state);
-                auto convert_coord = blade->get_relative_transform().linear();
+                Eigen::Matrix3d convert_coord = blade->get_relative_transform().linear();
                 res += convert_coord *blade->get_aerodynamics_force(data,airState);
             }
             return res;
@@ -29,7 +29,7 @@ namespace RapidFDM
             Eigen::Vector3d res = Eigen::Vector3d(0,0,0);
             for (auto blade : blades) {
                 ComponentData data = blade->make_component_data_from_geometry(state);
-                auto convert_coord = blade->get_relative_transform().linear();
+				Eigen::Matrix3d convert_coord = blade->get_relative_transform().linear();
                 Eigen::Vector3d node_body_r = (Eigen::Vector3d) blade->get_relative_transform().translation();
                 res += convert_coord * blade->get_aerodynamics_torque(data,airState) +
                        node_body_r.cross(convert_coord * blade->get_aerodynamics_force(data,airState));

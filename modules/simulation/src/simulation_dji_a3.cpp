@@ -169,9 +169,11 @@ namespace RapidFDM
     "tick": 60
                  */
 
-                if (total_tick_count % 500 == 0)
+                if (total_tick_count % 200 == 0)
                 {
-                    printf("tick latency %ld\n",this->simulator_tick - (int)(fast_value(d,"tick")));
+                    printf("tick latency %ld sim:%ld fc %ld\n",this->simulator_tick - (int)(fast_value(d,"tick")),
+						this->simulator_tick ,(int)(fast_value(d, "tick"))
+					);
                 }
                 for (int chn = 0; chn < 8; chn++) {
                     pwm[chn] = d["channels"][chn].GetDouble();
