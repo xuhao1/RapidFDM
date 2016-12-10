@@ -55,9 +55,9 @@ protected:
     SimulatorWorld simulatorWorld;
     ws_json_channel_handler *handler_realtime_output = nullptr;
 
-    boost::posix_time::milliseconds interval;
+    boost::posix_time::milliseconds simulation_interval;
     boost::posix_time::milliseconds output_interval;
-    boost::asio::deadline_timer *timer = nullptr;
+    boost::asio::deadline_timer *simulation_timer = nullptr;
     boost::asio::deadline_timer *output_timer = nullptr;
     float tick_time;
     bool simulator_running = false;
@@ -69,7 +69,7 @@ protected:
 public:
     simulation_dji_a3_adapter * a3_adapter = nullptr;
     simulation_websocket_server(int port, std::string aircraft_path, float deltatime = 1, int tick_time = 2,bool use_a3 = false) :
-            websocket_server(port), simulatorWorld(deltatime), interval(tick_time),output_interval(15)
+            websocket_server(port), simulatorWorld(deltatime), simulation_interval(tick_time),output_interval(15)
     {
 
         parser parser1(aircraft_path);
@@ -81,7 +81,7 @@ public:
 
         handler_realtime_output = new ws_json_channel_handler((websocket_server *) this, "output");
 
-        timer = new boost::asio::deadline_timer(realtime_calc_io_service, interval);
+        simulation_timer = new boost::asio::deadline_timer(realtime_calc_io_service, simulation_interval);
         output_timer = new boost::asio::deadline_timer(*this->io_service_ptr,output_interval);
         
         this->tick_time = tick_time;
@@ -140,16 +140,20 @@ public:
         }
     }
 
-    void run_next_tick()
+    void run_next_simulation_tick()
     {
-        timer->async_wait([&](const boost::system::error_code &) {
-//            this->tick(tick_time);
+        simulation_timer->expires_at(simulation_timer->expires_at() + simulation_interval);
+
+        this->run_calc_for_a3(tick_time);
+
+        simulation_timer->async_wait([&](const boost::system::error_code &) {
+            this->run_next_simulation_tick();
         });
     }
 
     void calc_thread()
     {
-        run_next_tick();
+        run_next_simulation_tick();
         new std::thread([&]{
             realtime_calc_io_service.run();
         });
@@ -224,7 +228,7 @@ public:
                 if (a3_adapter->motor_starter || !a3_adapter->assiant_online) {
                     simulatorWorld.Step(ticktime);
                 }
-                a3_adapter->send_realtime_data();
+                //a3_adapter->send_realtime_data();
             }
             else {
                 simulatorWorld.Step(ticktime);
@@ -242,8 +246,9 @@ int main(int argc, char **argv)
     bool use_a3 = true;
     printf("Loading aircraft %s\n",path.c_str());
     simulation_websocket_server server(9093, path,1,5,use_a3);
-    std::function<void(void)> cb = ([&]{
-        server.run_calc_for_a3(5);
+   std::function<void(void)> cb = ([&]{
+       //server.run_calc_for_a3(5);
+       server.a3_adapter->send_realtime_data();
     });
     server.a3_adapter->on_receive_pwm = &cb;
 
