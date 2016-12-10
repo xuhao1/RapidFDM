@@ -20,15 +20,10 @@ set(PHYSX_LIBRARIES
         PhysX3
         LowLevel
         PhysX3Extensions
-        PhysX3Vehicle
-        PxTask
         PhysX3Common
-        LowLevelCloth
-        SceneQuery
-        SimulationController
-        PhysXVisualDebuggerSDK
-        PhysXProfileSDK
-        ${PHYSX_LIBRARIES_DIR})
+		PhysXProfileSDK
+        ${PHYSX_LIBRARIES_DIR}
+	)
 
 #message(${PHYSX_LIBRARIES})
 link_directories(

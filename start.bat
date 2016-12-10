@@ -1,1 +1,1 @@
-C:\RapidFDM\3rdparty\electron-v1\electron.exe "apps\RapidFDM-Visuallizer"  flyingwing_vtol --enable_dynamics
+C:\RapidFDM\build\bin\Release\rapidfdm_simulator_ws.exe "C:\RapidFDM\sample_data\aircrafts\flyingwing_vtol"

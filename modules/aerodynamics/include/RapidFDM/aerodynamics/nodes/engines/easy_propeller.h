@@ -115,16 +115,22 @@ namespace RapidFDM
                        geometry->get_type().c_str(),
                        data_name.c_str()
                 );
-                
-                std::string data_root = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/data";
-
+#ifdef __linux__ 
+				std::cerr << "Code not wrote" << std::endl;
+				std::abort();
+#elif _WIN32
+				std::string data_root = "c:/RapidFDM/data";
+#else
+				std::string data_root = "/Users/xuhao/Develop/FixedwingProj/RapidFDM/data";
+#endif
                 this->freq_cut = fast_value(document,"freq_cut",5);
                 std::ifstream ifs(data_root+"/propellers/" + data_name + ".txt");
                 printf("parsing propeller data\n");
                 std::vector<double> jdata,ctdata,cqdata;
                 if (!ifs.is_open())
                 {
-                    printf("Error while open prop data file\n");
+                    std::cerr << "Error while open prop data file" ;
+					std::abort();
                 }
                 else {
                     std::string tmp;
@@ -144,7 +150,8 @@ namespace RapidFDM
                     jdata.pop_back();
                     ctdata.pop_back();
                     cqdata.pop_back();
-                    Ct_spline.set_points(jdata, ctdata);
+					Ct_spline.set_points(jdata, ctdata);
+					
                     Cq_spline.set_points(jdata, cqdata);
                 }
                 this->control_axis["thrust"] = 0;
