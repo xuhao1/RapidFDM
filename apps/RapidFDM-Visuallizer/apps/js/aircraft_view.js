@@ -284,7 +284,7 @@ AircraftView.prototype.blade_force_callback = function (data) {
 
 AircraftView.prototype.forces_torques_callback = function (data) {
     var dis = this.dis;
-    if (data.blades!==undefined)
+    if (data.blades!==undefined && !this.in_realtime_simulator)
         this.blade_force_callback(data.blades);
     var engine_force = new THREE.Vector3(
         data.total_engine_force[0],

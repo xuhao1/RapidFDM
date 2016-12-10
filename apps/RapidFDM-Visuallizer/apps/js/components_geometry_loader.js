@@ -45,7 +45,15 @@ function PropellerGeometryLoader(propeller_config, node_json) {
     });
 
     var torus = new THREE.Mesh(geometry, material);
+    var quaternion = new THREE.Quaternion();
+    quaternion.setFromAxisAngle( new THREE.Vector3( 0, 1, 0 ), Math.PI / 2 );
     SetTransform(torus, node_json.transform);
+    torus.setRotationFromQuaternion(quaternion.multiply(torus.quaternion));
+    node_json.transform.attitude[0] = torus.quaternion.w;
+    node_json.transform.attitude[1] = torus.quaternion.x;
+    node_json.transform.attitude[2] = torus.quaternion.y;
+    node_json.transform.attitude[3] = torus.quaternion.z;
+
     return torus;
 
 }
