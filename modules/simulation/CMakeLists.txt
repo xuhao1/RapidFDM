@@ -3,7 +3,6 @@ set(the_description "The Physics Simulation Module")
 
 find_package(Boost REQUIRED
         COMPONENTS filesystem system)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${build_dir}/bin/")
 include_directories(./include
         ../../include/
         ../../3rdparty/eigen3

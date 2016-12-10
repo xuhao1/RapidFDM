@@ -21,9 +21,6 @@ namespace RapidFDM
             root_uri = "ws://127.0.0.1:19870/general";
             sim_uri = "ws://127.0.0.1:19870/controller/simulator/";
 
-//            root_uri = "ws://10.211.55.3:19870/general";
-//            sim_uri = "ws://10.211.55.3:19870/controller/simulator/";
-
             c_root.set_access_channels(websocketpp::log::alevel::none);
             c_root.clear_access_channels(websocketpp::log::alevel::all);
 
