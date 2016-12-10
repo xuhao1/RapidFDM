@@ -17,11 +17,17 @@ find_package(Boost REQUIRED
         COMPONENTS filesystem system)
 include_directories(${Boost_INCLUDE_DIRS})
 set(PHYSX_LIBRARIES
-        PhysX3
+		PhysX3
         LowLevel
         PhysX3Extensions
+        PhysX3Vehicle
+        PxTask
         PhysX3Common
-		PhysXProfileSDK
+        LowLevelCloth
+        SceneQuery
+        SimulationController
+        PhysXVisualDebuggerSDK
+        PhysXProfileSDK
         ${PHYSX_LIBRARIES_DIR}
 	)
 

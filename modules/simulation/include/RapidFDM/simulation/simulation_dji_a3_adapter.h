@@ -48,9 +48,9 @@ namespace RapidFDM
         class simulation_dji_a3_adapter
         {
         protected:
+            int total_tick_count = 0;
             client c_root;
             client * c_simulator = nullptr;
-            websocketpp::lib::asio::io_service  realtime_calc_io_service;
             boost::asio::deadline_timer *timer = nullptr;
     
             AircraftNode * aircraft = nullptr;
@@ -58,9 +58,6 @@ namespace RapidFDM
             websocketpp::connection_hdl sim_connection_hdl;
             float pwm[8] = {0};
             float RcA = 0, RcE = 0,RcR= 0,RcT = 0;
-            int no_data_count = 0;
-            bool data_update = false;
-            websocketpp::connection_hdl sim_hdl;
             std::string file_name;
             std::string root_uri;
             std::string sim_uri;
@@ -86,15 +83,16 @@ namespace RapidFDM
             
             void on_simulator_link_open(client *c,websocketpp::connection_hdl hdl);
             void on_simulator_link_failed(client *c,websocketpp::connection_hdl hdl);
-            
+            void on_simulator_link_closed(client *c,websocketpp::connection_hdl hdl);
+
             void on_assitant_failed(client *c,websocketpp::connection_hdl hdl);
             void on_assitant_open(client *c,websocketpp::connection_hdl hdl);
             
             void send_realtime_data();
             
-            void check_assiant_online();
+            void try_connect_assistant();
             
-            void reconnect_simulator();
+            void try_connect_simulator();
             
             void add_values(rapidjson::Document & d);
             
