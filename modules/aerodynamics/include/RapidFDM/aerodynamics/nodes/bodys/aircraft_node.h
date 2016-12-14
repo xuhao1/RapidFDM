@@ -104,7 +104,7 @@ namespace RapidFDM
 
             virtual Eigen::Vector3d get_total_aerodynamics_torque();
 
-            virtual Eigen::Vector3d get_angular_velocity() const;
+            virtual Eigen::Vector3d get_angular_velocity() const override ;
 
             //TODO:
             //Consider inertial matrix is not a diagonal matrix.

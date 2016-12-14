@@ -8,7 +8,7 @@ let win;
 function createWindow() {
     let app_path = app.getAppPath();
     let aircraft = process.argv[2];
-    let aircraft_path = `${app_path}/../../sample_data/aircrafts`;
+    let aircraft_path = `${app_path}/../../build/bin/sample_data/aircrafts`;
     win = new BrowserWindow({width: 1024, height: 768});
     global.sharedObj = {aircraftname : aircraft};
    

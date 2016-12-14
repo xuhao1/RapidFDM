@@ -26,21 +26,21 @@ namespace RapidFDM
                 reference_aera.z() = box_scale.x() * box_scale.y();
             }
 
-            virtual float getLift(ComponentData state, AirState airState) const override
+            virtual double getLift(ComponentData state, AirState airState) const override
             {
 //                std::cerr << "Code not wrote" << std::endl;
 //                abort();
                 return 0;
             }
 
-            virtual float getDrag(ComponentData state, AirState airState) const override
+            virtual double getDrag(ComponentData state, AirState airState) const override
             {
 //                std::cerr << "Code not wrote" << std::endl;
 //                abort();
                 return 0;
             }
 
-            virtual float getSide(ComponentData state, AirState airState) const override
+            virtual double getSide(ComponentData state, AirState airState) const override
             {
 //                std::cerr << "Code not wrote" << std::endl;
 //                abort();

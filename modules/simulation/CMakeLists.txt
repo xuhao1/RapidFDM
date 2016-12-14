@@ -16,6 +16,7 @@ include_directories(./include
         ../control_system/include/
         ../network_protocol/include
         /usr/local/include
+        ../common/include
 
         )
 
@@ -28,6 +29,8 @@ set(SIMULATION_MODULE_SOURCES
         src/simulator_aircraft.cpp src/simulation_websocket_server.cpp
         src/simulation_dji_a3.cpp
         include/RapidFDM/simulation/simulation_dji_a3_adapter.h
+        include/RapidFDM/simulation/simulation_hil_adapter.h
+        src/simulation_hil_adapter.cpp
         )
 
 set(SIMULATION_MODULE_SOURCES_WS
@@ -48,15 +51,5 @@ target_link_libraries(rapidfdm_simulator
         rapidfdm_network_protocol
         )
 
-#add_executable(rapidfdm_simulator_test ${SIMULATION_MODULES_TESTS})
-
-#add_executable(rapidfdm_simulation_a3 src/simulation_dji_a3.cpp include/RapidFDM/simulation/simulation_dji_a3_adapter.h)
-
-#target_link_libraries(rapidfdm_simulator_test
-#        rapidfdm_simulator)
-
 target_link_libraries(rapidfdm_simulator_ws
         rapidfdm_simulator)
-
-#target_link_libraries(rapidfdm_simulation_a3
-#        rapidfdm_simulator)

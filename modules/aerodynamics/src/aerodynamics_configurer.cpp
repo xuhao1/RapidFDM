@@ -32,7 +32,7 @@ namespace RapidFDM
                 delete parser1;
                 parser1 = nullptr;
             }
-			printf("Trying load Aircraft %s at ",name.c_str(),(root_path + "/" + name).c_str());
+			printf("Trying load Aircraft %s at %s",name.c_str(),(root_path + "/" + name).c_str());
             parser1 = new parser(root_path + "/" + name);
 			this->aircraftNode = parser1->get_aircraft_node();
 			if (!this->aircraftNode)

@@ -51,7 +51,7 @@ namespace RapidFDM
                 abort();
             }
 
-            virtual void brief()
+            virtual void brief() override
             {
                 printf("Geometry %s\n", type.c_str());
             }
@@ -65,7 +65,7 @@ namespace RapidFDM
 
             virtual Eigen::Vector3d get_angular_velocity() const override;
 
-            virtual Eigen::Affine3d get_ground_transform() const;
+            virtual Eigen::Affine3d get_ground_transform() const override ;
 
             virtual Eigen::Quaterniond get_ground_attitude() const override;
 

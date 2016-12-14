@@ -45,10 +45,10 @@ namespace RapidFDM
 
             virtual BaseNode * instance() override
             {
-                BaseEngineNode *node = new BaseEngineNode;
-                memcpy(node, this, sizeof(BaseEngineNode));
-                node->geometry = this->geometry->instance();
-                return node;
+//                BaseEngineNode *node = new BaseEngineNode;
+//                memcpy(node, this, sizeof(BaseEngineNode));
+//                node->geometry = this->geometry->instance();
+                return nullptr;
             }
 
         };

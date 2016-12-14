@@ -308,10 +308,11 @@ namespace RapidFDM
         
         BaseNode *AircraftNode::instance()
         {
-            AircraftNode *node = new AircraftNode;
-            memcpy(node, this, sizeof(AircraftNode));
-            node->geometry = this->geometry->instance();
-            return node;
+//            AircraftNode *node = new AircraftNode;
+//            memcpy(node, this, sizeof(AircraftNode));
+//            node->geometry = this->geometry->instance();
+//            return node;
+            return nullptr;
         }
         
         void AircraftNode::setStatefromsimulator(const ComponentData &data,int stamp)

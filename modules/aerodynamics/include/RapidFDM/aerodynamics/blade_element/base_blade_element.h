@@ -36,17 +36,17 @@ namespace RapidFDM
             ComponentData update_component_data_from_geometry(ComponentData data);
             ComponentData get_component_data_from_geometry();
             ComponentData get_seted_component_data();
-            virtual float getLift(ComponentData state, AirState airState) const
+            virtual double getLift(ComponentData state, AirState airState) const override
             {
                 return 0;
             }
 
-            virtual float getDrag(ComponentData state, AirState airState) const
+            virtual double getDrag(ComponentData state, AirState airState) const override
             {
                 return 0;
             }
 
-            virtual float getSide(ComponentData state, AirState airState) const
+            virtual double getSide(ComponentData state, AirState airState) const override
             {
                 return 0;
             }

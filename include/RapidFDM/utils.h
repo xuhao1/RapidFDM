@@ -15,8 +15,13 @@
 #include <sys/stat.h>
 #include <boost/filesystem.hpp>
 
+#ifndef CRC16
 #define CRC16 0x8005
+#endif
+
+#ifdef __WIN32__
 #define M_PI (3.1415926535)
+#endif
 
 namespace RapidFDM {
     namespace Utils {

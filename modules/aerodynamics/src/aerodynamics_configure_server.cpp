@@ -4,6 +4,7 @@
 
 #include <RapidFDM/aerodynamics/aerodynamics_configurer.h>
 #include <RapidFDM/network_protocol/ws_channel_handler.h>
+#include <RapidFDM/common/resource_manager.h>
 
 using namespace RapidFDM::NetworkProtocol;
 using namespace RapidFDM::Aerodynamics;
@@ -36,6 +37,8 @@ public:
 
 int main(int argc,char**argv)
 {
+
+    RapidFDM::Common::init_resource_manager(argv);
 	std::string aircraft_path = argv[1];
 	printf("Start configure server at %s\n",aircraft_path.c_str());
     aerodynamics_network_configurer configurer(aircraft_path,9091);

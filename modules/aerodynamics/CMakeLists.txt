@@ -9,6 +9,7 @@ include_directories(./include
         /usr/local/include
         ../../3rdparty/websocketpp
         ../network_protocol/include
+        ../common/include
         )
 
 set(AIRDYNAMICS_MODULE_SOURCES
@@ -40,10 +41,20 @@ set(AIRDYNAMICS_MODULE_SOURCES
         include/RapidFDM/aerodynamics/joints/fixed_joint.h
         include/RapidFDM/aerodynamics/joints/joint_helper.h
         include/RapidFDM/aerodynamics/aerodynamics_configurer.h
-
-        include/RapidFDM/aerodynamics/aerodynamics_configurer.h
         src/aerodynamics_configurer.cpp
-        src/geometrys/wing_geometrys.cpp src/geometrys/base_geometry.cpp include/RapidFDM/aerodynamics/blade_element/wing_blade_element.h include/RapidFDM/aerodynamics/blade_element/blade_element_manager.h src/blade_element/wing_blade_element.cpp src/blade_element/blade_element_manger.cpp include/RapidFDM/aerodynamics/blade_element/engine_element.h include/RapidFDM/aerodynamics/blade_element/base_blade_element.h src/blade_element/base_blade_element.cpp include/RapidFDM/aerodynamics/discrete_data_loader.h src/discrete_data_loader.cpp src/nodes/wing_node.cpp)
+        src/geometrys/wing_geometrys.cpp
+        src/geometrys/base_geometry.cpp
+        include/RapidFDM/aerodynamics/blade_element/wing_blade_element.h
+        include/RapidFDM/aerodynamics/blade_element/blade_element_manager.h
+        src/blade_element/wing_blade_element.cpp
+        src/blade_element/blade_element_manger.cpp
+        src/nodes/engines/easy_propeller.cpp
+        include/RapidFDM/aerodynamics/blade_element/engine_element.h
+        include/RapidFDM/aerodynamics/blade_element/base_blade_element.h
+        src/blade_element/base_blade_element.cpp
+        include/RapidFDM/aerodynamics/discrete_data_loader.h
+        src/discrete_data_loader.cpp src/nodes/wing_node.cpp
+        )
 
 SET(AERODYNAMICS_CONFIGURER_SOURCES
         src/aerodynamics_configurer.cpp
@@ -53,15 +64,10 @@ SET(AERODYNAMICS_CONFIGURER_SOURCES
 
 set(AIRDYNAMICS_TEST_SOURCES tests/main.cpp)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${build_dir}/lib")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${build_dir}/lib")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${build_dir}/bin")
 
 add_library(rapidfdm_aerodynamics STATIC ${AIRDYNAMICS_MODULE_SOURCES})
 
-#add_executable(rapidfdm_aerodynamics_test ${AIRDYNAMICS_TEST_SOURCES})
-
-#target_link_libraries(rapidfdm_aerodynamics_test rapidfdm_aerodynamics)
+target_link_libraries(rapidfdm_aerodynamics rapidfdm_common)
 
 add_executable(rapidfdm_aerodynamics_configure_server ${AERODYNAMICS_CONFIGURER_SOURCES})
 target_link_libraries(rapidfdm_aerodynamics_configure_server rapidfdm_aerodynamics rapidfdm_network_protocol)

@@ -55,17 +55,17 @@ namespace RapidFDM
         protected:
             ComponentData flying_states;
         public:
-            virtual float getLift(ComponentData state, AirState airState) const
+            virtual double getLift(ComponentData state, AirState airState) const
             {
                 return 0;
             }
 
-            virtual float getDrag(ComponentData state, AirState airState) const
+            virtual double getDrag(ComponentData state, AirState airState) const
             {
                 return 0;
             }
 
-            virtual float getSide(ComponentData state, AirState airState) const
+            virtual double getSide(ComponentData state, AirState airState) const
             {
                 return 0;
             }

@@ -23,6 +23,7 @@
 #include <sys/time.h>
 #endif
 #include "math.h"
+#include <RapidFDM/common/resource_manager.h>
 
 
 long long current_timestamp() {
@@ -64,7 +65,7 @@ protected:
     websocketpp::lib::asio::io_service  realtime_calc_io_service;
 
     std::mutex phys_engine_lock;
-    
+
     long runninged_tick = 0;
 public:
     simulation_dji_a3_adapter * a3_adapter = nullptr;
@@ -83,7 +84,7 @@ public:
 
         simulation_timer = new boost::asio::deadline_timer(realtime_calc_io_service, simulation_interval);
         output_timer = new boost::asio::deadline_timer(*this->io_service_ptr,output_interval);
-        
+
         this->tick_time = tick_time;
 
         handler_realtime_output->add_json_handler(
@@ -127,11 +128,11 @@ public:
                 );
             }
         });
-    
+
         output_timer->async_wait([&](const boost::system::error_code &) {
             this->output();
         });
-        
+
         if(use_a3)
         {
             a3_adapter = new simulation_dji_a3_adapter(this->aircraftNode);
@@ -166,28 +167,28 @@ public:
             static int count = 0;
             rapidjson::Document d;
             d.SetObject();
-    
+
             add_transform(d, aircraftNode->get_ground_transform(), d);
-    
+
             add_vector(d, aircraftNode->get_angular_velocity(), d, "angular_velocity");
             add_vector(d,quat2eulers(aircraftNode->get_ground_attitude()) /M_PI * 180.0,d,"euler");
             add_vector(d,aircraftNode->get_ground_velocity(),d,"vel");
-    
+
             if (count++ % 10 == 1) {
                 rapidjson::Value value(rapidjson::kObjectType);
                 Eigen::Matrix3d trans_body_2_world = aircraftNode->get_ground_transform().linear();
                 add_vector(value, trans_body_2_world * aircraftNode->get_total_force(), d, "total_force");
                 add_vector(value, trans_body_2_world * aircraftNode->get_total_torque(), d, "total_torque");
-        
+
                 add_vector(value, aircraftNode->get_total_aerodynamics_force(), d,
                            "total_airdynamics_force");
                 add_vector(value, trans_body_2_world * aircraftNode->get_total_aerodynamics_torque(), d,
                            "total_airdynamics_torque");
-        
+
                 add_vector(value, trans_body_2_world * aircraftNode->get_total_engine_torque(), d,
                            "total_engine_torque");
                 add_vector(value, trans_body_2_world * aircraftNode->get_total_engine_force(), d, "total_engine_force");
-        
+
                 rapidjson::Value blade_array(rapidjson::kArrayType);
                 blade_array.CopyFrom(
                         *aircraftNode->bladeElementManager.get_blades_information(),
@@ -196,23 +197,23 @@ public:
             value.AddMember("blades", blade_array, d.GetAllocator());
                 d.AddMember("forces_torques", value, d.GetAllocator());
             }
-    
+
             rapidjson::Value airspeed_value(rapidjson::kObjectType);
             ComponentData data = aircraftNode->get_component_data();
             AirState airState = aircraftNode->airState;
             add_value(airspeed_value, data.get_airspeed_mag(airState), d, "airspeed");
             add_value(airspeed_value, data.get_angle_of_attack(airState), d, "angle_of_attack");
             add_value(airspeed_value, data.get_sideslip(airState), d, "sideslip");
-    
+
             if (a3_adapter != nullptr) {
                 a3_adapter->add_values(d);
             }
             d.AddMember("airstate", airspeed_value, d.GetAllocator());
-    
+
             handler_realtime_output->send_json(d);
         }
-    
-    
+
+
         output_timer->async_wait([&](const boost::system::error_code &) {
             this->output();
         });
@@ -228,7 +229,6 @@ public:
                 if (a3_adapter->motor_starter || !a3_adapter->assiant_online) {
                     simulatorWorld.Step(ticktime);
                 }
-                //a3_adapter->send_realtime_data();
             }
             else {
                 simulatorWorld.Step(ticktime);
@@ -240,14 +240,14 @@ public:
 
 int main(int argc, char **argv)
 {
+    RapidFDM::Common::init_resource_manager(argv);
     if (argc <= 1)
         return -1;
     std::string path = argv[1];
     bool use_a3 = true;
     printf("Loading aircraft %s\n",path.c_str());
-    simulation_websocket_server server(9093, path,1,5,use_a3);
+    simulation_websocket_server server(9093, path,0.5,5,use_a3);
    std::function<void(void)> cb = ([&]{
-       //server.run_calc_for_a3(5);
        server.a3_adapter->send_realtime_data();
     });
     server.a3_adapter->on_receive_pwm = &cb;

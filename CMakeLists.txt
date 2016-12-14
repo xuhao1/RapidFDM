@@ -4,6 +4,7 @@ project(RapidFDM)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(build_dir "${CMAKE_CURRENT_SOURCE_DIR}/build/")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${build_dir}/bin/")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${build_dir}/lib")
 
 file(COPY data DESTINATION bin/)
 file(COPY sample_data DESTINATION bin/)
@@ -40,6 +41,7 @@ link_directories(
 ${Boost_LIBRARY_DIRS} 
 3rdparty/rapidjson/include
 )
+add_subdirectory(modules/common)
 add_subdirectory(modules/network_protocol)
 add_subdirectory(modules/aerodynamics)
 add_subdirectory(modules/control_system)

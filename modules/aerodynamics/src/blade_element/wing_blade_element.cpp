@@ -62,7 +62,7 @@ namespace RapidFDM
             this->element_span_length = fabs(outer_span_percent - inner_span_percent) * wingGeometry->params.b_2;
         }
 
-        float WingBladeElement::getLift(ComponentData state, AirState airState) const
+        double WingBladeElement::getLift(ComponentData state, AirState airState) const
         {
 
             double cl = get_cl(state, airState);
@@ -70,13 +70,13 @@ namespace RapidFDM
             return lift + get_flap_lift(state,airState);
         }
 
-        float WingBladeElement::getDrag(ComponentData state, AirState airState) const
+        double WingBladeElement::getDrag(ComponentData state, AirState airState) const
         {
             double cd = get_cd(state, airState);
             return cd * state.get_q_bar(airState) * this->Mac * this->element_span_length;
         }
 
-        float WingBladeElement::getSide(ComponentData state, AirState airState) const
+        double WingBladeElement::getSide(ComponentData state, AirState airState) const
         {
             //TODO:
             //real side force
