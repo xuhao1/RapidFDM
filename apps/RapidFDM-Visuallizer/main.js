@@ -30,9 +30,9 @@ function createWindow() {
     {
         console.log("launching simulator");
 
-        var simulator_path = `${app_path}/../../build/bin/rapidfdm_simulator_ws`;
+        var simulator_path = `${app_path}/../../build/bin/rapidfdm_simulator_dji`;
         if(os.type() == "Windows_NT")
-            var simulator_path = `${app_path}/../../build/bin/Release/rapidfdm_simulator_ws`;
+            var simulator_path = `${app_path}/../../build/bin/Release/rapidfdm_simulator_dji`;
         r_sim = spawn(simulator_path, [aircraft_path+"/"+aircraft]);
         
         r_sim.stdout.on('data', (data) => {

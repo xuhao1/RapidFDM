@@ -20,7 +20,7 @@ namespace RapidFDM {
                 assert(v.IsObject());
                 std::string type = fast_string(v, "type");
                 if (type == "fixed") {
-                    printf("Parse fixed joint\n");
+//                    printf("Parse fixed joint\n");
                     return new FixedJoint(v, nodeDB);
                 }
 
@@ -43,17 +43,17 @@ namespace RapidFDM {
             }
             static std::map<std::string,BaseJoint * > scan_joint_folder(std::string path,std::map<std::string, BaseNode *> nodeDB)
             {
-                printf("Scanning joint foilder %s \n",path.c_str());
+//                printf("Scanning joint foilder %s \n",path.c_str());
                 std::map<std::string,BaseJoint *> jointDB;
                 std::vector<std::string> file_list = get_file_list(path);
                 for (std::string file_path : file_list) {
-                    printf("Scan file : %s\n", file_path.c_str());
+//                    printf("Scan file : %s\n", file_path.c_str());
                     BaseJoint *tmp = create_joint_from_file(file_path,nodeDB);
                     if (tmp != nullptr) {
                         jointDB[tmp->getUniqueID()] = tmp;
                     }
                 }
-                printf("Scan folder: %s finish\n",path.c_str());
+//                printf("Scan folder: %s finish\n",path.c_str());
                 return jointDB;
             };
         };

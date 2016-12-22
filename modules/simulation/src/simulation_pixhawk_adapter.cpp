@@ -9,10 +9,11 @@
 #define MAV_MODE_FLAG_HIL_ENABLED  32
 
 long current_timestamp_us();
+
 namespace RapidFDM {
     namespace Simulation {
         simulation_pixhawk_adapter::simulation_pixhawk_adapter(SimulatorAircraft *simulatorAircraft) :
-                simulation_hil_adapter(simulatorAircraft), UDPClient("127.0.0.1", 14550),UDPServer(14555) {
+                simulation_hil_adapter(simulatorAircraft), UDPClient("127.0.0.1", 14550), UDPServer(14555) {
 //            std::string hw = "Hello,world\n";
 //            this->write_to_server((uint8_t *) hw.c_str(), hw.size());
             intial_lati = 22.3351 * M_PI / 180.0;
@@ -30,9 +31,9 @@ namespace RapidFDM {
             state.attitude_quaternion[3] = (float) quat.z();
 
             Eigen::Vector3d global_local = get_lati_lon_alti();
-            state.lat = (int32_t) (global_local.x() * 1e7*180.0/M_PI);
-            state.lon = (int32_t) (global_local.y() * 1e7*180.0/M_PI);
-            state.alt = - (int32_t) (global_local.z() * 1e3);
+            state.lat = (int32_t)(global_local.x() * 1e7 * 180.0 / M_PI);
+            state.lon = (int32_t)(global_local.y() * 1e7 * 180.0 / M_PI);
+            state.alt = -(int32_t)(global_local.z() * 1e3);
 
             Eigen::Vector3d ang_vel = get_angular_velocity_body_NED();
             state.rollspeed = (float) ang_vel.x();
@@ -40,9 +41,9 @@ namespace RapidFDM {
             state.yawspeed = (float) ang_vel.z();
 
             Eigen::Vector3d vel = get_ground_velocity_NED();
-            state.vx = (int16_t) (vel.x() * 100.0);
-            state.vy = (int16_t) (vel.y() * 100.0);
-            state.vz = (int16_t) (vel.z() * 100.0);
+            state.vx = (int16_t)(vel.x() * 100.0);
+            state.vy = (int16_t)(vel.y() * 100.0);
+            state.vz = (int16_t)(vel.z() * 100.0);
 
             Eigen::Vector3d acc = get_acc_body_NED();
             state.xacc = (int16_t) acc.x();
@@ -51,8 +52,8 @@ namespace RapidFDM {
 
             acc = get_acc_body_NED();
 
-            state.ind_airspeed = (uint16_t) (get_airspeed() * 100);
-            state.true_airspeed = (uint16_t) (get_airspeed() * 100);
+            state.ind_airspeed = (uint16_t)(get_airspeed() * 100);
+            state.true_airspeed = (uint16_t)(get_airspeed() * 100);
 
             mavlink_message_t msg;
 
@@ -81,7 +82,7 @@ namespace RapidFDM {
                     }
                     printf("System online %d\n", total_tick_count);
                 }
-                if(simulator_online) {
+                if (simulator_online) {
                     if (total_tick_count % 200 == 0)
                         printf("send realtime data %d\n", total_tick_count);
                     send_realtime_data();
@@ -127,14 +128,14 @@ namespace RapidFDM {
             pwm[5] = hil_controls->aux2;
             pwm[6] = hil_controls->aux3;
             pwm[7] = hil_controls->aux4;
-            for (int i = 0 ;i < 8 ; i++)
-            {
-                pwm[i] = (pwm[i] - 0.5f) * 2.0f;
+            for (int i = 0; i < 8; i++) {
+                pwm[i] = (float) float_constrain((pwm[i] - 0.5f) * 2.0f, -1, 1);
             }
             on_pwm_data_receieve(pwm, 8);
         }
 
-        void simulation_pixhawk_adapter::on_receieve_mavlink_message(mavlink_message_t *msg,uint8_t* buffer,int size) {
+        void
+        simulation_pixhawk_adapter::on_receieve_mavlink_message(mavlink_message_t *msg, uint8_t *buffer, int size) {
             target_system = msg->sysid;
             system_online = true;
             switch (msg->msgid) {
@@ -148,14 +149,13 @@ namespace RapidFDM {
                 case MAVLINK_MSG_ID_HEARTBEAT:
                     mavlink_heartbeat_t heartbeat;
                     mavlink_msg_heartbeat_decode(msg, &heartbeat);
-                    if(heartbeat.base_mode & MAV_MODE_FLAG_HIL_ENABLED)
-                    {
+                    if (heartbeat.base_mode & MAV_MODE_FLAG_HIL_ENABLED) {
                         simulator_online = true;
                     }
                     break;
                 case MAVLINK_MSG_ID_RC_CHANNELS:
                     mavlink_rc_channels_t rc;
-                    mavlink_msg_rc_channels_decode(msg,&rc);
+                    mavlink_msg_rc_channels_decode(msg, &rc);
                     RcA = (rc.chan1_raw - 1520) / 400.0f * 10000;
                     RcE = (rc.chan2_raw - 1520) / 400.0f * 10000;
                     RcT = (rc.chan3_raw - 1520) / 400.0f * 10000;
@@ -166,9 +166,10 @@ namespace RapidFDM {
 
 //            write_to_server(buffer, size);
         }
+
         void simulation_pixhawk_adapter::push_json_to_app(rapidjson::Document &d) {
             rapidjson::Value a3_value(rapidjson::kObjectType);
-            add_value(a3_value,1, d, "motor_started");
+            add_value(a3_value, 1, d, "motor_started");
 
             add_value(a3_value, RcA, d, "RcA");
             add_value(a3_value, RcE, d, "RcE");
@@ -186,13 +187,14 @@ namespace RapidFDM {
             d.AddMember("a3_sim_status", a3_value, d.GetAllocator());
 
         }
+
         void simulation_pixhawk_adapter::udp_server_on_receive_data(uint8_t *data, size_t size) {
             for (int i = 0; i < size; i++) {
                 char c = data[i];
                 mavlink_message_t msg;
                 mavlink_status_t status;
                 if (mavlink_parse_char(0, (uint8_t) c, &msg, &status)) {
-                    on_receieve_mavlink_message(&msg,data,size);
+                    on_receieve_mavlink_message(&msg, data, size);
                 }
             }
         }

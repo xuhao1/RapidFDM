@@ -52,12 +52,12 @@ namespace RapidFDM
             double span_ratio = fabs(outer_span_percent + inner_span_percent) / 2;
             this->Mac = (1 - span_ratio) * wingGeometry->params.root_chord_length +
                         span_ratio * wingGeometry->params.taper_chord_length;
-            printf("name %s span ratio %f root chord %f taper %f\n",
-                   this->geometry->getName().c_str(),
-                   span_ratio,
-                   wingGeometry->params.root_chord_length,
-                   wingGeometry->params.taper_chord_length
-            );
+//            printf("name %s span ratio %f root chord %f taper %f\n",
+//                   this->geometry->getName().c_str(),
+//                   span_ratio,
+//                   wingGeometry->params.root_chord_length,
+//                   wingGeometry->params.taper_chord_length
+//            );
 
             this->element_span_length = fabs(outer_span_percent - inner_span_percent) * wingGeometry->params.b_2;
         }

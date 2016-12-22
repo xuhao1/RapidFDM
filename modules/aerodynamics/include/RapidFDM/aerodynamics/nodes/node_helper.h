@@ -25,16 +25,13 @@ namespace RapidFDM {
                 assert(v.IsObject());
                 std::string type = fast_string(v, "type");
                 if (type == "aircraft") {
-                    printf("Parse Aircraft node\n");
                     return new AircraftNode(v);
                 }
                 if (type == "wing") {
-                    printf("Parse Wing node\n");
                     return new WingNode(v);
                 }
                 if (type == "easy_propeller")
                 {
-                    printf("Parse propeller node\n");
                     return new EasyPropellerNode(v);
                 }
                 std::cerr << "Cannot parse BaseNode Type : " << type << std::endl;
@@ -51,23 +48,22 @@ namespace RapidFDM {
                 std::ifstream ifs(file);
                 std::string content((std::istreambuf_iterator<char>(ifs)),
                                     (std::istreambuf_iterator<char>()));
-//                std::cout << "Json Content : \n" << content << std::endl;
                 return create_node_from_json(content);
             }
 
             //This function return a list of nodes
             static std::map<std::string, BaseNode *> scan_node_folder(std::string path) {
-                printf("Scanning node foilder %s \n",path.c_str());
+//                printf("Scanning node folder %s \n",path.c_str());
                 std::map<std::string, BaseNode *> nodeDB;
                 std::vector<std::string> file_list = get_file_list(path);
                 for (std::string file_path : file_list) {
-                    printf("Scan file : %s\n", file_path.c_str());
+//                    printf("Scan file : %s\n", file_path.c_str());
                     BaseNode *tmp = create_node_from_file(file_path);
                     if (tmp != nullptr) {
                         nodeDB[tmp->getUniqueID()] = tmp;
                     }
                 }
-                printf("Scan folder: %s finish\n",path.c_str());
+//                printf("Scan folder: %s finish\n",path.c_str());
                 return nodeDB;
             };
         };

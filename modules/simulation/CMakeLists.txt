@@ -33,18 +33,17 @@ set(SIMULATION_MODULE_SOURCES
         include/RapidFDM/simulation/simulation_hil_adapter.h
         src/simulation_hil_adapter.cpp
         src/simulation_pixhawk_adapter.cpp
-        )
+        include/RapidFDM/simulation/simulation_websocket_server.h)
 
-set(SIMULATION_MODULE_SOURCES_WS
-        src/simulator_aircraft.cpp
-        src/simulation_websocket_server.cpp
-        )
 
 set(SIMULATION_MODULES_TESTS
         test/unit_tests.cpp
         )
 add_library(rapidfdm_simulator STATIC ${SIMULATION_MODULE_SOURCES})
-add_executable(rapidfdm_simulator_ws ${SIMULATION_MODULE_SOURCES_WS})
+
+add_executable(rapidfdm_simulator_dji src/simulator_dji.cpp)
+add_executable(rapidfdm_simulator_pixhawk src/simulator_pixhawk.cpp)
+
 target_link_libraries(rapidfdm_simulator
         ${Boost_LIBRARIES}
         ${PHYSX_LIBRARIES}
@@ -53,5 +52,8 @@ target_link_libraries(rapidfdm_simulator
         rapidfdm_network_protocol
         )
 
-target_link_libraries(rapidfdm_simulator_ws
+target_link_libraries(rapidfdm_simulator_dji
+        rapidfdm_simulator)
+
+target_link_libraries(rapidfdm_simulator_pixhawk
         rapidfdm_simulator)

@@ -55,15 +55,15 @@ namespace RapidFDM {
             if (data_name == "") {
                 data_name = "magf_7x4_2915cm_6998.txt";
             }
-            printf("Success parse propeller_node\n");
-            printf("Name %s type: %s geometry %s using data %s\n", this->name.c_str(), this->get_type_str().c_str(),
-                   geometry->get_type().c_str(),
-                   data_name.c_str()
-            );
+//            printf("Success parse propeller_node\n");
+//            printf("Name %s type: %s geometry %s using data %s\n", this->name.c_str(), this->get_type_str().c_str(),
+//                   geometry->get_type().c_str(),
+//                   data_name.c_str()
+//            );
             this->freq_cut = fast_value(document, "freq_cut", 5);
             std::string data_root = RapidFDM::Common::get_data_path();
             std::ifstream ifs(data_root + "/propellers/" + data_name + ".txt");
-            printf("parsing propeller data\n");
+//            printf("parsing propeller data\n");
             std::vector<double> jdata, ctdata, cqdata;
             if (!ifs.is_open()) {
                 std::cerr << "Error while open prop data file";
@@ -71,14 +71,14 @@ namespace RapidFDM {
             } else {
                 std::string tmp;
                 std::getline(ifs, tmp);
-                printf("%s\n", tmp.c_str());
+//                printf("%s\n", tmp.c_str());
                 while (!ifs.eof()) {
                     double j, ct, cq, eta;
                     ifs >> j >> ct >> cq >> eta;
                     cq = cq / M_PI;
-                    printf("%f %f %f %f\n",
-                           j, ct, cq, eta
-                    );
+//                    printf("%f %f %f %f\n",
+//                           j, ct, cq, eta
+//                    );
                     jdata.push_back(j);
                     ctdata.push_back(ct);
                     cqdata.push_back(cq);

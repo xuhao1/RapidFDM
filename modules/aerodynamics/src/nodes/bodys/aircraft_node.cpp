@@ -23,9 +23,9 @@ namespace RapidFDM
                 this->geometry->_parent = this;
             }
             this->node_type = AerodynamicsNodeType::AerodynamicsAircraftNode;
-            printf("Success parse aircraft_node\n");
-            printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->get_type_str().c_str(),
-                   geometry->get_type().c_str());
+//            printf("Success parse aircraft_node\n");
+//            printf("Name %s type: %s geometry %s\n", this->name.c_str(), this->get_type_str().c_str(),
+//                   geometry->get_type().c_str());
             
             this->rigid_mode = fast_value(_json, "rigid_mode", 0) > 0;
             if (this->rigid_mode) {
