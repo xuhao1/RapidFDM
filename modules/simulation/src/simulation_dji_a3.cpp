@@ -4,7 +4,6 @@
 
 #include "RapidFDM/simulation/simulation_dji_a3_adapter.h"
 
-#define C_EARTH 6378137.0f
 
 
 namespace RapidFDM {
@@ -28,8 +27,6 @@ namespace RapidFDM {
             try_connect_assistant();
 
 
-            intial_lati = 22.5416 * M_PI / 180.0;
-            intial_lon = 113.8973 * M_PI / 180.0;
 
         }
 
@@ -112,7 +109,7 @@ namespace RapidFDM {
         }
 
         void simulation_dji_a3_adapter::tick_func() {
-            if (total_tick_count++ % 200 == 0) {
+            if (total_tick_count % 200 == 0) {
                 try_connect_assistant();
                 printf("time: %f d tick %d\n", total_tick_count / 200.0, dcount);
                 dcount = 0;
@@ -210,36 +207,23 @@ namespace RapidFDM {
             d.SetObject();
             d.AddMember("SEQ", "FUCK", d.GetAllocator());
             d.AddMember("CMD", "set_fixed_wing", d.GetAllocator());
-            Eigen::Quaterniond convert = (Eigen::Quaterniond) Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitY());
-            //TODO:Fix convention
 
-            Eigen::Vector3d pos = (Eigen::Vector3d) aircraftNode->get_ground_transform().translation();
-            pos = convert * pos;
-
+            Eigen::Vector3d global_location = get_lati_lon_alti();
             d.AddMember("tick", (int64_t) simulator_tick, d.GetAllocator());
-            d.AddMember("lati", intial_lati + pos.x() / C_EARTH, d.GetAllocator());
-            d.AddMember("lon", intial_lon + pos.y() / C_EARTH / cos(intial_lati + pos.x() / C_EARTH), d.GetAllocator());
-            d.AddMember("height", -pos.z(), d.GetAllocator());
+            d.AddMember("lati", global_location.x(), d.GetAllocator());
+            d.AddMember("lon", global_location.y(), d.GetAllocator());
+            d.AddMember("height", -global_location.z(), d.GetAllocator());
             d.AddMember("rho", 1.29f, d.GetAllocator());
 
-            AirState airState;
-            ComponentData data = aircraftNode->get_component_data();
-            add_value(d, data.get_airspeed_mag(airState), d, "airspeed");
+            add_value(d,get_airspeed() , d, "airspeed");
 
-            Eigen::Vector3d acc = sim_air->gAcc;
-            acc.z() = acc.z() - 9.81f;
-            acc = convert * acc;
-            add_vector(d, acc, d, "acc");
+            add_vector(d, get_acc_body_NED(), d, "acc");
 
-            Eigen::Vector3d vel = convert * aircraftNode->get_ground_velocity();
-            add_vector(d, vel, d, "vel");
+            add_vector(d, get_ground_velocity_NED(), d, "vel");
 
-            add_vector(d, (convert * aircraftNode->get_angular_velocity()), d, "angular_vel");
+            add_vector(d, get_angular_velocity_body_NED(), d, "angular_vel");
 
-            Eigen::Quaterniond quat =
-                    convert * (Eigen::Quaterniond) aircraftNode->get_ground_transform().rotation() * convert;
-
-            add_attitude(d, quat, d, "q");
+            add_attitude(d, get_quaternion_NED(), d, "q");
 
 
             int32_t size;

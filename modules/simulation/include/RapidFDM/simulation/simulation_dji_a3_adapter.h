@@ -28,6 +28,7 @@ using namespace RapidFDM;
 #include <websocketpp/config/asio_no_tls_client.hpp>
 #include <websocketpp/client.hpp>
 #include <functional>
+#include "simulation_hil_adapter.h"
 
 #include <iostream>
 
@@ -45,16 +46,12 @@ namespace RapidFDM
 {
     namespace Simulation
     {
-        class simulation_dji_a3_adapter
+        class simulation_dji_a3_adapter : simulation_hil_adapter
         {
         protected:
-            int total_tick_count = 0;
             client c_root;
             client * c_simulator = nullptr;
-            boost::asio::deadline_timer *timer = nullptr;
-    
-            AircraftNode * aircraft = nullptr;
-            boost::posix_time::milliseconds interval;
+
             websocketpp::connection_hdl sim_connection_hdl;
             float pwm[8] = {0};
             float RcA = 0, RcE = 0,RcR= 0,RcT = 0;
@@ -63,19 +60,15 @@ namespace RapidFDM
             std::string sim_uri;
             int dcount = 0;
             
-            float intial_lati = 0;
-            float intial_lon = 0;
         public:
             std::function<void(void)> * on_receive_pwm = nullptr;
             long simulator_tick = 0;
             bool motor_starter = false;
             bool sim_online = false;
             bool assiant_online = false;
-            SimulatorAircraft * sim_air = nullptr;
-            simulation_dji_a3_adapter(AircraftNode * aircraft);
-            
-            void tick();
-            
+            simulation_dji_a3_adapter(SimulatorAircraft * _sim_air);
+
+            virtual void tick_func() override ;
             
             void on_message_root(client *c, websocketpp::connection_hdl hdl, message_ptr msg);
             
@@ -93,17 +86,14 @@ namespace RapidFDM
             void try_connect_assistant();
             
             void try_connect_simulator();
+
+            virtual void push_json_to_app(rapidjson::Document & d) override ;
+
+            virtual bool enable_simulation() override;
+
+            virtual void update_before_sim(long tick) override ;
             
-            void add_values(rapidjson::Document & d);
-            
-            void main_thread()
-            {
-                new std::thread([&]{
-                    c_root.run();
-                });
-            }
-            
-            
+
         };
     }
 }

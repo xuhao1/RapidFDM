@@ -21,13 +21,14 @@ namespace RapidFDM
         bool SerialPort::start(std::string com_port_name, int baud_rate)
         {
             boost::system::error_code ec;
-            std::cout << "try to open" << com_port_name << std::endl;
+            std::cout << "try to open" << com_port_name << " with " << baud_rate << std::endl;
             if (port_) {
                 std::cout << "error : port is already opened..." << std::endl;
                 return false;
             }
             
             port_ = serial_port_ptr(new boost::asio::serial_port(io_service_));
+            port_->close();
             port_->open(com_port_name.c_str(), ec);
             if (ec) {
                 std::cout << "error : port_->open() failed...com_port_name="
@@ -98,7 +99,7 @@ namespace RapidFDM
             
             for (unsigned int i = 0; i < bytes_transferred; ++i) {
                 char c = read_buf_raw_[i];
-                printf("%c",c);
+                on_receive_char(c);
             }
             
             async_read_some_();

@@ -12,6 +12,7 @@ include_directories(./include
         ../../3rdparty/PhysX-3.3/PhysXSDK/Include/extensions
         ../../3rdparty/websocketpp
         ../../3rdparty/
+        ../../3rdparty/mavlink/include
         ../aerodynamics/include/
         ../control_system/include/
         ../network_protocol/include
@@ -31,6 +32,7 @@ set(SIMULATION_MODULE_SOURCES
         include/RapidFDM/simulation/simulation_dji_a3_adapter.h
         include/RapidFDM/simulation/simulation_hil_adapter.h
         src/simulation_hil_adapter.cpp
+        src/simulation_pixhawk_adapter.cpp
         )
 
 set(SIMULATION_MODULE_SOURCES_WS
