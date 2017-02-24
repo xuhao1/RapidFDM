@@ -6,14 +6,14 @@
   "mass_center" : [
     0,0,0
   ],
-  "D": 0.2286,
-  "max_rpm"  : 9000,
+  "D": 0.33,
+  "max_rpm"  : 7770,
   "direction" : -1,
   "inertial" : [1e-4,1e-4,1e-4],
-  "data_name" : "apcsf_9x6_kt0981_5022",
-  "prop_mixer_ratio" : 20.0,
+  "data_name" : "apcsp_11x3_3016ja_4006",
+  "freq_cut":5,
   "geometry" : {
     "type": "propeller",
-    "D" : 0.2286
+    "D" : 0.33
   }
 }

@@ -14,38 +14,18 @@ namespace RapidFDM
 {
     namespace Aerodynamics
     {
-        struct node_control_axis
-        {
-            BaseNode *node_ptr = nullptr;
-            std::string axis;
 
-            node_control_axis()
+        struct channel_to_control_mapper {
+            float coeff = 0;
+            float zero_pos = 0;
+            int channel = 0;
+            float default_value = 0;
+            float operator()(float v[])
             {
-            }
-
-            node_control_axis(BaseNode *_node_ptr, std::string _axis)
-            {
-                node_ptr = _node_ptr;
-                axis = _axis;
+                return v[channel] * coeff + zero_pos;
             }
         };
-
-        struct node_internal_state
-        {
-            BaseNode *node_ptr = nullptr;
-            std::string state;
-
-            node_internal_state()
-            {
-            }
-
-            node_internal_state(BaseNode *_node_ptr, std::string _state)
-            {
-                node_ptr = _node_ptr;
-                state = _state;
-            }
-        };
-
+        typedef std::map<std::string,channel_to_control_mapper> control_channel_map_def;
         //! This node stand for the base of a aircraft
         class AircraftNode : public BaseNode
         {
@@ -54,8 +34,9 @@ namespace RapidFDM
             std::map<std::string, BaseNode *> node_list;
             std::map<std::string, BaseJoint *> joint_list;
 
-            std::map<std::string, node_control_axis> control_axis_mapper;
-            std::map<std::string, node_internal_state> internal_state_mapper;
+            std::map<std::string, BaseControllableComponent*> control_axis_mapper;
+            std::map<std::string, BaseControllableComponent*> internal_state_mapper;
+            control_channel_map_def channel_mapper;
 
             //If enable static mode,all component in this aircraft will be static to the aircraft
             bool rigid_mode = false;
@@ -72,11 +53,14 @@ namespace RapidFDM
             
             Eigen::Vector3d sum_force;
             Eigen::Vector3d sum_torque;
+
+            void parse_channel_mapper(const rapidjson::Value & _json);
         public:
             AirState airState;
             BladeElementManager bladeElementManager;
             AircraftNode(const rapidjson::Value &_json);
 
+            void set_control_from_channels(float pwm[],int size);
 
             virtual int set_control_value(std::string name, double v) override;
 

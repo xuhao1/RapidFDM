@@ -8,20 +8,20 @@ let win;
 function createWindow() {
     let app_path = app.getAppPath();
     let aircraft = process.argv[2];
-    let aircraft_path = `${app_path}/../../build/bin/sample_data/aircrafts`;
+    let aircraft_path = `${app_path}/../../build/release/aircrafts`;
     win = new BrowserWindow({width: 1024, height: 768});
     global.sharedObj = {aircraftname : aircraft};
-   
+
 
     win.on('closed', () => {
         win = null;
     });
 
     const spawn = require('child_process').spawn;
-    var configure_server_path = `${app_path}/../../build/bin/rapidfdm_aerodynamics_configure_server`;
+    var configure_server_path = `${app_path}/../../build/release/bin/rapidfdm_aerodynamics_configure_server`;
     if(os.type() == "Windows_NT")
         configure_server_path = `${app_path}/../../build/bin/Release/rapidfdm_aerodynamics_configure_server`;
-    
+
     let rconfig = spawn(configure_server_path, [aircraft_path]);
     rconfig.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
@@ -30,11 +30,11 @@ function createWindow() {
     {
         console.log("launching simulator");
 
-        var simulator_path = `${app_path}/../../build/bin/rapidfdm_simulator_dji`;
+        var simulator_path = `${app_path}/../../build/release/bin/rapidfdm_simulator_dji`;
         if(os.type() == "Windows_NT")
             var simulator_path = `${app_path}/../../build/bin/Release/rapidfdm_simulator_dji`;
         r_sim = spawn(simulator_path, [aircraft_path+"/"+aircraft]);
-        
+
         r_sim.stdout.on('data', (data) => {
             console.log(`stdout: ${data}`);
         });
@@ -42,7 +42,7 @@ function createWindow() {
         r_sim.stderr.on('data', (data) => {
             console.log(`stdout: ${data}`);
         });
-        
+
         r_sim.on('close', (code) => {
             console.log(`child process exited with code ${code}`);
         });

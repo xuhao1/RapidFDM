@@ -139,6 +139,7 @@ namespace RapidFDM {
                     "tick": 60
                  */
 
+                dcount++;
                 if (total_tick_count % 200 == 0) {
                     printf("tick latency %ld sim:%ld fc %ld\n", this->simulator_tick - (int) (fast_value(d, "tick")),
                            this->simulator_tick, (int) (fast_value(d, "tick"))
@@ -152,11 +153,14 @@ namespace RapidFDM {
                 }
                 on_pwm_data_receieve(pwm, 8);
             }
+            else
+            {
+                std::cout << msg->get_payload() << std::endl;
+            }
 
             if (on_receive_pwm != nullptr) {
                 (*on_receive_pwm)();
             }
-            dcount++;
         }
 
         void simulation_dji_a3_adapter::push_json_to_app(rapidjson::Document &d) {

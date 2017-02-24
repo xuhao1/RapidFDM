@@ -170,6 +170,16 @@ namespace RapidFDM
                 this->source_document.CopyFrom(v, source_document.GetAllocator());
             }
 
+            double get_internal_state(std::string name) const
+            {
+                return this->get_internal_states().find(getUniqueID()+"/" + name)->second;
+            }
+
+
+            double get_control_value(std::string name) const
+            {
+                return this->get_control_axis().find(getUniqueID()+"/" + name)->second;
+            }
 
             virtual void brief()
             {

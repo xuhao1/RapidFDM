@@ -40,6 +40,8 @@ namespace RapidFDM
             virtual double getSide(ComponentData state, AirState airState) const override;
 
             virtual float get_flap_lift(ComponentData stats,AirState airState) const;
+
+            virtual float get_flap_drag(ComponentData stats,AirState airState) const;
             WingNode * get_wing_node() const;
 
 

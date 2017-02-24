@@ -26,6 +26,49 @@
     "attitude":[1,0,0,0]
   },
   "rigid_mode" : 1,
-  "total_mass" : 1.5,
-  "total_inertial":[0.1,0.1,0.1]
+  "total_mass" : 2.7,
+  "total_inertial":[0.5,0.5,1.0],
+  "mapper": {
+    "main_wing_0/flap_0": {
+      "coeff": 1.0,
+      "chn": 5
+    },
+    "main_wing_0/flap_1": {
+      "coeff": -1.0,
+      "chn": 6
+    },
+    "horizon_wing_0/flap_0": {
+      "coeff": 1.0,
+      "chn": 7
+    },
+    "horizon_wing_0/flap_1": {
+      "coeff": 1.0,
+      "chn": 7
+    },
+    "main_engine_0/thrust": {
+      "coeff": 0.5,
+      "zero_pos": 0.5,
+      "chn": 0
+    },
+    "main_engine_1/thrust": {
+      "coeff": 0.5,
+      "zero_pos": 0.5,
+      "chn": 1
+    },
+    "main_engine_2/thrust": {
+      "coeff": 0.5,
+      "zero_pos": 0.5,
+      "chn": 2
+    },
+    "main_engine_3/thrust": {
+      "coeff": 0.5,
+      "zero_pos": 0.5,
+      "chn": 3
+    },
+    "main_engine_5/thrust": {
+      "coeff": 0.5,
+      "zero_pos": 0.5,
+      "chn": 4
+    }
+  }
 }

@@ -26,5 +26,6 @@
   "cl0":0.17,
   "freq_cut":3,
   "maxdeflect" : 15,
-  "ctrlSurfFrac":0.15
+  "ctrlSurfFrac":0.15,
+  "cd_by_deg2" :2.2e-4
 }

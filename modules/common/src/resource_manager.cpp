@@ -33,9 +33,9 @@ namespace RapidFDM {
             }
 
 #ifdef __WIN32__
-            return resourceManager->exe_path() + "../data";
+            return resourceManager->exe_path() + "/../data/";
 #else
-            return resourceManager->exe_path() + "/data";
+            return resourceManager->exe_path() + "/../data/";
 #endif
         }
     }

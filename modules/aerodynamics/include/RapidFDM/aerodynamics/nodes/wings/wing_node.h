@@ -27,16 +27,15 @@ namespace RapidFDM {
                 {
                     if (getWing()->params.wingPart == 2)
                     {
-                        this->internal_states["flap_0"] = 0;
-                        this->internal_states["flap_1"] = 0;
-                        this->control_axis["flap_0"] = 0;
-                        this->control_axis["flap_1"] = 0;
-                        
+                        this->internal_states[getUniqueID()+"/flap_0"] = 0;
+                        this->internal_states[getUniqueID() + "/flap_1"] = 0;
+                        this->control_axis[getUniqueID() + "/flap_0"] = 0;
+                        this->control_axis[getUniqueID() + "/flap_1"] = 0;
                     }
                     else
                     {
-                        this->internal_states["flap"] = 0;
-                        this->control_axis["flap"] = 0;
+                        this->internal_states[getUniqueID() + "/flap"] = 0;
+                        this->control_axis[getUniqueID() + "/flap"] = 0;
                     }
                 }
                 this->freq_cut = fast_value(v,"freq_cut",3);

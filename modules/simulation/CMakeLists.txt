@@ -18,9 +18,7 @@ include_directories(./include
         ../network_protocol/include
         /usr/local/include
         ../common/include
-
         )
-
 
 set(SIMULATION_MODULE_SOURCES
         include/RapidFDM/simulation/simulator_world.h
@@ -57,3 +55,12 @@ target_link_libraries(rapidfdm_simulator_dji
 
 target_link_libraries(rapidfdm_simulator_pixhawk
         rapidfdm_simulator)
+
+install(TARGETS  rapidfdm_simulator rapidfdm_simulator_dji rapidfdm_simulator_pixhawk
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib/static)
+
+INSTALL (DIRECTORY ./include/
+        DESTINATION include/
+        FILES_MATCHING PATTERN "*.h*")

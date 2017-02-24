@@ -5,9 +5,6 @@
 #include <RapidFDM/simulation/simulation_hil_adapter.h>
 #include <thread>
 
-#define MIXER_VTOL
-//#define MIXER_GENERAL
-
 #define C_EARTH 6378137.0f
 
 namespace RapidFDM {
@@ -44,37 +41,7 @@ namespace RapidFDM {
         }
 
         void simulation_hil_adapter::on_pwm_data_receieve(float *pwm, int num) {
-
-#ifdef MIXER_GENERAL
-            aircraftNode->set_control_value("main_engine_0/thrust", (pwm[0] + 1) * 0.5);
-            aircraftNode->set_control_value("main_engine_1/thrust", (pwm[1] + 1) * 0.5);
-            aircraftNode->set_control_value("main_wing_0/flap_0",  pwm[2]);
-            aircraftNode->set_control_value("main_wing_0/flap_1", - pwm[5]);
-            aircraftNode->set_control_value("horizon_wing_0/flap_0", pwm[3]);
-            aircraftNode->set_control_value("horizon_wing_0/flap_1", pwm[3]);
-            aircraftNode->set_control_value("vertical_wing_0/flap", pwm[4]);
-
-#endif
-
-#ifdef MIXER_FLYINGWING
-            aircraftNode->set_control_value("main_engine_0/thrust", (pwm[0] + 1) * 0.5);
-            aircraftNode->set_control_value("main_wing_0/flap_0",  pwm[2]);
-            aircraftNode->set_control_value("main_wing_0/flap_1", - pwm[3]);
-            //aircraftNode->set_control_value("horizon_wing_0/flap_0", pwm[3]);
-            //aircraftNode->set_control_value("horizon_wing_0/flap_1", pwm[3]);
-            aircraftNode->set_control_value("vertical_wing_0/flap", pwm[4]);
-#endif
-
-#ifdef MIXER_VTOL
-            aircraftNode->set_control_value("main_engine_0/thrust", (pwm[0] + 1) * 0.5);
-            aircraftNode->set_control_value("main_engine_1/thrust", (pwm[1] + 1) * 0.5);
-            aircraftNode->set_control_value("main_engine_2/thrust", (pwm[2] + 1) * 0.5);
-            aircraftNode->set_control_value("main_engine_3/thrust", (pwm[3] + 1) * 0.5);
-            aircraftNode->set_control_value("main_engine_5/thrust", (pwm[4] + 1) * 0.5);
-            aircraftNode->set_control_value("main_wing_0/flap_0", +pwm[5]);
-            aircraftNode->set_control_value("main_wing_0/flap_1", -pwm[6]);
-#endif
-
+            aircraftNode->set_control_from_channels(pwm,num);
         }
 
         Eigen::Quaterniond simulation_hil_adapter::get_quaternion_NED() {

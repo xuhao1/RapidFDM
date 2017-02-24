@@ -17,11 +17,10 @@
   "Mac": 0.1,
   "nonSideAttach": 1,
   "wingPart": 0,
-  "enableControl": 1,
+  "enableControl": 0,
   "airfoil_name":"naca0015",
   "TaperRatio":0.6,
   "pieces":3,
   "MidChordSweep": 15,
-  "maxdeflect" : -10,
-  "freq_cut":3
+  "cl0":0
 }

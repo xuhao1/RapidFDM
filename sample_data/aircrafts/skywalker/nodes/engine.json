@@ -7,7 +7,7 @@
     0,0,0
   ],
   "D": 0.2286,
-  "max_rpm"  : 14500,
+  "max_rpm"  : 11000,
   "direction" : 1,
   "inertial" : [1e-4,1e-4,1e-4],
   "data_name" : "apcsf_9x6_kt0981_5022",

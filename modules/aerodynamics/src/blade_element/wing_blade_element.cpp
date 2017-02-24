@@ -73,7 +73,7 @@ namespace RapidFDM
         double WingBladeElement::getDrag(ComponentData state, AirState airState) const
         {
             double cd = get_cd(state, airState);
-            return cd * state.get_q_bar(airState) * this->Mac * this->element_span_length;
+            return cd * state.get_q_bar(airState) * this->Mac * this->element_span_length + get_flap_drag(state,airState);
         }
 
         double WingBladeElement::getSide(ComponentData state, AirState airState) const
@@ -91,23 +91,55 @@ namespace RapidFDM
                 if(wingGeometry->params.wingPart == 2) {
                     if (this->mid_span_length < 0) {
                         //LEFT SIDE
-                        internal = get_wing_node()->get_internal_states().find("flap_0")->second;
+                        internal = get_wing_node()->get_internal_state("flap_0");
                     }
                     else
                     {
                         //Right Side
-                        internal = get_wing_node()->get_internal_states().find("flap_1")->second;
+                        internal = get_wing_node()->get_internal_state("flap_1");
                     }
                 }
                 else {
-                    internal = get_wing_node()->get_internal_states().find("flap")->second;
+                    internal = get_wing_node()->get_internal_state("flap");
                 }
                 cl_by_control = internal * wingGeometry->params.cl_by_deg * wingGeometry->params.maxdeflect;
             }
 
+            double x = state.get_angle_of_attack(airState) * 180.0 / M_PI;
+            if (x  > wingGeometry->params.stall_angle || x < - wingGeometry->params.stall_angle) {
+                cl_by_control = 0;
+            }
             double res =  cl_by_control * state.get_q_bar(airState) * this->Mac * this->element_span_length * wingGeometry->params.ctrlSurfFrac;
             return res;
         }
+        float WingBladeElement::get_flap_drag(ComponentData state, AirState airState) const {
+            WingGeometry *wingGeometry = dynamic_cast<WingGeometry * >(geometry);
+            double cd_by_control = 0;
+            if (get_wing_node()->enableControl)
+            {
+                double internal = 0;
+                if(wingGeometry->params.wingPart == 2) {
+                    if (this->mid_span_length < 0) {
+                        //LEFT SIDE
+                        internal = get_wing_node()->get_internal_state("flap_0");
+                    }
+                    else
+                    {
+                        //Right Side
+                        internal = get_wing_node()->get_internal_state("flap_1");
+                    }
+                }
+                else {
+                    internal = get_wing_node()->get_internal_state("flap");
+                }
+                double alpha = internal * wingGeometry->params.maxdeflect;
+                cd_by_control = wingGeometry->params.cd_by_deg2 * alpha * alpha;
+            }
+
+            double res =  cd_by_control * state.get_q_bar(airState) * this->Mac * this->element_span_length * wingGeometry->params.ctrlSurfFrac;
+            return res;
+        }
+
 
         float WingBladeElement::get_cl(ComponentData state, AirState airState) const
         {

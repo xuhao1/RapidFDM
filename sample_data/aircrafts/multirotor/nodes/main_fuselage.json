@@ -1,10 +1,10 @@
 {
   "name": "main_fuselage",
-  "id" : "0",
+  "id": "0",
   "type": "aircraft",
   "mass": 1.0,
   "mass_center": [
-    0.27,
+    0,
     0,
     0
   ],
@@ -21,11 +21,47 @@
       0.05
     ],
     "transform": {
-      "vector": [0.6,0,0]
+      "vector": [
+        0.6,
+        0,
+        0
+      ]
     },
-    "attitude":[1,0,0,0]
+    "attitude": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "aera" : 0.01
   },
-  "rigid_mode" : 1,
-  "total_mass" : 1.5,
-  "total_inertial":[0.08,0.1,0.1]
+  "rigid_mode": 1,
+  "total_mass": 1.5,
+  "total_inertial": [
+    0.05,
+    0.05,
+    0.07
+  ],
+  "mapper": {
+    "main_engine_0/thrust": {
+      "coeff": 0.5,
+      "zero_pos": 0.5,
+      "chn": 0
+    },
+    "main_engine_1/thrust": {
+      "coeff": 0.5,
+      "zero_pos": 0.5,
+      "chn": 1
+    },
+    "main_engine_2/thrust": {
+      "coeff": 0.5,
+      "zero_pos": 0.5,
+      "chn": 2
+    },
+    "main_engine_3/thrust": {
+      "coeff": 0.5,
+      "zero_pos": 0.5,
+      "chn": 3
+    }
+  }
 }

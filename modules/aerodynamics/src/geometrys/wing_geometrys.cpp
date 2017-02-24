@@ -64,7 +64,7 @@ namespace RapidFDM
             params.cl0 = fast_value(v,"cl0",0.1f);
             params.cl_by_deg = fast_value(v,"cl_by_deg",0.1f);
             params.cd0 = fast_value(v,"cd0",0.01);
-            params.cd_by_deg2 = fast_value(v,"cd_by_deg",6e-5);
+            params.cd_by_deg2 = fast_value(v,"cd_by_deg2",2.2e-4);
             params.stall_angle = fast_value(v,"stall_angle",20);
             int pieces = fast_value(v,"pieces",5);
 

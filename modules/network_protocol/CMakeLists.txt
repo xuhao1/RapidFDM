@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-set(the_description "The Control System Module")
+set(the_description "The Network protocol Module")
 
 find_package(Boost REQUIRED
         COMPONENTS filesystem thread system)
@@ -16,6 +16,8 @@ include_directories(./include
         ../network_protocol/include
         /usr/local/Cellar/boost/1.60.0_2/include
         )
+
+file(COPY include/	  DESTINATION ${CMAKE_HEADERS_OUTPUT_DIRECTORY}/)
 
 set(NETWORK_PROTOCOL_MODULE_SOURCES
         include/RapidFDM/network_protocol/websocket_server.h

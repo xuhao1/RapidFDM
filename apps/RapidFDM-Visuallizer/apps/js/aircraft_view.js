@@ -31,7 +31,7 @@ var AircraftView = function (config) {
         // obj.set_value_test();
 
         obj.set_wind_speed(15, 0,0);
-        
+
         obj.a3_online = false;
 
 
@@ -110,12 +110,12 @@ AircraftView.prototype.receive_simulator_data = function () {
         this.ws_simulator = new WebSocket("ws://127.0.0.1:9093/output");
         this.ws_simulator.onmessage = function (event) {
             var data = eval(`(${event.data})`);
-            
+
             if (data.forces_torques !== undefined)
                 this.forces_torques = data.forces_torques;
             if (this.forces_torques !== undefined)
                 obj.forces_torques_callback(this.forces_torques);
-            
+
             var airstate = data.airstate;
 
             $("#air_speed").text(airstate.airspeed);
@@ -153,19 +153,19 @@ AircraftView.prototype.receive_simulator_data = function () {
                     data.a3_sim_status.PWM[i] = Math.floor(data.a3_sim_status.PWM[i]);
                 }
                 $("#pwm").text(JSON.stringify(data.a3_sim_status.PWM));
-                
+
                obj.a3_online = data.a3_sim_status.online > 0;
                 obj.input.a3_online = obj.a3_online;
-                
+
                 if (obj.input.a3_online) {
                     obj.input.throttle = data.a3_sim_status.RcT / 2 + 5000;
                     obj.input.aileron = data.a3_sim_status.RcA;
                     obj.input.rudder = data.a3_sim_status.RcR;
                     obj.input.elevator = data.a3_sim_status.RcE;
                 }
-                
+
             }
-                
+
         };
         this.ws_simulator.onopen = function (event) {
             obj.in_realtime_simulator = true;
@@ -173,10 +173,10 @@ AircraftView.prototype.receive_simulator_data = function () {
             log("open ws from simulator");
             obj.start_simulation({
                 transform: {
-                    attitude: [0,0, 0],
-                    vector: [0,0,1.0]
+                    attitude: [0,15, 0],
+                    vector: [0,0,3.0]
                 },
-                init_speed:0
+                init_speed:5
             });
         };
         this.ws_simulator.onclose = function (event) {
@@ -189,7 +189,7 @@ AircraftView.prototype.receive_simulator_data = function () {
     }
     catch (e)
     {
-        
+
     }
 };
 

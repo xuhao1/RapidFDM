@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 set(the_description "The Control System Module")
+
 include_directories(./include
         ../../include/
         ../../3rdparty/eigen3
@@ -17,3 +18,13 @@ set(CONTROL_SYSTEM_MODULE_SOURCES
         include/RapidFDM/control_system/control_system.h
         include/RapidFDM/control_system/mixer.h src/mixer.cpp)
 add_library(rapidfdm_control_system STATIC ${CONTROL_SYSTEM_MODULE_SOURCES})
+
+
+install(TARGETS  rapidfdm_control_system
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib/static)
+
+INSTALL (DIRECTORY ./include/
+        DESTINATION include/
+        FILES_MATCHING PATTERN "*.h*")

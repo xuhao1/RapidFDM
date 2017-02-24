@@ -21,7 +21,7 @@ namespace RapidFDM
         class BaseGeometry : public BaseComponent
         {
         protected:
-            float Aero = 0;
+            float aera = 0;
             /*!< aera for aerodynamics calucation */
             std::string type = "base";
             std::vector<BaseBladeElement *> blades;

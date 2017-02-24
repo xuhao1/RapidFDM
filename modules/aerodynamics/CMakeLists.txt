@@ -40,8 +40,6 @@ set(AIRDYNAMICS_MODULE_SOURCES
         include/RapidFDM/aerodynamics/geometrys/standard_geometrys.h
         include/RapidFDM/aerodynamics/joints/fixed_joint.h
         include/RapidFDM/aerodynamics/joints/joint_helper.h
-        include/RapidFDM/aerodynamics/aerodynamics_configurer.h
-        src/aerodynamics_configurer.cpp
         src/geometrys/wing_geometrys.cpp
         src/geometrys/base_geometry.cpp
         include/RapidFDM/aerodynamics/blade_element/wing_blade_element.h
@@ -71,3 +69,12 @@ target_link_libraries(rapidfdm_aerodynamics rapidfdm_common)
 
 add_executable(rapidfdm_aerodynamics_configure_server ${AERODYNAMICS_CONFIGURER_SOURCES})
 target_link_libraries(rapidfdm_aerodynamics_configure_server rapidfdm_aerodynamics rapidfdm_network_protocol)
+
+install(TARGETS  rapidfdm_aerodynamics rapidfdm_aerodynamics_configure_server
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib/static)
+
+INSTALL (DIRECTORY ./include/
+        DESTINATION include/
+        FILES_MATCHING PATTERN "*.h*")

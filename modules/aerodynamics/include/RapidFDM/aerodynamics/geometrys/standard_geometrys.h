@@ -20,7 +20,7 @@ namespace RapidFDM
                     BaseGeometry(v)
             {
                 box_scale = fast_vector3(v, "scale");
-                this->Aero = box_scale.y() * box_scale.z();
+                this->aera = fast_value(v,"aera");
                 reference_aera.x() = box_scale.y() * box_scale.z();
                 reference_aera.y() = box_scale.x() * box_scale.z();
                 reference_aera.z() = box_scale.x() * box_scale.y();
@@ -28,23 +28,20 @@ namespace RapidFDM
 
             virtual double getLift(ComponentData state, AirState airState) const override
             {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
-                return 0;
+                double airspeed = state.get_relative_airspeed(airState).z();
+                return  - airspeed*fabs(airspeed)*0.5*1.29f * aera * 1.06f;
             }
 
             virtual double getDrag(ComponentData state, AirState airState) const override
             {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
-                return 0;
+                double airspeed = state.get_relative_airspeed(airState).x();
+                return - airspeed*fabs(airspeed)*0.5*1.29f * aera * 1.06f;
             }
 
             virtual double getSide(ComponentData state, AirState airState) const override
             {
-//                std::cerr << "Code not wrote" << std::endl;
-//                abort();
-                return 0;
+                double airspeed = state.get_relative_airspeed(airState).y();
+                return - airspeed*fabs(airspeed)*0.5*1.29f * aera * 1.06f;
             }
 
             virtual void brief() override

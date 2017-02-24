@@ -57,7 +57,6 @@ namespace RapidFDM {
             boost::asio::deadline_timer *simulation_timer = nullptr;
             boost::asio::deadline_timer *output_timer = nullptr;
             float tick_time;
-            bool simulator_running = false;
             websocketpp::lib::asio::io_service realtime_calc_io_service;
 
             std::mutex phys_engine_lock;

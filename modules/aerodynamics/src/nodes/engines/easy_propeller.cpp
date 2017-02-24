@@ -10,8 +10,7 @@ namespace RapidFDM {
     namespace Aerodynamics {
         float EasyPropellerNode::getJ(const ComponentData &data, const AirState &airState) const {
             double wind_speed = -get_air_velocity(data, airState).x();
-            auto pair = internal_states.find("thrust");
-            double n = pair->second * max_n;
+            double n = get_internal_state("thrust") * max_n;
             if (wind_speed < 0.01 || n < 1)
                 return 0;
             double J = wind_speed / n / D;
@@ -28,14 +27,12 @@ namespace RapidFDM {
         }
 
         double EasyPropellerNode::get_propeller_force(ComponentData data, AirState airState) const {
-            auto pair = internal_states.find("thrust");
-            double n = pair->second * max_n;
+            double n = get_internal_state("thrust") * max_n;
             return get_ct(data, airState) * airState.rho * n * n * pow(D, 4);
         }
 
         double EasyPropellerNode::get_propeller_torque(ComponentData data, AirState airState) const {
-            auto pair = internal_states.find("thrust");
-            double n = pair->second * max_n;
+            double n = get_internal_state("thrust") * max_n;
             return get_cq(data, airState) * airState.rho * n * n * pow(D, 5) * prop_dir;
         }
 
@@ -63,10 +60,9 @@ namespace RapidFDM {
             this->freq_cut = fast_value(document, "freq_cut", 5);
             std::string data_root = RapidFDM::Common::get_data_path();
             std::ifstream ifs(data_root + "/propellers/" + data_name + ".txt");
-//            printf("parsing propeller data\n");
             std::vector<double> jdata, ctdata, cqdata;
             if (!ifs.is_open()) {
-                std::cerr << "Error while open prop data file";
+                std::cerr << "Error while open prop data file on "<< data_root + "/propellers/" + data_name + ".txt\n";
                 std::abort();
             } else {
                 std::string tmp;
@@ -90,8 +86,8 @@ namespace RapidFDM {
 
                 Cq_spline.set_points(jdata, cqdata);
             }
-            this->control_axis["thrust"] = 0;
-            this->internal_states["thrust"] = 0;
+            this->control_axis[getUniqueID() + "/thrust"] = 0;
+            this->internal_states[getUniqueID() + "/thrust"] = 0;
 
         }
 
