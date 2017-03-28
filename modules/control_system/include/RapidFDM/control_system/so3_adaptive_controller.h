@@ -9,7 +9,7 @@
 #include "mat.h"
 
 extern "C" {
-#include "L1Step2ndRoll.h"
+#include "L1ControlAttitude.h"
 };
 
 
@@ -21,7 +21,7 @@ namespace RapidFDM
         public:
 
             AdaptiveSysT sys = {0};
-            AdaptiveCtrlT ctrlRoll = {0};
+            AttitudeCtrlT ctrlAttitude;
             MATFile *pmat;
 
             std::vector<AdaptiveCtrlT> ctrl_log;

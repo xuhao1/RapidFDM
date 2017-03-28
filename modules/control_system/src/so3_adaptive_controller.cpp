@@ -2,10 +2,9 @@
 // Created by xuhao on 2017/3/23.
 //
 #include <RapidFDM/control_system/so3_adaptive_controller.h>
-#include <L1Step2ndRoll.h>
-#include <L1Step2ndRoll_types.h>
 #include <ctime>
 #include <iomanip>
+#include <L1ControlAttitude_types.h>
 
 namespace RapidFDM {
     namespace ControlSystem {
@@ -20,7 +19,8 @@ namespace RapidFDM {
                 BaseController(_aircraftNode) {
             roll_sp = 0;
             pitch_sp = 0;
-            L1UpdateRollParams(7.0, 1.0, 32, 5.0, 1000, &ctrlRoll);
+            L1UpdateRollParams(7.0, 1.0, 32, 5.0, 1000, &(ctrlAttitude.RollCtrl));
+            L1UpdateRollParams(3.0, 1.0, 32, 5.0, 2000, &(ctrlAttitude.PitchCtrl));
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -40,20 +40,18 @@ namespace RapidFDM {
             sys.quat[1] = quat.x();
             sys.quat[2] = quat.y();
             sys.quat[3] = quat.z();
-            L1Step2ndRoll(deltatime, &ctrlRoll, &sys, roll_sp * M_PI / 6, &ctrlRoll);
+            double u_roll = 0 ,u_pitch = 0;
+            L1ControlAttitudeEuler(&ctrlAttitude,deltatime,-pitch_sp,roll_sp,&sys,&u_roll,&u_pitch);
 
-            if (isnan(ctrlRoll.u)) {
-                ctrlRoll.u = 0;
-            }
-            pwm[0] = (float) ctrlRoll.u;
-            pwm[1] = (float) pitch_sp;
+            pwm[0] = (float) u_roll;
+            pwm[1] = - (float) u_pitch;
             pwm[2] = (float) throttle_sp;
             pwm[3] = (float) yaw_sp;
 
 
             aircraftNode->set_control_from_channels(pwm, 8);
 
-            ctrl_log.push_back(ctrlRoll);
+            ctrl_log.push_back(ctrlAttitude.PitchCtrl);
             sys_log.push_back(sys);
 
             if (count % 200 == 0) {

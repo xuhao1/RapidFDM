@@ -18,7 +18,7 @@ include_directories(./include
         ../network_protocol/include
         /usr/local/include
         ../common/include
-        ../control_system/so3_adaptive_gen/codegen/lib/L1Step2ndRoll
+        ../control_system/so3_adaptive_gen/codegen/lib/L1ControlAttitude
         /Applications/MATLAB_R2016b.app/extern/include
         )
 
