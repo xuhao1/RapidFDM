@@ -53,12 +53,11 @@ namespace RapidFDM
 
             SimulatorAircraft *create_aircraft(
                     Aerodynamics::AircraftNode *_aircraftNode,
-                    ControlSystem::BaseController *_baseController,
                     PxTransform init_transform = PxTransform::createIdentity(),
                     double init_speed = 0
             )
             {
-                aircraft = new SimulatorAircraft(_aircraftNode, _baseController, this, init_transform,init_speed);
+                aircraft = new SimulatorAircraft(_aircraftNode, this, init_transform,init_speed);
                 return aircraft;
             }
         };

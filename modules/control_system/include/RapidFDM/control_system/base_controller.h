@@ -13,12 +13,23 @@ namespace RapidFDM
     {
         class BaseController{
         public:
+
+            double roll_sp = 0;
+            double pitch_sp = 0;
+            double throttle_sp = 0;
+            double yaw_sp = 0;
+
+            float pwm[8] ={0};
+
+            Eigen::Quaterniond quat = Eigen::Quaterniond::Identity();
+            Eigen::Vector3d angular_rate = Eigen::Vector3d(0,0,0);
+
             Aerodynamics::AircraftNode * aircraftNode;
             BaseController(Aerodynamics::AircraftNode * _aircraftNode)
             {
                 this->aircraftNode = _aircraftNode;
             }
-            void control_step(float deltatime)
+            virtual void control_step(float deltatime)
             {
 
             }

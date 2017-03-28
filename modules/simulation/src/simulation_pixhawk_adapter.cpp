@@ -68,7 +68,7 @@ namespace RapidFDM {
             write_to_client(mavlink_send_fc_buffer, size);
         }
 
-        void simulation_pixhawk_adapter::tick_func() {
+        void simulation_pixhawk_adapter::tick_func(float dt,long tick) {
             if (system_online) {
                 if (total_tick_count % 200 == 0) {
                     if (!simulator_online) {
@@ -92,10 +92,6 @@ namespace RapidFDM {
                     printf("System offline %d\n", total_tick_count);
                 }
             }
-        }
-
-        void simulation_pixhawk_adapter::update_before_sim(long tick) {
-
         }
 
         bool simulation_pixhawk_adapter::enable_simulation() {

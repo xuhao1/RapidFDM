@@ -29,12 +29,12 @@ var DroneDisplayCameraController = function (camera) {
     let obj = this;
     document.addEventListener('keydown', function (event) {
         switch (event.keyCode) {
-            // case 187:
-            //     obj.zoom(-1);
-            //     break;
-            // case 189:
-            //     obj.zoom(1);
-            //     break;
+             case 187:
+                 obj.zoom(-1);
+                 break;
+             case 189:
+                 obj.zoom(1);
+                 break;
             case 191:
                 obj.leftright(1);
                 break;
@@ -92,7 +92,7 @@ DroneDisplayCameraController.prototype.update = function () {
 
         //Lookat must be after position
         var target = new THREE.Vector3(
-            this.target.position.x,
+            this.target.position.x + 0.4,
             this.target.position.y,
             this.target.position.z
         );

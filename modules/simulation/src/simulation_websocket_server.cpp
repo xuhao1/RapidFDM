@@ -1,4 +1,5 @@
 #include <RapidFDM/simulation/simulation_websocket_server.h>
+#include <RapidFDM/simulation/simulation_sitl_adapter.h>
 
 using namespace RapidFDM::NetworkProtocol;
 using namespace RapidFDM::Simulation;
@@ -49,12 +50,11 @@ namespace RapidFDM {
             aircraftNode = parser1.get_aircraft_node();
             assert(aircraftNode != nullptr);
 
-            ControlSystem::BaseController *baseController = new ControlSystem::BaseController(aircraftNode);
-            simulatorAircraft = simulatorWorld.create_aircraft(aircraftNode, baseController);
+            simulatorAircraft = simulatorWorld.create_aircraft(aircraftNode);
 
             init_ws_json_handler();
 
-            this->tick_time = (int)(1000.0 / hil_rate);
+            this->tick_time = (int) (1000.0 / hil_rate);
 
             output_timer = new boost::asio::deadline_timer(*this->io_service_ptr, output_interval);
             output_timer->async_wait([&](const boost::system::error_code &) {
@@ -71,11 +71,13 @@ namespace RapidFDM {
                     "start", [&](const rapidjson::Value &value) {
                         Eigen::Affine3d init_transform = fast_transform(value, "init_transform");
                         auto init_trans = transform_e2p(init_transform);
-                        printf("init pos %f %f %f\n", init_trans.p.x, init_trans.p.y, init_trans.p.z);
+                        printf("Init pos %f %f %f\n", init_trans.p.x, init_trans.p.y, init_trans.p.z);
                         double init_speed = fast_value(value, "init_speed");
                         phys_engine_lock.lock();
                         this->simulatorAircraft->reset_aircraft(transform_e2p(init_transform), init_speed);
                         phys_engine_lock.unlock();
+
+                        printf("Simulation start!!\n");
 
                     });
 
@@ -101,6 +103,21 @@ namespace RapidFDM {
                     aircraftNode->set_control_value(
                             itr->name.GetString(), itr->value.GetDouble()
                     );
+                }
+            });
+
+            handler_realtime_output->add_json_handler("set_channel_value", [&](const rapidjson::Value &value) {
+                if (!value.IsArray())
+                    return;
+                const rapidjson::Value &array = value;
+                float pwm[8] = {0};
+                for (int i = 0; i < 8; i++) {
+                    pwm[i] = (float) fast_value(value, i, 0);
+                }
+
+                simulation_sitl_adapter *sitl = dynamic_cast <simulation_sitl_adapter *>(hil_adapter);
+                if (sitl != nullptr) {
+                    sitl->handle_chn_from_joystick(pwm, 8);
                 }
             });
 
@@ -187,7 +204,6 @@ namespace RapidFDM {
             if (hil_adapter != nullptr) {
                 if (hil_adapter->enable_simulation()) {
                     runninged_tick++;
-                    hil_adapter->update_before_sim(runninged_tick);
                     simulatorWorld.Step(ticktime);
                 }
             } else {

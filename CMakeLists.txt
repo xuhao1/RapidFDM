@@ -57,3 +57,11 @@ INSTALL (DIRECTORY ./data/
 INSTALL (DIRECTORY ./sample_data/aircrafts/
 		DESTINATION aircrafts/
 		)
+
+
+INSTALL (DIRECTORY ./apps/RapidFDM-Visuallizer
+		DESTINATION ./
+		)
+
+INSTALL(PROGRAMS ./apps/RapidFDM-Visuallizer/rapidfdm
+		DESTINATION ./)

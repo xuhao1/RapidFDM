@@ -24,12 +24,11 @@ namespace RapidFDM
     {
         SimulatorAircraft::SimulatorAircraft(
                 Aerodynamics::AircraftNode *_aircraftNode,
-                ControlSystem::BaseController *_baseController,
                 SimulatorWorld *_simulator,
                 PxTransform init_trans,
                 double init_speed
         ) :
-                aircraftNode(_aircraftNode), baseController(_baseController)
+                aircraftNode(_aircraftNode)
         {
 
             pxScene = _simulator->pxScene;
@@ -38,7 +37,6 @@ namespace RapidFDM
             assert(pxScene != nullptr);
             assert(mPhysics != nullptr);
             assert(aircraftNode != nullptr);
-            assert(baseController != nullptr);
             printf("Construct simulator aircraft %s \n", aircraftNode->getName().c_str());
             construct_rigid_dynamics_from_aircraft();
             printf("Construct simulator success %s \n", aircraftNode->getName().c_str());

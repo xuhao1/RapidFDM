@@ -41,7 +41,7 @@ namespace RapidFDM {
         protected:
             virtual void send_realtime_data();
 
-            virtual void tick_func() override;
+            virtual void tick_func(float dt,long tick) override;
 
             void send_mavlink_msg_to_fc(mavlink_message_t *msg);
 
@@ -51,8 +51,6 @@ namespace RapidFDM {
 
         public:
             simulation_pixhawk_adapter(SimulatorAircraft *simulatorAircraft);
-
-            virtual void update_before_sim(long tick) override;
 
             virtual bool enable_simulation() override;
 

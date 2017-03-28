@@ -32,11 +32,8 @@ namespace RapidFDM {
                 std::abort();
             }
 
-#ifdef __WIN32__
-            return resourceManager->exe_path() + "/../data/";
-#else
-            return resourceManager->exe_path() + "/../data/";
-#endif
+//            return resourceManager->exe_path() + "/../data/";
+            return "/Users/xuhao/Develop/FixedwingProj/RapidFDM/build/release/data";
         }
     }
 }

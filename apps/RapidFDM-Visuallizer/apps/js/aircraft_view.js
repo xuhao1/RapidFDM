@@ -145,24 +145,24 @@ AircraftView.prototype.receive_simulator_data = function () {
                  Z:${(data.transform.vector[2]).toFixed(1)}`
             );
 
-            if (data.a3_sim_status !== undefined)
+            if (data.sim_status !== undefined)
             {
-                obj.input.use_a3 = true;
                 for (var i = 0 ;i < 8 ;i ++)
                 {
-                    data.a3_sim_status.PWM[i] = Math.floor(data.a3_sim_status.PWM[i]);
+                    data.sim_status.PWM[i] = Math.floor(data.sim_status.PWM[i]);
                 }
-                $("#pwm").text(JSON.stringify(data.a3_sim_status.PWM));
+                $("#pwm").text(JSON.stringify(data.sim_status.PWM));
 
-               obj.a3_online = data.a3_sim_status.online > 0;
-                obj.input.a3_online = obj.a3_online;
 
-                if (obj.input.a3_online) {
-                    obj.input.throttle = data.a3_sim_status.RcT / 2 + 5000;
-                    obj.input.aileron = data.a3_sim_status.RcA;
-                    obj.input.rudder = data.a3_sim_status.RcR;
-                    obj.input.elevator = data.a3_sim_status.RcE;
-                }
+                // obj.input.use_a3 = true;
+                // obj.a3_online = data.a3_sim_status.online > 0;
+                //  obj.input.a3_online = obj.a3_online;
+                // if (obj.input.a3_online) {
+                //     obj.input.throttle = data.a3_sim_status.RcT / 2 + 5000;
+                //     obj.input.aileron = data.a3_sim_status.RcA;
+                //     obj.input.rudder = data.a3_sim_status.RcR;
+                //     obj.input.elevator = data.a3_sim_status.RcE;
+                // }
 
             }
 
@@ -173,8 +173,8 @@ AircraftView.prototype.receive_simulator_data = function () {
             log("open ws from simulator");
             obj.start_simulation({
                 transform: {
-                    attitude: [0,15, 0],
-                    vector: [0,0,3.0]
+                    attitude: [0,0, 0],
+                    vector: [0,0,100.00]
                 },
                 init_speed:5
             });
@@ -393,8 +393,8 @@ AircraftView.prototype.set_internal_state_value = function (name, v) {
 
 AircraftView.prototype.set_value_test = function () {
     let obj = this;
-    this.set_internal_state_value("main_wing_0/flap_0", 1);
-    this.set_internal_state_value("main_wing_0/flap_1", 1);
+    // this.set_internal_state_value("main_wing_0/flap_0", 1);
+    // this.set_internal_state_value("main_wing_0/flap_1", 1);
     this.get_internal_states_list();
 };
 

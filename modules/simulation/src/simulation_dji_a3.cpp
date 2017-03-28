@@ -108,7 +108,8 @@ namespace RapidFDM {
 
         }
 
-        void simulation_dji_a3_adapter::tick_func() {
+        void simulation_dji_a3_adapter::tick_func(float dt,long tick) {
+            this->simulator_tick = tick;
             if (total_tick_count % 200 == 0) {
                 try_connect_assistant();
                 printf("time: %f d tick %d\n", total_tick_count / 200.0, dcount);
@@ -142,7 +143,7 @@ namespace RapidFDM {
                 dcount++;
                 if (total_tick_count % 200 == 0) {
                     printf("tick latency %ld sim:%ld fc %ld\n", this->simulator_tick - (int) (fast_value(d, "tick")),
-                           this->simulator_tick, (int) (fast_value(d, "tick"))
+                           this->simulator_tick, (long) (fast_value(d, "tick"))
                     );
                 }
 
@@ -254,8 +255,5 @@ namespace RapidFDM {
             return (this->motor_starter && this->assiant_online);
         }
 
-        void simulation_dji_a3_adapter::update_before_sim(long tick) {
-            this->simulator_tick = tick;
-        }
     }
 }

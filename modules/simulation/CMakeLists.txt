@@ -18,7 +18,11 @@ include_directories(./include
         ../network_protocol/include
         /usr/local/include
         ../common/include
+        ../control_system/so3_adaptive_gen/codegen/lib/L1Step2ndRoll
+        /Applications/MATLAB_R2016b.app/extern/include
         )
+
+link_directories(/Applications/MATLAB_R2016b.app/bin/maci64)
 
 set(SIMULATION_MODULE_SOURCES
         include/RapidFDM/simulation/simulator_world.h
@@ -31,7 +35,9 @@ set(SIMULATION_MODULE_SOURCES
         include/RapidFDM/simulation/simulation_hil_adapter.h
         src/simulation_hil_adapter.cpp
         src/simulation_pixhawk_adapter.cpp
-        include/RapidFDM/simulation/simulation_websocket_server.h)
+        include/RapidFDM/simulation/simulation_websocket_server.h
+        src/simulation_sitl_adapter.cpp
+        )
 
 
 set(SIMULATION_MODULES_TESTS
@@ -41,6 +47,7 @@ add_library(rapidfdm_simulator STATIC ${SIMULATION_MODULE_SOURCES})
 
 add_executable(rapidfdm_simulator_dji src/simulator_dji.cpp)
 add_executable(rapidfdm_simulator_pixhawk src/simulator_pixhawk.cpp)
+add_executable(rapidfdm_simulator_sitl src/simulator_sitl.cpp)
 
 target_link_libraries(rapidfdm_simulator
         ${Boost_LIBRARIES}
@@ -56,7 +63,10 @@ target_link_libraries(rapidfdm_simulator_dji
 target_link_libraries(rapidfdm_simulator_pixhawk
         rapidfdm_simulator)
 
-install(TARGETS  rapidfdm_simulator rapidfdm_simulator_dji rapidfdm_simulator_pixhawk
+target_link_libraries(rapidfdm_simulator_sitl
+        rapidfdm_simulator rapidfdm_control_system mat mx)
+
+install(TARGETS  rapidfdm_simulator rapidfdm_simulator_dji rapidfdm_simulator_pixhawk rapidfdm_simulator_sitl
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib/static)

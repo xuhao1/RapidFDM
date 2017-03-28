@@ -68,7 +68,7 @@ namespace RapidFDM
             bool assiant_online = false;
             simulation_dji_a3_adapter(SimulatorAircraft * _sim_air);
 
-            virtual void tick_func() override ;
+            virtual void tick_func(float dt,long tick) override ;
             
             void on_message_root(client *c, websocketpp::connection_hdl hdl, message_ptr msg);
             
@@ -90,9 +90,6 @@ namespace RapidFDM
             virtual void push_json_to_app(rapidjson::Document & d) override ;
 
             virtual bool enable_simulation() override;
-
-            virtual void update_before_sim(long tick) override ;
-            
 
         };
     }

@@ -4,7 +4,7 @@
   "type": "aircraft",
   "mass": 1.0,
   "mass_center": [
-    0.27,
+    0.25,
     0,
     0
   ],
@@ -27,5 +27,32 @@
   },
   "rigid_mode" : 1,
   "total_mass" : 0.7,
-  "total_inertial":[0.04,0.02,0.1]
+  "total_inertial":[0.04,0.02,0.1],
+  "mapper": {
+    "main_wing_0/flap_0": {
+      "coeff": 1.0,
+      "chn": 0
+    },
+    "main_wing_0/flap_1": {
+      "coeff": -1.0,
+      "chn": 0
+    },
+    "horizon_wing_0/flap_0": {
+      "coeff": 1.0,
+      "chn": 1
+    },
+    "horizon_wing_0/flap_1": {
+      "coeff": 1.0,
+      "chn": 1
+    },
+    "vertical_wing_0/flap": {
+      "coeff": 1.0,
+      "chn": 3
+    },
+    "main_engine_0/thrust": {
+      "coeff": 0.5,
+      "zero_pos": 0.5,
+      "chn": 2
+    }
+  }
 }

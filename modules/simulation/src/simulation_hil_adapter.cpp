@@ -24,7 +24,7 @@ namespace RapidFDM {
 
             total_tick_count ++;
 
-            tick_func();
+            tick_func(interval.total_milliseconds(),total_tick_count);
 
             timer->async_wait([&](const boost::system::error_code &) {
                 this->tick();

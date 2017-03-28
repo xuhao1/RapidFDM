@@ -42,15 +42,13 @@ namespace RapidFDM
             d->SetArray();
 
             for (auto pair:blade_elements) {
+                AirState airState = *pair.second;
+                BaseBladeElement * blade =pair.first;
+                ComponentData data = pair.first->get_seted_component_data();
+                Eigen::Matrix3d convert_coord = blade->get_body_transform().linear();
+                Eigen::Vector3d force_body = convert_coord *blade->get_aerodynamics_force(data,airState);
                 rapidjson::Value object(rapidjson::kObjectType);
-                BaseBladeElement *blade = pair.first;
-                AirState *second = pair.second;
-                Eigen::Vector3d force = blade->get_aerodynamics_force(
-                        blade->get_component_data_from_geometry(),
-                        *second
-                );
-                force = blade->get_ground_transform().linear() * force;
-                add_vector(object, force, *d, "force");
+                add_vector(object, force_body, *d, "force");
                 Eigen::Vector3d location = (Eigen::Vector3d)blade->get_body_transform().translation();
                 add_vector(object,location,*d,"location");
                 d->PushBack(object,d->GetAllocator());

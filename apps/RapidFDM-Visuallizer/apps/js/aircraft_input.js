@@ -96,10 +96,11 @@ AircraftInput.prototype.update = function () {
         var dt = this.delatatime;
         var gamepad = this.get_gamepad();
         if (gamepad !== undefined) {
-            this.aileron = gamepad.axes[2] * 10000;
-            this.elevator = gamepad.axes[3] * 10000;
+            //console.log(gamepad.axes);
+            this.aileron = gamepad.axes[3] * 10000;
+            this.elevator = - gamepad.axes[4] * 10000;
             this.rudder = gamepad.axes[0] * 10000;
-            this.d_throttle = -gamepad.buttons[6].value * 5000 + gamepad.buttons[7].value * 5000;
+            this.d_throttle = - gamepad.axes[1] * 10000;
         }
         else {
             this.d_elevator = this.d_elevator * this.d_axis_keyboard_ratio;
@@ -120,37 +121,33 @@ AircraftInput.prototype.update = function () {
             if (this.throttle > 10000) {
                 this.throttle = 10000;
             }
-            else if (this.throttle < 0) {
-                this.throttle = 0;
+            else if (this.throttle < -10000) {
+                this.throttle = -10000;
             }
         }
         try {
             if (this.aircraftview.in_realtime_simulator) {
                 this.aircraftview.ws_simulator.send(JSON.stringify({
-                    opcode: "set_control_value",
-                    data: {
-                        "horizon_wing_0/flap_0": this.elevator / 10000,
-                        "horizon_wing_0/flap_1": this.elevator / 10000,
-                        "vertical_wing_0/flap": this.rudder / 10000,
-                        "main_wing_0/flap_0": +this.aileron / 10000 - this.elevator / 10000,
-                        "main_wing_0/flap_1": -this.aileron / 10000 - this.elevator / 10000 ,
-                        "main_engine_0/thrust": Math.sqrt(this.throttle / 10000)
-                    }
+                    opcode: "set_channel_value",
+                    data: [
+                        this.aileron / 10000,
+                        this.elevator / 10000,
+                        this.throttle / 10000,
+                        this.rudder / 10000
+                    ]
                 }));
 
             }
         }
-        catch (e)
-        {
+        catch (e) {
         }
     }
     else {
-        if (this.a3_online){
+        if (this.a3_online) {
             $("#gamepad_connection").text("A3 connected");
             $("#gamepad_connection").css("color", "green");
         }
-        else 
-        {
+        else {
             $("#gamepad_connection").text("A3 disconnected");
             $("#gamepad_connection").css("color", "red");
         }
@@ -159,10 +156,10 @@ AircraftInput.prototype.update = function () {
     try {
 
         $("#left_game_bar").css("left", this.rudder / 4000 + 2.35 + "em");
-        $("#left_game_bar").css("bottom", this.elevator / 4000 + 2 + "em");
+        $("#left_game_bar").css("bottom", this.throttle / 4000 + 2 + "em");
 
         $("#right_game_bar").css("left", this.aileron / 4000 + 2.35 + "em");
-        $("#right_game_bar").css("bottom", this.throttle / 2000 - 0.35 + "em");
+        $("#right_game_bar").css("bottom", this.elevator / 4000 + 2 + "em");
 
 
     }

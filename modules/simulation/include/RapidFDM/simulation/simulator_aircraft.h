@@ -43,7 +43,6 @@ namespace RapidFDM
         protected:
 
             Aerodynamics::AircraftNode *aircraftNode = nullptr;
-            ControlSystem::BaseController *baseController = nullptr;
             std::map<BaseNode *, PxRigidDynamic *> nodes;
             std::map<BaseJoint *, PxJoint *> joints;
             PxScene *pxScene = nullptr;
@@ -58,7 +57,6 @@ namespace RapidFDM
 
             SimulatorAircraft(
                     Aerodynamics::AircraftNode *_aircraftNode,
-                    ControlSystem::BaseController *_baseController,
                     SimulatorWorld *_simulator,
                     PxTransform init_trans = PxTransform::createIdentity(),
                     double init_speed = 0

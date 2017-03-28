@@ -31,8 +31,9 @@ namespace RapidFDM
             double intial_lati = 0;
             double intial_lon = 0;
 
-            virtual  void tick_func() = 0;
+            virtual  void tick_func(float dt,long tick) = 0;
 
+        public:
             virtual Eigen::Quaterniond get_quaternion_NED();
 
             virtual Eigen::Vector3d get_angular_velocity_body_NED();
@@ -45,21 +46,15 @@ namespace RapidFDM
 
             virtual Eigen::Vector3d get_ground_velocity_NED();
 
-        public:
             virtual void main_thread();
             simulation_hil_adapter(SimulatorAircraft * _sim_air, float deltatime = 5);
 
             virtual void on_pwm_data_receieve(float * pwm,int num);//PWM from 0-100
 
-            virtual void update_before_sim(long tick) = 0;
-
             virtual bool enable_simulation() = 0;
 
 
-            virtual void push_json_to_app(rapidjson::Document & d)
-            {
-
-            }
+            virtual void push_json_to_app(rapidjson::Document & d) = 0;
         };
     }
 }
