@@ -69,22 +69,24 @@ namespace RapidFDM {
 
             handler_realtime_output->add_json_handler(
                     "start", [&](const rapidjson::Value &value) {
+                        started = true;
                         Eigen::Affine3d init_transform = fast_transform(value, "init_transform");
                         auto init_trans = transform_e2p(init_transform);
-                        printf("Init pos %f %f %f\n", init_trans.p.x, init_trans.p.y, init_trans.p.z);
                         double init_speed = fast_value(value, "init_speed");
+                        printf("Init pos %f %f %f speed %f\n", init_trans.p.x, init_trans.p.y, init_trans.p.z,init_speed);
                         phys_engine_lock.lock();
                         this->simulatorAircraft->reset_aircraft(transform_e2p(init_transform), init_speed);
                         phys_engine_lock.unlock();
-
                         printf("Simulation start!!\n");
 
                     });
 
             handler_realtime_output->add_json_handler("pause", [&](const rapidjson::Value &value) {
+                started = false;
                 printf("Trying to pause simulator \n");
             });
             handler_realtime_output->add_json_handler("resume", [&](const rapidjson::Value &value) {
+                started = true;
                 printf("Trying to resume simulator \n");
             });
 
@@ -201,15 +203,20 @@ namespace RapidFDM {
         }
 
         void simulation_websocket_server::run_phys(float ticktime) {
-            if (hil_adapter != nullptr) {
-                if (hil_adapter->enable_simulation()) {
+            if (started) {
+                if (hil_adapter != nullptr) {
+                    hil_adapter->set_sim_status(true);
+                    if (hil_adapter->enable_simulation()) {
+                        runninged_tick++;
+                        simulatorWorld.Step(ticktime);
+                    }
+                } else {
                     runninged_tick++;
                     simulatorWorld.Step(ticktime);
                 }
-            } else {
-                runninged_tick++;
-                simulatorWorld.Step(ticktime);
             }
         }
+
+
     }
 }

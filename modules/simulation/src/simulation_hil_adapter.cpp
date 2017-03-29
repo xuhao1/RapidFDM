@@ -18,13 +18,15 @@ namespace RapidFDM {
             intial_lati = 22.5416 * M_PI / 180.0;
             intial_lon = 113.8973 * M_PI / 180.0;
         }
-
+        void simulation_hil_adapter::set_sim_status(bool start) {
+            this->start = start;
+        }
         void simulation_hil_adapter::tick() {
             timer->expires_at(timer->expires_at() + interval);
-
-            total_tick_count ++;
-
-            tick_func(interval.total_milliseconds(),total_tick_count);
+            if (start) {
+                total_tick_count++;
+                tick_func(interval.total_milliseconds(), total_tick_count);
+            }
 
             timer->async_wait([&](const boost::system::error_code &) {
                 this->tick();

@@ -32,8 +32,10 @@ namespace RapidFDM
             double intial_lon = 0;
 
             virtual  void tick_func(float dt,long tick) = 0;
-
+            bool start = false;
         public:
+            void set_sim_status(bool start);
+
             virtual Eigen::Quaterniond get_quaternion_NED();
 
             virtual Eigen::Vector3d get_angular_velocity_body_NED();

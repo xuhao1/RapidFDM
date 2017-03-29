@@ -19,8 +19,8 @@ namespace RapidFDM {
                 BaseController(_aircraftNode) {
             roll_sp = 0;
             pitch_sp = 0;
-            L1ControllerUpdateParams(7.0, 1.0, 32, 5.0, 1000, &(ctrlAttitude.RollCtrl));
-            L1ControllerUpdateParams(3.0, 1.0, 32, 5.0, 1000, &(ctrlAttitude.PitchCtrl));
+            L1ControllerUpdateParams(3.0, 0.5, 32, 5.0, 100, &(ctrlAttitude.RollCtrl));
+            L1ControllerUpdateParams(3.0, 0.5, 32, 5.0, 1000, &(ctrlAttitude.PitchCtrl));
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -41,10 +41,10 @@ namespace RapidFDM {
             sys.quat[2] = quat.y();
             sys.quat[3] = quat.z();
             double u_roll = 0 ,u_pitch = 0;
-            L1ControlAttitudeEuler(&ctrlAttitude,deltatime,-pitch_sp,roll_sp,&sys,&u_roll,&u_pitch);
+            L1ControlAttitudeEuler(&ctrlAttitude,deltatime,pitch_sp,roll_sp,&sys,&u_roll,&u_pitch);
 
             pwm[0] = (float) u_roll;
-            pwm[1] = - (float) u_pitch;
+            pwm[1] = (float) - u_pitch;
             pwm[2] = (float) throttle_sp;
             pwm[3] = (float) yaw_sp;
 

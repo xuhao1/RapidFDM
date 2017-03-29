@@ -73,6 +73,7 @@ namespace RapidFDM {
 
 
             void init_ws_json_handler();
+            bool started = false;
 
         public:
             SimulatorAircraft *simulatorAircraft;

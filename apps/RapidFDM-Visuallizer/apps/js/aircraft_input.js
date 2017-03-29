@@ -97,6 +97,15 @@ AircraftInput.prototype.update = function () {
         var gamepad = this.get_gamepad();
         if (gamepad !== undefined) {
             //console.log(gamepad.axes);
+            // if (gamepad.axes[3] > 0.5)
+            // {
+            //     this.aileron = 10000;
+            // }
+            // else
+            // {
+            //     this.aileron = 0;
+            // }
+            this.elevator = 0;
             this.aileron = gamepad.axes[3] * 10000;
             this.elevator = - gamepad.axes[4] * 10000;
             this.rudder = gamepad.axes[0] * 10000;
