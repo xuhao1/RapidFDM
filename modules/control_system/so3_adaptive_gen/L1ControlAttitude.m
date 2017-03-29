@@ -4,13 +4,19 @@ coder.cstructname(obj.RollCtrl, 'AdaptiveCtrlT');
 coder.cstructname(obj.PitchCtrl, 'AdaptiveCtrlT');
 coder.cstructname(sys_state,'AdaptiveSysT');
 
-quat_sp_no_yaw = get_quat_no_yaw(quat_sp);
-rov_sp_no_yaw = quat2rov(quat_sp_no_yaw);
-rov_no_yaw = quat2rov(get_quat_no_yaw(sys_state.quat));
+quat_sp_last = obj.quat_sp;
+quat_last = obj.quat;
 
-x_real_roll = [rov_no_yaw(1);sys_state.angular_rate(1)];
-x_real_pitch = [rov_no_yaw(2);sys_state.angular_rate(2)];
+err_rov = quat_err_rov(quat_sp,sys_state.quat);
 
-[obj.RollCtrl,u_roll] = L1AdaptiveControl2nd(dt,obj.RollCtrl,x_real_roll,rov_sp_no_yaw(1));
-[obj.PitchCtrl,u_pitch] = L1AdaptiveControl2nd(dt,obj.PitchCtrl,x_real_pitch,rov_sp_no_yaw(2));
+err_rov_delta_by_sp = quat_err_rov(quat_sp,quat_last) - quat_err_rov(quat_sp_last,quat_last);
+
+x_real_roll = [err_rov(1);sys_state.angular_rate(1)];
+x_real_pitch = [err_rov(2);sys_state.angular_rate(2)];
+
+[obj.RollCtrl,u_roll] = L1AdaptiveControl2nd(dt,obj.RollCtrl,x_real_roll,err_rov_delta_by_sp(1));
+[obj.PitchCtrl,u_pitch] = L1AdaptiveControl2nd(dt,obj.PitchCtrl,x_real_pitch,err_rov_delta_by_sp(2));
+
+obj.quat_sp = quat_sp;
+obj.quat = sys_state.quat;
 end

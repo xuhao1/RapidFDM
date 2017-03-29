@@ -19,8 +19,8 @@ namespace RapidFDM {
                 BaseController(_aircraftNode) {
             roll_sp = 0;
             pitch_sp = 0;
-            L1UpdateRollParams(7.0, 1.0, 32, 5.0, 1000, &(ctrlAttitude.RollCtrl));
-            L1UpdateRollParams(3.0, 1.0, 32, 5.0, 2000, &(ctrlAttitude.PitchCtrl));
+            L1ControllerUpdateParams(7.0, 1.0, 32, 5.0, 1000, &(ctrlAttitude.RollCtrl));
+            L1ControllerUpdateParams(3.0, 1.0, 32, 5.0, 1000, &(ctrlAttitude.PitchCtrl));
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -51,7 +51,7 @@ namespace RapidFDM {
 
             aircraftNode->set_control_from_channels(pwm, 8);
 
-            ctrl_log.push_back(ctrlAttitude.PitchCtrl);
+            ctrl_log.push_back(ctrlAttitude.RollCtrl);
             sys_log.push_back(sys);
 
             if (count % 200 == 0) {

@@ -1,9 +1,9 @@
-function [obj,u] = L1AdaptiveControl2nd(dt,obj,x_real,r)
+function [obj,u] = L1AdaptiveControl2nd(dt,obj,x_real,DeltaSpX)
 %coder.cstructname(RollCtrl, 'AdaptiveCtrlT');
 %coder.cstructname(SysState, 'AdaptiveSysT');
-
+r = 0;
 obj.r = r;
-
+obj.x(1) = DeltaSpX + obj.x(1);
 if not(obj.inited)
     %res = init_adaptive_controller();
     obj.x(1) = x_real(1);
