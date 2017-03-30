@@ -19,8 +19,15 @@ namespace RapidFDM {
                 BaseController(_aircraftNode) {
             roll_sp = 0;
             pitch_sp = 0;
-            L1ControllerUpdateParams(3.0, 0.5, 32, 5.0, 100, &(ctrlAttitude.RollCtrl));
-            L1ControllerUpdateParams(3.0, 0.5, 32, 5.0, 1000, &(ctrlAttitude.PitchCtrl));
+            //7 0.655
+            //6 0.6
+            //5 0.55
+            //4 0.49
+            //3 0.42
+            init_attitude_controller(&ctrlAttitude);
+//            L1ControllerUpdateParams(7.0, 0.655, 32, 7.0, 1000, &(ctrlAttitude.RollCtrl));
+            L1ControllerUpdateParams(3.0, 0.42, 32, 7.0, 1000, &(ctrlAttitude.RollCtrl));
+            L1ControllerUpdateParams(3.0, 0.42, 32, 7.0, 1000, &(ctrlAttitude.PitchCtrl));
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;

@@ -46,7 +46,7 @@ legend(ax4,'u','eta')
 title(ax4,'Output')
 
 ax5 = subplot(5,1,5);
-plot(ax5,t,xdot_pre - err1,t,x_pre-err0,t,r)
-legend(ax5,'xdot','x','r')
+plot(ax5,t,x_pre-err0,t,xdot_pre - err1,t,r)
+legend(ax5,'x','xdot','r')
 title(ax5,'x state&r')
 end

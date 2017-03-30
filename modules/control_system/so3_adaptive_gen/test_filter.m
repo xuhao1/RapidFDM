@@ -18,7 +18,15 @@ for i = 1:1000
     [ynew(i),filter_obj] = IterTransform1st(x(i),filter_obj);
 end
 
-plot(t,ynew-y)
-legend('Input Data','Filtered Data','User Filter')
-title('First Row')
+%plot(t,ynew-y)
+%legend('Input Data','Filtered Data','User Filter')
+%title('First Row')
+
+fc = 5;
+H = tf([1],[1/(2*pi*fc) 1]);
+Hd = c2d(H,1,'tustin')
+
+[b,a] = butter(1,fc/(fs/2))
+[b,a] = butter1st_200hz(fc)
+
 end

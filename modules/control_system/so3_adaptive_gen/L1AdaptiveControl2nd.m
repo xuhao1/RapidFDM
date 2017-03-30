@@ -19,5 +19,6 @@ opts_1 = odeset('MaxStep',4);
 
 [obj,out] = L1ControlLaw2nd(dt,obj,rfb);
 obj.x = ctrl_x_constrain(x(end,1:6)');
+obj.err(1:2) = obj.x(1:2) - x_real(1:2);
 obj.t = obj.t + dt;
 u = out;

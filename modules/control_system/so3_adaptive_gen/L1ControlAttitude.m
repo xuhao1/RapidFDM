@@ -7,19 +7,24 @@ coder.cstructname(sys_state,'AdaptiveSysT');
 quat_sp_last = obj.quat_sp;
 quat_last = obj.quat;
 
-err_rov = quat_err_rov(quat_sp,sys_state.quat);
+%inv(quat_sp)*quat 以sp为原点的rov
+rov_invsp = quat_err_rov(quat_sp,sys_state.quat);
 
-err_rov_delta_by_sp = quat_err_rov(quat_sp,quat_last) - quat_err_rov(quat_sp_last,quat_last);
+%因为quat_sp改变量而产生的rov变化
+delta_err_sp = quat_err_rov(quat_sp,quat_last) - quat_err_rov(quat_sp_last,quat_last);
+obj.drovsp_init = obj.drovsp_init + delta_err_sp;
 
-x_real_roll = [err_rov(1);sys_state.angular_rate(1)];
-x_real_pitch = [err_rov(2);sys_state.angular_rate(2)];
+x_real_roll = [rov_invsp(1) - obj.drovsp_init(1);sys_state.angular_rate(1)];
+x_real_pitch = [rov_invsp(2);sys_state.angular_rate(2)];
 
-[obj.PitchCtrl.g,obj.PitchCtrl.g_by_x] = pitch_external_dynamics(err_rov,sys_state.angular_rate);
-[obj.RollCtrl.g,~] = roll_external_dynamics(err_rov,sys_state.angular_rate);
+[obj.PitchCtrl.g,obj.PitchCtrl.g_by_x] = pitch_external_dynamics(rov_invsp,sys_state.angular_rate);
+[obj.RollCtrl.g,~] = roll_external_dynamics(rov_invsp,sys_state.angular_rate);
 
 rfb = 0;
-[obj.RollCtrl,u_roll] = L1AdaptiveControl2nd(dt,obj.RollCtrl,x_real_roll,err_rov_delta_by_sp(1),0,0);
-[obj.PitchCtrl,u_pitch] = L1AdaptiveControl2nd(dt,obj.PitchCtrl,x_real_pitch,err_rov_delta_by_sp(2),0,rfb);
+[obj.RollCtrl,u_roll] = L1AdaptiveControl2nd(dt,obj.RollCtrl,x_real_roll,...
+    0,-obj.drovsp_init(1),0);
+[obj.PitchCtrl,u_pitch] = L1AdaptiveControl2nd(dt,obj.PitchCtrl,x_real_pitch,...
+    0,delta_err_sp(2),rfb);
 
 obj.quat_sp = quat_sp;
 obj.quat = sys_state.quat;
