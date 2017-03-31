@@ -1,6 +1,6 @@
-function [obj,u] = L1AdaptiveControl2nd(dt,obj,x_real,DeltaSpX,r,rfb)
+function [obj,u] = L1AdaptiveControl2nd(dt,obj,x_real,r,rfb)
 obj.r = r;
-obj.x(1) = DeltaSpX + obj.x(1);
+%obj.x(1) = DeltaSpX + obj.x(1);
 obj.x_real = x_real;
 if not(obj.inited)
     obj.x(1) = x_real(1);
@@ -12,6 +12,7 @@ end
 
 
 obj.err(1:2) = obj.x(1:2) - x_real(1:2);
+obj.g(1) = - rfb;
 
 opts_1 = odeset('MaxStep',4);
 [~,x]=ode23(@(t,x) L1Updater(t,x,obj),...

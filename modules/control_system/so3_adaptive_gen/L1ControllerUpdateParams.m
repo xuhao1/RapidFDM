@@ -23,7 +23,7 @@ RollCtrl.u_filter = filter_obj;
 RollCtrl.kg = - Am(2,1) / b2;
 RollCtrl.kg_rate = - Am(2,2)/ b2;
 RollCtrl.x(4) = p;
-RollCtrl.x(5) = pd;
+%RollCtrl.x(5) = pd;
 RollCtrl.km = [p;pd];
 %RollCtrl.err = [0;0];
 end

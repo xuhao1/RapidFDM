@@ -25,9 +25,9 @@ namespace RapidFDM {
             //4 0.49
             //3 0.42
             init_attitude_controller(&ctrlAttitude);
-//            L1ControllerUpdateParams(7.0, 0.655, 32, 7.0, 1000, &(ctrlAttitude.RollCtrl));
-            L1ControllerUpdateParams(3.0, 0.42, 32, 7.0, 1000, &(ctrlAttitude.RollCtrl));
-            L1ControllerUpdateParams(3.0, 0.42, 32, 7.0, 1000, &(ctrlAttitude.PitchCtrl));
+            L1ControllerUpdateParams(7.0, 0.655, 32, 7.0, 1000, &(ctrlAttitude.RollCtrl));
+//            L1ControllerUpdateParams(3.0, 0.42, 32, 7.0, 1000, &(ctrlAttitude.PitchCtrl));
+            L1ControllerUpdateParams(7.0, 0.655, 32, 7.0, 1000, &(ctrlAttitude.PitchCtrl));
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -58,7 +58,7 @@ namespace RapidFDM {
 
             aircraftNode->set_control_from_channels(pwm, 8);
 
-            ctrl_log.push_back(ctrlAttitude.RollCtrl);
+            ctrl_log.push_back(ctrlAttitude.PitchCtrl);
             sys_log.push_back(sys);
 
             if (count % 200 == 0) {
@@ -87,7 +87,7 @@ namespace RapidFDM {
 
             //t 1 x 6 err 2 u 1 eta 1
 
-            int cols = 12;
+            int cols = 13;
             pa1 = mxCreateDoubleMatrix(ctrl_log.size(), cols, mxREAL);
             for (int i = 0; i < ctrl_log.size(); i++) {
                 const AdaptiveCtrlT &ctrlT = ctrl_log[i];
@@ -110,6 +110,7 @@ namespace RapidFDM {
                 set_value_mx_array(pa1, i, 9 , ctrlT.u);
                 set_value_mx_array(pa1, i, 10 , ctrlT.eta);
                 set_value_mx_array(pa1, i, 11 , ctrlT.r);
+                set_value_mx_array(pa1, i, 12 , ctrlT.g[0]);
             }
             char matname[100] = {0};
             sprintf(matname, "AdaptiveCtrlT_%d", log_number);

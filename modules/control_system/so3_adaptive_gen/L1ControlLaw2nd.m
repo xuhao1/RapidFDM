@@ -10,7 +10,7 @@ gb = obj.g(2,1) / obj.b(2);
 gd = obj.g(1,1) / obj.b(2);
 etad =  - kgr*(gd+Jd*obj.x(1:2));
 %obj.eta = float_constrain((obj.kg * obj.r + kgr*rfb - sigma - gb - (theta'+Jb)* obj.x(1:2) + etad  )/omega,-1,1);
-obj.eta = float_constrain((obj.kg * obj.r - sigma  - (theta')* obj.x_real(1:2) )/omega,-1,1);
+obj.eta = float_constrain((obj.kg * obj.r + kgr*rfb  - sigma  - (theta')* obj.x_real(1:2) )/omega,-1,1);
 [obj.u,obj.u_filter] = IterTransform1st(obj.eta,obj.u_filter);
 out = obj.u;%- obj.km'*obj.x(1:2);
 end
