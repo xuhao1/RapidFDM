@@ -1,6 +1,6 @@
 function test_am_matrix(p,epi)
 b2 = 32;
-pd = 2*epi*sqrt(p/b2)
+pd = 2*epi*sqrt(p/b2);
 Am = [0 1;-p*b2 -pd*b2];
 b = [0;b2];
 figure

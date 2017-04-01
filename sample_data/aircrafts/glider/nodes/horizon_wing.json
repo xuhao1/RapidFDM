@@ -1,8 +1,8 @@
 {
-  "name": "main_wing",
+  "name": "horizon_wing",
   "type": "wing",
   "id" : "0",
-  "mass": 2.5,
+  "mass": 0.1,
   "mass_center": [
     0,
     0,
@@ -13,17 +13,17 @@
     1e-2,
     1e-2
   ],
-  "b_2": 0.705,
-  "Mac": 0.2,
+  "b_2": 0.24,
+  "Mac": 0.11,
   "nonSideAttach": 1,
   "wingPart": 2,
   "enableControl": 1,
   "airfoil_name":"naca0015",
-  "deflectAngle" : 3,
-  "MidChordSweep": 0,
+  "deflectAngle" : 4,
+  "MidChordSweep": 8,
   "TaperRatio":0.8,
-  "pieces":10,
-  "cl0":0.17,
-  "freq_cut":15,
-  "maxdeflect" : 30
+  "pieces": 2,
+  "ctrlSurfFrac":0.5,
+  "maxdeflect" : -20,
+  "freq_cut":2
 }

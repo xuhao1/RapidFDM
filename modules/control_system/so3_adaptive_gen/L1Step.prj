@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2016a">
-  <configuration build-checksum="107695715" file="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Step.prj" location="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen" name="L1Step" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="3298704657" file="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Step.prj" location="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen" name="L1Step" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex />
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -152,7 +152,7 @@
       <param.GenerateCodeMetricsReport>true</param.GenerateCodeMetricsReport>
       <param.GenerateCodeReplacementReport>false</param.GenerateCodeReplacementReport>
       <param.HighlightPotentialDataTypeIssues>false</param.HighlightPotentialDataTypeIssues>
-      <param.LaunchReport>true</param.LaunchReport>
+      <param.LaunchReport>false</param.LaunchReport>
       <param.SILDebugging>false</param.SILDebugging>
       <param.CodeExecutionProfiling>false</param.CodeExecutionProfiling>
       <param.DefaultTestFile />
@@ -177,49 +177,49 @@
       <param.CustomToolchainOptions />
       <var.ToolchainSettingsVisible>true</var.ToolchainSettingsVisible>
       <param.target.Data>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ctdata&gt;&lt;configuredHardware/&gt;&lt;/ctdata&gt;</param.target.Data>
-      <param.target.ActiveType>option.target.TargetType.MatlabHost</param.target.ActiveType>
+      <param.target.ActiveType>option.target.TargetType.Custom</param.target.ActiveType>
       <param.target.ActiveTarget />
-      <param.HardwareVendor.Production>Generic</param.HardwareVendor.Production>
-      <param.HardwareType.Production>MATLAB Host Computer</param.HardwareType.Production>
+      <param.HardwareVendor.Production>ARM Compatible</param.HardwareVendor.Production>
+      <param.HardwareType.Production>ARM Cortex</param.HardwareType.Production>
       <param.HWDeviceType.Production />
       <var.instance.enabled.Production>true</var.instance.enabled.Production>
       <param.HardwareSizeChar.Production>8</param.HardwareSizeChar.Production>
       <param.HardwareSizeShort.Production>16</param.HardwareSizeShort.Production>
       <param.HardwareSizeInt.Production>32</param.HardwareSizeInt.Production>
-      <param.HardwareSizeLong.Production>64</param.HardwareSizeLong.Production>
+      <param.HardwareSizeLong.Production>32</param.HardwareSizeLong.Production>
       <param.HardwareSizeLongLong.Production>64</param.HardwareSizeLongLong.Production>
       <param.HardwareSizeFloat.Production>32</param.HardwareSizeFloat.Production>
       <param.HardwareSizeDouble.Production>64</param.HardwareSizeDouble.Production>
-      <param.HardwareSizeWord.Production>64</param.HardwareSizeWord.Production>
-      <param.HardwareSizePointer.Production>64</param.HardwareSizePointer.Production>
-      <param.HardwareSizeSizeT.Production>64</param.HardwareSizeSizeT.Production>
-      <param.HardwareSizePtrDiffT.Production>64</param.HardwareSizePtrDiffT.Production>
+      <param.HardwareSizeWord.Production>32</param.HardwareSizeWord.Production>
+      <param.HardwareSizePointer.Production>32</param.HardwareSizePointer.Production>
+      <param.HardwareSizeSizeT.Production>32</param.HardwareSizeSizeT.Production>
+      <param.HardwareSizePtrDiffT.Production>32</param.HardwareSizePtrDiffT.Production>
       <param.HardwareEndianness.Production>option.HardwareEndianness.Little</param.HardwareEndianness.Production>
       <param.HardwareArithmeticRightShift.Production>true</param.HardwareArithmeticRightShift.Production>
-      <param.HardwareLongLongMode.Production>true</param.HardwareLongLongMode.Production>
-      <param.HardwareAtomicIntegerSize.Production>option.HardwareAtomicIntegerSize.Char</param.HardwareAtomicIntegerSize.Production>
-      <param.HardwareAtomicFloatSize.Production>option.HardwareAtomicFloatSize.None</param.HardwareAtomicFloatSize.Production>
+      <param.HardwareLongLongMode.Production>false</param.HardwareLongLongMode.Production>
+      <param.HardwareAtomicIntegerSize.Production>option.HardwareAtomicIntegerSize.Long</param.HardwareAtomicIntegerSize.Production>
+      <param.HardwareAtomicFloatSize.Production>option.HardwareAtomicFloatSize.Double</param.HardwareAtomicFloatSize.Production>
       <param.HardwareDivisionRounding.Production>option.HardwareDivisionRounding.Zero</param.HardwareDivisionRounding.Production>
-      <param.HardwareVendor.Target>Generic</param.HardwareVendor.Target>
-      <param.HardwareType.Target>MATLAB Host Computer</param.HardwareType.Target>
+      <param.HardwareVendor.Target>ARM Compatible</param.HardwareVendor.Target>
+      <param.HardwareType.Target>ARM Cortex</param.HardwareType.Target>
       <param.HWDeviceType.Target />
       <var.instance.enabled.Target>false</var.instance.enabled.Target>
       <param.HardwareSizeChar.Target>8</param.HardwareSizeChar.Target>
       <param.HardwareSizeShort.Target>16</param.HardwareSizeShort.Target>
       <param.HardwareSizeInt.Target>32</param.HardwareSizeInt.Target>
-      <param.HardwareSizeLong.Target>64</param.HardwareSizeLong.Target>
+      <param.HardwareSizeLong.Target>32</param.HardwareSizeLong.Target>
       <param.HardwareSizeLongLong.Target>64</param.HardwareSizeLongLong.Target>
       <param.HardwareSizeFloat.Target>32</param.HardwareSizeFloat.Target>
       <param.HardwareSizeDouble.Target>64</param.HardwareSizeDouble.Target>
-      <param.HardwareSizeWord.Target>64</param.HardwareSizeWord.Target>
-      <param.HardwareSizePointer.Target>64</param.HardwareSizePointer.Target>
-      <param.HardwareSizeSizeT.Target>64</param.HardwareSizeSizeT.Target>
-      <param.HardwareSizePtrDiffT.Target>64</param.HardwareSizePtrDiffT.Target>
+      <param.HardwareSizeWord.Target>32</param.HardwareSizeWord.Target>
+      <param.HardwareSizePointer.Target>32</param.HardwareSizePointer.Target>
+      <param.HardwareSizeSizeT.Target>32</param.HardwareSizeSizeT.Target>
+      <param.HardwareSizePtrDiffT.Target>32</param.HardwareSizePtrDiffT.Target>
       <param.HardwareEndianness.Target>option.HardwareEndianness.Little</param.HardwareEndianness.Target>
       <param.HardwareArithmeticRightShift.Target>true</param.HardwareArithmeticRightShift.Target>
-      <param.HardwareLongLongMode.Target>true</param.HardwareLongLongMode.Target>
-      <param.HardwareAtomicIntegerSize.Target>option.HardwareAtomicIntegerSize.Char</param.HardwareAtomicIntegerSize.Target>
-      <param.HardwareAtomicFloatSize.Target>option.HardwareAtomicFloatSize.None</param.HardwareAtomicFloatSize.Target>
+      <param.HardwareLongLongMode.Target>false</param.HardwareLongLongMode.Target>
+      <param.HardwareAtomicIntegerSize.Target>option.HardwareAtomicIntegerSize.Long</param.HardwareAtomicIntegerSize.Target>
+      <param.HardwareAtomicFloatSize.Target>option.HardwareAtomicFloatSize.Double</param.HardwareAtomicFloatSize.Target>
       <param.HardwareDivisionRounding.Target>option.HardwareDivisionRounding.Zero</param.HardwareDivisionRounding.Target>
       <param.CastingMode>option.CastingMode.Nominal</param.CastingMode>
       <param.IndentStyle>option.IndentStyle.K&amp;R</param.IndentStyle>
@@ -305,25 +305,36 @@
         <param.CustomToolchainOptions />
         <var.ToolchainSettingsVisible />
         <param.target.ActiveTarget />
-        <param.HardwareVendor.Production />
         <param.HWDeviceType.Production />
         <var.instance.enabled.Production />
         <param.HardwareSizeChar.Production />
         <param.HardwareSizeShort.Production />
         <param.HardwareSizeInt.Production />
+        <param.HardwareSizeLong.Production />
         <param.HardwareSizeLongLong.Production />
         <param.HardwareSizeFloat.Production />
         <param.HardwareSizeDouble.Production />
+        <param.HardwareSizeWord.Production />
+        <param.HardwareSizePointer.Production />
+        <param.HardwareSizeSizeT.Production />
+        <param.HardwareSizePtrDiffT.Production />
         <param.HardwareEndianness.Production />
+        <param.HardwareLongLongMode.Production />
         <param.HWDeviceType.Target />
         <var.instance.enabled.Target />
         <param.HardwareSizeChar.Target />
         <param.HardwareSizeShort.Target />
         <param.HardwareSizeInt.Target />
+        <param.HardwareSizeLong.Target />
         <param.HardwareSizeLongLong.Target />
         <param.HardwareSizeFloat.Target />
         <param.HardwareSizeDouble.Target />
+        <param.HardwareSizeWord.Target />
+        <param.HardwareSizePointer.Target />
+        <param.HardwareSizeSizeT.Target />
+        <param.HardwareSizePtrDiffT.Target />
         <param.HardwareEndianness.Target />
+        <param.HardwareLongLongMode.Target />
         <param.CastingMode />
         <param.IndentStyle />
         <param.IndentSize />
@@ -729,7 +740,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>1313605493</param.AnnotationChecksum>
+    <param.AnnotationChecksum>2449321917</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -738,13 +749,13 @@
     <param.unifiedParamStorage />
     <var.gc.lastOutputRoot>codegen/lib/L1ControlAttitude</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>107695715</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>3298704657</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen/mex/IterTransform1st_mex</var.cfi.lastOutputRoot>
     <var.cfi.preBuildChecksum>2220662937</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>L1Step2ndPitch(0.1,s_ctrl,sys_state)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitudeEuler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Updater.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_sys_euler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_yaw_rate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/make_filter_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/quat2rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/quat_err_rov.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;1650297600&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
-    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitudeEuler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Updater.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_sys_euler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_yaw_rate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/make_filter_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/quat2rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/quat_err_rov.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitudeEuler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Updater.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_sys_euler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_yaw_rate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/make_filter_obj.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;905823945&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitudeEuler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Updater.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_sys_euler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_yaw_rate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/make_filter_obj.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.configImportActive>false</param.configImportActive>
     <var.boundToGui>true</var.boundToGui>
@@ -878,13 +889,13 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAttitude.m">
-        <Marker>1490860933835</Marker>
+        <Marker>1491050028202</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAttitudeEuler.m">
-        <Marker>1490889336982</Marker>
+        <Marker>1491050028233</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControllerUpdateParams.m">
-        <Marker>1490792964201</Marker>
+        <Marker>1490968779828</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/init_attitude_controller.m">
         <Marker>1490860887320</Marker>
@@ -956,7 +967,11 @@
             <Field Name="drovsp_init" typeId="8" />
           </Input>
           <Input Name="dt" typeId="1" />
-          <Input Name="quat_sp" typeId="7" />
+          <Input Name="quat_control_sp" typeId="0">
+            <Field Name="quat" typeId="7" />
+            <Field Name="yaw_rate" typeId="1" />
+            <Field Name="yaw_sp_is_rate" typeId="6" />
+          </Input>
           <Input Name="sys_state" typeId="0">
             <Field Name="quat" typeId="7" />
             <Field Name="angular_rate" typeId="9" />
@@ -1049,7 +1064,7 @@
         </Inputs>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAttitudeEuler.m">
-        <Inputs fileName="L1ControlAttitudeEuler.m" functionName="unknown">
+        <Inputs fileName="L1ControlAttitudeEuler.m" functionName="L1ControlAttitudeEuler">
           <Input Name="obj" typeId="0">
             <Field Name="RollCtrl" typeId="0">
               <Field Name="t" typeId="1" />
@@ -1108,8 +1123,12 @@
             <Field Name="drovsp_init" typeId="8" />
           </Input>
           <Input Name="dt" typeId="1" />
-          <Input Name="pitch_sp" typeId="1" />
-          <Input Name="roll_sp" typeId="1" />
+          <Input Name="euler_sp" typeId="0">
+            <Field Name="pitch" typeId="1" />
+            <Field Name="roll" typeId="1" />
+            <Field Name="yaw" typeId="1" />
+            <Field Name="yaw_sp_is_rate" typeId="6" />
+          </Input>
           <Input Name="sys_state" typeId="0">
             <Field Name="quat" typeId="7" />
             <Field Name="angular_rate" typeId="9" />
@@ -1204,10 +1223,36 @@
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControllerUpdateParams.m">
         <Inputs fileName="L1ControllerUpdateParams.m" functionName="L1ControllerUpdateParams">
           <Input Name="p" typeId="0" />
-          <Input Name="pd" typeId="0" />
+          <Input Name="epi" typeId="0" />
           <Input Name="b2" typeId="0" />
           <Input Name="fc" typeId="0" />
           <Input Name="gamma" typeId="0" />
+          <Input Name="obj" typeId="1">
+            <Field Name="t" typeId="0" />
+            <Field Name="x" typeId="2" />
+            <Field Name="Gamma" typeId="0" />
+            <Field Name="P" typeId="3" />
+            <Field Name="Am" typeId="3" />
+            <Field Name="u" typeId="0" />
+            <Field Name="b" typeId="4" />
+            <Field Name="kg" typeId="0" />
+            <Field Name="kg_rate" typeId="0" />
+            <Field Name="u_filter" typeId="1">
+              <Field Name="A" typeId="5" />
+              <Field Name="B" typeId="5" />
+              <Field Name="x" typeId="5" />
+              <Field Name="y" typeId="5" />
+              <Field Name="inited" typeId="6" />
+            </Field>
+            <Field Name="inited" typeId="6" />
+            <Field Name="err" typeId="4" />
+            <Field Name="eta" typeId="0" />
+            <Field Name="r" typeId="0" />
+            <Field Name="g" typeId="4" />
+            <Field Name="g_by_x" typeId="3" />
+            <Field Name="km" typeId="4" />
+            <Field Name="x_real" typeId="4" />
+          </Input>
           <idpTable>
             <type typeId="0">
               <Class>double</Class>
@@ -1216,6 +1261,56 @@
               <InitialValue />
               <UserDefined>false</UserDefined>
               <Complex>false</Complex>
+            </type>
+            <type typeId="1">
+              <Class>struct</Class>
+              <Size>1 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <TypeName />
+              <Extern>false</Extern>
+              <HeaderFile />
+              <Alignment>-1</Alignment>
+            </type>
+            <type typeId="2">
+              <Class>double</Class>
+              <Size>6 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="3">
+              <Class>double</Class>
+              <Size>2 x 2</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="4">
+              <Class>double</Class>
+              <Size>2 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="5">
+              <Class>double</Class>
+              <Size>1 x 2</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="6">
+              <Class>logical</Class>
+              <Size>1 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
             </type>
           </idpTable>
         </Inputs>

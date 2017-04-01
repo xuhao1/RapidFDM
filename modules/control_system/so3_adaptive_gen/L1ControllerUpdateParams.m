@@ -1,6 +1,6 @@
-function RollCtrl = L1ControllerUpdateParams(p,pd,b2,fc,gamma)
-RollCtrl = init_adaptive_controller();
-
+function obj = L1ControllerUpdateParams(p,epi,b2,fc,gamma,obj)
+%obj = init_adaptive_controller();
+pd = 2*epi*sqrt(p/b2);
 Am = [0 0;0 0];
 Am(1,2) = 1.0;
 Am(2,1) = - p *b2;
@@ -15,15 +15,16 @@ P(2,2) = (1 - Am(2,1)) / (2*Am(2,1)*Am(2,2));
 
 
 filter_obj = make_filter_obj(200,fc);
-RollCtrl.Gamma = gamma;
-RollCtrl.P = P;
-RollCtrl.Am = Am;
-RollCtrl.b = [0;b2];
-RollCtrl.u_filter = filter_obj;
-RollCtrl.kg = - Am(2,1) / b2;
-RollCtrl.kg_rate = - Am(2,2)/ b2;
-RollCtrl.x(4) = p;
-%RollCtrl.x(5) = pd;
-RollCtrl.km = [p;pd];
-%RollCtrl.err = [0;0];
+obj.Gamma = gamma;
+obj.P = P;
+obj.Am = Am;
+obj.b = [0;b2];
+obj.u_filter = filter_obj;
+obj.kg = - Am(2,1) / b2;
+obj.kg_rate = - Am(2,2)/ b2;
+%if not(obj.inited)
+obj.x(4) = p;
+obj.x(5) = pd;
+%end
+obj.km = [p;pd];
 end

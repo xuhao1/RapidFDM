@@ -1,0 +1,4 @@
+#!/bin/bash
+echo $1
+BASEDIR=$(dirname "$0")
+electron $BASEDIR/RapidFDM-Visuallizer $1

@@ -25,9 +25,8 @@ namespace RapidFDM {
             //4 0.49
             //3 0.42
             init_attitude_controller(&ctrlAttitude);
-            L1ControllerUpdateParams(7.0, 0.655, 32, 7.0, 1000, &(ctrlAttitude.RollCtrl));
-//            L1ControllerUpdateParams(3.0, 0.42, 32, 7.0, 1000, &(ctrlAttitude.PitchCtrl));
-            L1ControllerUpdateParams(7.0, 0.655, 32, 7.0, 1000, &(ctrlAttitude.PitchCtrl));
+            L1ControllerUpdateParams(7.0, 0.8, 32, 7.0, 1000, &(ctrlAttitude.RollCtrl));
+            L1ControllerUpdateParams(7.0, 0.8, 32, 7.0, 1000, &(ctrlAttitude.PitchCtrl));
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -48,7 +47,29 @@ namespace RapidFDM {
             sys.quat[2] = quat.y();
             sys.quat[3] = quat.z();
             double u_roll = 0 ,u_pitch = 0;
-            L1ControlAttitudeEuler(&ctrlAttitude,deltatime,pitch_sp,roll_sp,&sys,&u_roll,&u_pitch);
+
+            QuatControlSetpoint quatControlSetpoint;
+            EulerControlSetPoint eulerControlSetPoint;
+            quatControlSetpoint.yaw_sp_is_rate = 1;
+            quatControlSetpoint.yaw_rate = 0;
+            Eigen::Vector3d eul = quat2eulers(quat);
+            Eigen::AngleAxisd rollAngle(roll_sp, Eigen::Vector3d::UnitX());
+            Eigen::AngleAxisd pitchAngle(pitch_sp, Eigen::Vector3d::UnitY());
+            Eigen::AngleAxisd yawAngle(eul.z(), Eigen::Vector3d::UnitZ());
+
+            Eigen::Quaterniond quat = yawAngle * pitchAngle * rollAngle;
+            quatControlSetpoint.quat[0] = quat.w();
+            quatControlSetpoint.quat[1] = quat.x();
+            quatControlSetpoint.quat[2] = quat.y();
+            quatControlSetpoint.quat[3] = quat.z();
+
+            eulerControlSetPoint.roll = roll_sp;
+            eulerControlSetPoint.pitch = pitch_sp;
+            eulerControlSetPoint.yaw = yaw_sp;
+            eulerControlSetPoint.yaw_sp_is_rate = 1;
+
+//            L1ControlAttitude(&ctrlAttitude,deltatime,&quatControlSetpoint,&sys,&u_roll,&u_pitch);
+            L1ControlAttitudeEuler(&ctrlAttitude,deltatime,&eulerControlSetPoint,&sys,&u_roll,&u_pitch);
 
             pwm[0] = (float) u_roll;
             pwm[1] = (float) - u_pitch;
@@ -75,16 +96,6 @@ namespace RapidFDM {
         void so3_adaptive_controller::save_data_file() {
             static int log_number = 0;
             mxArray *pa1, *pa2;
-            //t 1
-            //x + 6 = 7
-            //gamma +1 =8
-            //P + 4 = 12
-            //Am + 4 = 16
-            //u + 1 = 17
-            //b + 2 = 19
-            //kg + 1 = 20
-            //init + 1 = 21
-
             //t 1 x 6 err 2 u 1 eta 1
 
             int cols = 13;
@@ -92,16 +103,6 @@ namespace RapidFDM {
             for (int i = 0; i < ctrl_log.size(); i++) {
                 const AdaptiveCtrlT &ctrlT = ctrl_log[i];
                 set_value_mx_array(pa1, i, 0, ctrlT.t);
-//                printf("t: %f x %f %f %f %f %f %f %d\n", ctrlT.t,
-//                       ctrlT.x[0],
-//                       ctrlT.x[1],
-//                       ctrlT.x[2],
-//                       ctrlT.x[3],
-//                       ctrlT.x[4],
-//                       ctrlT.x[5],
-//                       ctrlT.inited
-//                );
-
                 for (int j = 0; j < 6; j++) {
                     set_value_mx_array(pa1, i, j + 1, ctrlT.x[j]);
                 }

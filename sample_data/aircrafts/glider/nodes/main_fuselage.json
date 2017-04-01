@@ -1,0 +1,31 @@
+{
+  "name": "main_fuselage",
+  "id" : "0",
+  "type": "aircraft",
+  "mass": 1.0,
+  "mass_center": [
+    0.27,
+    0,
+    0
+  ],
+  "inertial": [
+    0.15,
+    0.2,
+    0.15
+  ],
+  "geometry": {
+    "type": "box",
+    "scale": [
+      0.05,
+      0.05,
+      0.05
+    ],
+    "transform": {
+      "vector": [0.6,0,0]
+    },
+    "attitude":[1,0,0,0]
+  },
+  "rigid_mode" : 1,
+  "total_mass" : 0.7,
+  "total_inertial":[0.04,0.02,0.1]
+}

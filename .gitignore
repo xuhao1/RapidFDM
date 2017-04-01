@@ -4,3 +4,4 @@ vs-proj
 build
 cmake-build-debug/
 .DS_Store
+modules/control_system/so3_adaptive_gen/codegen
