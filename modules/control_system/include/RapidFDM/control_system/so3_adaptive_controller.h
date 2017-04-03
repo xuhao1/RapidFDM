@@ -26,6 +26,7 @@ namespace RapidFDM
 
             std::vector<AdaptiveCtrlT> ctrl_log;
             std::vector<AdaptiveSysT> sys_log;
+            std::vector<AttitudeCtrlT> att_con_log;
 
             so3_adaptive_controller(Aerodynamics::AircraftNode * _aircraftNode);
             virtual void control_step(float deltatime) override ;

@@ -89,7 +89,14 @@ AircraftInput.prototype.dis_connect = function (e) {
     "use strict";
     this.gamepad_connected = false;
 };
-
+function float_constrain(v,l,u)
+{
+    if(v > u)
+        return u;
+    if (v<l)
+        return l;
+    return v;
+}
 var fuck = 0;
 AircraftInput.prototype.update = function () {
     if (!this.a3_online) {
@@ -113,11 +120,12 @@ AircraftInput.prototype.update = function () {
         }
         else {
             this.d_elevator = this.d_elevator * this.d_axis_keyboard_ratio;
-            this.elevator = this.elevator + this.d_elevator - this.elevator * this.axis_keyboard_back_ratio * this.delatatime;
+            this.elevator = this.elevator + this.d_elevator ;//- this.elevator * this.axis_keyboard_back_ratio * this.delatatime;
+            this.elevator = float_constrain(this.elevator,-10000,10000);
 
             this.d_ailreon = this.d_ailreon * this.d_axis_keyboard_ratio;
-            this.aileron = this.aileron + this.d_ailreon - this.aileron * this.axis_keyboard_back_ratio * this.delatatime;
-
+            this.aileron = this.aileron + this.d_ailreon;// - this.aileron * this.axis_keyboard_back_ratio * this.delatatime;
+            this.aileron = float_constrain(this.aileron,-10000,10000);
 
             this.d_rudder = this.d_rudder * this.d_axis_keyboard_ratio;
             this.rudder = this.rudder + this.d_rudder - this.rudder * this.axis_keyboard_back_ratio * this.delatatime;

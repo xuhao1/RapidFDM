@@ -25,8 +25,8 @@ namespace RapidFDM {
             //4 0.49
             //3 0.42
             init_attitude_controller(&ctrlAttitude);
-            L1ControllerUpdateParams(7.0, 0.8, 32, 7.0, 1000, &(ctrlAttitude.RollCtrl));
-            L1ControllerUpdateParams(7.0, 0.8, 32, 7.0, 1000, &(ctrlAttitude.PitchCtrl));
+            L1ControllerUpdateParams(7.0, 1.1, 32, 7.0, 1000, &(ctrlAttitude.RollCtrl));
+            L1ControllerUpdateParams(7.0, 1.1, 32, 7.0, 1000, &(ctrlAttitude.PitchCtrl));
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -68,19 +68,31 @@ namespace RapidFDM {
             eulerControlSetPoint.yaw = yaw_sp;
             eulerControlSetPoint.yaw_sp_is_rate = 1;
 
-//            L1ControlAttitude(&ctrlAttitude,deltatime,&quatControlSetpoint,&sys,&u_roll,&u_pitch);
-            L1ControlAttitudeEuler(&ctrlAttitude,deltatime,&eulerControlSetPoint,&sys,&u_roll,&u_pitch);
+            L1ControlAttitude(&ctrlAttitude,deltatime,&quatControlSetpoint,&sys,&u_roll,&u_pitch);
+//            L1ControlAttitudeEuler(&ctrlAttitude,deltatime,&eulerControlSetPoint,&sys,&u_roll,&u_pitch);
 
-            pwm[0] = (float) u_roll;
-            pwm[1] = (float) - u_pitch;
-            pwm[2] = (float) throttle_sp;
-            pwm[3] = (float) yaw_sp;
+            Eigen::AngleAxisd rot_u(0*M_PI/180, Eigen::Vector3d::UnitZ());
+            Eigen::Vector3d u = Eigen::Vector3d(0,0,0);
+            u.x() = u_roll;
+            u.y() = u_pitch;
+            u.z() = yaw_sp;
+
+            u = rot_u * u * 0.3;
+//            pwm[0] = (float) u.x();
+//            pwm[1] = (float) u.y();
+//            pwm[2] = (float) throttle_sp;
+//            pwm[3] = (float) yaw_sp;
+            pwm[0] = (float)((- u.x() + u.y() + u.z()) + throttle_sp);
+            pwm[1] = (float)((  u.x() + u.y() - u.z()) + throttle_sp);
+            pwm[2] = (float)((  u.x() - u.y() + u.z()) + throttle_sp);
+            pwm[3] = (float)((- u.x() - u.y() - u.z()) + throttle_sp);
 
 
             aircraftNode->set_control_from_channels(pwm, 8);
 
-            ctrl_log.push_back(ctrlAttitude.PitchCtrl);
+            ctrl_log.push_back(ctrlAttitude.RollCtrl);
             sys_log.push_back(sys);
+            att_con_log.push_back(ctrlAttitude);
 
             if (count % 200 == 0) {
                 save_data_file();
@@ -98,26 +110,34 @@ namespace RapidFDM {
             mxArray *pa1, *pa2;
             //t 1 x 6 err 2 u 1 eta 1
 
-            int cols = 13;
+            int cols = 22;
             pa1 = mxCreateDoubleMatrix(ctrl_log.size(), cols, mxREAL);
             for (int i = 0; i < ctrl_log.size(); i++) {
                 const AdaptiveCtrlT &ctrlT = ctrl_log[i];
                 set_value_mx_array(pa1, i, 0, ctrlT.t);
-                for (int j = 0; j < 6; j++) {
+                for (int j = 0; j < 7; j++) {
                     set_value_mx_array(pa1, i, j + 1, ctrlT.x[j]);
                 }
-                set_value_mx_array(pa1, i, 7 , ctrlT.err[0]);
-                set_value_mx_array(pa1, i, 8 , ctrlT.err[1]);
-                set_value_mx_array(pa1, i, 9 , ctrlT.u);
-                set_value_mx_array(pa1, i, 10 , ctrlT.eta);
-                set_value_mx_array(pa1, i, 11 , ctrlT.r);
-                set_value_mx_array(pa1, i, 12 , ctrlT.g[0]);
+                set_value_mx_array(pa1, i, 8 , ctrlT.err[0]);
+                set_value_mx_array(pa1, i, 9 , ctrlT.err[1]);
+                set_value_mx_array(pa1, i, 10 , ctrlT.u);
+                set_value_mx_array(pa1, i, 11 , ctrlT.eta);
+                set_value_mx_array(pa1, i, 12 , ctrlT.r);
+                set_value_mx_array(pa1, i, 13 , ctrlT.g[0]);
+                for (int j = 0; j < 4; j++) {
+                    set_value_mx_array(pa1, i, j + 14, att_con_log[i].quat[j]);
+                }
+                for (int j = 0; j < 4; j++) {
+                    set_value_mx_array(pa1, i, j + 18, att_con_log[i].quat_sp[j]);
+                }
             }
             char matname[100] = {0};
             sprintf(matname, "AdaptiveCtrlT_%d", log_number);
             matPutVariable(pmat, matname, pa1);
             mxDestroyArray(pa1);
             ctrl_log.clear();
+            sys_log.clear();
+            att_con_log.clear();
             log_number++;
         }
     }

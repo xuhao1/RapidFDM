@@ -12,8 +12,7 @@ q = angular_rate(2);
 r = angular_rate(3);
 
 g = [0;0];
-g =[ -q*cot(y)*psix^2+psix*(-0.5*r+p*cot(y)*psiy)+...
-    psiz*(0.5*p+r*cot(y)*psiy-q*cot(y)*psiz);0];
+g(1) = - 1.*Power(psix,2)*q*cot(y) + psix*(-0.5*r + p*psiy*cot(y)) + psiz*(0.5*p - 1.*psiz*q*cot(y) + psiy*r*cot(y));
 g_by_x = [0 0;0 0];
 
 end

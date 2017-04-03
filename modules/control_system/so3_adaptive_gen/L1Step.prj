@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2016a">
-  <configuration build-checksum="3298704657" file="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Step.prj" location="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen" name="L1Step" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="562304970" file="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Step.prj" location="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen" name="L1Step" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex />
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -740,7 +740,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>2449321917</param.AnnotationChecksum>
+    <param.AnnotationChecksum>637291749</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -749,13 +749,13 @@
     <param.unifiedParamStorage />
     <var.gc.lastOutputRoot>codegen/lib/L1ControlAttitude</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>3298704657</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>562304970</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen/mex/IterTransform1st_mex</var.cfi.lastOutputRoot>
     <var.cfi.preBuildChecksum>2220662937</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>L1Step2ndPitch(0.1,s_ctrl,sys_state)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitudeEuler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Updater.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_sys_euler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_yaw_rate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/make_filter_obj.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;905823945&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
-    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitudeEuler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Updater.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_sys_euler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_yaw_rate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/make_filter_obj.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitudeEuler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Updater.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/Power.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_sys_euler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_yaw_rate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/make_filter_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/pitch_external_dynamics.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/quat2rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/quat_err_rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/roll_external_dynamics.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;1037010018&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitudeEuler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Updater.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/Power.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_sys_euler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/get_yaw_rate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/make_filter_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/pitch_external_dynamics.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/quat2rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/quat_err_rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/roll_external_dynamics.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.configImportActive>false</param.configImportActive>
     <var.boundToGui>true</var.boundToGui>
@@ -793,10 +793,7 @@
     <param.FixedPointValidationChecksum />
     <param.FixedPointSourceCodeChecksum />
     <param.FixedPointFunctionReplacements>
-      <FunctionReplacements>
-        <Replacement />
-        <Replacement />
-      </FunctionReplacements>
+      <FunctionReplacements />
     </param.FixedPointFunctionReplacements>
     <param.OptimizeWholeNumbers>true</param.OptimizeWholeNumbers>
     <param.ContainerTypes>false</param.ContainerTypes>
@@ -889,13 +886,13 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAttitude.m">
-        <Marker>1491050028202</Marker>
+        <Marker>1491133737592</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAttitudeEuler.m">
-        <Marker>1491050028233</Marker>
+        <Marker>1491133737578</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControllerUpdateParams.m">
-        <Marker>1490968779828</Marker>
+        <Marker>1491133737564</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/init_attitude_controller.m">
         <Marker>1490860887320</Marker>
@@ -927,6 +924,13 @@
                 <Field Name="y" typeId="5" />
                 <Field Name="inited" typeId="6" />
               </Field>
+              <Field Name="g_filter" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="5" />
+                <Field Name="y" typeId="5" />
+                <Field Name="inited" typeId="6" />
+              </Field>
               <Field Name="inited" typeId="6" />
               <Field Name="err" typeId="4" />
               <Field Name="eta" typeId="1" />
@@ -947,6 +951,13 @@
               <Field Name="kg" typeId="1" />
               <Field Name="kg_rate" typeId="1" />
               <Field Name="u_filter" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="5" />
+                <Field Name="y" typeId="5" />
+                <Field Name="inited" typeId="6" />
+              </Field>
+              <Field Name="g_filter" typeId="0">
                 <Field Name="A" typeId="5" />
                 <Field Name="B" typeId="5" />
                 <Field Name="x" typeId="5" />
@@ -999,7 +1010,7 @@
             </type>
             <type typeId="2">
               <Class>double</Class>
-              <Size>6 x 1</Size>
+              <Size>7 x 1</Size>
               <Value />
               <InitialValue />
               <UserDefined>false</UserDefined>
@@ -1083,6 +1094,13 @@
                 <Field Name="y" typeId="5" />
                 <Field Name="inited" typeId="6" />
               </Field>
+              <Field Name="g_filter" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="5" />
+                <Field Name="y" typeId="5" />
+                <Field Name="inited" typeId="6" />
+              </Field>
               <Field Name="inited" typeId="6" />
               <Field Name="err" typeId="4" />
               <Field Name="eta" typeId="1" />
@@ -1103,6 +1121,13 @@
               <Field Name="kg" typeId="1" />
               <Field Name="kg_rate" typeId="1" />
               <Field Name="u_filter" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="5" />
+                <Field Name="y" typeId="5" />
+                <Field Name="inited" typeId="6" />
+              </Field>
+              <Field Name="g_filter" typeId="0">
                 <Field Name="A" typeId="5" />
                 <Field Name="B" typeId="5" />
                 <Field Name="x" typeId="5" />
@@ -1156,7 +1181,7 @@
             </type>
             <type typeId="2">
               <Class>double</Class>
-              <Size>6 x 1</Size>
+              <Size>7 x 1</Size>
               <Value />
               <InitialValue />
               <UserDefined>false</UserDefined>
@@ -1244,6 +1269,13 @@
               <Field Name="y" typeId="5" />
               <Field Name="inited" typeId="6" />
             </Field>
+            <Field Name="g_filter" typeId="1">
+              <Field Name="A" typeId="5" />
+              <Field Name="B" typeId="5" />
+              <Field Name="x" typeId="5" />
+              <Field Name="y" typeId="5" />
+              <Field Name="inited" typeId="6" />
+            </Field>
             <Field Name="inited" typeId="6" />
             <Field Name="err" typeId="4" />
             <Field Name="eta" typeId="0" />
@@ -1275,7 +1307,7 @@
             </type>
             <type typeId="2">
               <Class>double</Class>
-              <Size>6 x 1</Size>
+              <Size>7 x 1</Size>
               <Value />
               <InitialValue />
               <UserDefined>false</UserDefined>

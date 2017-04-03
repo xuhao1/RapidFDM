@@ -14,17 +14,18 @@ P(2,2) = (1 - Am(2,1)) / (2*Am(2,1)*Am(2,2));
 
 
 
-filter_obj = make_filter_obj(200,fc);
+%filter_obj = 
 obj.Gamma = gamma;
 obj.P = P;
 obj.Am = Am;
 obj.b = [0;b2];
-obj.u_filter = filter_obj;
+obj.u_filter = make_filter_obj(200,fc);
+obj.g_filter = make_filter_obj(200,15);
 obj.kg = - Am(2,1) / b2;
 obj.kg_rate = - Am(2,2)/ b2;
-%if not(obj.inited)
+if not(obj.inited)
 obj.x(4) = p;
 obj.x(5) = pd;
-%end
+end
 obj.km = [p;pd];
 end

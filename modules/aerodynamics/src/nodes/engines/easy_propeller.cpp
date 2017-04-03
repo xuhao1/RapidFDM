@@ -14,7 +14,7 @@ namespace RapidFDM {
             if (wind_speed < 0.01 || n < 1)
                 return 0;
             double J = wind_speed / n / D;
-            return float_constrain(J, 0, 1);
+            return float_constrain(J, -0.2, 1);
         }
 
         float EasyPropellerNode::get_cq(const ComponentData &data, const AirState &airState) const {

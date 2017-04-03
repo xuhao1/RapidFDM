@@ -173,10 +173,10 @@ AircraftView.prototype.receive_simulator_data = function () {
             log("open ws from simulator");
             obj.start_simulation({
                 transform: {
-                    attitude: [0,5,0],
-                    vector: [0,0,100.00]
+                    attitude: [0,0,0],
+                    vector: [0,0,1.0]
                 },
-                init_speed:2
+                init_speed:0
             });
         };
         this.ws_simulator.onclose = function (event) {
