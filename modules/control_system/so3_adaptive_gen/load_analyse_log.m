@@ -63,12 +63,12 @@ title(ax5,'x state&r')
 ax6 = subplot(subplot_size_x,1,6);
 fw_tmp = arrayfun(@(x) float_constrain(x,-20,40),fw);
 xdot_tmp = arrayfun(@(x) float_constrain(x,-40,20),xdot);
-plot(ax6,t,-fw,t,xdot)
+plot(ax6,t,-fw_tmp,t,xdot)
 legend(ax6,'feedforward','xdot')
 title(ax6,'diff')
 
 pitchctrl = init_adaptive_controller(); 
-pitchctrl = L1ControllerUpdateParams(7,0.8,32,7,1000,pitchctrl);
+pitchctrl = L1ControllerUpdateParams(pitchctrl,7,0.8,32,1000,3,2.5,3,3);
 errarr = [err0,err1];
 P = pitchctrl.P;
 b = pitchctrl.b;
@@ -106,8 +106,8 @@ grid on
 %plot(ax7,t,dparam(:,1),t,dparam(:,2),t,dparam(:,3),t,dparam(:,4))
 %legend(ax7,'omega','th0','th1','sigma')
 %title(ax7,'diff of param')
-figure
+%figure
 %fw_tmp = arrayfun(@(x) float_constrain(x,-20,40),fw);
-plot(t,sigma_1nd_pre,t,fw_tmp,t,fw_tmp+sigma_1nd_pre)
-legend('sigma_1nd','fw','fw+sigma_1nd')
+%plot(t,x,t,xdot,t,uarr*100)
+%legend('x*25','xdot','u*100')
 end
