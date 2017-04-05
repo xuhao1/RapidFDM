@@ -1,4 +1,6 @@
-function obj = make_filter_obj(fs,fc)
+function obj = make_filter_obj(fc)
+obj = make_iter_trans(1);
 [b,a] = butter1st_200hz(fc);
-obj = struct('A',a,'B',b,'x',[0,0],'y',[0,0],'inited',false);
+obj.A = a;
+obj.B = b;
 end

@@ -1,4 +1,4 @@
-function dydt = L1Updater(t,x,obj)
+function dydt = L1_ODE_2nd(t,x,obj)
 Ad = obj.Am;
 b = obj.b;
 x_real = obj.x_real;

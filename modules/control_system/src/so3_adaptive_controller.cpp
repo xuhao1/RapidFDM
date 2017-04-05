@@ -25,12 +25,18 @@ namespace RapidFDM {
             //4 0.49
             //3 0.42
             init_attitude_controller(&ctrlAttitude);
-            double lead_fc = 2.5;
-            double lead_alpha = 5.5;
-            double lag_fc = 5.5;
-            double lag_alpha = 10.5;
-            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl),7.0, 1.1, 32,1000,lag_fc,lag_alpha,lead_fc,lead_alpha) ;
-            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl),7.0, 1.1, 32,1000,lag_fc,lag_alpha,lead_fc,lead_alpha);
+//            double lead_fc = 2;
+//            double lead_alpha = 10; multirotor
+            double lead_fc = 2;
+            double lead_alpha = 1;
+            double lag_fc = 7;
+            double lag_alpha = 1500;
+            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 7.0, 1.1, 32, 1000, lag_fc, lag_alpha, lead_fc,
+                                     lead_alpha);
+            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 7.0, 1.1, 32, 1000, lag_fc, lag_alpha, lead_fc,
+                                     lead_alpha);
+            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 7.0, 1.2, 10, 1000, lag_fc, lag_alpha, lead_fc,
+                                     lead_alpha);
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -40,64 +46,89 @@ namespace RapidFDM {
             pmat = matOpen(file.c_str(), "w");
         }
 
-        void so3_adaptive_controller::control_step(float deltatime) {
-            static int count = 0;
-            count++;
-            deltatime = deltatime / 1000;
-            copy_v3d_into_array(angular_rate, sys.angular_rate);
+        void convert_euler_to_array(double quat[], double roll, double pitch, double yaw) {
+            Eigen::AngleAxisd rollAngle(roll, Eigen::Vector3d::UnitX());
+            Eigen::AngleAxisd pitchAngle(pitch, Eigen::Vector3d::UnitY());
+            Eigen::AngleAxisd yawAngle(yaw, Eigen::Vector3d::UnitZ());
+            Eigen::Quaterniond quat_sp = yawAngle * pitchAngle * rollAngle;
+            quat[0] = quat_sp.w();
+            quat[1] = quat_sp.x();
+            quat[2] = quat_sp.y();
+            quat[3] = quat_sp.z();
+        }
 
-            sys.quat[0] = quat.w();
-            sys.quat[1] = quat.x();
-            sys.quat[2] = quat.y();
-            sys.quat[3] = quat.z();
-            double u_roll = 0, u_pitch = 0;
-
-            QuatControlSetpoint quatControlSetpoint;
-            EulerControlSetPoint eulerControlSetPoint;
-            quatControlSetpoint.yaw_sp_is_rate = 1;
-            quatControlSetpoint.yaw_rate = 0;
+        void so3_adaptive_controller::control_multirotor(float deltatime) {
             Eigen::Vector3d eul = quat2eulers(quat);
-            Eigen::AngleAxisd rollAngle(roll_sp, Eigen::Vector3d::UnitX());
-            Eigen::AngleAxisd pitchAngle(pitch_sp, Eigen::Vector3d::UnitY());
-            Eigen::AngleAxisd yawAngle(eul.z(), Eigen::Vector3d::UnitZ());
+            QuatControlSetpoint quatControlSetpoint;
+            static double yaw_angle_sp = 0;
+            if (fabs(yaw_sp) > 0.05) {
+                yaw_angle_sp = eul.z();
+                quatControlSetpoint.yaw_rate = yaw_sp * M_PI;
+                quatControlSetpoint.yaw_sp_is_rate = 1;
+            } else {
+                quatControlSetpoint.yaw_sp_is_rate = 0;
+            }
 
-            Eigen::Quaterniond quat = yawAngle * pitchAngle * rollAngle;
-            quatControlSetpoint.quat[0] = quat.w();
-            quatControlSetpoint.quat[1] = quat.x();
-            quatControlSetpoint.quat[2] = quat.y();
-            quatControlSetpoint.quat[3] = quat.z();
+            convert_euler_to_array(quatControlSetpoint.quat, roll_sp, pitch_sp, yaw_angle_sp);
 
-            eulerControlSetPoint.roll = roll_sp;
-            eulerControlSetPoint.pitch = pitch_sp;
-            eulerControlSetPoint.yaw = yaw_sp;
-            eulerControlSetPoint.yaw_sp_is_rate = 1;
-
-            L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys, &u_roll, &u_pitch);
-//            L1ControlAttitudeEuler(&ctrlAttitude,deltatime,&eulerControlSetPoint,&sys,&u_roll,&u_pitch);
+            L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
 
             Eigen::AngleAxisd rot_u(0 * M_PI / 180, Eigen::Vector3d::UnitZ());
             Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
             Eigen::Vector3d u_last = Eigen::Vector3d(0, 0, 0);
-            u.x() = u_roll;
-            u.y() = u_pitch;
-            u.z() = yaw_sp;
+            u.x() = ctrlAttitude.u[0];
+            u.y() = ctrlAttitude.u[1];
+            u.z() = ctrlAttitude.u[2];
 
-//            u = u + (u - u_last) * 2;
-//            u_last = u;
-//            u = rot_u * u * 0.3;
-//            pwm[0] = (float) u.x();
-//            pwm[1] = (float) u.y();
-//            pwm[2] = (float) throttle_sp;
-//            pwm[3] = (float) yaw_sp;
             pwm[0] = (float) float_constrain((-u.x() + u.y() + u.z()) + throttle_sp, 0, 1);
             pwm[1] = (float) float_constrain((u.x() + u.y() - u.z()) + throttle_sp, 0, 1);
             pwm[2] = (float) float_constrain((u.x() - u.y() + u.z()) + throttle_sp, 0, 1);
             pwm[3] = (float) float_constrain((-u.x() - u.y() - u.z()) + throttle_sp, 0, 1);
 
 
+        }
+
+        void so3_adaptive_controller::control_fixedwing(float deltatime) {
+            Eigen::Vector3d eul = quat2eulers(quat);
+            QuatControlSetpoint quatControlSetpoint;
+            static double yaw_angle_sp = 0;
+            yaw_angle_sp = eul.z();
+            quatControlSetpoint.yaw_rate = yaw_sp /10 * M_PI;
+            quatControlSetpoint.yaw_sp_is_rate = 1;
+
+            convert_euler_to_array(quatControlSetpoint.quat, roll_sp, pitch_sp, yaw_angle_sp);
+
+            L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
+
+            Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
+
+            u.x() = ctrlAttitude.u[0];
+            u.y() = ctrlAttitude.u[1];
+            u.z() = ctrlAttitude.u[2];
+
+            pwm[0] = (float) float_constrain(ctrlAttitude.u[0],-1,1);
+            pwm[1] = (float) float_constrain(-ctrlAttitude.u[1], -1, 1);
+            pwm[2] = (float) float_constrain(throttle_sp, 0, 1);
+            pwm[3] = (float) float_constrain(ctrlAttitude.u[2], -1, 1);
+
+        }
+
+        void so3_adaptive_controller::control_step(float deltatime) {
+            static int count = 0;
+            count++;
+            deltatime = deltatime / 1000;
+            copy_v3d_into_array(angular_rate, sys.angular_rate);
+            sys.quat[0] = quat.w();
+            sys.quat[1] = quat.x();
+            sys.quat[2] = quat.y();
+            sys.quat[3] = quat.z();
+
+            control_fixedwing(deltatime);
+//            control_multirotor(deltatime);
+
             aircraftNode->set_control_from_channels(pwm, 8);
 
-            ctrl_log.push_back(ctrlAttitude.RollCtrl);
+            ctrl_log.push_back(ctrlAttitude.PitchCtrl);
             sys_log.push_back(sys);
             att_con_log.push_back(ctrlAttitude);
 

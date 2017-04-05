@@ -1,4 +1,4 @@
-function [obj,u_roll,u_pitch] = L1ControlAttitudeEuler(obj,dt,euler_sp,sys_state)
+function obj = L1ControlAttitudeEuler(obj,dt,euler_sp,sys_state)
 coder.cstructname(obj,'AttitudeCtrlT')
 coder.cstructname(obj.RollCtrl, 'AdaptiveCtrlT');
 coder.cstructname(obj.PitchCtrl, 'AdaptiveCtrlT');
@@ -20,7 +20,7 @@ obj.RollCtrl.g(1) = roll_feedforward;
 obj.PitchCtrl.g(1) = pitch_feedforward;
 [obj.RollCtrl,u_roll] = L1AdaptiveControl2nd(dt,obj.RollCtrl,x_real_roll,euler_sp.roll);
 [obj.PitchCtrl,u_pitch] = L1AdaptiveControl2nd(dt,obj.PitchCtrl,x_real_pitch,euler_sp.pitch);
-
+obj.u = [u_roll,u_pitch,0];
 %obj.quat_sp = quat_sp;
 %obj.quat = sys_state.quat;
 end
