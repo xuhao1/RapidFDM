@@ -7,7 +7,8 @@ if not( obj.inited)
     y = x;
     return
 end
-for i = n:2
+%'fuck'
+for i = n:-1:2
     obj.x(i) = obj.x(i-1);
     obj.y(i) = obj.y(i-1);
 end
@@ -22,5 +23,4 @@ for i = 2:n
     y = y - obj.y(i) * obj.A(i);
 end
 obj.y(1) = y;
-%y = obj.y(1);
 end

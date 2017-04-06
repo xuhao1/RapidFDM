@@ -28,9 +28,9 @@ namespace RapidFDM {
 //            double lead_fc = 2;
 //            double lead_alpha = 10; multirotor
             double lead_fc = 2;
-            double lead_alpha = 1;
+            double lead_alpha = 2;
             double lag_fc = 7;
-            double lag_alpha = 1500;
+            double lag_alpha = 10;
             L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 7.0, 1.1, 32, 1000, lag_fc, lag_alpha, lead_fc,
                                      lead_alpha);
             L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 7.0, 1.1, 32, 1000, lag_fc, lag_alpha, lead_fc,

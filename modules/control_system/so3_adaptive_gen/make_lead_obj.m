@@ -4,6 +4,6 @@ wz = f1 * 2*pi;
 wp = f1 * 2*pi*a;
 b =  [1,-((400.*wp - wp*wz)/(400.*wp + wp*wz))]*wp*(400. + wz)/((400. + wp)*wz);
 a = [1,-((400.*wz - wp*wz)/(400.*wz + wp*wz))];
-obj.A = a;
-obj.B = b;
+obj.A(1,1:2) = a;
+obj.B(1,1:2) = b;
 end

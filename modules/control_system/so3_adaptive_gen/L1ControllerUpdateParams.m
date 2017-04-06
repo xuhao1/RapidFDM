@@ -26,8 +26,16 @@ if not(obj.inited)
 obj.x(4) = p;
 obj.x(5) = pd;
 end
-%obj.u_filter = make_filter_obj(200,fc);
 obj.u_filter = make_lag_obj(lag_fc,lag_alpha);
+
+%obj.u_filter = make_filter_obj(lag_fc);
+%obj.u_filter = make_iter_trans(2);
+%[b,a] = lowpass_filter_2fc(7,20);
+%obj.u_filter.B(1:3) = [0.02368,0.04736,0.02368];
+%obj.u_filter.A(1:3) = [1,-1.324,0.4185];
+%obj.u_filter.B(1:3) = [0.204522,0.0408376,-0.00877859]/5.03687;
+%obj.u_filter.A(1:3) = [5.03687,-7.88171,3.08142]/5.03687;
+
 obj.u_lead = make_lead_obj(lead_fc,lead_alpha);
 obj.km = [p;pd];
 end
