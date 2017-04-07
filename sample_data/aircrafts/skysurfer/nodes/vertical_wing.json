@@ -23,5 +23,5 @@
   "pieces":3,
   "MidChordSweep": 15,
   "maxdeflect" : -10,
-  "freq_cut":3
+  "freq_cut":3.76
 }

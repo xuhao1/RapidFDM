@@ -23,8 +23,8 @@ obj.g_filter = make_filter_obj(15);
 obj.kg = - Am(2,1) / b2;
 obj.kg_rate = - Am(2,2)/ b2;
 if not(obj.inited)
-obj.x(4) = p;
-obj.x(5) = pd;
+    obj.x(4) = p;
+    obj.x(5) = pd;
 end
 obj.u_filter = make_lag_obj(lag_fc,lag_alpha);
 
@@ -37,5 +37,8 @@ obj.u_filter = make_lag_obj(lag_fc,lag_alpha);
 %obj.u_filter.A(1:3) = [5.03687,-7.88171,3.08142]/5.03687;
 
 obj.u_lead = make_lead_obj(lead_fc,lead_alpha);
-obj.km = [p;pd];
+%obj.u_lead = make_iter_trans(2);
+%obj.u_lead.B(1:3) = [138.465,-74.0782,-52.5435]/64.952;
+%obj.u_lead.A(1:3) = [64.952,-74.0782,20.9697] / 64.952;
+%obj.km = [p;pd];
 end

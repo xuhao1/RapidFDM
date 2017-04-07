@@ -22,6 +22,7 @@ namespace RapidFDM
 
             AdaptiveSysT sys = {0};
             AttitudeCtrlT ctrlAttitude;
+            AdaptiveCtrlT rollCtrl;
             MATFile *pmat;
 
             std::vector<AdaptiveCtrlT> ctrl_log;

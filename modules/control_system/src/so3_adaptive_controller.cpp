@@ -5,6 +5,7 @@
 #include <ctime>
 #include <iomanip>
 #include <L1ControlAttitude_types.h>
+#include <L1ControlAttitude.h>
 
 namespace RapidFDM {
     namespace ControlSystem {
@@ -25,22 +26,26 @@ namespace RapidFDM {
             //4 0.49
             //3 0.42
             init_attitude_controller(&ctrlAttitude);
-//            double lead_fc = 2;
-//            double lead_alpha = 10; multirotor
             double lead_fc = 2;
-            double lead_alpha = 2;
+            double lead_alpha = 1; //multirotor
+//            double lead_fc = 0.8;
+//            double lead_alpha = 1;
             double lag_fc = 7;
-            double lag_alpha = 10;
-            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 7.0, 1.1, 32, 1000, lag_fc, lag_alpha, lead_fc,
+            double lag_alpha = 15;
+//            double lag_fc = 7;
+//            double lag_alpha = 15;
+            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 7.0, 1.0, 32, 1000, lag_fc, lag_alpha, lead_fc,
                                      lead_alpha);
-            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 7.0, 1.1, 32, 1000, lag_fc, lag_alpha, lead_fc,
+            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 7.0,1.0, 32, 1000, lag_fc, lag_alpha, lead_fc,
                                      lead_alpha);
-            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 7.0, 1.2, 10, 1000, lag_fc, lag_alpha, lead_fc,
+            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 7.0, 1.0, 10, 1000, lag_fc, lag_alpha, lead_fc,
                                      lead_alpha);
+
+            init_angular_control_2nd(573,35,1,7,15,&rollCtrl);
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
-            oss << std::put_time(&tm, "log/so3_log_%Y_%m_%d_%H_%M_%S.mat");
+            oss << std::put_time(&tm, "/var/log/rapidfdm/so3_log_%Y_%m_%d_%H_%M_%S.mat");
             auto file = oss.str();
             printf("Creating file %s...\n\n", file.c_str());
             pmat = matOpen(file.c_str(), "w");
@@ -76,7 +81,9 @@ namespace RapidFDM {
             Eigen::AngleAxisd rot_u(0 * M_PI / 180, Eigen::Vector3d::UnitZ());
             Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
             Eigen::Vector3d u_last = Eigen::Vector3d(0, 0, 0);
+            angular_velocity_control_2nd(&rollCtrl,deltatime,&sys,roll_sp);
             u.x() = ctrlAttitude.u[0];
+//            u.x() = rollCtrl.u;
             u.y() = ctrlAttitude.u[1];
             u.z() = ctrlAttitude.u[2];
 
@@ -100,16 +107,19 @@ namespace RapidFDM {
 
             L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
 
+//            angular_velocity_control_2nd(&rollCtrl,deltatime,&sys,roll_sp);
             Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
 
             u.x() = ctrlAttitude.u[0];
+//            u.x() = rollCtrl.u;
+//            u.x() = roll_sp;
             u.y() = ctrlAttitude.u[1];
             u.z() = ctrlAttitude.u[2];
 
-            pwm[0] = (float) float_constrain(ctrlAttitude.u[0],-1,1);
-            pwm[1] = (float) float_constrain(-ctrlAttitude.u[1], -1, 1);
+            pwm[0] = (float) float_constrain(u.x(),-1,1);
+            pwm[1] = (float) float_constrain(-u.y(), -1, 1);
             pwm[2] = (float) float_constrain(throttle_sp, 0, 1);
-            pwm[3] = (float) float_constrain(ctrlAttitude.u[2], -1, 1);
+            pwm[3] = (float) float_constrain(u.z(), -1, 1);
 
         }
 
@@ -117,7 +127,11 @@ namespace RapidFDM {
             static int count = 0;
             count++;
             deltatime = deltatime / 1000;
+            static Eigen::Vector3d angular_rate_last = Eigen::Vector3d(0,0,0);
+            Eigen::Vector3d angular_rate_dot = (angular_rate - angular_rate_last) / deltatime;
+            angular_rate_last = angular_rate;
             copy_v3d_into_array(angular_rate, sys.angular_rate);
+            copy_v3d_into_array(angular_rate_dot, sys.angular_rate_dot);
             sys.quat[0] = quat.w();
             sys.quat[1] = quat.x();
             sys.quat[2] = quat.y();
@@ -128,7 +142,8 @@ namespace RapidFDM {
 
             aircraftNode->set_control_from_channels(pwm, 8);
 
-            ctrl_log.push_back(ctrlAttitude.PitchCtrl);
+//            ctrl_log.push_back(ctrlAttitude.PitchCtrl);
+            ctrl_log.push_back(ctrlAttitude.RollCtrl);
             sys_log.push_back(sys);
             att_con_log.push_back(ctrlAttitude);
 

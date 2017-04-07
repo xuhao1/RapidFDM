@@ -1,5 +1,5 @@
 function load_analyse_log(filename)
-S = load(strcat('/Users/xuhao/Develop/FixedwingProj/RapidFDM/build/release/log/' , filename));
+S = load(strcat('/var/log/rapidfdm/' , filename));
 names = fieldnames(S);
 [count , ~ ]= size(names);
 data = getfield(S,names{1});
@@ -110,4 +110,6 @@ grid on
 %fw_tmp = arrayfun(@(x) float_constrain(x,-20,40),fw);
 %plot(t,x,t,xdot,t,uarr*100)
 %legend('x*25','xdot','u*100')
+%figure
+%plot(t,omega_pre)
 end
