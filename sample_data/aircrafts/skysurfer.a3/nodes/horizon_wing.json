@@ -1,5 +1,5 @@
 {
-  "name": "vertical_wing",
+  "name": "horizon_wing",
   "type": "wing",
   "id" : "0",
   "mass": 0.1,
@@ -13,15 +13,17 @@
     1e-2,
     1e-2
   ],
-  "b_2": 0.2,
-  "Mac": 0.1,
+  "b_2": 0.24,
+  "Mac": 0.11,
   "nonSideAttach": 1,
-  "wingPart": 0,
+  "wingPart": 2,
   "enableControl": 1,
   "airfoil_name":"naca0015",
-  "TaperRatio":0.6,
-  "pieces":3,
-  "MidChordSweep": 15,
+  "deflectAngle" : 4,
+  "MidChordSweep": 8,
+  "TaperRatio":0.8,
+  "pieces": 2,
+  "ctrlSurfFrac":0.5,
   "maxdeflect" : -10,
   "freq_cut":5
 }

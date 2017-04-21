@@ -31,28 +31,28 @@
   "mapper": {
     "main_wing_0/flap_0": {
       "coeff": 1.0,
-      "chn": 0
+      "chn": 2
     },
     "main_wing_0/flap_1": {
       "coeff": -1.0,
-      "chn": 0
+      "chn": 2
     },
     "horizon_wing_0/flap_0": {
       "coeff": 1.0,
-      "chn": 1
+      "chn": 3
     },
     "horizon_wing_0/flap_1": {
       "coeff": 1.0,
-      "chn": 1
+      "chn": 3
     },
     "vertical_wing_0/flap": {
       "coeff": 1.0,
-      "chn": 3
+      "chn": 4
     },
     "main_engine_0/thrust": {
       "coeff": 0.5,
       "zero_pos": 0.5,
-      "chn": 2
+      "chn": 0
     }
   }
 }
