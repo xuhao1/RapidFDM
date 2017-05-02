@@ -1,4 +1,4 @@
 #!/bin/bash
-echo $1
+echo $1 $2
 BASEDIR=$(dirname "$0")
-electron $BASEDIR/RapidFDM-Visuallizer $1
+electron $BASEDIR/RapidFDM-Visuallizer $1 $2

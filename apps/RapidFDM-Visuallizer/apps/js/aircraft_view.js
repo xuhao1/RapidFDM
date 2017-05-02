@@ -154,16 +154,17 @@ AircraftView.prototype.receive_simulator_data = function () {
                 $("#pwm").text(JSON.stringify(data.sim_status.PWM));
 
 
-                // obj.input.use_a3 = true;
-                // obj.a3_online = data.a3_sim_status.online > 0;
-                //  obj.input.a3_online = obj.a3_online;
-                // if (obj.input.a3_online) {
-                //     obj.input.throttle = data.a3_sim_status.RcT / 2 + 5000;
-                //     obj.input.aileron = data.a3_sim_status.RcA;
-                //     obj.input.rudder = data.a3_sim_status.RcR;
-                //     obj.input.elevator = data.a3_sim_status.RcE;
-                // }
-
+                if (data.sim_status.sim_mode > 0)
+                {
+                    obj.input.use_hil = true;
+                    if (data.sim_status.online) {
+                        obj.input.hil_online = true;
+                        obj.input.throttle = data.sim_status.RcT* 2 - 10000;
+                        obj.input.aileron = data.sim_status.RcA;
+                        obj.input.rudder = data.sim_status.RcR;
+                        obj.input.elevator = data.sim_status.RcE;
+                    }
+                }
             }
 
         };
@@ -176,7 +177,7 @@ AircraftView.prototype.receive_simulator_data = function () {
                     attitude: [0,0,0],
                     vector: [0,0,100.0]
                 },
-                init_speed:6
+                init_speed:10
             });
         };
         this.ws_simulator.onclose = function (event) {

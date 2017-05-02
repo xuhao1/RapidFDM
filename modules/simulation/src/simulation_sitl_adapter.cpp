@@ -45,6 +45,7 @@ namespace RapidFDM {
             sitl_value.AddMember("PWM", pwm_array, d.GetAllocator());
 
             d.AddMember("sim_status", sitl_value, d.GetAllocator());
+            add_value(sitl_value, 1, d, "sim_mode");
 
         }
 

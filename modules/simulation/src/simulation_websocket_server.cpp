@@ -70,9 +70,11 @@ namespace RapidFDM {
             handler_realtime_output->add_json_handler(
                     "start", [&](const rapidjson::Value &value) {
                         started = true;
-                        Eigen::Affine3d init_transform = fast_transform(value, "init_transform");
+                        const rapidjson::Value & state = aircraftNode->getJsonDefine()["initial_states"];
+                        Eigen::Affine3d init_transform = fast_transform(state, "transform");
                         auto init_trans = transform_e2p(init_transform);
-                        double init_speed = fast_value(value, "init_speed");
+                        double init_speed = fast_value(state, "init_speed");
+
                         printf("Init pos %f %f %f speed %f\n", init_trans.p.x, init_trans.p.y, init_trans.p.z,init_speed);
                         phys_engine_lock.lock();
                         this->simulatorAircraft->reset_aircraft(transform_e2p(init_transform), init_speed);

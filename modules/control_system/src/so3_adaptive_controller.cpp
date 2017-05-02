@@ -10,7 +10,7 @@
 namespace RapidFDM {
     namespace ControlSystem {
 
-        inline void copy_v3d_into_array(const Eigen::Vector3d v, double *arr) {
+        inline void copy_v3d_into_array(const Eigen::Vector3d v, float *arr) {
             arr[0] = v.x();
             arr[1] = v.y();
             arr[2] = v.z();
@@ -26,19 +26,19 @@ namespace RapidFDM {
             //4 0.49
             //3 0.42
             init_attitude_controller(&ctrlAttitude);
-            double lead_fc = 2;
+            double lead_fc = 4;
             double lead_alpha = 1; //multirotor
 //            double lead_fc = 0.8;
 //            double lead_alpha = 1;
-            double lag_fc = 7;
+            double lag_fc = 8;
             double lag_alpha = 15;
 //            double lag_fc = 7;
 //            double lag_alpha = 15;
-            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 7.0, 1.0, 32, 1000, lag_fc, lag_alpha, lead_fc,
+            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 7.0, 1.2, 32, 1000, lag_fc, lag_alpha, lead_fc,
                                      lead_alpha);
-            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 7.0,1.0, 32, 1000, lag_fc, lag_alpha, lead_fc,
+            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 7.0,1.2, 32, 1000, lag_fc, lag_alpha, lead_fc,
                                      lead_alpha);
-            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 7.0, 1.0, 10, 1000, lag_fc, lag_alpha, lead_fc,
+            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 7.0, 1.2, 10, 1000, lag_fc, lag_alpha, lead_fc,
                                      lead_alpha);
 
             init_angular_control_2nd(573,35,1,7,15,&rollCtrl);
@@ -51,7 +51,7 @@ namespace RapidFDM {
             pmat = matOpen(file.c_str(), "w");
         }
 
-        void convert_euler_to_array(double quat[], double roll, double pitch, double yaw) {
+        void convert_euler_to_quat_array(float quat[], double roll, double pitch, double yaw) {
             Eigen::AngleAxisd rollAngle(roll, Eigen::Vector3d::UnitX());
             Eigen::AngleAxisd pitchAngle(pitch, Eigen::Vector3d::UnitY());
             Eigen::AngleAxisd yawAngle(yaw, Eigen::Vector3d::UnitZ());
@@ -74,7 +74,7 @@ namespace RapidFDM {
                 quatControlSetpoint.yaw_sp_is_rate = 0;
             }
 
-            convert_euler_to_array(quatControlSetpoint.quat, roll_sp, pitch_sp, yaw_angle_sp);
+            convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp, pitch_sp, yaw_angle_sp);
 
             L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
 
@@ -83,7 +83,6 @@ namespace RapidFDM {
             Eigen::Vector3d u_last = Eigen::Vector3d(0, 0, 0);
             angular_velocity_control_2nd(&rollCtrl,deltatime,&sys,roll_sp);
             u.x() = ctrlAttitude.u[0];
-//            u.x() = rollCtrl.u;
             u.y() = ctrlAttitude.u[1];
             u.z() = ctrlAttitude.u[2];
 
@@ -103,16 +102,13 @@ namespace RapidFDM {
             quatControlSetpoint.yaw_rate = yaw_sp /10 * M_PI;
             quatControlSetpoint.yaw_sp_is_rate = 1;
 
-            convert_euler_to_array(quatControlSetpoint.quat, roll_sp, pitch_sp, yaw_angle_sp);
+            convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp, pitch_sp, yaw_angle_sp);
 
             L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
 
-//            angular_velocity_control_2nd(&rollCtrl,deltatime,&sys,roll_sp);
             Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
 
             u.x() = ctrlAttitude.u[0];
-//            u.x() = rollCtrl.u;
-//            u.x() = roll_sp;
             u.y() = ctrlAttitude.u[1];
             u.z() = ctrlAttitude.u[2];
 

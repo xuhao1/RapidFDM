@@ -1,5 +1,6 @@
 function [obj,u] = L1AdaptiveControl2nd(dt,obj,x_real,r)
 obj.r = r;
+u = 0;
 %obj.x(1) = DeltaSpX + obj.x(1);
 obj.x_real = x_real;
 if not(obj.inited)
@@ -13,13 +14,26 @@ end
 
 obj.err(1:2) = obj.x(1:2) - x_real(1:2);
 %obj.g(1) = - rfb;
-
-opts_1 = odeset('MaxStep',4);
+opts_1 =  odeset('RelTol',1e-1,'AbsTol',1e-2);
 [~,x]=ode23(@(t,x) L1_ODE_2nd(t,x,obj),...
     [obj.t,obj.t + dt],obj.x,opts_1);
+obj.x = ctrl_x_constrain(x(end,1:7)');
 
-[obj,out] = L1ControlLaw2nd(dt,obj);
+% [~,x]=ode23(@(t,x) L1_ODE_2nd_PRE(t,x,obj),...
+%     [obj.t,obj.t + dt],obj.x,opts_1);
+% err = obj.x(1:2) - x_real(1:2);
+% obj.err = err;
+% 
+% obj.x = ctrl_x_constrain(x(end,1:7)');
+% [~,x]=ode23(@(t,x) L1_ODE_2nd_Update(t,x,obj),...
+%     [obj.t,obj.t + dt],obj.x,opts_1);
+% obj.x = ctrl_x_constrain(x(end,1:7)');
+
+%[~,x]=ode23(@(t,x) L1_ODE_2nd(t,x,obj),...
+%    [obj.t,obj.t + dt],obj.x,opts_1);
+
+[obj,u] = L1ControlLaw2nd(dt,obj);
+
 obj.x = ctrl_x_constrain(x(end,1:7)');
 obj.err(1:2) = obj.x(1:2) - x_real(1:2);
 obj.t = obj.t + dt;
-u = out;

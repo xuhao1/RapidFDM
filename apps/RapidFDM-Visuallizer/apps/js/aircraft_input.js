@@ -33,8 +33,8 @@ var AircraftInput = function (aircraftview) {
     this.d_axis_keyboard_ratio = 0.97;
     this.axis_keyboard_back_ratio = 3;
 
-    this.use_a3 = false;
-    this.a3_online = false;
+    this.use_hil = false;
+    this.hil_online = false;
 
     obj.update();
     this.aircraftview = aircraftview;
@@ -99,19 +99,10 @@ function float_constrain(v,l,u)
 }
 var fuck = 0;
 AircraftInput.prototype.update = function () {
-    if (!this.a3_online) {
+    if (!this.use_hil) {
         var dt = this.delatatime;
         var gamepad = this.get_gamepad();
         if (gamepad !== undefined) {
-            //console.log(gamepad.axes);
-            // if (gamepad.axes[3] > 0.5)
-            // {
-            //     this.aileron = 10000;
-            // }
-            // else
-            // {
-            //     this.aileron = 0;
-            // }
             this.elevator = 0;
             this.aileron = gamepad.axes[3] * 10000;
             this.elevator = - gamepad.axes[4] * 10000;
@@ -160,12 +151,12 @@ AircraftInput.prototype.update = function () {
         }
     }
     else {
-        if (this.a3_online) {
-            $("#gamepad_connection").text("A3 connected");
+        if (this.hil_online) {
+            $("#gamepad_connection").text("HIL connected");
             $("#gamepad_connection").css("color", "green");
         }
         else {
-            $("#gamepad_connection").text("A3 disconnected");
+            $("#gamepad_connection").text("HIL disconnected");
             $("#gamepad_connection").css("color", "red");
         }
     }

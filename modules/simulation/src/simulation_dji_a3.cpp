@@ -10,9 +10,11 @@ namespace RapidFDM {
     namespace Simulation {
         simulation_dji_a3_adapter::simulation_dji_a3_adapter(SimulatorAircraft *_sim_air) :
                 simulation_hil_adapter(_sim_air) {
-            root_uri = "ws://127.0.0.1:19870/general";
-            sim_uri = "ws://127.0.0.1:19870/controller/simulator/";
+//            root_uri = "ws://127.0.0.1:19870/general";
+//            sim_uri = "ws://127.0.0.1:19870/controller/simulator/";
 
+            root_uri = "ws://10.211.55.3:19870/general";
+            sim_uri = "ws://10.211.55.3:19870/controller/simulator/";
             c_root.set_access_channels(websocketpp::log::alevel::none);
             c_root.clear_access_channels(websocketpp::log::alevel::all);
 
@@ -110,7 +112,7 @@ namespace RapidFDM {
 
         void simulation_dji_a3_adapter::tick_func(float dt,long tick) {
             this->simulator_tick = tick;
-            if (total_tick_count % 200 == 0) {
+            if (total_tick_count % 200 == 1) {
                 try_connect_assistant();
                 printf("time: %f d tick %d\n", total_tick_count / 200.0, dcount);
                 dcount = 0;
@@ -141,7 +143,7 @@ namespace RapidFDM {
                  */
 
                 dcount++;
-                if (total_tick_count % 200 == 0) {
+                if (total_tick_count % 200 == 1) {
                     printf("tick latency %ld sim:%ld fc %ld\n", this->simulator_tick - (int) (fast_value(d, "tick")),
                            this->simulator_tick, (long) (fast_value(d, "tick"))
                     );
@@ -172,6 +174,7 @@ namespace RapidFDM {
             add_value(a3_value, RcR, d, "RcR");
             add_value(a3_value, RcT, d, "RcT");
             add_value(a3_value, (int) sim_online, d, "online");
+            add_value(a3_value, 1, d, "sim_mode");
 
             rapidjson::Value pwm_array(rapidjson::kArrayType);
 
@@ -180,7 +183,7 @@ namespace RapidFDM {
             }
 
             a3_value.AddMember("PWM", pwm_array, d.GetAllocator());
-            d.AddMember("a3_sim_status", a3_value, d.GetAllocator());
+            d.AddMember("sim_status", a3_value, d.GetAllocator());
 
         }
 

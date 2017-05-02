@@ -31,9 +31,9 @@ namespace RapidFDM {
             state.attitude_quaternion[3] = (float) quat.z();
 
             Eigen::Vector3d global_local = get_lati_lon_alti();
-            state.lat = (int32_t)(global_local.x() * 1e7 * 180.0 / M_PI);
-            state.lon = (int32_t)(global_local.y() * 1e7 * 180.0 / M_PI);
-            state.alt = -(int32_t)(global_local.z() * 1e3);
+            state.lat = (int32_t) (global_local.x() * 1e7 * 180.0 / M_PI);
+            state.lon = (int32_t) (global_local.y() * 1e7 * 180.0 / M_PI);
+            state.alt = -(int32_t) (global_local.z() * 1e3);
 
             Eigen::Vector3d ang_vel = get_angular_velocity_body_NED();
             state.rollspeed = (float) ang_vel.x();
@@ -41,9 +41,9 @@ namespace RapidFDM {
             state.yawspeed = (float) ang_vel.z();
 
             Eigen::Vector3d vel = get_ground_velocity_NED();
-            state.vx = (int16_t)(vel.x() * 100.0);
-            state.vy = (int16_t)(vel.y() * 100.0);
-            state.vz = (int16_t)(vel.z() * 100.0);
+            state.vx = (int16_t) (vel.x() * 100.0);
+            state.vy = (int16_t) (vel.y() * 100.0);
+            state.vz = (int16_t) (vel.z() * 100.0);
 
             Eigen::Vector3d acc = get_acc_body_NED();
             state.xacc = (int16_t) acc.x();
@@ -52,8 +52,8 @@ namespace RapidFDM {
 
             acc = get_acc_body_NED();
 
-            state.ind_airspeed = (uint16_t)(get_airspeed() * 100);
-            state.true_airspeed = (uint16_t)(get_airspeed() * 100);
+            state.ind_airspeed = (uint16_t) (get_airspeed() * 100);
+            state.true_airspeed = (uint16_t) (get_airspeed() * 100);
 
             mavlink_message_t msg;
 
@@ -68,7 +68,7 @@ namespace RapidFDM {
             write_to_client(mavlink_send_fc_buffer, size);
         }
 
-        void simulation_pixhawk_adapter::tick_func(float dt,long tick) {
+        void simulation_pixhawk_adapter::tick_func(float dt, long tick) {
             if (system_online) {
                 if (total_tick_count % 200 == 0) {
                     if (!simulator_online) {
@@ -95,7 +95,7 @@ namespace RapidFDM {
         }
 
         bool simulation_pixhawk_adapter::enable_simulation() {
-            return true;
+            return simulator_online;
         }
 
         void simulation_pixhawk_adapter::on_receive_data(uint8_t *data, size_t size) {
@@ -127,6 +127,7 @@ namespace RapidFDM {
             for (int i = 0; i < 8; i++) {
                 pwm[i] = (float) float_constrain((pwm[i] - 0.5f) * 2.0f, -1, 1);
             }
+//            printf("pwm %f %f %f %f\n",pwm[0],pwm[1],pwm[2],pwm[3]);
             on_pwm_data_receieve(pwm, 8);
         }
 
@@ -140,7 +141,7 @@ namespace RapidFDM {
                     mavlink_msg_hil_controls_decode(msg, &hil_controls);
                     on_message_hil_controls(&hil_controls);
                     motor_started = true;
-                    //return;
+                    return;
                     break;
                 case MAVLINK_MSG_ID_HEARTBEAT:
                     mavlink_heartbeat_t heartbeat;
@@ -154,13 +155,15 @@ namespace RapidFDM {
                     mavlink_msg_rc_channels_decode(msg, &rc);
                     RcA = (rc.chan1_raw - 1520) / 400.0f * 10000;
                     RcE = (rc.chan2_raw - 1520) / 400.0f * 10000;
-                    RcT = (rc.chan3_raw - 1520) / 400.0f * 10000;
+                    RcT = ((rc.chan3_raw - 1520) / 400.0f +1 )/2 * 10000;
                     RcR = (rc.chan4_raw - 1520) / 400.0f * 10000;
+//                    printf("rc %f %f %f %f\n",RcA,RcE,RcT,RcR);
+                    break;
                 default:
                     break;
             }
 
-//            write_to_server(buffer, size);
+            write_to_server(buffer, size);
         }
 
         void simulation_pixhawk_adapter::push_json_to_app(rapidjson::Document &d) {
@@ -173,6 +176,7 @@ namespace RapidFDM {
             add_value(a3_value, RcT, d, "RcT");
 
             add_value(a3_value, (int) simulator_online, d, "online");
+            add_value(a3_value, 1, d, "sim_mode");
 
             rapidjson::Value pwm_array(rapidjson::kArrayType);
             for (int ch = 0; ch < 8; ch++) {
@@ -180,7 +184,9 @@ namespace RapidFDM {
             }
 
             a3_value.AddMember("PWM", pwm_array, d.GetAllocator());
-            d.AddMember("a3_sim_status", a3_value, d.GetAllocator());
+            d.AddMember("sim_status", a3_value, d.GetAllocator());
+            //sim mode: 1 hil
+            // 0 sitl
 
         }
 

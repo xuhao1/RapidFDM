@@ -28,17 +28,5 @@ if not(obj.inited)
 end
 obj.u_filter = make_lag_obj(lag_fc,lag_alpha);
 
-%obj.u_filter = make_filter_obj(lag_fc);
-%obj.u_filter = make_iter_trans(2);
-%[b,a] = lowpass_filter_2fc(7,20);
-%obj.u_filter.B(1:3) = [0.02368,0.04736,0.02368];
-%obj.u_filter.A(1:3) = [1,-1.324,0.4185];
-%obj.u_filter.B(1:3) = [0.204522,0.0408376,-0.00877859]/5.03687;
-%obj.u_filter.A(1:3) = [5.03687,-7.88171,3.08142]/5.03687;
-
 obj.u_lead = make_lead_obj(lead_fc,lead_alpha);
-%obj.u_lead = make_iter_trans(2);
-%obj.u_lead.B(1:3) = [138.465,-74.0782,-52.5435]/64.952;
-%obj.u_lead.A(1:3) = [64.952,-74.0782,20.9697] / 64.952;
-%obj.km = [p;pd];
 end

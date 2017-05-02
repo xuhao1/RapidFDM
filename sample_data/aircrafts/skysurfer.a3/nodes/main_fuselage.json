@@ -28,6 +28,14 @@
   "rigid_mode" : 1,
   "total_mass" : 0.7,
   "total_inertial":[0.04,0.02,0.1],
+  "initial_states" : {
+    "transform": {
+      "attitude": [0,0,0],
+      "vector": [0,0,100]
+    },
+    "init_speed":10
+  },
+
   "mapper": {
     "main_wing_0/flap_0": {
       "coeff": 1.0,

@@ -15,7 +15,7 @@ obj.err(1:2) = obj.x(1:2) - x_real(1:2);
 %obj.g(1) = - rfb;
 obj.x(1) = x_real(1);
 
-opts_1 = odeset('MaxStep',4);
+opts_1 =  odeset('RelTol',1e-1,'AbsTol',1e-2);
 [~,x]=ode23(@(t,x) L1_ODE_1st(t,x,obj),...
     [obj.t,obj.t + dt],obj.x,opts_1);
 

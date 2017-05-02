@@ -1,4 +1,5 @@
 function testL1ControlAttitude
+feature('SetPrecision', 24)
 sys_state = struct('quat',[1 0 0 0],'angular_rate',[0;0;0],'angular_rate_dot',[0;0;0],'acc',[0;0;0]);
 attcon = init_attitude_controller();
 euler_control_sp = struct('pitch',0,'roll',0,'yaw',0,'yaw_sp_is_rate',true); 

@@ -42,6 +42,13 @@
     0.04,
     0.02
   ],
+  "initial_states" : {
+    "transform": {
+      "attitude": [0,0,0],
+      "vector": [0,0,1.2]
+    },
+    "init_speed":0
+  },
   "mapper": {
     "main_engine_0/thrust": {
       "coeff": 0.5,
