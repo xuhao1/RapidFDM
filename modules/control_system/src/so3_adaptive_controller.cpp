@@ -6,15 +6,25 @@
 #include <iomanip>
 #include <L1ControlAttitude_types.h>
 #include <L1ControlAttitude.h>
+#include <RapidFDM/utils.h>
+
+using namespace RapidFDM::Utils;
 
 namespace RapidFDM {
     namespace ControlSystem {
 
-        inline void copy_v3d_into_array(const Eigen::Vector3d v, float *arr) {
+        void copy_v3d_into_array(const Eigen::Vector3d v, float *arr) {
+            arr[0] = (float) v.x();
+            arr[1] = (float) v.y();
+            arr[2] = (float) v.z();
+        }
+
+        void copy_v3d_into_array(const Eigen::Vector3d v, double *arr) {
             arr[0] = v.x();
             arr[1] = v.y();
             arr[2] = v.z();
         }
+
 
         so3_adaptive_controller::so3_adaptive_controller(Aerodynamics::AircraftNode *_aircraftNode) :
                 BaseController(_aircraftNode) {
@@ -25,7 +35,7 @@ namespace RapidFDM {
             //5 0.55
             //4 0.49
             //3 0.42
-            init_attitude_controller(&ctrlAttitude);
+            init_attitude_controller(0,4,&ctrlAttitude);
             double lead_fc = 4;
             double lead_alpha = 1; //multirotor
 //            double lead_fc = 0.8;
@@ -36,12 +46,11 @@ namespace RapidFDM {
 //            double lag_alpha = 15;
             L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 7.0, 1.2, 32, 1000, lag_fc, lag_alpha, lead_fc,
                                      lead_alpha);
-            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 7.0,1.2, 32, 1000, lag_fc, lag_alpha, lead_fc,
+            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 7.0, 1.2, 32, 1000, lag_fc, lag_alpha, lead_fc,
                                      lead_alpha);
             L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 7.0, 1.2, 10, 1000, lag_fc, lag_alpha, lead_fc,
                                      lead_alpha);
 
-            init_angular_control_2nd(573,35,1,7,15,&rollCtrl);
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -56,11 +65,23 @@ namespace RapidFDM {
             Eigen::AngleAxisd pitchAngle(pitch, Eigen::Vector3d::UnitY());
             Eigen::AngleAxisd yawAngle(yaw, Eigen::Vector3d::UnitZ());
             Eigen::Quaterniond quat_sp = yawAngle * pitchAngle * rollAngle;
+            quat[0] = (float) quat_sp.w();
+            quat[1] = (float) quat_sp.x();
+            quat[2] = (float) quat_sp.y();
+            quat[3] = (float) quat_sp.z();
+        }
+
+        void convert_euler_to_quat_array(double quat[], double roll, double pitch, double yaw) {
+            Eigen::AngleAxisd rollAngle(roll, Eigen::Vector3d::UnitX());
+            Eigen::AngleAxisd pitchAngle(pitch, Eigen::Vector3d::UnitY());
+            Eigen::AngleAxisd yawAngle(yaw, Eigen::Vector3d::UnitZ());
+            Eigen::Quaterniond quat_sp = yawAngle * pitchAngle * rollAngle;
             quat[0] = quat_sp.w();
             quat[1] = quat_sp.x();
             quat[2] = quat_sp.y();
             quat[3] = quat_sp.z();
         }
+
 
         void so3_adaptive_controller::control_multirotor(float deltatime) {
             Eigen::Vector3d eul = quat2eulers(quat);
@@ -81,7 +102,6 @@ namespace RapidFDM {
             Eigen::AngleAxisd rot_u(0 * M_PI / 180, Eigen::Vector3d::UnitZ());
             Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
             Eigen::Vector3d u_last = Eigen::Vector3d(0, 0, 0);
-            angular_velocity_control_2nd(&rollCtrl,deltatime,&sys,roll_sp);
             u.x() = ctrlAttitude.u[0];
             u.y() = ctrlAttitude.u[1];
             u.z() = ctrlAttitude.u[2];
@@ -95,16 +115,30 @@ namespace RapidFDM {
         }
 
         void so3_adaptive_controller::control_fixedwing(float deltatime) {
+            static int count = 0;
+            count++;
+            static double us_count = 0;
+
             Eigen::Vector3d eul = quat2eulers(quat);
             QuatControlSetpoint quatControlSetpoint;
             static double yaw_angle_sp = 0;
             yaw_angle_sp = eul.z();
-            quatControlSetpoint.yaw_rate = yaw_sp /10 * M_PI;
+            quatControlSetpoint.yaw_rate = yaw_sp / 10 * M_PI;
             quatControlSetpoint.yaw_sp_is_rate = 1;
 
             convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp, pitch_sp, yaw_angle_sp);
 
+            long us0 = current_timestamp_us();
             L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
+            long used = current_timestamp_us() - us0;
+            us_count += used;
+
+            ctrlAttitude.debug_time_used = used;
+
+            if (count % 200 == 0) {
+                printf("Controller average us used %f\n", us_count / 200);
+                us_count = 0;
+            }
 
             Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
 
@@ -112,7 +146,7 @@ namespace RapidFDM {
             u.y() = ctrlAttitude.u[1];
             u.z() = ctrlAttitude.u[2];
 
-            pwm[0] = (float) float_constrain(u.x(),-1,1);
+            pwm[0] = (float) float_constrain(u.x(), -1, 1);
             pwm[1] = (float) float_constrain(-u.y(), -1, 1);
             pwm[2] = (float) float_constrain(throttle_sp, 0, 1);
             pwm[3] = (float) float_constrain(u.z(), -1, 1);
@@ -123,7 +157,7 @@ namespace RapidFDM {
             static int count = 0;
             count++;
             deltatime = deltatime / 1000;
-            static Eigen::Vector3d angular_rate_last = Eigen::Vector3d(0,0,0);
+            static Eigen::Vector3d angular_rate_last = Eigen::Vector3d(0, 0, 0);
             Eigen::Vector3d angular_rate_dot = (angular_rate - angular_rate_last) / deltatime;
             angular_rate_last = angular_rate;
             copy_v3d_into_array(angular_rate, sys.angular_rate);
@@ -159,7 +193,7 @@ namespace RapidFDM {
             mxArray *pa1, *pa2;
             //t 1 x 6 err 2 u 1 eta 1
 
-            int cols = 22;
+            int cols = 23;
             pa1 = mxCreateDoubleMatrix(ctrl_log.size(), cols, mxREAL);
             for (int i = 0; i < ctrl_log.size(); i++) {
                 const AdaptiveCtrlT &ctrlT = ctrl_log[i];
@@ -179,6 +213,7 @@ namespace RapidFDM {
                 for (int j = 0; j < 4; j++) {
                     set_value_mx_array(pa1, i, j + 18, att_con_log[i].quat_sp[j]);
                 }
+                set_value_mx_array(pa1, i, 22, att_con_log[i].debug_time_used);
             }
             char matname[100] = {0};
             sprintf(matname, "AdaptiveCtrlT_%d", log_number);

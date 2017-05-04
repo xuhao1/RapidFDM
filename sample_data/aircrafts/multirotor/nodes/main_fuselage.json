@@ -45,29 +45,21 @@
   "initial_states" : {
     "transform": {
       "attitude": [0,0,0],
-      "vector": [0,0,1.2]
+      "vector": [0,0,1.5]
     },
     "init_speed":0
   },
   "mapper": {
     "main_engine_0/thrust": {
-      "coeff": 0.5,
-      "zero_pos": 0.5,
       "chn": 0
     },
     "main_engine_1/thrust": {
-      "coeff": 0.5,
-      "zero_pos": 0.5,
       "chn": 1
     },
     "main_engine_2/thrust": {
-      "coeff": 0.5,
-      "zero_pos": 0.5,
       "chn": 2
     },
     "main_engine_3/thrust": {
-      "coeff": 0.5,
-      "zero_pos": 0.5,
       "chn": 3
     }
   }

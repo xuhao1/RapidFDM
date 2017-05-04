@@ -8,7 +8,7 @@
 #include "simulation_hil_adapter.h"
 #include <string>
 #include <RapidFDM/network_protocol/serial_port.h>
-#include <mavlink/v1.0/common/mavlink.h>
+#include <mavlink/v2.0/common/mavlink.h>
 #include <RapidFDM/network_protocol/udp_client.h>
 #include <RapidFDM/network_protocol/udp_server.h>
 
@@ -25,7 +25,7 @@ namespace RapidFDM {
             uint8_t component_id = 51;
 
             float RcA = 0, RcE = 0, RcR = 0, RcT = 0;
-            float pwm[8] = {0};
+            float pwm[16] = {0};
 
             virtual void on_receieve_mavlink_message(mavlink_message_t *msg, uint8_t *buffer, int size);
 
@@ -56,7 +56,7 @@ namespace RapidFDM {
 
             virtual void udp_server_on_receive_data(uint8_t *data, size_t size) override;
 
-            virtual void on_message_hil_controls(mavlink_hil_controls_t *hil_controls);
+            virtual void on_message_hil_controls(mavlink_hil_actuator_controls_t *hil_controls);
         };
     }
 }

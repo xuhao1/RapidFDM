@@ -27,14 +27,6 @@
 #include <RapidFDM/simulation/simulation_hil_adapter.h>
 #include <RapidFDM/simulation/simulation_pixhawk_adapter.h>
 
-#ifdef WIN32
-#include <windows.h>
-#else
-
-#include <sys/time.h>
-
-#endif
-
 #include "math.h"
 #include <RapidFDM/common/resource_manager.h>
 

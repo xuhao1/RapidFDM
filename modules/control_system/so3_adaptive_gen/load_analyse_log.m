@@ -30,11 +30,12 @@ fw = data(:,14)*180/pi;
 quat = data(:,15:18);
 quat_sp = data(:,19:22);
 
+time_used = data(:,23);
 xdot = xdot_pre - err1;
 x = x_pre-err0;
 
 figure
-subplot_size_x = 7;
+subplot_size_x = 8;
 ax1 = subplot(subplot_size_x,1,1);
 plot(ax1,t,x_pre,t,xdot_pre)
 legend(ax1,'x','xdot_(pre)')
@@ -85,6 +86,11 @@ legend(ax7,'fwu','fu')
 title(ax7,'Feedforward on Axis')
 grid on
 
+figure
+plot(t,time_used)
+legend('time used us')
+title('Time us of Attitude Control')
+grid on
 %figure 
 %for i=1:len
 %    quaterr(i,:) = quat_err_rov(quat(i,:),quat_sp(i,:));

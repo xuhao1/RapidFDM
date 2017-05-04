@@ -7,35 +7,6 @@ using namespace RapidFDM::Simulation::Utils;
 using namespace RapidFDM::Utils;
 using namespace RapidFDM;
 
-long current_timestamp() {
-#ifdef WIN32
-    SYSTEMTIME time;
-    GetSystemTime(&time);
-    LONG time_ms = (time.wSecond * 1000) + time.wMilliseconds;
-    return time_ms;
-#else
-    struct timeval te;
-    gettimeofday(&te, NULL); // get current time
-    long long milliseconds = te.tv_sec * 1000LL + te.tv_usec / 1000; // caculate milliseconds
-    return milliseconds;
-
-#endif // WIN32
-}
-
-long current_timestamp_us() {
-#ifdef WIN32
-    SYSTEMTIME time;
-    GetSystemTime(&time);
-    LONG time_ms = (time.wSecond * 1000) + time.wMilliseconds;
-    return time_ms;
-#else
-    struct timeval te;
-    gettimeofday(&te, NULL); // get current time
-    long long milliseconds = te.tv_sec * 1000000LL + te.tv_usec; // caculate milliseconds
-    return milliseconds;
-#endif // WIN32
-}
-
 
 namespace RapidFDM {
     namespace Simulation {

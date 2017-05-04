@@ -335,7 +335,7 @@ namespace RapidFDM {
                 std::string control_name = pair.first;
                 channel_to_control_mapper &mapper = pair.second;
                 if (mapper.channel < size) {
-                    set_control_value(control_name, mapper(pwm));
+                    set_control_value(control_name, mapper(pwm,size));
                 }else
                 {
                     set_control_value(control_name, mapper.default_value);

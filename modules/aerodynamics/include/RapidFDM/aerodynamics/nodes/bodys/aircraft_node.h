@@ -20,9 +20,11 @@ namespace RapidFDM
             float zero_pos = 0;
             int channel = 0;
             float default_value = 0;
-            float operator()(float v[])
+            float operator()(float v[],int size)
             {
-                return v[channel] * coeff + zero_pos;
+                if (channel < size)
+                    return v[channel] * coeff + zero_pos;
+                return 0;
             }
         };
         typedef std::map<std::string,channel_to_control_mapper> control_channel_map_def;

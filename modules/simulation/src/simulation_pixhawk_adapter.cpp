@@ -4,7 +4,7 @@
 
 
 #include <RapidFDM/simulation/simulation_pixhawk_adapter.h>
-#include <mavlink/v1.0/mavlink_helpers.h>
+#include <mavlink/v2.0/mavlink_helpers.h>
 
 #define MAV_MODE_FLAG_HIL_ENABLED  32
 
@@ -22,7 +22,7 @@ namespace RapidFDM {
 
         void simulation_pixhawk_adapter::send_realtime_data() {
             mavlink_hil_state_quaternion_t state;
-            mavlink_hil_gps_t gps;
+//            mavlink_hil_gps_t gps;
 
             Eigen::Quaterniond quat = get_quaternion_NED();
             state.attitude_quaternion[0] = (float) quat.w();
@@ -102,46 +102,29 @@ namespace RapidFDM {
             write_to_client(data, size);
         }
 
-        void simulation_pixhawk_adapter::on_message_hil_controls(mavlink_hil_controls_t *hil_controls) {
-            /*
-	        msg.time_usec = hrt_absolute_time();
-			msg.roll_ailerons = out[0];
-			msg.pitch_elevator = out[1];
-			msg.yaw_rudder = out[2];
-			msg.throttle = out[3];
-			msg.aux1 = out[4];
-			msg.aux2 = out[5];
-			msg.aux3 = out[6];
-			msg.aux4 = out[7];
-			msg.mode = mavlink_base_mode;
-			msg.nav_mode = 0;
-            */
-            pwm[0] = hil_controls->roll_ailerons;
-            pwm[2] = hil_controls->pitch_elevator;
-            pwm[1] = hil_controls->yaw_rudder;
-            pwm[3] = hil_controls->throttle;
-            pwm[4] = hil_controls->aux1;
-            pwm[5] = hil_controls->aux2;
-            pwm[6] = hil_controls->aux3;
-            pwm[7] = hil_controls->aux4;
-            for (int i = 0; i < 8; i++) {
-                pwm[i] = (float) float_constrain((pwm[i] - 0.5f) * 2.0f, -1, 1);
+        void simulation_pixhawk_adapter::on_message_hil_controls(mavlink_hil_actuator_controls_t *hil_controls) {
+            for (int i = 0; i < 16; i++) {
+                pwm[i] = hil_controls->controls[i];
             }
-//            printf("pwm %f %f %f %f\n",pwm[0],pwm[1],pwm[2],pwm[3]);
-            on_pwm_data_receieve(pwm, 8);
+//            for (int i = 0; i < 8; i++) {
+//                pwm[i] = (float) float_constrain((pwm[i] - 0.5f) * 2.0f, -1, 1);
+//            }
+            printf("pwm %f %f %f %f\n",pwm[0],pwm[1],pwm[2],pwm[3]);
+            on_pwm_data_receieve(pwm, 16);
         }
 
         void
         simulation_pixhawk_adapter::on_receieve_mavlink_message(mavlink_message_t *msg, uint8_t *buffer, int size) {
             target_system = msg->sysid;
             system_online = true;
+            write_to_server(buffer, size);
             switch (msg->msgid) {
-                case MAVLINK_MSG_ID_HIL_CONTROLS:
-                    mavlink_hil_controls_t hil_controls;
-                    mavlink_msg_hil_controls_decode(msg, &hil_controls);
+                case MAVLINK_MSG_ID_HIL_ACTUATOR_CONTROLS:
+                    printf("HILLLLLLL\n");
+                    mavlink_hil_actuator_controls_t hil_controls;
+                    mavlink_msg_hil_actuator_controls_decode(msg, &hil_controls);
                     on_message_hil_controls(&hil_controls);
                     motor_started = true;
-                    return;
                     break;
                 case MAVLINK_MSG_ID_HEARTBEAT:
                     mavlink_heartbeat_t heartbeat;
@@ -155,7 +138,7 @@ namespace RapidFDM {
                     mavlink_msg_rc_channels_decode(msg, &rc);
                     RcA = (rc.chan1_raw - 1520) / 400.0f * 10000;
                     RcE = (rc.chan2_raw - 1520) / 400.0f * 10000;
-                    RcT = ((rc.chan3_raw - 1520) / 400.0f +1 )/2 * 10000;
+                    RcT = ((rc.chan3_raw - 1520) / 400.0f + 1) / 2 * 10000;
                     RcR = (rc.chan4_raw - 1520) / 400.0f * 10000;
 //                    printf("rc %f %f %f %f\n",RcA,RcE,RcT,RcR);
                     break;
@@ -163,7 +146,6 @@ namespace RapidFDM {
                     break;
             }
 
-            write_to_server(buffer, size);
         }
 
         void simulation_pixhawk_adapter::push_json_to_app(rapidjson::Document &d) {

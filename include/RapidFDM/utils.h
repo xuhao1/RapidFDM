@@ -23,6 +23,13 @@
 #define M_PI (3.1415926535)
 #endif
 
+
+#ifdef WIN32
+#include <windows.h>
+#else
+#include <sys/time.h>
+#endif
+
 namespace RapidFDM {
     namespace Utils {
 
@@ -236,17 +243,15 @@ namespace RapidFDM {
         }
 
 
-        inline uint16_t gen_crc16(const uint8_t *data, uint16_t size)
-        {
+        inline uint16_t gen_crc16(const uint8_t *data, uint16_t size) {
             uint16_t out = 0x3692;
             int bits_read = 0, bit_flag;
 
             /* Sanity check: */
-            if(data == NULL)
+            if (data == NULL)
                 return 0;
 
-            while(size > 0)
-            {
+            while (size > 0) {
                 bit_flag = out >> 15;
 
                 /* Get next bit: */
@@ -255,34 +260,64 @@ namespace RapidFDM {
 
                 /* Increment bit counter: */
                 bits_read++;
-                if(bits_read > 7)
-                {
+                if (bits_read > 7) {
                     bits_read = 0;
                     data++;
                     size--;
                 }
 
                 /* Cycle check: */
-                if(bit_flag)
+                if (bit_flag)
                     out ^= CRC16;
 
             }
             return out;
         }
 
-        inline double lowpass_filter(double input,double fc,double outputLast,double dt)
-        {
-            double RC = 1.0/(fc*2*M_PI);
-            double alpha = dt/(RC+dt);
-            return outputLast + (alpha*(input - outputLast));
+        inline double lowpass_filter(double input, double fc, double outputLast, double dt) {
+            double RC = 1.0 / (fc * 2 * M_PI);
+            double alpha = dt / (RC + dt);
+            return outputLast + (alpha * (input - outputLast));
         }
-        inline double float_constrain(double input,double lowwer,double upper){
-            if(input<lowwer)
+
+        inline double float_constrain(double input, double lowwer, double upper) {
+            if (input < lowwer)
                 return lowwer;
-            if(input>upper)
+            if (input > upper)
                 return upper;
             return input;
         }
+
+        inline long current_timestamp() {
+#ifdef WIN32
+            SYSTEMTIME time;
+            GetSystemTime(&time);
+            LONG time_ms = (time.wSecond * 1000) + time.wMilliseconds;
+            return time_ms;
+#else
+            struct timeval te;
+            gettimeofday(&te, NULL); // get current time
+            long long milliseconds = te.tv_sec * 1000LL + te.tv_usec / 1000; // caculate milliseconds
+            return milliseconds;
+
+#endif // WIN32
+        }
+
+        inline long current_timestamp_us() {
+#ifdef WIN32
+            SYSTEMTIME time;
+            GetSystemTime(&time);
+            LONG time_ms = (time.wSecond * 1000) + time.wMilliseconds;
+            return time_ms;
+#else
+            struct timeval te;
+            gettimeofday(&te, NULL); // get current time
+            long long milliseconds = te.tv_sec * 1000000LL + te.tv_usec; // caculate milliseconds
+            return milliseconds;
+#endif // WIN32
+        }
+
+
     }
 };
 #endif //RAPIDFDM_UTILS_H_H

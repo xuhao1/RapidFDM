@@ -26,8 +26,8 @@ namespace RapidFDM {
         }
 
         void simulation_sitl_adapter::handle_chn_from_joystick(float *pwm, int num) {
-            this->controller->roll_sp = pwm[0] * M_PI/3;
-            this->controller->pitch_sp = - pwm[1] * M_PI  / 5;
+            this->controller->roll_sp = pwm[0] * 80 / 180 * M_PI;
+            this->controller->pitch_sp = - pwm[1] * M_PI  / 4;
             this->controller->throttle_sp = (pwm[2] + 1) / 2;
             this->controller->yaw_sp = pwm[3];
         }
