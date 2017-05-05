@@ -26,8 +26,8 @@ for i=1:n
     yresarr(i) = obj.yres;
     Pwc(i) = obj.P(4,4);
     Pkd(i) = obj.P(3,3);
-    Psigma(i) = obj.P(6,6);
-    sigmarr(i) = obj.x(6);
+    %Psigma(i) = obj.P(6,6);
+    %sigmarr(i) = obj.x(6);
     zarr(i) = obj.z;
     wp = wparr(i);
     wc = wcarr(i);
@@ -65,8 +65,8 @@ title(ax,'Freq');
 legend(ax,'fc','fnatur');
 grid on
 
-ax = subplot(ps,1,6);
-plot(ax,tarr,yresarr,tarr,sigmarr,tarr,Psigma);
-legend(ax,'yres','Sigma','PSi');
+%ax = subplot(ps,1,6);
+%plot(ax,tarr,yresarr,tarr,sigmarr,tarr,Psigma);
+%legend(ax,'yres','Sigma','PSi');
 
 end
