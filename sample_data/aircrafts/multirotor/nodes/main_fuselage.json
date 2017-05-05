@@ -2,7 +2,7 @@
   "name": "main_fuselage",
   "id": "0",
   "type": "aircraft",
-  "mass": 1.0,
+  "mass": 0.5,
   "mass_center": [
     0,
     0,
@@ -36,7 +36,7 @@
     "aera" : 0.01
   },
   "rigid_mode": 1,
-  "total_mass": 1.5,
+  "total_mass": 1,
   "total_inertial": [
     0.04,
     0.04,

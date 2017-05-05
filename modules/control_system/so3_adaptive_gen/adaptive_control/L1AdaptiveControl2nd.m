@@ -1,6 +1,5 @@
 function [obj,u] = L1AdaptiveControl2nd(dt,obj,x_real,r)
 obj.r = r;
-u = 0;
 %obj.x(1) = DeltaSpX + obj.x(1);
 obj.x_real = x_real;
 if not(obj.inited)
@@ -23,10 +22,10 @@ if obj.fixed_step_ode
     end 
     obj.x = ctrl_x_constrain(obj.x);
 else
-opts_1 =  odeset('RelTol',1e-3,'AbsTol',1e-6);
-[~,x]=ode23(@(t,x) L1_ODE_2nd(t,x,obj),...
-    [obj.t,obj.t + dt],obj.x,opts_1);
-obj.x = ctrl_x_constrain(x(end,1:7)');
+    opts_1 =  odeset('RelTol',1e-3,'AbsTol',1e-6);
+    [~,x]=ode23(@(t,x) L1_ODE_2nd(t,x,obj),...
+        [obj.t,obj.t + dt],obj.x,opts_1);
+    obj.x = ctrl_x_constrain(x(end,1:7)');
 end
 
 

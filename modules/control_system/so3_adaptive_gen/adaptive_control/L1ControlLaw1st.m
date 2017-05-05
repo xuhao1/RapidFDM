@@ -8,5 +8,5 @@ sigma = obj.x(6);
 
 eta = float_constrain((obj.kg_rate * obj.rdot + ...
     - sigma  - theta(2)* obj.x_real(2) )/omega,-1,1);
-[obj,out] = l1_filter_control(obj,eta);
+[obj,out] = l1_filter_control(dt,obj,eta);
 end

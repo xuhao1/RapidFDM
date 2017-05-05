@@ -96,6 +96,8 @@ namespace RapidFDM
             //Consider inertial matrix is not a diagonal matrix.
             virtual Eigen::Vector3d get_total_inertial() const;
 
+            double get_internal_state(std::string name) const override ;
+
             virtual double get_total_mass() const;
 
             virtual Eigen::Vector3d get_total_mass_center() const;

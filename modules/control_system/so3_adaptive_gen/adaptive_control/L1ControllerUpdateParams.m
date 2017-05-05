@@ -1,4 +1,4 @@
-function obj = L1ControllerUpdateParams(obj,p,epi,b2,gamma,lag_fc,lag_alpha,lead_fc,lead_alpha)
+function obj = L1ControllerUpdateParams(obj,p,epi,b2,gamma,lag_fc,lag_alpha,p_actuator)
 %obj = init_adaptive_controller();
 pd = 2*epi*sqrt(p/b2);
 Am = [0 0;0 0];
@@ -28,5 +28,6 @@ if not(obj.inited)
 end
 obj.u_filter = make_lag_obj(lag_fc,lag_alpha);
 
-obj.u_lead = make_lead_obj(lead_fc,lead_alpha);
+obj.u_lead = make_lead_obj(1,1);
+obj.p_actuator = p_actuator;
 end

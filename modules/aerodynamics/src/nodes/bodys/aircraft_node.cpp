@@ -38,17 +38,17 @@ namespace RapidFDM {
         void AircraftNode::parse_channel_mapper(const rapidjson::Value &_json) {
             printf("Try to parse channel \n");
             for (rapidjson::Value::ConstMemberIterator itr = _json.MemberBegin();
-                 itr != _json.MemberEnd(); ++itr)
-            {
-                const rapidjson::Value & value  = itr->value;
+                 itr != _json.MemberEnd(); ++itr) {
+                const rapidjson::Value &value = itr->value;
                 channel_to_control_mapper mapper;
-                mapper.coeff = (float)fast_value(value,"coeff");
-                mapper.zero_pos = (float)fast_value(value,"zero_pos");
-                mapper.channel = (int)fast_value(value,"chn");
+                mapper.coeff = (float) fast_value(value, "coeff", 1);
+                mapper.zero_pos = (float) fast_value(value, "zero_pos");
+                mapper.channel = (int) fast_value(value, "chn");
                 channel_mapper[itr->name.GetString()] = mapper;
             }
 
         }
+
         void AircraftNode::set_air_state(AirState air_state) {
             this->airState = air_state;
             bladeElementManager.calculate_washes(air_state, -1);
@@ -335,12 +335,17 @@ namespace RapidFDM {
                 std::string control_name = pair.first;
                 channel_to_control_mapper &mapper = pair.second;
                 if (mapper.channel < size) {
-                    set_control_value(control_name, mapper(pwm,size));
-                }else
-                {
+                    set_control_value(control_name, mapper(pwm, size));
+                } else {
                     set_control_value(control_name, mapper.default_value);
                 }
             }
+        }
+
+        double AircraftNode::get_internal_state(std::string name) const {
+            if (this->internal_states.find(name) != this->internal_states.end())
+                return this->internal_states.find(name)->second;
+            return 0;
         }
 
 

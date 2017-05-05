@@ -31,7 +31,10 @@ quat = data(:,15:18);
 quat_sp = data(:,19:22);
 
 time_used = data(:,23);
-xdot = xdot_pre - err1;
+outarr = data(:,24);
+xdot = data(:,25)*180/pi;
+uact = data(:,26);
+uest = data(:,27);
 x = x_pre-err0;
 
 figure
@@ -68,8 +71,8 @@ plot(ax6,t,-fw_tmp,t,xdot)
 legend(ax6,'feedforward','xdot')
 title(ax6,'diff')
 
-pitchctrl = init_adaptive_controller(); 
-pitchctrl = L1ControllerUpdateParams(pitchctrl,7,0.8,32,1000,3,2.5,3,3);
+pitchctrl = init_adaptive_controller(0,1); 
+pitchctrl = L1ControllerUpdateParams(pitchctrl,7,0.8,32,1000,3,2.5,3);
 errarr = [err0,err1];
 P = pitchctrl.P;
 b = pitchctrl.b;
@@ -86,36 +89,12 @@ legend(ax7,'fwu','fu')
 title(ax7,'Feedforward on Axis')
 grid on
 
-figure
-plot(t,time_used)
-legend('time used us')
-title('Time us of Attitude Control')
-grid on
-%figure 
-%for i=1:len
-%    quaterr(i,:) = quat_err_rov(quat(i,:),quat_sp(i,:));
-%end
-%
-%plot(t,quaterr(:,1),t,quaterr(:,2),t,quaterr(:,3));
-
-
-
-% for i=1:len
-%     err = errarr(i,:)';
-%     x = xarr(i,:)';
-%     u = uarr(i);
-%     dparam(i,1) = - Gamma*err'*P*b*u*0.005;
-%     dparam(i,2:3) = - (Gamma*err'*P*b*x)'*0.005;
-%     dparam(i,4) = - Gamma*err'*P*b*0.005;
-% end
-%ax7 = subplot(7,1,7);
-%plot(ax7,t,dparam(:,1),t,dparam(:,2),t,dparam(:,3),t,dparam(:,4))
-%legend(ax7,'omega','th0','th1','sigma')
-%title(ax7,'diff of param')
 %figure
-%fw_tmp = arrayfun(@(x) float_constrain(x,-20,40),fw);
-%plot(t,x,t,xdot,t,uarr*100)
-%legend('x*25','xdot','u*100')
-%figure
-%plot(t,omega_pre)
+%plot(t,time_used)
+%legend('time used us')
+%title('Time us of Attitude Control')
+%grid on
+%testServoEKF(xdot,uarr,t)
+testServoEKF(xdot,outarr,t,uact,uest)
+
 end

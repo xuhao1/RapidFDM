@@ -10,7 +10,7 @@ include_directories(./include
         ../../3rdparty/
         ../../3rdparty/websocketpp
         ../aerodynamics/include/
-        ./so3_adaptive_gen/codegen/lib/L1ControlAttitude
+        ./so3_adaptive_gen/codegen/lib/L1AircraftControl
         /Applications/MATLAB_R2016b.app/extern/include
 
         )
@@ -21,9 +21,9 @@ set(CONTROL_SYSTEM_MODULE_SOURCES
         src/so3_adaptive_controller.cpp
         include/RapidFDM/control_system/base_controller.h
         include/RapidFDM/control_system/control_system.h
-        so3_adaptive_gen/codegen/lib/L1ControlAttitude/L1ControlAttitude.c
-        so3_adaptive_gen/codegen/lib/L1ControlAttitude/L1ControlAttitude.h
-        so3_adaptive_gen/codegen/lib/L1ControlAttitude/L1ControlAttitude_types.h
+        so3_adaptive_gen/codegen/lib/L1AircraftControl/L1AircraftControl.c
+        so3_adaptive_gen/codegen/lib/L1AircraftControl/L1AircraftControl.h
+        so3_adaptive_gen/codegen/lib/L1AircraftControl/L1AircraftControl_types.h
         )
 add_library(rapidfdm_control_system STATIC ${CONTROL_SYSTEM_MODULE_SOURCES})
 

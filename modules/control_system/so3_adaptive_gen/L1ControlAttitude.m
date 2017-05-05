@@ -2,16 +2,14 @@ function obj = L1ControlAttitude(obj,dt,quat_control_sp,sys_state)
 coder.cstructname(obj,'AttitudeCtrlT')
 coder.cstructname(obj.RollCtrl, 'AdaptiveCtrlT');
 coder.cstructname(obj.PitchCtrl, 'AdaptiveCtrlT');
+coder.cstructname(obj.YawCtrl, 'AdaptiveCtrlT');
 coder.cstructname(sys_state,'AdaptiveSysT');
 coder.cstructname(quat_control_sp,'QuatControlSetpoint');
 
 quat_sp = quat_control_sp.quat;
 quat_sp_last = obj.quat_sp;
 quat_last = obj.quat;
-%u_roll = 0;
-%u_pitch = 0;
-%u_yaw = 0;
-%inv(quat_sp)*quat the rov with using sp as origin 
+
 rov_invsp = quat_err_rov(quat_sp,sys_state.quat);
 
 %the changed value of quat_sp because of rov
@@ -28,15 +26,18 @@ x_real_yaw = [rov_invsp(3);sys_state.angular_rate(3)];
 obj.RollCtrl.g(1) = obj.RollCtrl.g(1) + delta_err_sp(1)/dt;
 obj.PitchCtrl.g(1) = obj.PitchCtrl.g(1) + delta_err_sp(2)/dt;
 obj.YawCtrl.g(1) = obj.YawCtrl.g(1) + delta_err_sp(3)/dt;
+
 [obj.RollCtrl.g(1),obj.RollCtrl.g_filter] = IterTransform1st(obj.RollCtrl.g(1),obj.RollCtrl.g_filter);
 [obj.PitchCtrl.g(1),obj.PitchCtrl.g_filter] = IterTransform1st(obj.PitchCtrl.g(1),obj.PitchCtrl.g_filter);
 [obj.YawCtrl.g(1),obj.YawCtrl.g_filter] = IterTransform1st(obj.YawCtrl.g(1),obj.YawCtrl.g_filter);
+
 [obj.RollCtrl,obj.u(1)] = L1AdaptiveControl2nd(dt,obj.RollCtrl,x_real_roll,0);
 [obj.PitchCtrl,obj.u(2)] = L1AdaptiveControl2nd(dt,obj.PitchCtrl,x_real_pitch,0);
 
 if quat_control_sp.yaw_sp_is_rate
-    %[obj.YawCtrl,obj.u(3)] = L1AdaptiveControl1st(dt,obj.YawCtrl,x_real_yaw,quat_control_sp.yaw_rate);
+    [obj.YawCtrl,obj.u(3)] = L1AdaptiveControl1st(dt,obj.YawCtrl,x_real_yaw,quat_control_sp.yaw_rate);
 else
     [obj.YawCtrl,obj.u(3)] = L1AdaptiveControl2nd(dt,obj.YawCtrl,x_real_yaw,0);
 end
+
 end

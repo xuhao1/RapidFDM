@@ -170,7 +170,7 @@ namespace RapidFDM
                 this->source_document.CopyFrom(v, source_document.GetAllocator());
             }
 
-            double get_internal_state(std::string name) const
+            virtual double get_internal_state(std::string name) const
             {
                 return this->get_internal_states().find(getUniqueID()+"/" + name)->second;
             }

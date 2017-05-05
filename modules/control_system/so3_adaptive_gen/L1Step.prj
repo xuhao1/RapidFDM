@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2016a">
-  <configuration build-checksum="409531860" file="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Step.prj" location="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen" name="L1Step" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="2162096047" file="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Step.prj" location="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen" name="L1Step" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex />
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -17,7 +17,7 @@
       <param.DynamicMemoryAllocation>option.DynamicMemoryAllocation.Threshold</param.DynamicMemoryAllocation>
       <param.DynamicMemoryAllocationThreshold>65536</param.DynamicMemoryAllocationThreshold>
       <param.StackUsageMax />
-      <param.FilePartitionMethod />
+      <param.FilePartitionMethod>option.FilePartitionMethod.SingleFile</param.FilePartitionMethod>
       <param.GenerateComments>true</param.GenerateComments>
       <param.MATLABSourceComments />
       <param.ReservedNameArray />
@@ -36,7 +36,7 @@
       <param.CustomSource />
       <param.CustomLibrary />
       <param.PostCodeGenCommand />
-      <param.mex.GenCodeOnly>false</param.mex.GenCodeOnly>
+      <param.mex.GenCodeOnly>true</param.mex.GenCodeOnly>
       <param.ConstantFoldingTimeout>40000</param.ConstantFoldingTimeout>
       <param.CompileTimeRecursionLimit>50</param.CompileTimeRecursionLimit>
       <param.EnableRuntimeRecursion>true</param.EnableRuntimeRecursion>
@@ -72,7 +72,6 @@
         <param.DynamicMemoryAllocation />
         <param.DynamicMemoryAllocationThreshold />
         <param.StackUsageMax />
-        <param.FilePartitionMethod />
         <param.GenerateComments />
         <param.MATLABSourceComments />
         <param.ReservedNameArray />
@@ -90,7 +89,6 @@
         <param.CustomSource />
         <param.CustomLibrary />
         <param.PostCodeGenCommand />
-        <param.mex.GenCodeOnly />
         <param.ConstantFoldingTimeout />
         <param.CompileTimeRecursionLimit />
         <param.EnableRuntimeRecursion />
@@ -175,7 +173,7 @@
       <param.Toolchain>Automatically locate an installed toolchain</param.Toolchain>
       <param.BuildConfiguration>Faster Runs</param.BuildConfiguration>
       <param.CustomToolchainOptions />
-      <var.ToolchainSettingsVisible>true</var.ToolchainSettingsVisible>
+      <var.ToolchainSettingsVisible>false</var.ToolchainSettingsVisible>
       <param.target.Data>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ctdata&gt;&lt;configuredHardware/&gt;&lt;/ctdata&gt;</param.target.Data>
       <param.target.ActiveType>option.target.TargetType.Custom</param.target.ActiveType>
       <param.target.ActiveTarget />
@@ -228,12 +226,12 @@
       <param.CompileTimeRecursionLimit>50</param.CompileTimeRecursionLimit>
       <param.EnableRuntimeRecursion>true</param.EnableRuntimeRecursion>
       <param.IncludeTerminateFcn>true</param.IncludeTerminateFcn>
-      <param.GenerateExampleMain>option.GenerateExampleMain.GenerateCodeOnly</param.GenerateExampleMain>
+      <param.GenerateExampleMain>option.GenerateExampleMain.DoNotGenerate</param.GenerateExampleMain>
       <param.PreserveVariableNames>option.PreserveVariableNames.None</param.PreserveVariableNames>
       <param.TargetLang>option.TargetLang.C</param.TargetLang>
       <param.CCompilerOptimization>option.CCompilerOptimization.Off</param.CCompilerOptimization>
       <param.CCompilerCustomOptimizations />
-      <param.GenerateMakefile>true</param.GenerateMakefile>
+      <param.GenerateMakefile>false</param.GenerateMakefile>
       <param.BuildToolEnable>false</param.BuildToolEnable>
       <param.MakeCommand>make_rtw</param.MakeCommand>
       <param.TemplateMakefile>default_tmf</param.TemplateMakefile>
@@ -340,12 +338,10 @@
         <param.CompileTimeRecursionLimit />
         <param.EnableRuntimeRecursion />
         <param.IncludeTerminateFcn />
-        <param.GenerateExampleMain />
         <param.PreserveVariableNames />
         <param.TargetLang />
         <param.CCompilerOptimization />
         <param.CCompilerCustomOptimizations />
-        <param.GenerateMakefile />
         <param.BuildToolEnable />
         <param.MakeCommand />
         <param.TemplateMakefile />
@@ -709,7 +705,6 @@
     <param.WorkflowStep>generateCode</param.WorkflowStep>
     <param.TestSnippets>
       <item>testL1ControlAttitude</item>
-      <item>L1ControlLaw2nd(0.1,s_ctrl,sys_state,0)</item>
       <item>L1UpdateRollParams(2.0,2.0,2.0,2.0,100,s_ctrl)</item>
       <item>L1Step2ndRoll(0.1,s_ctrl,sys_state,0)</item>
       <item>L1Step2ndRoll(0.1,s_ctrl,sys_state)</item>
@@ -720,7 +715,7 @@
     <param.DefaultImportExportVariable>config</param.DefaultImportExportVariable>
     <param.RowMajor>false</param.RowMajor>
     <param.UseGlobals>option.UseGlobals.No</param.UseGlobals>
-    <param.outputfile>${PROJECT_ROOT}/codegen/lib/L1ControlAttitude/L1ControlAttitude.a</param.outputfile>
+    <param.outputfile>${PROJECT_ROOT}/codegen/lib/L1ControlAngularVelocity/L1ControlAngularVelocity.a</param.outputfile>
     <param.version>R2012a</param.version>
     <param.HasECoderFeatures>true</param.HasECoderFeatures>
     <param.newGlobals>
@@ -738,29 +733,29 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>477235847</param.AnnotationChecksum>
+    <param.AnnotationChecksum>388512394</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
     <var.redirectedInputTypeData />
     <var.DismissScreener>true</var.DismissScreener>
     <param.unifiedParamStorage />
-    <var.gc.lastOutputRoot>codegen/lib/L1ControlAttitude</var.gc.lastOutputRoot>
+    <var.gc.lastOutputRoot>codegen/lib/L1ControlAngularVelocity</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>409531860</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>2162096047</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen/mex/IterTransform1st_mex</var.cfi.lastOutputRoot>
     <var.cfi.preBuildChecksum>2220662937</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>L1Step2ndPitch(0.1,s_ctrl,sys_state)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitudeEuler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1_ODE_2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/l1_filter_control.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/Power.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/get_sys_euler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/get_yaw_rate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat2rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat_err_rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/so3_external_dynamics.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/ode4user.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/IterTransform.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_filter_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_iter_trans.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_lag_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_lead_obj.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;946192831&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
-    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitudeEuler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1_ODE_2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/l1_filter_control.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/Power.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/get_sys_euler.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/get_yaw_rate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat2rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat_err_rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/so3_external_dynamics.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/ode4user.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/IterTransform.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_filter_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_iter_trans.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_lag_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_lead_obj.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/EKFPredict.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/EKFUpdate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/InitActuatorEstimator.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/IterActuatorEst.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/Servoffunc.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/Servohfunc.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAngularVelocity.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1AdaptiveControl1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControlLaw1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1_ODE_1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1_ODE_2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/l1_filter_control.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/Power.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/ode4user.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat2rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat_err_rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/so3_external_dynamics.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/IterTransform.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_filter_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_iter_trans.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_lag_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_lead_obj.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;1561801518&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/EKFPredict.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/EKFUpdate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/InitActuatorEstimator.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/IterActuatorEst.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/Servoffunc.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/Servohfunc.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAngularVelocity.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1AdaptiveControl1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControlLaw1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1_ODE_1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1_ODE_2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/l1_filter_control.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/Power.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/ode4user.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat2rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat_err_rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/so3_external_dynamics.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/IterTransform.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_filter_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_iter_trans.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_lag_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_lead_obj.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.configImportActive>false</param.configImportActive>
     <var.boundToGui>true</var.boundToGui>
-    <param.mex.outputfile>L1ControlAttitude_mex</param.mex.outputfile>
-    <param.grt.outputfile>L1ControlAttitude</param.grt.outputfile>
+    <param.mex.outputfile>L1ControlAngularVelocity_mex</param.mex.outputfile>
+    <param.grt.outputfile>L1ControlAngularVelocity</param.grt.outputfile>
     <param.artifact>option.target.artifact.lib</param.artifact>
-    <param.outputfile>${PROJECT_ROOT}/codegen/lib/L1ControlAttitude/L1ControlAttitude.a</param.outputfile>
+    <param.outputfile>${PROJECT_ROOT}/codegen/lib/L1ControlAngularVelocity/L1ControlAngularVelocity.a</param.outputfile>
     <param.EnableAutoExtrinsicCalls>true</param.EnableAutoExtrinsicCalls>
     <param.UsePreconditions>false</param.UsePreconditions>
     <param.FeatureFlags />
@@ -885,17 +880,17 @@
       <param.FixedPointUseDesignRanges />
     </unset>
     <fileset.entrypoints>
-      <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAttitude.m">
-        <Marker>1493886900138</Marker>
+      <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAngularVelocity.m">
+        <Marker>1493986803177</Marker>
       </file>
-      <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAttitudeEuler.m">
-        <Marker>1493886900120</Marker>
+      <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAttitude.m">
+        <Marker>1493986803139</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/adaptive_control/L1ControllerUpdateParams.m">
-        <Marker>1493886900154</Marker>
+        <Marker>1493986803158</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/init_attitude_controller.m">
-        <Marker>1493886900170</Marker>
+        <Marker>1493986803198</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench>
@@ -905,6 +900,323 @@
       <file>${PROJECT_ROOT}/tests/testL1ControlAttitude.m</file>
     </fileset.testbench>
     <fileset.inputtypes>
+      <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAngularVelocity.m">
+        <Inputs fileName="L1ControlAngularVelocity.m" functionName="L1ControlAngularVelocity">
+          <Input Name="obj" typeId="0">
+            <Field Name="RollCtrl" typeId="0">
+              <Field Name="t" typeId="1" />
+              <Field Name="x" typeId="2" />
+              <Field Name="Gamma" typeId="1" />
+              <Field Name="P" typeId="3" />
+              <Field Name="Am" typeId="3" />
+              <Field Name="u" typeId="1" />
+              <Field Name="b" typeId="4" />
+              <Field Name="kg" typeId="1" />
+              <Field Name="kg_rate" typeId="1" />
+              <Field Name="u_filter" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="6" />
+                <Field Name="y" typeId="5" />
+                <Field Name="n" typeId="1" />
+                <Field Name="inited" typeId="7" />
+              </Field>
+              <Field Name="g_filter" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="6" />
+                <Field Name="y" typeId="5" />
+                <Field Name="n" typeId="1" />
+                <Field Name="inited" typeId="7" />
+              </Field>
+              <Field Name="inited" typeId="7" />
+              <Field Name="err" typeId="4" />
+              <Field Name="eta" typeId="1" />
+              <Field Name="r" typeId="1" />
+              <Field Name="rdot" typeId="1" />
+              <Field Name="g" typeId="4" />
+              <Field Name="g_by_x" typeId="3" />
+              <Field Name="km" typeId="4" />
+              <Field Name="x_real" typeId="4" />
+              <Field Name="u_lead" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="6" />
+                <Field Name="y" typeId="5" />
+                <Field Name="n" typeId="1" />
+                <Field Name="inited" typeId="7" />
+              </Field>
+              <Field Name="u_lead_enable" typeId="7" />
+              <Field Name="fixed_step_ode" typeId="7" />
+              <Field Name="ode_steps" typeId="1" />
+              <Field Name="out" typeId="1" />
+              <Field Name="actuator_estimator" typeId="0">
+                <Field Name="x" typeId="8" />
+                <Field Name="F" typeId="9" />
+                <Field Name="H" typeId="10" />
+                <Field Name="Q" typeId="9" />
+                <Field Name="R" typeId="1" />
+                <Field Name="P" typeId="9" />
+                <Field Name="yres" typeId="1" />
+                <Field Name="t" typeId="1" />
+                <Field Name="z" typeId="1" />
+                <Field Name="actuator_real" typeId="1" />
+              </Field>
+              <Field Name="p_actuator" typeId="1" />
+            </Field>
+            <Field Name="PitchCtrl" typeId="0">
+              <Field Name="t" typeId="1" />
+              <Field Name="x" typeId="2" />
+              <Field Name="Gamma" typeId="1" />
+              <Field Name="P" typeId="3" />
+              <Field Name="Am" typeId="3" />
+              <Field Name="u" typeId="1" />
+              <Field Name="b" typeId="4" />
+              <Field Name="kg" typeId="1" />
+              <Field Name="kg_rate" typeId="1" />
+              <Field Name="u_filter" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="6" />
+                <Field Name="y" typeId="5" />
+                <Field Name="n" typeId="1" />
+                <Field Name="inited" typeId="7" />
+              </Field>
+              <Field Name="g_filter" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="6" />
+                <Field Name="y" typeId="5" />
+                <Field Name="n" typeId="1" />
+                <Field Name="inited" typeId="7" />
+              </Field>
+              <Field Name="inited" typeId="7" />
+              <Field Name="err" typeId="4" />
+              <Field Name="eta" typeId="1" />
+              <Field Name="r" typeId="1" />
+              <Field Name="rdot" typeId="1" />
+              <Field Name="g" typeId="4" />
+              <Field Name="g_by_x" typeId="3" />
+              <Field Name="km" typeId="4" />
+              <Field Name="x_real" typeId="4" />
+              <Field Name="u_lead" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="6" />
+                <Field Name="y" typeId="5" />
+                <Field Name="n" typeId="1" />
+                <Field Name="inited" typeId="7" />
+              </Field>
+              <Field Name="u_lead_enable" typeId="7" />
+              <Field Name="fixed_step_ode" typeId="7" />
+              <Field Name="ode_steps" typeId="1" />
+              <Field Name="out" typeId="1" />
+              <Field Name="actuator_estimator" typeId="0">
+                <Field Name="x" typeId="8" />
+                <Field Name="F" typeId="9" />
+                <Field Name="H" typeId="10" />
+                <Field Name="Q" typeId="9" />
+                <Field Name="R" typeId="1" />
+                <Field Name="P" typeId="9" />
+                <Field Name="yres" typeId="1" />
+                <Field Name="t" typeId="1" />
+                <Field Name="z" typeId="1" />
+                <Field Name="actuator_real" typeId="1" />
+              </Field>
+              <Field Name="p_actuator" typeId="1" />
+            </Field>
+            <Field Name="YawCtrl" typeId="0">
+              <Field Name="t" typeId="1" />
+              <Field Name="x" typeId="2" />
+              <Field Name="Gamma" typeId="1" />
+              <Field Name="P" typeId="3" />
+              <Field Name="Am" typeId="3" />
+              <Field Name="u" typeId="1" />
+              <Field Name="b" typeId="4" />
+              <Field Name="kg" typeId="1" />
+              <Field Name="kg_rate" typeId="1" />
+              <Field Name="u_filter" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="6" />
+                <Field Name="y" typeId="5" />
+                <Field Name="n" typeId="1" />
+                <Field Name="inited" typeId="7" />
+              </Field>
+              <Field Name="g_filter" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="6" />
+                <Field Name="y" typeId="5" />
+                <Field Name="n" typeId="1" />
+                <Field Name="inited" typeId="7" />
+              </Field>
+              <Field Name="inited" typeId="7" />
+              <Field Name="err" typeId="4" />
+              <Field Name="eta" typeId="1" />
+              <Field Name="r" typeId="1" />
+              <Field Name="rdot" typeId="1" />
+              <Field Name="g" typeId="4" />
+              <Field Name="g_by_x" typeId="3" />
+              <Field Name="km" typeId="4" />
+              <Field Name="x_real" typeId="4" />
+              <Field Name="u_lead" typeId="0">
+                <Field Name="A" typeId="5" />
+                <Field Name="B" typeId="5" />
+                <Field Name="x" typeId="6" />
+                <Field Name="y" typeId="5" />
+                <Field Name="n" typeId="1" />
+                <Field Name="inited" typeId="7" />
+              </Field>
+              <Field Name="u_lead_enable" typeId="7" />
+              <Field Name="fixed_step_ode" typeId="7" />
+              <Field Name="ode_steps" typeId="1" />
+              <Field Name="out" typeId="1" />
+              <Field Name="actuator_estimator" typeId="0">
+                <Field Name="x" typeId="8" />
+                <Field Name="F" typeId="9" />
+                <Field Name="H" typeId="10" />
+                <Field Name="Q" typeId="9" />
+                <Field Name="R" typeId="1" />
+                <Field Name="P" typeId="9" />
+                <Field Name="yres" typeId="1" />
+                <Field Name="t" typeId="1" />
+                <Field Name="z" typeId="1" />
+                <Field Name="actuator_real" typeId="1" />
+              </Field>
+              <Field Name="p_actuator" typeId="1" />
+            </Field>
+            <Field Name="quat_sp" typeId="11" />
+            <Field Name="quat" typeId="11" />
+            <Field Name="u" typeId="12" />
+            <Field Name="debug_time_used" typeId="1" />
+          </Input>
+          <Input Name="dt" typeId="1" />
+          <Input Name="ang_vel_sp" typeId="12" />
+          <Input Name="sys_state" typeId="0">
+            <Field Name="quat" typeId="11" />
+            <Field Name="angular_rate" typeId="13" />
+            <Field Name="angular_rate_dot" typeId="13" />
+            <Field Name="acc" typeId="13" />
+          </Input>
+          <idpTable>
+            <type typeId="0">
+              <Class>struct</Class>
+              <Size>1 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <TypeName />
+              <Extern>false</Extern>
+              <HeaderFile />
+              <Alignment>-1</Alignment>
+            </type>
+            <type typeId="1">
+              <Class>double</Class>
+              <Size>1 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="2">
+              <Class>double</Class>
+              <Size>7 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="3">
+              <Class>double</Class>
+              <Size>2 x 2</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="4">
+              <Class>double</Class>
+              <Size>2 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="5">
+              <Class>double</Class>
+              <Size>1 x 10</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="6">
+              <Class>double</Class>
+              <Size>1 x 19</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="7">
+              <Class>logical</Class>
+              <Size>1 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+            </type>
+            <type typeId="8">
+              <Class>double</Class>
+              <Size>6 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="9">
+              <Class>double</Class>
+              <Size>6 x 6</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="10">
+              <Class>double</Class>
+              <Size>1 x 6</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="11">
+              <Class>double</Class>
+              <Size>1 x 4</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="12">
+              <Class>double</Class>
+              <Size>1 x 3</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="13">
+              <Class>double</Class>
+              <Size>3 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+          </idpTable>
+        </Inputs>
+      </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAttitude.m">
         <Inputs fileName="L1ControlAttitude.m" functionName="L1ControlAttitude">
           <Input Name="obj" typeId="0">
@@ -954,6 +1266,20 @@
               <Field Name="u_lead_enable" typeId="7" />
               <Field Name="fixed_step_ode" typeId="7" />
               <Field Name="ode_steps" typeId="1" />
+              <Field Name="out" typeId="1" />
+              <Field Name="actuator_estimator" typeId="0">
+                <Field Name="x" typeId="8" />
+                <Field Name="F" typeId="9" />
+                <Field Name="H" typeId="10" />
+                <Field Name="Q" typeId="9" />
+                <Field Name="R" typeId="1" />
+                <Field Name="P" typeId="9" />
+                <Field Name="yres" typeId="1" />
+                <Field Name="t" typeId="1" />
+                <Field Name="z" typeId="1" />
+                <Field Name="actuator_real" typeId="1" />
+              </Field>
+              <Field Name="p_actuator" typeId="1" />
             </Field>
             <Field Name="PitchCtrl" typeId="0">
               <Field Name="t" typeId="1" />
@@ -1001,6 +1327,20 @@
               <Field Name="u_lead_enable" typeId="7" />
               <Field Name="fixed_step_ode" typeId="7" />
               <Field Name="ode_steps" typeId="1" />
+              <Field Name="out" typeId="1" />
+              <Field Name="actuator_estimator" typeId="0">
+                <Field Name="x" typeId="8" />
+                <Field Name="F" typeId="9" />
+                <Field Name="H" typeId="10" />
+                <Field Name="Q" typeId="9" />
+                <Field Name="R" typeId="1" />
+                <Field Name="P" typeId="9" />
+                <Field Name="yres" typeId="1" />
+                <Field Name="t" typeId="1" />
+                <Field Name="z" typeId="1" />
+                <Field Name="actuator_real" typeId="1" />
+              </Field>
+              <Field Name="p_actuator" typeId="1" />
             </Field>
             <Field Name="YawCtrl" typeId="0">
               <Field Name="t" typeId="1" />
@@ -1048,23 +1388,37 @@
               <Field Name="u_lead_enable" typeId="7" />
               <Field Name="fixed_step_ode" typeId="7" />
               <Field Name="ode_steps" typeId="1" />
+              <Field Name="out" typeId="1" />
+              <Field Name="actuator_estimator" typeId="0">
+                <Field Name="x" typeId="8" />
+                <Field Name="F" typeId="9" />
+                <Field Name="H" typeId="10" />
+                <Field Name="Q" typeId="9" />
+                <Field Name="R" typeId="1" />
+                <Field Name="P" typeId="9" />
+                <Field Name="yres" typeId="1" />
+                <Field Name="t" typeId="1" />
+                <Field Name="z" typeId="1" />
+                <Field Name="actuator_real" typeId="1" />
+              </Field>
+              <Field Name="p_actuator" typeId="1" />
             </Field>
-            <Field Name="quat_sp" typeId="8" />
-            <Field Name="quat" typeId="8" />
-            <Field Name="u" typeId="9" />
+            <Field Name="quat_sp" typeId="11" />
+            <Field Name="quat" typeId="11" />
+            <Field Name="u" typeId="12" />
             <Field Name="debug_time_used" typeId="1" />
           </Input>
           <Input Name="dt" typeId="1" />
           <Input Name="quat_control_sp" typeId="0">
-            <Field Name="quat" typeId="8" />
+            <Field Name="quat" typeId="11" />
             <Field Name="yaw_rate" typeId="1" />
             <Field Name="yaw_sp_is_rate" typeId="7" />
           </Input>
           <Input Name="sys_state" typeId="0">
-            <Field Name="quat" typeId="8" />
-            <Field Name="angular_rate" typeId="10" />
-            <Field Name="angular_rate_dot" typeId="10" />
-            <Field Name="acc" typeId="10" />
+            <Field Name="quat" typeId="11" />
+            <Field Name="angular_rate" typeId="13" />
+            <Field Name="angular_rate_dot" typeId="13" />
+            <Field Name="acc" typeId="13" />
           </Input>
           <idpTable>
             <type typeId="0">
@@ -1135,7 +1489,7 @@
             </type>
             <type typeId="8">
               <Class>double</Class>
-              <Size>1 x 4</Size>
+              <Size>6 x 1</Size>
               <Value />
               <InitialValue />
               <UserDefined>false</UserDefined>
@@ -1143,7 +1497,7 @@
             </type>
             <type typeId="9">
               <Class>double</Class>
-              <Size>1 x 3</Size>
+              <Size>6 x 6</Size>
               <Value />
               <InitialValue />
               <UserDefined>false</UserDefined>
@@ -1151,245 +1505,13 @@
             </type>
             <type typeId="10">
               <Class>double</Class>
-              <Size>3 x 1</Size>
+              <Size>1 x 6</Size>
               <Value />
               <InitialValue />
               <UserDefined>false</UserDefined>
               <Complex>false</Complex>
             </type>
-          </idpTable>
-        </Inputs>
-      </file>
-      <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAttitudeEuler.m">
-        <Inputs fileName="L1ControlAttitudeEuler.m" functionName="L1ControlAttitudeEuler">
-          <Input Name="obj" typeId="0">
-            <Field Name="RollCtrl" typeId="0">
-              <Field Name="t" typeId="1" />
-              <Field Name="x" typeId="2" />
-              <Field Name="Gamma" typeId="1" />
-              <Field Name="P" typeId="3" />
-              <Field Name="Am" typeId="3" />
-              <Field Name="u" typeId="1" />
-              <Field Name="b" typeId="4" />
-              <Field Name="kg" typeId="1" />
-              <Field Name="kg_rate" typeId="1" />
-              <Field Name="u_filter" typeId="0">
-                <Field Name="A" typeId="5" />
-                <Field Name="B" typeId="5" />
-                <Field Name="x" typeId="6" />
-                <Field Name="y" typeId="5" />
-                <Field Name="n" typeId="1" />
-                <Field Name="inited" typeId="7" />
-              </Field>
-              <Field Name="g_filter" typeId="0">
-                <Field Name="A" typeId="5" />
-                <Field Name="B" typeId="5" />
-                <Field Name="x" typeId="6" />
-                <Field Name="y" typeId="5" />
-                <Field Name="n" typeId="1" />
-                <Field Name="inited" typeId="7" />
-              </Field>
-              <Field Name="inited" typeId="7" />
-              <Field Name="err" typeId="4" />
-              <Field Name="eta" typeId="1" />
-              <Field Name="r" typeId="1" />
-              <Field Name="rdot" typeId="1" />
-              <Field Name="g" typeId="4" />
-              <Field Name="g_by_x" typeId="3" />
-              <Field Name="km" typeId="4" />
-              <Field Name="x_real" typeId="4" />
-              <Field Name="u_lead" typeId="0">
-                <Field Name="A" typeId="5" />
-                <Field Name="B" typeId="5" />
-                <Field Name="x" typeId="6" />
-                <Field Name="y" typeId="5" />
-                <Field Name="n" typeId="1" />
-                <Field Name="inited" typeId="7" />
-              </Field>
-              <Field Name="u_lead_enable" typeId="7" />
-              <Field Name="fixed_step_ode" typeId="7" />
-              <Field Name="ode_steps" typeId="1" />
-            </Field>
-            <Field Name="PitchCtrl" typeId="0">
-              <Field Name="t" typeId="1" />
-              <Field Name="x" typeId="2" />
-              <Field Name="Gamma" typeId="1" />
-              <Field Name="P" typeId="3" />
-              <Field Name="Am" typeId="3" />
-              <Field Name="u" typeId="1" />
-              <Field Name="b" typeId="4" />
-              <Field Name="kg" typeId="1" />
-              <Field Name="kg_rate" typeId="1" />
-              <Field Name="u_filter" typeId="0">
-                <Field Name="A" typeId="5" />
-                <Field Name="B" typeId="5" />
-                <Field Name="x" typeId="6" />
-                <Field Name="y" typeId="5" />
-                <Field Name="n" typeId="1" />
-                <Field Name="inited" typeId="7" />
-              </Field>
-              <Field Name="g_filter" typeId="0">
-                <Field Name="A" typeId="5" />
-                <Field Name="B" typeId="5" />
-                <Field Name="x" typeId="6" />
-                <Field Name="y" typeId="5" />
-                <Field Name="n" typeId="1" />
-                <Field Name="inited" typeId="7" />
-              </Field>
-              <Field Name="inited" typeId="7" />
-              <Field Name="err" typeId="4" />
-              <Field Name="eta" typeId="1" />
-              <Field Name="r" typeId="1" />
-              <Field Name="rdot" typeId="1" />
-              <Field Name="g" typeId="4" />
-              <Field Name="g_by_x" typeId="3" />
-              <Field Name="km" typeId="4" />
-              <Field Name="x_real" typeId="4" />
-              <Field Name="u_lead" typeId="0">
-                <Field Name="A" typeId="5" />
-                <Field Name="B" typeId="5" />
-                <Field Name="x" typeId="6" />
-                <Field Name="y" typeId="5" />
-                <Field Name="n" typeId="1" />
-                <Field Name="inited" typeId="7" />
-              </Field>
-              <Field Name="u_lead_enable" typeId="7" />
-              <Field Name="fixed_step_ode" typeId="7" />
-              <Field Name="ode_steps" typeId="1" />
-            </Field>
-            <Field Name="YawCtrl" typeId="0">
-              <Field Name="t" typeId="1" />
-              <Field Name="x" typeId="2" />
-              <Field Name="Gamma" typeId="1" />
-              <Field Name="P" typeId="3" />
-              <Field Name="Am" typeId="3" />
-              <Field Name="u" typeId="1" />
-              <Field Name="b" typeId="4" />
-              <Field Name="kg" typeId="1" />
-              <Field Name="kg_rate" typeId="1" />
-              <Field Name="u_filter" typeId="0">
-                <Field Name="A" typeId="5" />
-                <Field Name="B" typeId="5" />
-                <Field Name="x" typeId="6" />
-                <Field Name="y" typeId="5" />
-                <Field Name="n" typeId="1" />
-                <Field Name="inited" typeId="7" />
-              </Field>
-              <Field Name="g_filter" typeId="0">
-                <Field Name="A" typeId="5" />
-                <Field Name="B" typeId="5" />
-                <Field Name="x" typeId="6" />
-                <Field Name="y" typeId="5" />
-                <Field Name="n" typeId="1" />
-                <Field Name="inited" typeId="7" />
-              </Field>
-              <Field Name="inited" typeId="7" />
-              <Field Name="err" typeId="4" />
-              <Field Name="eta" typeId="1" />
-              <Field Name="r" typeId="1" />
-              <Field Name="rdot" typeId="1" />
-              <Field Name="g" typeId="4" />
-              <Field Name="g_by_x" typeId="3" />
-              <Field Name="km" typeId="4" />
-              <Field Name="x_real" typeId="4" />
-              <Field Name="u_lead" typeId="0">
-                <Field Name="A" typeId="5" />
-                <Field Name="B" typeId="5" />
-                <Field Name="x" typeId="6" />
-                <Field Name="y" typeId="5" />
-                <Field Name="n" typeId="1" />
-                <Field Name="inited" typeId="7" />
-              </Field>
-              <Field Name="u_lead_enable" typeId="7" />
-              <Field Name="fixed_step_ode" typeId="7" />
-              <Field Name="ode_steps" typeId="1" />
-            </Field>
-            <Field Name="quat_sp" typeId="8" />
-            <Field Name="quat" typeId="8" />
-            <Field Name="u" typeId="9" />
-            <Field Name="debug_time_used" typeId="1" />
-          </Input>
-          <Input Name="dt" typeId="1" />
-          <Input Name="euler_sp" typeId="0">
-            <Field Name="pitch" typeId="1" />
-            <Field Name="roll" typeId="1" />
-            <Field Name="yaw" typeId="1" />
-            <Field Name="yaw_sp_is_rate" typeId="7" />
-          </Input>
-          <Input Name="sys_state" typeId="0">
-            <Field Name="quat" typeId="8" />
-            <Field Name="angular_rate" typeId="10" />
-            <Field Name="angular_rate_dot" typeId="10" />
-            <Field Name="acc" typeId="10" />
-          </Input>
-          <idpTable>
-            <type typeId="0">
-              <Class>struct</Class>
-              <Size>1 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <TypeName />
-              <Extern>false</Extern>
-              <HeaderFile />
-              <Alignment>-1</Alignment>
-            </type>
-            <type typeId="1">
-              <Class>double</Class>
-              <Size>1 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-            </type>
-            <type typeId="2">
-              <Class>double</Class>
-              <Size>7 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-            </type>
-            <type typeId="3">
-              <Class>double</Class>
-              <Size>2 x 2</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-            </type>
-            <type typeId="4">
-              <Class>double</Class>
-              <Size>2 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-            </type>
-            <type typeId="5">
-              <Class>double</Class>
-              <Size>1 x 10</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-            </type>
-            <type typeId="6">
-              <Class>double</Class>
-              <Size>1 x 19</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-              <Complex>false</Complex>
-            </type>
-            <type typeId="7">
-              <Class>logical</Class>
-              <Size>1 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>false</UserDefined>
-            </type>
-            <type typeId="8">
+            <type typeId="11">
               <Class>double</Class>
               <Size>1 x 4</Size>
               <Value />
@@ -1397,7 +1519,7 @@
               <UserDefined>false</UserDefined>
               <Complex>false</Complex>
             </type>
-            <type typeId="9">
+            <type typeId="12">
               <Class>double</Class>
               <Size>1 x 3</Size>
               <Value />
@@ -1405,7 +1527,7 @@
               <UserDefined>false</UserDefined>
               <Complex>false</Complex>
             </type>
-            <type typeId="10">
+            <type typeId="13">
               <Class>double</Class>
               <Size>3 x 1</Size>
               <Value />
@@ -1464,6 +1586,20 @@
             <Field Name="u_lead_enable" typeId="7" />
             <Field Name="fixed_step_ode" typeId="7" />
             <Field Name="ode_steps" typeId="1" />
+            <Field Name="out" typeId="1" />
+            <Field Name="actuator_estimator" typeId="0">
+              <Field Name="x" typeId="8" />
+              <Field Name="F" typeId="9" />
+              <Field Name="H" typeId="10" />
+              <Field Name="Q" typeId="9" />
+              <Field Name="R" typeId="1" />
+              <Field Name="P" typeId="9" />
+              <Field Name="yres" typeId="1" />
+              <Field Name="t" typeId="1" />
+              <Field Name="z" typeId="1" />
+              <Field Name="actuator_real" typeId="1" />
+            </Field>
+            <Field Name="p_actuator" typeId="1" />
           </Input>
           <Input Name="p" typeId="1" />
           <Input Name="epi" typeId="1" />
@@ -1471,8 +1607,7 @@
           <Input Name="gamma" typeId="1" />
           <Input Name="lag_fc" typeId="1" />
           <Input Name="lag_alpha" typeId="1" />
-          <Input Name="lead_fc" typeId="1" />
-          <Input Name="lead_alpha" typeId="1" />
+          <Input Name="p_actuator" typeId="1" />
           <idpTable>
             <type typeId="0">
               <Class>struct</Class>
@@ -1540,6 +1675,30 @@
               <InitialValue />
               <UserDefined>false</UserDefined>
             </type>
+            <type typeId="8">
+              <Class>double</Class>
+              <Size>6 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="9">
+              <Class>double</Class>
+              <Size>6 x 6</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="10">
+              <Class>double</Class>
+              <Size>1 x 6</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
           </idpTable>
         </Inputs>
       </file>
@@ -1568,7 +1727,7 @@
       </file>
     </fileset.inputtypes>
     <build-deliverables>
-      <file location="${PROJECT_ROOT}/codegen/lib/L1ControlAttitude" name="L1ControlAttitude.a" optional="false">/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/codegen/lib/L1ControlAttitude/L1ControlAttitude.a</file>
+      <file location="${PROJECT_ROOT}/codegen/lib/L1ControlAngularVelocity" name="L1ControlAngularVelocity.a" optional="false">/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/codegen/lib/L1ControlAngularVelocity/L1ControlAngularVelocity.a</file>
     </build-deliverables>
     <workflow />
     <matlab>

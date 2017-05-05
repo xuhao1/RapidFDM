@@ -7,11 +7,10 @@
 
 #include <RapidFDM/control_system/base_controller.h>
 #include "mat.h"
-
-extern "C" {
-#include "L1ControlAttitude.h"
-};
-
+extern "C"
+{
+#include "L1AircraftControl.h"
+}
 
 namespace RapidFDM
 {
