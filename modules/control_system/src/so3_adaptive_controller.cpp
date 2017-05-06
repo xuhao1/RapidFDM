@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <RapidFDM/utils.h>
 #include <L1AircraftControl_types.h>
+#include <L1AircraftControl.h>
 
 using namespace RapidFDM::Utils;
 
@@ -29,29 +30,14 @@ namespace RapidFDM {
                 BaseController(_aircraftNode) {
             roll_sp = 0;
             pitch_sp = 0;
-            //7 0.655
-            //6 0.6
-            //5 0.55
-            //4 0.49
-            //3 0.42
-            init_attitude_controller(0,4,&ctrlAttitude);
-//            double lead_fc = 0.8;
-//            double lead_alpha = 1;
-            double lag_fc = 6;
+            init_attitude_controller(0, 4, &ctrlAttitude);
+            double lag_fc = 10;
             double lag_alpha = 4;
-            double p_actuator = 0.5;
-//            double lag_fc = 7;
-//            double lag_alpha = 15;
-//            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 7.0, 1.0, 32, 1000, lag_fc, lag_alpha, lead_fc,
-//                                     lead_alpha);
-//            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 7.0, 1.0, 32, 1000, lag_fc, lag_alpha, lead_fc,
-//                                     lead_alpha);
-//            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 3.0, 1.2, 10, 1000, lag_fc, lag_alpha, lead_fc,
-//                                     lead_alpha);
+            double p_actuator = 2.0;
 
-            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 7.0, 0.9, 32, 1000, lag_fc, lag_alpha, p_actuator);
-            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 7.0, 0.9, 32, 1000, lag_fc, lag_alpha, p_actuator);
-            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 3.0, 0.9, 10, 1000, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 4.0, 1.1, 32, 4000, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 4.0, 1.1, 32, 4000, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 4.0, 1.1, 10, 4000, lag_fc, lag_alpha, p_actuator);
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -59,6 +45,8 @@ namespace RapidFDM {
             auto file = oss.str();
             printf("Creating file %s...\n\n", file.c_str());
             pmat = matOpen(file.c_str(), "w");
+
+            controller_type = fast_string(aircraftNode->getJsonDefine(), "controller_type");
         }
 
         void convert_euler_to_quat_array(float quat[], double roll, double pitch, double yaw) {
@@ -83,6 +71,52 @@ namespace RapidFDM {
             quat[3] = quat_sp.z();
         }
 
+        void so3_adaptive_controller::control_combinevtol(float deltatime) {
+            Eigen::Vector3d eul = quat2eulers(quat);
+            QuatControlSetpoint quatControlSetpoint;
+            static double yaw_angle_sp = 0;
+            if (fabs(yaw_sp) > 0.05 || aux1_sp > 0.1) {
+                yaw_angle_sp = eul.z();
+                quatControlSetpoint.yaw_rate = yaw_sp * M_PI;
+                quatControlSetpoint.yaw_sp_is_rate = 1;
+            } else {
+                quatControlSetpoint.yaw_sp_is_rate = 0;
+            }
+
+            float th0 = (float) this->aircraftNode->get_internal_state("main_engine_0/thrust");
+            float th1 = (float) this->aircraftNode->get_internal_state("main_engine_1/thrust");
+            float th2 = (float) this->aircraftNode->get_internal_state("main_engine_2/thrust");
+            float th3 = (float) this->aircraftNode->get_internal_state("main_engine_3/thrust");
+
+
+            float roll_act_real = (th1 + th2 - th0 - th3) / 2;
+            float pitch_act_real = (th1 + th0 - th2 - th3) / 2;
+            float yaw_act_real = (th0 + th2 - th1 - th3) / 2;
+
+            convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp * M_PI / 6, pitch_sp * M_PI / 6,
+                                        yaw_angle_sp);
+
+            L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
+
+            Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
+
+            u.x() = ctrlAttitude.u[0];
+            u.y() = ctrlAttitude.u[1];
+            u.z() = ctrlAttitude.u[2];
+
+            pwm[0] = (float) float_constrain((-u.x() + u.y() + u.z())*0.3 + throttle_sp, 0, 1);
+            pwm[1] = (float) float_constrain((u.x() + u.y() - u.z())*0.3 + throttle_sp, 0, 1);
+            pwm[2] = (float) float_constrain((u.x() - u.y() + u.z())*0.3 + throttle_sp, 0, 1);
+            pwm[3] = (float) float_constrain((-u.x() - u.y() - u.z())*0.3 + throttle_sp, 0, 1);
+
+            pwm[4] = (float) float_constrain(aux1_sp, -1, 1);
+            pwm[5] = (float) float_constrain(u.x(), -1, 1);
+            pwm[6] = (float) float_constrain(u.x(), -1, 1);
+            pwm[7] = (float) float_constrain(u.y(), -1, 1);
+            pwm[8] = (float) float_constrain(u.z(), -1, 1);
+
+            sys.acc[0] = roll_act_real;
+        }
 
         void so3_adaptive_controller::control_multirotor(float deltatime) {
             Eigen::Vector3d eul = quat2eulers(quat);
@@ -96,27 +130,30 @@ namespace RapidFDM {
                 quatControlSetpoint.yaw_sp_is_rate = 0;
             }
 
-            convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp*M_PI/6, pitch_sp*M_PI/6, yaw_angle_sp);
+            float th0 = (float) this->aircraftNode->get_internal_state("main_engine_0/thrust");
+            float th1 = (float) this->aircraftNode->get_internal_state("main_engine_1/thrust");
+            float th2 = (float) this->aircraftNode->get_internal_state("main_engine_2/thrust");
+            float th3 = (float) this->aircraftNode->get_internal_state("main_engine_3/thrust");
+
+
+            float roll_act_real = (th1 + th2 - th0 - th3) / 2;
+            float pitch_act_real = (th1 + th0 - th2 - th3) / 2;
+            float yaw_act_real = (th0 + th2 - th1 - th3) / 2;
+
+            convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp * M_PI / 6, pitch_sp * M_PI / 6,
+                                        yaw_angle_sp);
 
             L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
 
             Eigen::AngleAxisd rot_u(0 * M_PI / 180, Eigen::Vector3d::UnitZ());
             Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
             Eigen::Vector3d u_last = Eigen::Vector3d(0, 0, 0);
-            u.x() = ctrlAttitude.u[0];
-            u.y() = ctrlAttitude.u[1];
-            u.z() = ctrlAttitude.u[2];
 
 
-            float th0 = (float)this->aircraftNode->get_internal_state("main_engine_0/thrust");
-            float th1 = (float)this->aircraftNode->get_internal_state("main_engine_1/thrust");
-            float th2 = (float)this->aircraftNode->get_internal_state("main_engine_2/thrust");
-            float th3 = (float)this->aircraftNode->get_internal_state("main_engine_3/thrust");
-
-
-            float roll_act_real = (th1+th2 - th0-th3)/2;
-            float pitch_act_real = (th1+th0 - th2-th3)/2;
-            float yaw_act_real = (th0+th2 - th1-th3)/2;
+            double p_act = 0.0;
+            u.x() = ctrlAttitude.u[0] + p_act * (ctrlAttitude.u[0] - roll_act_real);
+            u.y() = ctrlAttitude.u[1] + p_act * (ctrlAttitude.u[1] - pitch_act_real);
+            u.z() = ctrlAttitude.u[2] + p_act * (ctrlAttitude.u[2] - yaw_act_real);
 
             pwm[0] = (float) float_constrain((-u.x() + u.y() + u.z()) + throttle_sp, 0, 1);
             pwm[1] = (float) float_constrain((u.x() + u.y() - u.z()) + throttle_sp, 0, 1);
@@ -138,7 +175,8 @@ namespace RapidFDM {
             quatControlSetpoint.yaw_rate = yaw_sp / 10 * M_PI;
             quatControlSetpoint.yaw_sp_is_rate = 1;
 
-            convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp*M_PI/2.2, pitch_sp*M_PI/3, yaw_angle_sp);
+            convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp * M_PI / 2.2, pitch_sp * M_PI / 3,
+                                        yaw_angle_sp);
 
             long us0 = current_timestamp_us();
             L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
@@ -160,17 +198,13 @@ namespace RapidFDM {
             Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
 
             u.x() = ctrlAttitude.u[0];
-            u.y() = ctrlAttitude.u[1] + 0.2;
+            u.y() = ctrlAttitude.u[1];
             u.z() = ctrlAttitude.u[2];
 
-            float ux_real = (float)this->aircraftNode->get_internal_state("main_wing_0/flap_0");
-
             pwm[0] = (float) float_constrain(u.x(), -1, 1);
-            pwm[1] = (float) float_constrain(-u.y(), -1, 1);
+            pwm[1] = (float) float_constrain(u.y(), -1, 1);
             pwm[2] = (float) float_constrain(throttle_sp, 0, 1);
             pwm[3] = (float) float_constrain(u.z(), -1, 1);
-
-            sys.acc[0] = (float)this->aircraftNode->get_internal_state("main_wing_0/flap_0");
         }
 
         void so3_adaptive_controller::control_step(float deltatime) {
@@ -187,12 +221,16 @@ namespace RapidFDM {
             sys.quat[2] = quat.y();
             sys.quat[3] = quat.z();
 
-//            control_fixedwing(deltatime);
-            control_multirotor(deltatime);
+            if (controller_type == "fixedwing") {
+                control_fixedwing(deltatime);
+            } else if (controller_type == "multirotor") {
+                control_multirotor(deltatime);
+            } else if (controller_type == "combinevtol") {
+                control_combinevtol(deltatime);
+            }
 
-            aircraftNode->set_control_from_channels(pwm, 8);
+            aircraftNode->set_control_from_channels(pwm, 16);
 
-//            ctrl_log.push_back(ctrlAttitude.PitchCtrl);
             ctrl_log.push_back(ctrlAttitude.RollCtrl);
             sys_log.push_back(sys);
             att_con_log.push_back(ctrlAttitude);

@@ -150,7 +150,7 @@ namespace RapidFDM
             if (x  > wingGeometry->params.stall_angle || x < - wingGeometry->params.stall_angle) {
                 cl = 0;
             }
-            return cl;
+            return float_constrain(cl,-2,2);
         }
 
         float WingBladeElement::get_cd(ComponentData state, AirState airState) const

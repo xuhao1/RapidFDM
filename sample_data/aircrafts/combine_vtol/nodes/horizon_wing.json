@@ -23,7 +23,7 @@
   "MidChordSweep": 8,
   "TaperRatio":0.8,
   "pieces": 2,
-  "ctrlSurfFrac":0.8,
-  "maxdeflect" : -20,
+  "ctrlSurfFrac":0.5,
+  "maxdeflect" : 20,
   "freq_cut":2
 }

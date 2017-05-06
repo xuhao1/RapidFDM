@@ -26,10 +26,12 @@ namespace RapidFDM
             std::vector<AdaptiveCtrlT> ctrl_log;
             std::vector<AdaptiveSysT> sys_log;
             std::vector<AttitudeCtrlT> att_con_log;
+            std::string controller_type = "";
 
             so3_adaptive_controller(Aerodynamics::AircraftNode * _aircraftNode);
             virtual void control_multirotor(float deltatime);
             virtual void control_fixedwing(float deltatime);
+            virtual void control_combinevtol(float deltatime);
             virtual void control_step(float deltatime) override ;
 
             void save_data_file();

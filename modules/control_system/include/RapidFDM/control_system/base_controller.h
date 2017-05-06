@@ -18,8 +18,9 @@ namespace RapidFDM
             double pitch_sp = 0;
             double throttle_sp = 0;
             double yaw_sp = 0;
+            double aux1_sp = 0;
 
-            float pwm[8] ={0};
+            float pwm[16] ={0};
 
             Eigen::Quaterniond quat = Eigen::Quaterniond::Identity();
             Eigen::Vector3d angular_rate = Eigen::Vector3d(0,0,0);

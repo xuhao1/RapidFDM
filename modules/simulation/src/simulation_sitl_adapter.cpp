@@ -30,6 +30,7 @@ namespace RapidFDM {
             this->controller->pitch_sp = - pwm[1];// * M_PI  / 4;
             this->controller->throttle_sp = (pwm[2] + 1) / 2;
             this->controller->yaw_sp = pwm[3];
+            this->controller->aux1_sp = (pwm[4] + 1)/2;
         }
 
         void simulation_sitl_adapter::push_json_to_app(rapidjson::Document &d) {

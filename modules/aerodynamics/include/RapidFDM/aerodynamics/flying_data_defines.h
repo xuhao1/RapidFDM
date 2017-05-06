@@ -49,9 +49,9 @@ namespace RapidFDM
 
             double get_q_bar(AirState airState) const
             {
-                //Q bar will get airspeed on x & y axis!!!!
-                return airState.rho * this->get_front_airspeed(airState) * this->get_front_airspeed(airState) / 2;
-//                return airState.rho * this->get_airspeed_mag(airState) * this->get_airspeed_mag(airState) / 2;
+//                Q bar will get airspeed on x & y axis!!!!
+                double airspeed =float_constrain(this->get_airspeed_mag(airState),0,300);
+                return airState.rho * airspeed*airspeed / 2;
             }
 
             double get_angle_of_attack(AirState airState) const

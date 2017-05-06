@@ -22,6 +22,7 @@ var AircraftInput = function (aircraftview) {
     this.aileron = 0;
     this.rudder = 0;
     this.elevator = 0;
+    this.aux1 = 0;
     this.delatatime = 0.02;
     this.throttle_ratio = 1;
 
@@ -29,6 +30,7 @@ var AircraftInput = function (aircraftview) {
     this.d_rudder = 0;
     this.d_ailreon = 0;
     this.d_throttle = 0;
+    this.d_aux1 = 0;
 
     this.d_axis_keyboard_ratio = 0.97;
     this.axis_keyboard_back_ratio = 3;
@@ -104,6 +106,8 @@ AircraftInput.prototype.update = function () {
         var gamepad = this.get_gamepad();
         if (gamepad !== undefined) {
             this.elevator = 0;
+            console.log(gamepad.axes);
+            this.d_aux1 = (gamepad.axes[5] - gamepad.axes[2])*10000/2;
             this.aileron = gamepad.axes[3] * 10000;
             this.elevator = - gamepad.axes[4] * 10000;
             this.rudder = gamepad.axes[0] * 10000;
@@ -122,6 +126,7 @@ AircraftInput.prototype.update = function () {
             this.rudder = this.rudder + this.d_rudder - this.rudder * this.axis_keyboard_back_ratio * this.delatatime;
 
             this.d_throttle = this.d_axis_keyboard_ratio * this.d_throttle;
+
         }
 
         if (Math.abs(this.d_throttle) > 500) {
@@ -133,6 +138,16 @@ AircraftInput.prototype.update = function () {
                 this.throttle = -10000;
             }
         }
+         if (Math.abs(this.d_aux1) > 500) {
+            this.aux1 = this.aux1 + this.d_aux1 * dt * this.throttle_ratio;
+            if (this.aux1 > 10000) {
+                this.aux1 = 10000;
+            }
+            else if (this.aux1 < -10000) {
+                this.aux1 = -10000;
+            }
+        }
+
         try {
             if (this.aircraftview.in_realtime_simulator) {
                 this.aircraftview.ws_simulator.send(JSON.stringify({
@@ -141,7 +156,8 @@ AircraftInput.prototype.update = function () {
                         this.aileron / 10000,
                         this.elevator / 10000,
                         this.throttle / 10000,
-                        this.rudder / 10000
+                        this.rudder / 10000,
+                        this.aux1 / 10000,
                     ]
                 }));
 
