@@ -24,6 +24,7 @@ namespace RapidFDM
 
             Eigen::Quaterniond quat = Eigen::Quaterniond::Identity();
             Eigen::Vector3d angular_rate = Eigen::Vector3d(0,0,0);
+            double airspeed = 0;
 
             Aerodynamics::AircraftNode * aircraftNode;
             BaseController(Aerodynamics::AircraftNode * _aircraftNode)

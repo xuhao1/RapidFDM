@@ -22,7 +22,7 @@ var AircraftInput = function (aircraftview) {
     this.aileron = 0;
     this.rudder = 0;
     this.elevator = 0;
-    this.aux1 = 0;
+    this.aux1 = -10000;
     this.delatatime = 0.02;
     this.throttle_ratio = 1;
 

@@ -28,14 +28,14 @@
   "initial_states" : {
     "transform": {
       "attitude": [0,0,0],
-      "vector": [0,0,150]
+      "vector": [0,0,1.5]
     },
-    "init_speed":15
+    "init_speed":0
   },
   "controller_type":"combinevtol",
   "rigid_mode" : 1,
   "total_mass" : 2.7,
-  "total_inertial":[0.5,0.5,1.0],
+  "total_inertial":[0.5,0.15,0.5],
   "mapper": {
     "main_wing_0/flap_0": {
       "coeff": 1.0,

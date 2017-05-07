@@ -7,6 +7,7 @@
 
 #include <RapidFDM/control_system/base_controller.h>
 #include "mat.h"
+#include <random>
 extern "C"
 {
 #include "L1AircraftControl.h"
@@ -33,6 +34,9 @@ namespace RapidFDM
             virtual void control_fixedwing(float deltatime);
             virtual void control_combinevtol(float deltatime);
             virtual void control_step(float deltatime) override ;
+
+            std::default_random_engine generator;
+            std::normal_distribution<double> ang_vel_dist;
 
             void save_data_file();
 

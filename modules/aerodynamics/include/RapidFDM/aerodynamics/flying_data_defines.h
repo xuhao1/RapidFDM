@@ -72,7 +72,9 @@ namespace RapidFDM
             }
             double get_airspeed_mag(AirState airState) const
             {
-                return get_relative_airspeed(airState).norm();
+                if (get_relative_airspeed(airState).x() < 0)
+                    return get_relative_airspeed(airState).norm();
+                return - get_relative_airspeed(airState).norm();
             }
 
             double get_sideslip(AirState airState) const

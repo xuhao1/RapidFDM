@@ -21,6 +21,7 @@ namespace RapidFDM {
         void simulation_sitl_adapter::tick_func(float dt, long tick) {
             controller->angular_rate = this->get_angular_velocity_body_NED();
             controller->quat = this->get_quaternion_NED();
+            controller->airspeed = get_airspeed();
             controller->control_step(dt);
             memcpy(this->pwm, controller->pwm, 8 * sizeof(float));
         }
