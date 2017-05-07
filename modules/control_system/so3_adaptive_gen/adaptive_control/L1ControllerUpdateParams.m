@@ -12,8 +12,6 @@ P(2,1) = - (1/(2*Am(2,1)));
 P(1,2) = - (1/(2*Am(2,1)));
 P(2,2) = (1 - Am(2,1)) / (2*Am(2,1)*Am(2,2));
 
-
-
 %filter_obj = 
 obj.Gamma = gamma;
 obj.P = P;
@@ -27,7 +25,7 @@ if not(obj.inited)
     obj.x(5) = pd;
 end
 obj.u_filter = make_lag_obj(lag_fc,lag_alpha);
-
-obj.u_lead = make_lead_obj(1,1);
+obj.km(1) = p;
+obj.km(2) = pd;
 obj.p_actuator = p_actuator;
 end

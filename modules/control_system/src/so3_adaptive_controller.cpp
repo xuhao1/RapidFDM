@@ -28,7 +28,7 @@ namespace RapidFDM {
 
 
         so3_adaptive_controller::so3_adaptive_controller(Aerodynamics::AircraftNode *_aircraftNode) :
-                BaseController(_aircraftNode),ang_vel_dist(0,0.003) {
+                BaseController(_aircraftNode),ang_vel_dist(0,0.01) {
             roll_sp = 0;
             pitch_sp = 0;
             init_attitude_controller(0, 10, &ctrlAttitude);
@@ -37,9 +37,9 @@ namespace RapidFDM {
             double p_actuator = 2.0;
 
             double gamma = 4000;
-            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 4.0, 1.1, 32, gamma, lag_fc, lag_alpha, p_actuator,10);
-            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 4.0, 1.1, 32, gamma, lag_fc, lag_alpha, p_actuator,10);
-            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 4.0, 1.1, 10, gamma, lag_fc, lag_alpha, p_actuator,10);
+            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 4.0, 1.1, 32, gamma, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 4.0, 1.1, 32, gamma, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 4.0, 1.1, 10, gamma, lag_fc, lag_alpha, p_actuator);
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;

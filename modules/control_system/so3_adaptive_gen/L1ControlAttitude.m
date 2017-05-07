@@ -14,7 +14,6 @@ rov_invsp = quat_err_rov(quat_sp,sys_state.quat);
 
 %the changed value of quat_sp because of rov
 delta_err_sp = quat_err_rov(quat_sp,quat_last) - quat_err_rov(quat_sp_last,quat_last);
-
 obj.quat_sp = quat_sp;
 obj.quat = sys_state.quat;
 

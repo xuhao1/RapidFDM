@@ -6,7 +6,7 @@ obj.eta = eta;
 % else
 %     out = obj.u;
 % end
-[obj.actuator_estimator,ys] = IterActuatorEst(obj.actuator_estimator,obj.x_real(2),obj.out,dt);
+ys = obj.actuator_estimator.actuator_real;
 out = obj.u + float_constrain((obj.u - ys) * obj.p_actuator,-0.1,0.1);
 obj.out = out;
 end

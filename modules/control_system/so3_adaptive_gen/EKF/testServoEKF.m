@@ -1,9 +1,6 @@
-function testServoEKF(parr,uarr,tarr,uact,uest)
-global p u t
-p = parr;
-u = uarr;
-t = tarr;
-[n,~] = size(parr);
+function testServoEKF(parr_noise,uarr,tarr,uact,uest,preal)
+%pnoise = awgn(parr/180*pi,10);
+[n,~] = size(parr_noise);
 obj = InitActuatorEstimator();
 ysarr = zeros(n,1);
 kdarr = zeros(n,1);
@@ -16,9 +13,14 @@ Pwc = zeros(n,1);
 Pkd = zeros(n,1);
 fdarr = zeros(n,1);
 sigmarr = zeros(n,1);
+
+lag_filter = make_lag_obj(10,20);
+lag = zeros(n,1);
 for i=1:n
-    [obj,ysarr(i)] = IterActuatorEst(obj,parr(i)/180*pi,uarr(i),0.005);
-    pmarr(i) = obj.x(1);
+    [obj,ysarr(i)] = IterActuatorEst(obj,uarr(i),0.005);
+    obj =  EKFUpdate(obj,parr_noise(i)/180*pi,@Servohfunc);
+    pmarr(i) = obj.x(1)*180/pi;
+    [lag(i),lag_filter] = IterTransform(parr_noise(i),lag_filter);
     %ysarr(i) = obj.x(2);
     kdarr(i) = obj.x(3);
     wcarr(i) = obj.x(4);
@@ -39,8 +41,8 @@ end
 figure
 ps = 7;
 ax1 = subplot(ps,1,1);
-plot(ax1,tarr,pmarr,tarr,zarr);
-legend(ax1,'est','abs')
+plot(ax1,tarr,preal,tarr,pmarr,tarr,lag);
+legend(ax1,'real','est','filter')
 title(ax1,'angular velocity');
 
 ax2 = subplot(ps,1,2);
@@ -69,4 +71,7 @@ ax = subplot(ps,1,6);
 plot(ax,tarr,yresarr,tarr,sigmarr,tarr,Psigma);
 legend(ax,'yres','Sigma','PSi');
 
+ax = subplot(ps,1,7);
+plot(ax,tarr,(preal-pmarr).*(preal-pmarr),tarr,(preal-lag).*(preal-lag));
+legend(ax,'EKF','LAG');
 end

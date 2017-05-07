@@ -6,4 +6,5 @@ function obj = EKFUpdate(obj,z,h)
     obj.x = obj.x + K * y;
     obj.P = (eye(n) - K*obj.H)*obj.P;
     obj.yres = y;
+    obj.z = z;
 end

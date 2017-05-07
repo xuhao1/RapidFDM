@@ -32,16 +32,18 @@ quat_sp = data(:,19:22);
 
 time_used = data(:,23);
 outarr = data(:,24);
-xdot = data(:,25)*180/pi;
+xdot_ctrl_use = data(:,25)*180/pi;
 uact = data(:,26);
 uest = data(:,27);
+xdot_noise = data(:,28)*180/pi;
+xdot_real = data(:,29)*180/pi;
 x = x_pre-err0;
 
 figure
-subplot_size_x = 8;
+subplot_size_x = 5;
 ax1 = subplot(subplot_size_x,1,1);
-plot(ax1,t,x_pre,t,xdot_pre)
-legend(ax1,'x','xdot_(pre)')
+plot(ax1,t,x_pre,t,xdot_pre,t,xdot_ctrl_use)
+legend(ax1,'xpre','xdot_(pre)','xdotuse')
 title(ax1,'x pre state')
 
 ax2 = subplot(subplot_size_x,1,2);
@@ -60,34 +62,35 @@ legend(ax4,'u','eta')
 title(ax4,'Output')
 
 ax5 = subplot(subplot_size_x,1,5);
-plot(ax5,t,x,t,r)
-legend(ax5,'x','r')
+plot(ax5,t,x,t,xdot_ctrl_use,t,xdot_noise,t,xdot_real)
+legend(ax5,'x','xdotuse','xdot','xdotreal')
 title(ax5,'x state&r')
 %t,[diff(x_pre)*200;0]
-ax6 = subplot(subplot_size_x,1,6);
-fw_tmp = arrayfun(@(x) float_constrain(x,-20,40),fw);
-xdot_tmp = arrayfun(@(x) float_constrain(x,-40,20),xdot);
-plot(ax6,t,-fw_tmp,t,xdot)
-legend(ax6,'feedforward','xdot')
-title(ax6,'diff')
 
-pitchctrl = init_adaptive_controller(0,1); 
-pitchctrl = L1ControllerUpdateParams(pitchctrl,7,0.8,32,1000,3,2.5,3);
-errarr = [err0,err1];
-P = pitchctrl.P;
-b = pitchctrl.b;
-Gamma = pitchctrl.Gamma;
-xarr = [x_pre,xdot_pre];
-grid on;
-[len,~] = size(errarr);
-
-ax7 = subplot(7,1,7);
-fw_u = (pitchctrl.kg_rate * - fw) ./ omega_pre;
-pdu = (pitchctrl.Am(2,2) / pitchctrl.b(2) * xdot)./omega_pre;
-plot(ax7,t,-fw_u,t,pdu)
-legend(ax7,'fwu','fu')
-title(ax7,'Feedforward on Axis')
-grid on
+% ax6 = subplot(subplot_size_x,1,6);
+% fw_tmp = arrayfun(@(x) float_constrain(x,-20,40),fw);
+% xdot_tmp = arrayfun(@(x) float_constrain(x,-40,20),xdot);
+% plot(ax6,t,-fw_tmp,t,xdot)
+% legend(ax6,'feedforward','xdot')
+% title(ax6,'diff')
+% 
+% pitchctrl = init_adaptive_controller(0,1); 
+% pitchctrl = L1ControllerUpdateParams(pitchctrl,7,0.8,32,1000,3,2.5,3);
+% errarr = [err0,err1];
+% P = pitchctrl.P;
+% b = pitchctrl.b;
+% Gamma = pitchctrl.Gamma;
+% xarr = [x_pre,xdot_pre];
+% grid on;
+% [len,~] = size(errarr);
+% 
+% ax7 = subplot(7,1,7);
+% fw_u = (pitchctrl.kg_rate * - fw) ./ omega_pre;
+% pdu = (pitchctrl.Am(2,2) / pitchctrl.b(2) * xdot)./omega_pre;
+% plot(ax7,t,-fw_u,t,pdu)
+% legend(ax7,'fwu','fu')
+% title(ax7,'Feedforward on Axis')
+% grid on
 
 %figure
 %plot(t,time_used)
@@ -95,6 +98,6 @@ grid on
 %title('Time us of Attitude Control')
 %grid on
 %testServoEKF(xdot,uarr,t)
-testServoEKF(xdot,outarr,t,uact,uest)
+testServoEKF(xdot_noise,outarr,t,uact,uest,xdot_real)
 
 end
