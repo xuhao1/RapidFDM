@@ -27,9 +27,6 @@ var AircraftView = function (config) {
         log("load aircraft");
         obj.component_mesh_list = LoadAircraftGeometry(data, obj.dis);
 
-
-        // obj.set_value_test();
-
         obj.set_wind_speed(15, 0,0);
 
         obj.a3_online = false;

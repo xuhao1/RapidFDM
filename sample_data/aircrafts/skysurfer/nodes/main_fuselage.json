@@ -31,7 +31,7 @@
   "initial_states" : {
     "transform": {
       "attitude": [0,0,0],
-      "vector": [0,0,100]
+      "vector": [0,0,10]
     },
     "init_speed":10
   },

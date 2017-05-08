@@ -32,7 +32,7 @@ var AircraftInput = function (aircraftview) {
     this.d_throttle = 0;
     this.d_aux1 = 0;
 
-    this.d_axis_keyboard_ratio = 0.97;
+    this.d_axis_keyboard_ratio = 0.96;
     this.axis_keyboard_back_ratio = 3;
 
     this.use_hil = false;
@@ -43,10 +43,10 @@ var AircraftInput = function (aircraftview) {
     document.addEventListener('keydown', function (event) {
         switch (event.keyCode) {
             case 87://W
-                obj.d_elevator = 500;
+                obj.d_throttle = 3000;
                 break;
             case 83://S
-                obj.d_elevator = -500;
+                obj.d_throttle = -3000;
                 break;
             case 65://A
                 obj.d_rudder = -500;
@@ -61,10 +61,10 @@ var AircraftInput = function (aircraftview) {
                 obj.d_ailreon = -500;
                 break;
             case 38://Up
-                obj.d_throttle = 3000;
+                obj.d_elevator = 500;
                 break;
             case 40://Down
-                obj.d_throttle = -3000;
+                obj.d_elevator = -500;
                 break;
             default:
                 // log(event.keyCode);
@@ -115,11 +115,11 @@ AircraftInput.prototype.update = function () {
         }
         else {
             this.d_elevator = this.d_elevator * this.d_axis_keyboard_ratio;
-            this.elevator = this.elevator + this.d_elevator ;//- this.elevator * this.axis_keyboard_back_ratio * this.delatatime;
+            this.elevator = this.elevator + this.d_elevator - this.elevator * this.axis_keyboard_back_ratio * this.delatatime;
             this.elevator = float_constrain(this.elevator,-10000,10000);
 
             this.d_ailreon = this.d_ailreon * this.d_axis_keyboard_ratio;
-            this.aileron = this.aileron + this.d_ailreon;// - this.aileron * this.axis_keyboard_back_ratio * this.delatatime;
+            this.aileron = this.aileron + this.d_ailreon - this.aileron * this.axis_keyboard_back_ratio * this.delatatime;
             this.aileron = float_constrain(this.aileron,-10000,10000);
 
             this.d_rudder = this.d_rudder * this.d_axis_keyboard_ratio;

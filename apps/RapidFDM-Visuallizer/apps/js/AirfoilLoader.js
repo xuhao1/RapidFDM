@@ -34,7 +34,7 @@ function load_airfoil_from_dat(dat_file) {
     return spline;
 }
 
-function load_wing_from_uiucdb(wing_config, onLoad) {
+function load_wing_from_uiucdb(engine,wing_config, onLoad) {
     console.log("loading airfoil");
     var oReq = new XMLHttpRequest();
     var url = gen_airfoil_url(wing_config.airfoil_name);
@@ -44,7 +44,7 @@ function load_wing_from_uiucdb(wing_config, onLoad) {
     oReq.onload = function (evt) {
         var data = oReq.response;
         console.log(`loaded airfoil ${wing_config.airfoil_name}`);
-        onLoad(construct_wing_from_dat(data, wing_config));
+        onLoad(construct_wing_from_dat(engine,data, wing_config));
     };
     oReq.send(null);
 }
@@ -321,19 +321,40 @@ function construct_wing_geometry_from_data(dat_file, wing_config) {
     return geometry;
 }
 
-function construct_wing_from_dat(dat_file, wing_config) {
-    var pts = [];
+function construct_wing_from_dat(engine,dat_file, wing_config) {
+    let pts = [];
     let lines = load_airfoil_from_dat(dat_file);
-    for (var i in lines) {
+    for (let i in lines) {
         pts.push(new THREE.Vector2(lines[i][0] * 0.5, lines[i][1] * 0.5));
     }
-    var shape = new THREE.Shape(pts);
-    var geometry = construct_wing_geometry_from_data(dat_file, wing_config);
-    var material = new THREE.MeshPhongMaterial({
-        wireframe: false,
-        side: THREE.DoubleSide,
+    let shape = new THREE.Shape(pts);
+    let geometry = construct_wing_geometry_from_data(dat_file, wing_config);
+    let imgTexture = new THREE.TextureLoader().load( "../static/textures/moon_1024.jpg" );
+    imgTexture.wrapS = imgTexture.wrapT = THREE.RepeatWrapping;
+    imgTexture.anisotropy = 16;
+    imgTexture = null;
+
+    let  beta = 0.8;
+    let alpha = 0.6;
+    let gamma = 1.0;
+
+
+    let diffuseColor = new THREE.Color().setHSL( alpha, 0.5, gamma * 0.5 ).multiplyScalar( 1 - beta * 0.2 );
+    let specularColor = new THREE.Color( beta * 0.2, beta * 0.2, beta * 0.2 );
+    let specularShininess = Math.pow( 2, alpha * 10 );
+
+    let material = new THREE.MeshToonMaterial( {
+        map: imgTexture,
+        bumpMap: imgTexture,
+        bumpScale: 1.0,
+        color: diffuseColor,
+        specular: specularColor,
+        reflectivity: beta,
+        shininess: specularShininess,
         shading: THREE.SmoothShading,
-        color: 0x898989
-    });
+        envMap: engine.scene.background,
+        side: THREE.DoubleSide
+    } );
+
     return new THREE.Mesh(geometry, material);
 }

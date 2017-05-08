@@ -16,6 +16,17 @@
     <script src="../static/js/TextGeometry.js"></script>
     <script src="../static/js/FontUtils.js"></script>
     <script src="../static/js/helvetiker_regular.typeface.js"></script>
+    <script src="../static/js/effects/OutlineEffect.js"></script>
+    <script src="../static/js/effects/AsciiEffect.js"></script>
+    <script src="../static/js/effects/VREffect.js"></script>
+    <script src="../static/js/threejs/loaders/ColladaLoader.js"></script>
+
+    <script src="../static/js/threejs/shaders/CopyShader.js"></script>
+    <script src="../static/js/threejs/shaders/FXAAShader.js"></script>
+    <script src="../static/js/threejs/postprocessing/EffectComposer.js"></script>
+    <script src="../static/js/threejs/postprocessing/RenderPass.js"></script>
+    <script src="../static/js/threejs/postprocessing/ShaderPass.js"></script>
+    <script src="../static/js/threejs/postprocessing/OutlinePass.js"></script>
 
     <script src="js/DroneDisplayCameraController.js"></script>
     <script src="js/DroneDisplayEngine.js"></script>
@@ -35,11 +46,6 @@
 <div id="logs">
     <textarea id="log_plant" readonly="readonly"></textarea>
 </div>
-<!--<button onclick="list_model()" id="list_model_button">List model</button>-->
-<!--<button onclick="load_model()" id="load_model_button">Load model</button>-->
-<!--<button id="list_axis_model_button">List Axis</button>-->
-<!--<button id="get_total_forces_torques_button">Debug</button>-->
-<!--<input  t<divype="range" id="wind_aoa_input" min="-45" max="45"/>-->
 <div id="flight_status">
     <p>Attitude <span id="attitude">Roll:0; Pitch :0 ;Yaw: 0;</span></p>
     <p> EnginForce: <span id = "engine_force">0</span></p>

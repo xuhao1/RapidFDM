@@ -184,9 +184,9 @@ namespace RapidFDM {
             long us0 = current_timestamp_us();
             L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
             double angular_vel_sp[3] = {0};
-            angular_vel_sp[0] = roll_sp;
-            angular_vel_sp[1] = pitch_sp;
-            angular_vel_sp[2] = yaw_sp;
+            angular_vel_sp[0] = roll_sp*M_PI;
+            angular_vel_sp[1] = pitch_sp*M_PI/2;
+            angular_vel_sp[2] = yaw_sp * M_PI/6;
 //            L1ControlAngularVelocity(&ctrlAttitude, deltatime, angular_vel_sp, &sys);
             long used = current_timestamp_us() - us0;
             us_count += used;

@@ -23,6 +23,15 @@ var DroneDisplayEngine = function (container,w,h)
     renderer.setClearColor(0xbfd1e5);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(w, h);
+    renderer.gammaInput = true;
+    renderer.gammaOutput = true;
+    this.effect = new THREE.OutlineEffect( renderer );
+    let reflectionCube = new THREE.CubeTextureLoader()
+        .setPath( '../static/textures/cube/skybox/' )
+        .load( [ 'pz.jpg', 'nz.jpg', 'px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg' ] );
+    reflectionCube.format = THREE.RGBFormat;
+    scene.background = reflectionCube;
+
     container.innerHTML = "";
     container.appendChild(renderer.domElement);
 
@@ -31,6 +40,18 @@ var DroneDisplayEngine = function (container,w,h)
     stats.domElement.style.bottom = '0px';
     stats.domElement.style.left = '0px';
     container.appendChild(stats.domElement);
+
+
+
+    this.composer = new THREE.EffectComposer( renderer );
+    this.composer.addPass( new THREE.RenderPass( scene, this.camera ) );
+
+    this.outlinePass = new THREE.OutlinePass( new THREE.Vector2(window.innerWidth, window.innerHeight), scene, this.camera);
+    this.outlinePass.edgeThickness = 1.0;
+    this.outlinePass.edgeStrength = 1.0;
+    // this.outlinePass.renderTo
+    this.composer.addPass(this.outlinePass);
+
 
     var axiscale = 1000;
     var axisHelper = new THREE.AxisHelper(axiscale);
@@ -49,6 +70,20 @@ var DroneDisplayEngine = function (container,w,h)
         scene.add(mesh);
     });
 
+    var loader = new THREE.ColladaLoader();
+
+    loader.load(
+        '../assets/psg/model.dae',
+        function ( collada ) {
+            let object = collada.scene;
+            object.position.set( -250, -150, -17.9);
+            scene.add( object );
+        },
+        function ( xhr ) {
+            console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+        }
+    );
+
     
 
 };
@@ -59,7 +94,12 @@ DroneDisplayEngine.prototype.constructor = DroneDisplayEngine;
 DroneDisplayEngine.prototype.render = function () {
     this.light.position.copy( this.camera.position );
     this.controller.update();
+    // this.effect.render(this.scene,this.camera);
     this.renderer.render(this.scene,this.camera);
+    // this.renderer.autoClear = true;
+    // this.renderer.setClearColor( 0xfff0f0 );
+    // this.renderer.setClearAlpha( 0.0 );
+    // this.composer.render();
 };
 
 DroneDisplayEngine.animate = function(engine)

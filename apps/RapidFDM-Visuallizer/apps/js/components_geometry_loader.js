@@ -33,16 +33,31 @@ function BoxGeometryLoader(box_config, node_json) {
     return cube;
 }
 
-function PropellerGeometryLoader(propeller_config, node_json) {
+function PropellerGeometryLoader(engine,propeller_config, node_json) {
     "use strict";
-    var D = propeller_config.D;
-    var geometry = new THREE.TorusGeometry(D / 2, D / 15, 16, 16);
-    var material = new THREE.MeshPhongMaterial({
-        color: 0x621589,
-        emissive: 0x072534,
-        side: THREE.DoubleSide,
-        shading: THREE.FlatShading
-    });
+    let D = propeller_config.D;
+    let geometry = new THREE.TorusGeometry(D / 2, D / 15, 16, 16);
+
+    let  beta = 0.2;
+    let alpha = Math.random();
+    let gamma = 0.9;
+
+    let diffuseColor = new THREE.Color().setHSL( alpha, 0.5, gamma * 0.5 ).multiplyScalar( 1 - beta * 0.2 );
+    let specularColor = new THREE.Color( beta * 0.2, beta * 0.2, beta * 0.2 );
+    let specularShininess = Math.pow( 2, alpha * 10 );
+
+    let material = new THREE.MeshToonMaterial( {
+        // map: imgTexture,
+        // bumpMap: imgTexture,
+        bumpScale: 1.0,
+        color: diffuseColor,
+        specular: specularColor,
+        reflectivity: beta,
+        shininess: specularShininess,
+        shading: THREE.SmoothShading,
+        envMap: engine.scene.background,
+        side: THREE.DoubleSide
+    } );
 
     var torus = new THREE.Mesh(geometry, material);
     var quaternion = new THREE.Quaternion();
@@ -63,13 +78,14 @@ function NodeGeometryLoader(node_json,engine,mesh_list) {
     if (node_json.type == "wing") {
         log("Trying to load wing");
         // console.log(node_json);
-        load_wing_from_uiucdb(node_json,function (mesh) {
+        load_wing_from_uiucdb(engine,node_json,function (mesh) {
             // log(`Loaded wing from UIUC ${JSON.stringify(node_json)}`);
             SetTransform(mesh,node_json.transform);
             mesh_list[node_json.name + "_" + node_json.id] = {
                 mesh : mesh,
                 body_transform : node_json.transform
             };
+            engine.outlinePass.selectedObjects.push(mesh);
             engine.addObject(mesh);
         });
     }
@@ -83,7 +99,7 @@ function NodeGeometryLoader(node_json,engine,mesh_list) {
                 break;
             case "propeller":
                 log("Trying to load propeller");
-                mesh = PropellerGeometryLoader(geometry, node_json);
+                mesh = PropellerGeometryLoader(engine,geometry, node_json);
                 break;
             default:
                 log(`Unknow geometry ${JSON.stringify(geometry)}`);
@@ -94,7 +110,9 @@ function NodeGeometryLoader(node_json,engine,mesh_list) {
             mesh : mesh,
             body_transform : node_json.transform
         };
-        
+
+        engine.outlinePass.selectedObjects.push(mesh);
+        console.log(engine.outlinePass);
         engine.addObject(mesh);
     }
 }
