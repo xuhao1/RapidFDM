@@ -17,7 +17,7 @@ obj.Gamma = gamma;
 obj.P = P;
 obj.Am = Am;
 obj.b = [0;b2];
-obj.g_filter = make_filter_obj(15);
+obj.g_filter = make_filter_obj(10);
 obj.kg = - Am(2,1) / b2;
 obj.kg_rate = - Am(2,2)/ b2;
 if not(obj.inited)

@@ -1,7 +1,7 @@
 function [obj,u] = L1AdaptiveControl2nd(dt,obj,x_real,r)
 obj.r = r;
 
-
+[obj.g(1),obj.g_filter] = IterTransform(obj.g(1),obj.g_filter);
 [obj.actuator_estimator,~] = IterActuatorEst(obj.actuator_estimator,obj.out,dt);
 obj.actuator_estimator = EKFUpdate(obj.actuator_estimator,x_real(2),@Servohfunc);
 

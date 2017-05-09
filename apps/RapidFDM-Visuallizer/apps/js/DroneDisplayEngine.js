@@ -3,8 +3,7 @@
 
 var DroneDisplayEngine = function (container,w,h)
 {
-    this.camera = new THREE.PerspectiveCamera(60, w / h, 0.01, 10000);
-
+    this.camera = new THREE.PerspectiveCamera(60, w / h, 0.01, 500);
 
     this.controller = new DroneDisplayCameraController(this.camera);
 
@@ -67,12 +66,12 @@ var DroneDisplayEngine = function (container,w,h)
         var material = new THREE.MeshBasicMaterial({map: texture});
         var mesh = new THREE.Mesh(geometry, material);
         mesh.position.z = -1;
-        scene.add(mesh);
+        // scene.add(mesh);
     });
 
-    var loader = new THREE.ColladaLoader();
+    let collada_loader = new THREE.ColladaLoader();
 
-    loader.load(
+    collada_loader.load(
         '../assets/psg/model.dae',
         function ( collada ) {
             let object = collada.scene;
@@ -83,8 +82,31 @@ var DroneDisplayEngine = function (container,w,h)
             console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
         }
     );
+    //
+    // collada_loader.load(
+    //     '../assets/tileable-informal-city-solid.dae',
+    //     function ( collada ) {
+    //         let object = collada.scene;
+    //         object.position.set( -250, -150, 0);
+    //         scene.add( object );
+    //     },
+    //     function ( xhr ) {
+    //         console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+    //     }
+    // );
+    //     collada_loader.load(
+    //     '../assets/CityV5/model.dae',
+    //     function ( collada ) {
+    //         let object = collada.scene;
+    //         object.position.set( 1350, -600, 0);
+    //         scene.add( object );
+    //     },
+    //     function ( xhr ) {
+    //         console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+    //     }
+    // );
 
-    
+
 
 };
 

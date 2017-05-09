@@ -22,9 +22,9 @@ x_real_pitch = [rov_invsp(2);sys_state.angular_rate(2)];
 x_real_yaw = [rov_invsp(3);sys_state.angular_rate(3)];
 [obj.PitchCtrl.g,obj.RollCtrl.g,obj.YawCtrl.g] = so3_external_dynamics(rov_invsp,sys_state.angular_rate);
 
-obj.RollCtrl.g(1) = obj.RollCtrl.g(1) + delta_err_sp(1)/dt;
-obj.PitchCtrl.g(1) = obj.PitchCtrl.g(1) + delta_err_sp(2)/dt;
-obj.YawCtrl.g(1) = obj.YawCtrl.g(1) + delta_err_sp(3)/dt;
+obj.RollCtrl.g(1) =delta_err_sp(1)/dt + obj.RollCtrl.g(1);
+obj.PitchCtrl.g(1) =  delta_err_sp(2)/dt + obj.PitchCtrl.g(1);
+obj.YawCtrl.g(1) = delta_err_sp(3)/dt + obj.YawCtrl.g(1);
 
 [obj.RollCtrl.g(1),obj.RollCtrl.g_filter] = IterTransform1st(obj.RollCtrl.g(1),obj.RollCtrl.g_filter);
 [obj.PitchCtrl.g(1),obj.PitchCtrl.g_filter] = IterTransform1st(obj.PitchCtrl.g(1),obj.PitchCtrl.g_filter);

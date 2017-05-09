@@ -58,8 +58,7 @@
       "chn": 3
     },
     "main_engine_0/thrust": {
-      "coeff": 0.5,
-      "zero_pos": 0.5,
+      "coeff": 1.0,
       "chn": 2
     }
   }

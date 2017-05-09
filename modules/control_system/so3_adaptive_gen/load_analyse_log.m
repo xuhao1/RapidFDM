@@ -62,8 +62,8 @@ legend(ax4,'u','eta')
 title(ax4,'Output')
 
 ax5 = subplot(subplot_size_x,1,5);
-plot(ax5,t,x,t,xdot_ctrl_use,t,xdot_noise,t,xdot_real)
-legend(ax5,'x','xdotuse','xdot','xdotreal')
+plot(ax5,t,x,t,xdot_ctrl_use,t,fw)
+legend(ax5,'x','xdot','xfw')
 title(ax5,'x state&r')
 %t,[diff(x_pre)*200;0]
 

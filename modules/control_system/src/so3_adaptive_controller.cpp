@@ -31,7 +31,7 @@ namespace RapidFDM {
                 BaseController(_aircraftNode),ang_vel_dist(0,0.01) {
             roll_sp = 0;
             pitch_sp = 0;
-            init_attitude_controller(0, 10, &ctrlAttitude);
+            init_attitude_controller(0, 4, &ctrlAttitude);
             double lag_fc = 10;
             double lag_alpha = 4;
             double p_actuator = 2.0;
@@ -39,7 +39,7 @@ namespace RapidFDM {
             double gamma = 4000;
             L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 4.0, 1.1, 32, gamma, lag_fc, lag_alpha, p_actuator);
             L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 4.0, 1.1, 32, gamma, lag_fc, lag_alpha, p_actuator);
-            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 4.0, 1.1, 10, gamma, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 4.0, 1.1, 10, 1000, lag_fc, lag_alpha, p_actuator);
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -178,7 +178,7 @@ namespace RapidFDM {
             quatControlSetpoint.yaw_sp_is_rate = 1;
             quatControlSetpoint.yaw_rate += tan(eul.x())*cos(eul.y())*9.81f/airspeed;
 
-            convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp * M_PI / 2.2, pitch_sp * M_PI / 3,
+            convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp * M_PI / 3, pitch_sp * M_PI / 3,
                                         yaw_angle_sp);
 
             long us0 = current_timestamp_us();
@@ -236,7 +236,7 @@ namespace RapidFDM {
 
             aircraftNode->set_control_from_channels(pwm, 16);
 
-            ctrl_log.push_back(ctrlAttitude.RollCtrl);
+            ctrl_log.push_back(ctrlAttitude.PitchCtrl);
             sys_log.push_back(sys);
             att_con_log.push_back(ctrlAttitude);
 
