@@ -28,18 +28,18 @@ namespace RapidFDM {
 
 
         so3_adaptive_controller::so3_adaptive_controller(Aerodynamics::AircraftNode *_aircraftNode) :
-                BaseController(_aircraftNode),ang_vel_dist(0,0.01) {
+                BaseController(_aircraftNode),ang_vel_dist(0,0.1) {
             roll_sp = 0;
             pitch_sp = 0;
             init_attitude_controller(0, 4, &ctrlAttitude);
-            double lag_fc = 10;
+            double lag_fc = 50;
             double lag_alpha = 4;
-            double p_actuator = 2.0;
+            double p_actuator = 4.0;
 
             double gamma = 4000;
-            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 4.0, 1.1, 32, gamma, lag_fc, lag_alpha, p_actuator);
-            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 4.0, 1.1, 32, gamma, lag_fc, lag_alpha, p_actuator);
-            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 4.0, 1.1, 10, 1000, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 4.0, 1.0, 42, gamma, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 4.0, 1.0, 42, gamma, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 4.0, 1.0, 10, 1000, lag_fc, lag_alpha, p_actuator);
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -144,7 +144,11 @@ namespace RapidFDM {
 
             convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp * M_PI / 6, pitch_sp * M_PI / 6,
                                         yaw_angle_sp);
-
+            double angular_vel_sp[3] = {0};
+            angular_vel_sp[0] = roll_sp*M_PI;
+            angular_vel_sp[1] = pitch_sp*M_PI/2;
+            angular_vel_sp[2] = yaw_sp * M_PI/2;
+//            L1ControlAngularVelocity(&ctrlAttitude, deltatime, angular_vel_sp, &sys);
             L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
 
             Eigen::AngleAxisd rot_u(0 * M_PI / 180, Eigen::Vector3d::UnitZ());
@@ -236,9 +240,12 @@ namespace RapidFDM {
 
             aircraftNode->set_control_from_channels(pwm, 16);
 
-            ctrl_log.push_back(ctrlAttitude.PitchCtrl);
+            ctrl_log.push_back(ctrlAttitude.RollCtrl);
             sys_log.push_back(sys);
             att_con_log.push_back(ctrlAttitude);
+
+            float roll_act_real =(float) this->aircraftNode->get_internal_state("main_wing_0/flap_0");
+            sys.acc[0] = roll_act_real;
 
             if (count % 200 == 0) {
                 save_data_file();

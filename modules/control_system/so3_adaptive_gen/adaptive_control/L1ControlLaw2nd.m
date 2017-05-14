@@ -1,7 +1,19 @@
 function [obj,out] = L1ControlLaw2nd(dt,obj)
 omega = obj.x(3);
+%omega = obj.actuator_estimator.x(5)/obj.b(2);
+
+
 theta = obj.x(4:5);
-sigma = obj.x(6);
+theta(2) = (obj.km(2) -  obj.actuator_estimator.x(3)/obj.actuator_estimator.x(5))*omega;
+if theta(2) < 0
+    theta(2) = 0;
+end
+
+obj.x(5) = theta(2);
+
+sigma = obj.actuator_estimator.x(6)/obj.actuator_estimator.x(5)*omega;
+obj.x(6) = sigma;
+
 sigma_1nd = obj.x(7);
 kgr = obj.kg_rate;
 

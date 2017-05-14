@@ -32,7 +32,7 @@ var AircraftInput = function (aircraftview) {
     this.d_throttle = 0;
     this.d_aux1 = 0;
 
-    this.d_axis_keyboard_ratio = 0.96;
+    this.d_axis_keyboard_ratio = 0.97;
     this.axis_keyboard_back_ratio = 3;
 
     this.use_hil = false;

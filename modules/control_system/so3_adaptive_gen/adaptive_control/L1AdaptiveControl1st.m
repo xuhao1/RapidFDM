@@ -1,9 +1,11 @@
 function [obj,u] = L1AdaptiveControl1st(dt,obj,x_real,rdot)
 obj.r = 0;
 obj.rdot = rdot;
+
 [obj.actuator_estimator,~] = IterActuatorEst(obj.actuator_estimator,obj.out,dt);
 obj.actuator_estimator = EKFUpdate(obj.actuator_estimator,x_real(2),@Servohfunc);
 
+x_real(2) = obj.actuator_estimator.x(1);
 obj.x_real = x_real;
 
 if not(obj.inited)

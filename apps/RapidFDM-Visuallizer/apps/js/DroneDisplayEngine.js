@@ -71,17 +71,17 @@ var DroneDisplayEngine = function (container,w,h)
 
     let collada_loader = new THREE.ColladaLoader();
 
-    collada_loader.load(
-        '../assets/psg/model.dae',
-        function ( collada ) {
-            let object = collada.scene;
-            object.position.set( -250, -150, -17.9);
-            scene.add( object );
-        },
-        function ( xhr ) {
-            console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
-        }
-    );
+    // collada_loader.load(
+    //     '../assets/psg/model.dae',
+    //     function ( collada ) {
+    //         let object = collada.scene;
+    //         object.position.set( -250, -150, -17.9);
+    //         scene.add( object );
+    //     },
+    //     function ( xhr ) {
+    //         console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+    //     }
+    // );
     //
     // collada_loader.load(
     //     '../assets/tileable-informal-city-solid.dae',

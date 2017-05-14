@@ -24,7 +24,7 @@ err1 = data(:,10)*180/pi;
 
 uarr = data(:,11);
 etaarr = data(:,12);
-r = data(:,13)*180/pi;
+rdot = data(:,13)*180/pi;
 fw = data(:,14)*180/pi;
 
 quat = data(:,15:18);
@@ -40,33 +40,45 @@ xdot_real = data(:,29)*180/pi;
 x = x_pre-err0;
 
 figure
-subplot_size_x = 5;
-ax1 = subplot(subplot_size_x,1,1);
-plot(ax1,t,x_pre,t,xdot_pre,t,xdot_ctrl_use)
-legend(ax1,'xpre','xdot_(pre)','xdotuse')
-title(ax1,'x pre state')
+subplot_size_x = 7;
+ax = subplot(subplot_size_x,1,1);
+plot(ax,t,x_pre,t,xdot_pre,t,xdot_ctrl_use)
+legend(ax,'xpre','xdot_(pre)','xdotuse')
+title(ax,'x pre state')
 
-ax2 = subplot(subplot_size_x,1,2);
-plot(ax2,t,err0,t,err1)
-legend(ax2,'err[0]','err[1]')
-title(ax2,'err state')
+ax = subplot(subplot_size_x,1,2);
+plot(ax,t,err0,t,err1)
+legend(ax,'err[0]','err[1]')
+title(ax,'err state')
 
-ax3 = subplot(subplot_size_x,1,3);
-plot(ax3,t,omega_pre,t,theta0_pre,t,theta1_pre,t,sigma_pre,t,sigma_1nd_pre)
-legend(ax3,'omega','theta[0]','theta[1]','sigma','sigma_1nd')
-title(ax3,'Parameter state')
+ax = subplot(subplot_size_x,1,3);
+plot(ax,t,omega_pre,t,sigma_1nd_pre)
+legend(ax,'omega','sigma_1nd')
+title(ax,'Parameter state')
 
-ax4 = subplot(subplot_size_x,1,4);
-plot(ax4,t,uarr,t,etaarr)
-legend(ax4,'u','eta')
-title(ax4,'Output')
+ax = subplot(subplot_size_x,1,4);
+u_by_x = theta0_pre.*x/180*pi./omega_pre;
+u_by_x = arrayfun(@(x) float_constrain(x,-2,2),u_by_x);
+u_by_xdot = theta1_pre.*xdot_ctrl_use./omega_pre/180*pi;
+u_by_xdot = arrayfun(@(x) float_constrain(x,-2,2),u_by_xdot);
+plot(ax,t,uarr,t,etaarr)
+legend(ax,'u','eta')
+title(ax,'Output')
 
-ax5 = subplot(subplot_size_x,1,5);
-plot(ax5,t,x,t,xdot_ctrl_use,t,fw)
-legend(ax5,'x','xdot','xfw')
-title(ax5,'x state&r')
+ax = subplot(subplot_size_x,1,5);
+plot(ax,t,x*180/pi,t,xdot_ctrl_use,t,xdot_noise,t,xdot_real)
+legend(ax,'x','xdotctrl','xdotnoise','xdotreal')
+title(ax,'x state&r')
 %t,[diff(x_pre)*200;0]
 
+
+ax = subplot(subplot_size_x,1,6);
+plot(ax,t,theta0_pre./omega_pre,t,ones(size(t))*4.0)
+legend(ax,'the0/omg','Km0')
+
+ax = subplot(subplot_size_x,1,7);
+plot(ax,t,theta1_pre./omega_pre,t,ones(size(t))*0.869)
+legend(ax,'the1/omg','Km1')
 % ax6 = subplot(subplot_size_x,1,6);
 % fw_tmp = arrayfun(@(x) float_constrain(x,-20,40),fw);
 % xdot_tmp = arrayfun(@(x) float_constrain(x,-40,20),xdot);
@@ -98,6 +110,16 @@ title(ax5,'x state&r')
 %title('Time us of Attitude Control')
 %grid on
 %testServoEKF(xdot,uarr,t)
+ax = subplot(subplot_size_x,1,4);
+u_by_x = theta0_pre.*x/180*pi./omega_pre;
+u_by_x = arrayfun(@(x) float_constrain(x,-2,2),u_by_x);
+u_by_xdot = theta1_pre.*xdot_ctrl_use./omega_pre/180*pi;
+u_by_xdot = arrayfun(@(x) float_constrain(x,-2,2),u_by_xdot);
+
 testServoEKF(xdot_noise,outarr,t,uact,uest,xdot_real)
+figure
+plot(t,uarr,t,etaarr,t,-u_by_x,t,-u_by_xdot,t,sigma_pre./omega_pre,t,rdot/180*pi*0.6,t,outarr)
+legend('u','eta','u by x','u by xdot','u by sigma','rdot','out')
+title('Output')
 
 end

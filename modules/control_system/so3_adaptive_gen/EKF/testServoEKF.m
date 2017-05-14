@@ -58,8 +58,8 @@ legend(ax,'EstErr','EstErrCon');
 title(ax,'ServoERR');
 
 ax = subplot(ps,1,4);
-plot(ax,tarr,kdarr);
-title(ax,'Angular Damp');
+plot(ax,tarr,kdarr./wparr);
+legend(ax,'Angular Damp Theta');
 
 ax = subplot(ps,1,5);
 plot(ax,tarr,wcarr/(2*pi),tarr,fdarr);
@@ -68,10 +68,12 @@ legend(ax,'fc','fnatur');
 grid on
 
 ax = subplot(ps,1,6);
-plot(ax,tarr,yresarr,tarr,sigmarr,tarr,Psigma);
-legend(ax,'yres','Sigma','PSi');
+plot(ax,tarr,yresarr,tarr,sigmarr);
+legend(ax,'yres','Sigma');
 
 ax = subplot(ps,1,7);
-plot(ax,tarr,(preal-pmarr).*(preal-pmarr),tarr,(preal-lag).*(preal-lag));
-legend(ax,'EKF','LAG');
+plot(ax,tarr,wparr/42)
+legend(ax,'WP');
+%plot(ax,tarr,(preal-pmarr).*(preal-pmarr),tarr,(preal-lag).*(preal-lag));
+%legend(ax,'EKF','LAG');
 end
