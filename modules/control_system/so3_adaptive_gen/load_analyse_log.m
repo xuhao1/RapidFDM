@@ -73,8 +73,8 @@ title(ax,'x state&r')
 
 
 ax = subplot(subplot_size_x,1,6);
-plot(ax,t,theta0_pre./omega_pre,t,ones(size(t))*4.0)
-legend(ax,'the0/omg','Km0')
+plot(ax,t,theta0_pre,t,theta0_pre./omega_pre,t,ones(size(t))*4.0)
+legend(ax,'the0','the0/omg','Km0')
 
 ax = subplot(subplot_size_x,1,7);
 plot(ax,t,theta1_pre./omega_pre,t,ones(size(t))*0.869)
