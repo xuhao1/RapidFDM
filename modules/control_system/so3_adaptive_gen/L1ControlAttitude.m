@@ -26,10 +26,6 @@ obj.RollCtrl.g(1) =delta_err_sp(1)/dt + obj.RollCtrl.g(1);
 obj.PitchCtrl.g(1) =  delta_err_sp(2)/dt + obj.PitchCtrl.g(1);
 obj.YawCtrl.g(1) = delta_err_sp(3)/dt + obj.YawCtrl.g(1);
 
-[obj.RollCtrl.g(1),obj.RollCtrl.g_filter] = IterTransform1st(obj.RollCtrl.g(1),obj.RollCtrl.g_filter);
-[obj.PitchCtrl.g(1),obj.PitchCtrl.g_filter] = IterTransform1st(obj.PitchCtrl.g(1),obj.PitchCtrl.g_filter);
-[obj.YawCtrl.g(1),obj.YawCtrl.g_filter] = IterTransform1st(obj.YawCtrl.g(1),obj.YawCtrl.g_filter);
-
 [obj.RollCtrl,obj.u(1)] = L1AdaptiveControl2nd(dt,obj.RollCtrl,x_real_roll,0);
 [obj.PitchCtrl,obj.u(2)] = L1AdaptiveControl2nd(dt,obj.PitchCtrl,x_real_pitch,0);
 

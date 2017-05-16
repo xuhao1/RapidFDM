@@ -109,8 +109,14 @@ AircraftInput.prototype.update = function () {
             console.log(gamepad.axes);
             this.d_aux1 = (gamepad.axes[5] - gamepad.axes[2])*10000/2;
             this.aileron = gamepad.axes[3] * 10000;
+            if (Math.abs(this.aileron) < 500)
+                this.aileron = 0;
             this.elevator = - gamepad.axes[4] * 10000;
+            if (Math.abs(this.elevator) < 500)
+                this.elevator = 0;
             this.rudder = gamepad.axes[0] * 10000;
+            if (Math.abs(this.rudder) < 500)
+                this.rudder = 0;
             this.d_throttle = - gamepad.axes[1] * 10000;
         }
         else {

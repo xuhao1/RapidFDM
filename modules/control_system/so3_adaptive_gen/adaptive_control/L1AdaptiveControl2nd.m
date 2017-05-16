@@ -3,11 +3,11 @@ obj.r = r;
 
 [obj.g(1),obj.g_filter] = IterTransform(obj.g(1),obj.g_filter);
 
-[obj.actuator_estimator,~] = IterActuatorEst(obj.actuator_estimator,obj.out,dt);
-obj.actuator_estimator = EKFUpdate(obj.actuator_estimator,x_real(2),@Servohfunc);
+[obj.actuator_estimator,~] = IterActuatorEst(obj.actuator_estimator,x_real(2),obj.out,dt);
 
 x_real(2) = obj.actuator_estimator.x(1);
 obj.x_real = x_real;
+
 if not(obj.inited)
     obj.x(1) = x_real(1);
     obj.x(2) = x_real(2);

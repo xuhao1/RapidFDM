@@ -1,4 +1,4 @@
-function [obj,ys] = IterActuatorEst(obj,u,dt)
+function [obj,ys] = IterActuatorEst(obj,p,u,dt)
 for i =1:5
     q = obj.x(1);
     ys = obj.x(2);
@@ -15,9 +15,13 @@ for i =1:5
         0 0 0 0 0 1
         ];
     obj.F = F;
-    obj = EKFPredict(obj,u,dt/5,@Servoffunc);
+    obj = EKFPredict(obj,u,dtp,@Servoffunc);
 end
+
+obj = EKFUpdate(obj,p,@Servohfunc);
 obj.x(3) = float_constrain(obj.x(3),0,200);
 ys = obj.x(2);
 obj.actuator_real = obj.x(2);
+
+
 end

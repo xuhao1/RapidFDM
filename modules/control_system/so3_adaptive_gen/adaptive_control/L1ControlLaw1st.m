@@ -9,8 +9,9 @@ end
 
 obj.x(5) = theta(2);
 
-sigma = obj.actuator_estimator.x(6)/obj.actuator_estimator.x(5)*omega;
-obj.x(6) = sigma;
+%sigma = obj.actuator_estimator.x(6)/obj.actuator_estimator.x(5)*omega;
+%obj.x(6) = sigma;
+sigma = obj.x(6);
 
 %Jb = obj.g_by_x(2,1:2) / obj.b(2);
 %gb = obj.g(2,1) / obj.b(2);

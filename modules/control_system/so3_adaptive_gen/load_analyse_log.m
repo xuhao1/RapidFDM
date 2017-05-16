@@ -115,11 +115,11 @@ u_by_x = theta0_pre.*x/180*pi./omega_pre;
 u_by_x = arrayfun(@(x) float_constrain(x,-2,2),u_by_x);
 u_by_xdot = theta1_pre.*xdot_ctrl_use./omega_pre/180*pi;
 u_by_xdot = arrayfun(@(x) float_constrain(x,-2,2),u_by_xdot);
-
+u_by_sigma = arrayfun(@(x) float_constrain(x,-2,2),sigma_pre./omega_pre);
 testServoEKF(xdot_noise,outarr,t,uact,uest,xdot_real)
 figure
-plot(t,uarr,t,etaarr,t,-u_by_x,t,-u_by_xdot,t,sigma_pre./omega_pre,t,rdot/180*pi*0.6,t,outarr)
-legend('u','eta','u by x','u by xdot','u by sigma','rdot','out')
+plot(t,uarr,t,etaarr,t,-u_by_x,t,-u_by_xdot,t,u_by_sigma,t,rdot/180*pi*0.6,t,outarr)
+legend('u','eta','u by x','u by xdot','u by sigma','u by rdot','out')
 title('Output')
 
 end

@@ -14,13 +14,10 @@ Pkd = zeros(n,1);
 fdarr = zeros(n,1);
 sigmarr = zeros(n,1);
 
-lag_filter = make_lag_obj(10,20);
 lag = zeros(n,1);
 for i=1:n
-    [obj,ysarr(i)] = IterActuatorEst(obj,uarr(i),0.005);
-    obj =  EKFUpdate(obj,parr_noise(i)/180*pi,@Servohfunc);
+    [obj,ysarr(i)] = IterActuatorEst(obj,parr_noise(i)/180*pi,uarr(i),0.005);
     pmarr(i) = obj.x(1)*180/pi;
-    [lag(i),lag_filter] = IterTransform(parr_noise(i),lag_filter);
     %ysarr(i) = obj.x(2);
     kdarr(i) = obj.x(3);
     wcarr(i) = obj.x(4);

@@ -32,14 +32,14 @@ namespace RapidFDM {
             roll_sp = 0;
             pitch_sp = 0;
             init_attitude_controller(0, 4, &ctrlAttitude);
-            double lag_fc = 50;
-            double lag_alpha = 4;
+            double lag_fc = 30;
+            double lag_alpha = 2;
             double p_actuator = 4.0;
 
             double gamma = 4000;
-            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 4.0, 1.0, 42, gamma, lag_fc, lag_alpha, p_actuator);
-            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 4.0, 1.0, 42, gamma, lag_fc, lag_alpha, p_actuator);
-            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 4.0, 1.0, 10, 1000, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 4.0, 1.0, 32, gamma, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 4.0, 1.0, 32, gamma, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 4.0, 1.0, 20, 1000, lag_fc, lag_alpha, p_actuator);
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -186,11 +186,11 @@ namespace RapidFDM {
                                         yaw_angle_sp);
 
             long us0 = current_timestamp_us();
-            L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
             double angular_vel_sp[3] = {0};
             angular_vel_sp[0] = roll_sp*M_PI;
             angular_vel_sp[1] = pitch_sp*M_PI/2;
             angular_vel_sp[2] = yaw_sp * M_PI/6;
+            L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
 //            L1ControlAngularVelocity(&ctrlAttitude, deltatime, angular_vel_sp, &sys);
             long used = current_timestamp_us() - us0;
             us_count += used;
@@ -228,7 +228,7 @@ namespace RapidFDM {
             sys.quat[2] = quat.y();
             sys.quat[3] = quat.z();
 
-            sys.acc[1] = angular_rate.x();
+            sys.acc[1] = angular_rate.z();
 
             if (controller_type == "fixedwing") {
                 control_fixedwing(deltatime);
@@ -240,7 +240,7 @@ namespace RapidFDM {
 
             aircraftNode->set_control_from_channels(pwm, 16);
 
-            ctrl_log.push_back(ctrlAttitude.RollCtrl);
+            ctrl_log.push_back(ctrlAttitude.YawCtrl);
             sys_log.push_back(sys);
             att_con_log.push_back(ctrlAttitude);
 
@@ -288,7 +288,7 @@ namespace RapidFDM {
                 set_value_mx_array(pa1, i, 24, ctrlT.x_real[1]);
                 set_value_mx_array(pa1, i, 25, sys_log[i].acc[0]);
                 set_value_mx_array(pa1, i, 26, ctrlT.actuator_estimator.actuator_real);
-                set_value_mx_array(pa1, i, 27, sys_log[i].angular_rate[0]);
+                set_value_mx_array(pa1, i, 27, sys_log[i].angular_rate[2]);
                 set_value_mx_array(pa1, i, 28, sys_log[i].acc[1]);
             }
             char matname[100] = {0};
