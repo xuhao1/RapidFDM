@@ -8,5 +8,5 @@ attcon.RollCtrl = L1ControllerUpdateParams(attcon.RollCtrl,6.0,1.0,30,1000,3,2.5
 attcon.PitchCtrl = L1ControllerUpdateParams(attcon.PitchCtrl,6.0,1.0,30,1000,3,2.5,3);
 L1ControlAngularVelocity(attcon,0.005,[0,0,0],sys_state)
 L1ControlAttitude(attcon,0.005,quat_control_sp,sys_state)
-
+IterationServo(attcon,0.005,sys_state,[0,0,0])
 end

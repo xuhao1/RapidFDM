@@ -38,8 +38,8 @@ end
 figure
 ps = 7;
 ax1 = subplot(ps,1,1);
-plot(ax1,tarr,preal,tarr,pmarr,tarr,lag);
-legend(ax1,'real','est','filter')
+plot(ax1,tarr,preal,tarr,pmarr,tarr,parr_noise);
+legend(ax1,'real','est','noise')
 title(ax1,'angular velocity');
 
 ax2 = subplot(ps,1,2);
@@ -55,22 +55,23 @@ legend(ax,'EstErr','EstErrCon');
 title(ax,'ServoERR');
 
 ax = subplot(ps,1,4);
-plot(ax,tarr,kdarr./wparr);
+plot(ax,tarr,kdarr);
 legend(ax,'Angular Damp Theta');
 
-ax = subplot(ps,1,5);
-plot(ax,tarr,wcarr/(2*pi),tarr,fdarr);
-title(ax,'Freq');
-legend(ax,'fc','fnatur');
-grid on
+% ax = subplot(ps,1,5);
+% plot(ax,tarr,wcarr/(2*pi),tarr,fdarr);
+% title(ax,'Freq');
+% legend(ax,'fc','fnatur');
+% grid on
 
-ax = subplot(ps,1,6);
+ax = subplot(ps,1,5);
 plot(ax,tarr,yresarr,tarr,sigmarr);
 legend(ax,'yres','Sigma');
 
-ax = subplot(ps,1,7);
-plot(ax,tarr,wparr/42)
-legend(ax,'WP');
+ax = subplot(ps,1,6);
+plot(ax,tarr,wparr,tarr,wcarr)
+legend(ax,'WP','WC');
 %plot(ax,tarr,(preal-pmarr).*(preal-pmarr),tarr,(preal-lag).*(preal-lag));
 %legend(ax,'EKF','LAG');
+disp(['EstErrSum   ',num2str(norm(uact-ysarr)),'  EstErrConSum   ',num2str(norm(uact-uest))])
 end

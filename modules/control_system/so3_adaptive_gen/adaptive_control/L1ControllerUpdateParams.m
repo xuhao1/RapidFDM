@@ -21,8 +21,8 @@ obj.g_filter = make_filter_obj(10);
 obj.kg = - Am(2,1) / b2;
 obj.kg_rate = - Am(2,2)/ b2;
 if not(obj.inited)
-    obj.x(4) = p;
-    obj.x(5) = pd;
+    %obj.x(4) = p;
+    %obj.x(5) = pd;
 end
 obj.u_filter = make_lag_obj(lag_fc,lag_alpha);
 obj.km(1) = p;

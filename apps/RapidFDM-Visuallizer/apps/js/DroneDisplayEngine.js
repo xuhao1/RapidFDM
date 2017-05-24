@@ -116,8 +116,8 @@ DroneDisplayEngine.prototype.constructor = DroneDisplayEngine;
 DroneDisplayEngine.prototype.render = function () {
     this.light.position.copy( this.camera.position );
     this.controller.update();
-    // this.effect.render(this.scene,this.camera);
-    this.renderer.render(this.scene,this.camera);
+    this.effect.render(this.scene,this.camera);
+    // this.renderer.render(this.scene,this.camera);
     // this.renderer.autoClear = true;
     // this.renderer.setClearColor( 0xfff0f0 );
     // this.renderer.setClearAlpha( 0.0 );

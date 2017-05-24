@@ -61,7 +61,6 @@ namespace RapidFDM
             int dcount = 0;
             
         public:
-            std::function<void(void)> * on_receive_pwm = nullptr;
             long simulator_tick = 0;
             bool motor_starter = false;
             bool sim_online = false;

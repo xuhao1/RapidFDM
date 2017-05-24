@@ -1,17 +1,15 @@
-function [obj,out] = L1ControlLaw1st(dt,obj)
+    function [obj,out] = L1ControlLaw1st(dt,obj)
 omega = obj.x(3);
 
 theta = obj.x(4:5);
-theta(2) = (obj.km(2) -  obj.actuator_estimator.x(3)/obj.actuator_estimator.x(5))*omega;
-if theta(2) < 0
-    theta(2) = 0;
-end
-
+theta(2) = (obj.km(2) -  obj.actuator_estimator.x(3))*omega;
+theta(2) = float_constrain(theta(2),0.02,10);
 obj.x(5) = theta(2);
 
-%sigma = obj.actuator_estimator.x(6)/obj.actuator_estimator.x(5)*omega;
-%obj.x(6) = sigma;
-sigma = obj.x(6);
+
+sigma = obj.actuator_estimator.x(6)/obj.actuator_estimator.x(5)*omega;
+obj.x(6) = sigma;
+%sigma = obj.x(6);
 
 %Jb = obj.g_by_x(2,1:2) / obj.b(2);
 %gb = obj.g(2,1) / obj.b(2);

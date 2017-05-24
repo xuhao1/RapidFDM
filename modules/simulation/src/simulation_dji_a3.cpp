@@ -161,9 +161,6 @@ namespace RapidFDM {
                 std::cout << msg->get_payload() << std::endl;
             }
 
-            if (on_receive_pwm != nullptr) {
-                (*on_receive_pwm)();
-            }
         }
 
         void simulation_dji_a3_adapter::push_json_to_app(rapidjson::Document &d) {

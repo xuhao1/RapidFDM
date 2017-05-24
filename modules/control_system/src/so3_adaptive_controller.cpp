@@ -28,18 +28,18 @@ namespace RapidFDM {
 
 
         so3_adaptive_controller::so3_adaptive_controller(Aerodynamics::AircraftNode *_aircraftNode) :
-                BaseController(_aircraftNode),ang_vel_dist(0,0.1) {
+                BaseController(_aircraftNode),ang_vel_dist(0,0.0) {
             roll_sp = 0;
             pitch_sp = 0;
-            init_attitude_controller(0, 4, &ctrlAttitude);
-            double lag_fc = 30;
+            init_attitude_controller(1, 4, &ctrlAttitude);
+            double lag_fc = 15;
             double lag_alpha = 2;
             double p_actuator = 4.0;
 
             double gamma = 4000;
-            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 4.0, 1.0, 32, gamma, lag_fc, lag_alpha, p_actuator);
-            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 4.0, 1.0, 32, gamma, lag_fc, lag_alpha, p_actuator);
-            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 4.0, 1.0, 20, 1000, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 2.0, 0.7, 32, gamma, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl),2.0, 0.7, 32, gamma, lag_fc, lag_alpha, p_actuator);
+            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 1.0, 1.0, 20, gamma, lag_fc, lag_alpha, p_actuator);
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -157,9 +157,9 @@ namespace RapidFDM {
 
 
             double p_act = 0.0;
-            u.x() = ctrlAttitude.u[0] + p_act * (ctrlAttitude.u[0] - roll_act_real);
-            u.y() = ctrlAttitude.u[1] + p_act * (ctrlAttitude.u[1] - pitch_act_real);
-            u.z() = ctrlAttitude.u[2] + p_act * (ctrlAttitude.u[2] - yaw_act_real);
+            u.x() = ctrlAttitude.u[0];
+            u.y() = ctrlAttitude.u[1];
+            u.z() = ctrlAttitude.u[2];
 
             pwm[0] = (float) float_constrain((-u.x() + u.y() + u.z()) + throttle_sp, 0, 1);
             pwm[1] = (float) float_constrain((u.x() + u.y() - u.z()) + throttle_sp, 0, 1);
@@ -228,7 +228,7 @@ namespace RapidFDM {
             sys.quat[2] = quat.y();
             sys.quat[3] = quat.z();
 
-            sys.acc[1] = angular_rate.z();
+            sys.acc[1] = angular_rate.y();
 
             if (controller_type == "fixedwing") {
                 control_fixedwing(deltatime);
@@ -240,12 +240,13 @@ namespace RapidFDM {
 
             aircraftNode->set_control_from_channels(pwm, 16);
 
-            ctrl_log.push_back(ctrlAttitude.YawCtrl);
+            ctrl_log.push_back(ctrlAttitude.PitchCtrl);
             sys_log.push_back(sys);
             att_con_log.push_back(ctrlAttitude);
 
             float roll_act_real =(float) this->aircraftNode->get_internal_state("main_wing_0/flap_0");
-            sys.acc[0] = roll_act_real;
+            float pitch_act_real =(float) this->aircraftNode->get_internal_state("horizon_wing_0/flap_0");
+            sys.acc[0] = pitch_act_real;
 
             if (count % 200 == 0) {
                 save_data_file();
@@ -284,11 +285,11 @@ namespace RapidFDM {
                     set_value_mx_array(pa1, i, j + 18, att_con_log[i].quat_sp[j]);
                 }
                 set_value_mx_array(pa1, i, 22, att_con_log[i].debug_time_used);
-                set_value_mx_array(pa1, i, 23, att_con_log[i].u[0]);
+                set_value_mx_array(pa1, i, 23, att_con_log[i].u[1]);
                 set_value_mx_array(pa1, i, 24, ctrlT.x_real[1]);
                 set_value_mx_array(pa1, i, 25, sys_log[i].acc[0]);
                 set_value_mx_array(pa1, i, 26, ctrlT.actuator_estimator.actuator_real);
-                set_value_mx_array(pa1, i, 27, sys_log[i].angular_rate[2]);
+                set_value_mx_array(pa1, i, 27, sys_log[i].angular_rate[1]);
                 set_value_mx_array(pa1, i, 28, sys_log[i].acc[1]);
             }
             char matname[100] = {0};

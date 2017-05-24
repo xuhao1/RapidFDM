@@ -38,9 +38,9 @@
   "rigid_mode": 1,
   "total_mass": 0.6,
   "total_inertial": [
-    0.04,
-    0.04,
-    0.02
+    0.02,
+    0.02,
+    0.01
   ],
   "controller_type":"multirotor",
   "initial_states" : {

@@ -31,7 +31,7 @@
   "initial_states" : {
     "transform": {
       "attitude": [0,0,0],
-      "vector": [0,0,10]
+      "vector": [0,0,100]
     },
     "init_speed":10
   },
@@ -46,11 +46,11 @@
       "chn": 2
     },
     "horizon_wing_0/flap_0": {
-      "coeff": 1.0,
+      "coeff": -1.0,
       "chn": 3
     },
     "horizon_wing_0/flap_1": {
-      "coeff": 1.0,
+      "coeff": -1.0,
       "chn": 3
     },
     "vertical_wing_0/flap": {

@@ -52,8 +52,8 @@ legend(ax,'err[0]','err[1]')
 title(ax,'err state')
 
 ax = subplot(subplot_size_x,1,3);
-plot(ax,t,omega_pre,t,sigma_1nd_pre)
-legend(ax,'omega','sigma_1nd')
+plot(ax,t,omega_pre,t,sigma_1nd_pre,t,sigma_pre)
+legend(ax,'omega','sigma_1nd','sigma')
 title(ax,'Parameter state')
 
 ax = subplot(subplot_size_x,1,4);
@@ -66,8 +66,8 @@ legend(ax,'u','eta')
 title(ax,'Output')
 
 ax = subplot(subplot_size_x,1,5);
-plot(ax,t,x*180/pi,t,xdot_ctrl_use,t,xdot_noise,t,xdot_real)
-legend(ax,'x','xdotctrl','xdotnoise','xdotreal')
+plot(ax,t,x*180/pi,t,xdot_ctrl_use,t,rdot,t,xdot_real)
+legend(ax,'x','xdotctrl','rdot','xdotreal')
 title(ax,'x state&r')
 %t,[diff(x_pre)*200;0]
 
@@ -116,7 +116,7 @@ u_by_x = arrayfun(@(x) float_constrain(x,-2,2),u_by_x);
 u_by_xdot = theta1_pre.*xdot_ctrl_use./omega_pre/180*pi;
 u_by_xdot = arrayfun(@(x) float_constrain(x,-2,2),u_by_xdot);
 u_by_sigma = arrayfun(@(x) float_constrain(x,-2,2),sigma_pre./omega_pre);
-testServoEKF(xdot_noise,outarr,t,uact,uest,xdot_real)
+testServoEKF(xdot_noise,outarr,t,-uact,uest,xdot_real)
 figure
 plot(t,uarr,t,etaarr,t,-u_by_x,t,-u_by_xdot,t,u_by_sigma,t,rdot/180*pi*0.6,t,outarr)
 legend('u','eta','u by x','u by xdot','u by sigma','u by rdot','out')
