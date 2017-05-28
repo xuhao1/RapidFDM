@@ -7,9 +7,9 @@ theta(2) = float_constrain(theta(2),0.05,10);
 obj.x(5) = theta(2);
 
 
-%sigma = obj.actuator_estimator.x(6)/obj.actuator_estimator.x(5)*omega;
-%obj.x(6) = sigma;
-sigma = obj.x(6);
+sigma = obj.actuator_estimator.x(6)/obj.actuator_estimator.x(5)*omega;
+obj.x(6) = sigma;
+%sigma = obj.x(6);
 
 kgr = obj.kg_rate;
 

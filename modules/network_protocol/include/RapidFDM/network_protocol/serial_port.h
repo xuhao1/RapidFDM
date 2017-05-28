@@ -53,7 +53,7 @@ namespace RapidFDM
             virtual void on_receive_(const boost::system::error_code& ec, size_t bytes_transferred);
 
             virtual void on_receive_char(char c) {
-                printf("%c",c);
+//                printf("%c",c);
             };
 
         };

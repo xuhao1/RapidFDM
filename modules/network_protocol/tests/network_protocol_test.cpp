@@ -35,14 +35,14 @@ int serial() {
     printf("Starting test serial\n");
     SerialPort serialPort;
     std::thread th([&] {
-        serialPort.start("/dev/cu.usbmodem1411", 230400);
+        serialPort.start("/dev/tty.usbmodem1", 230400);
     });
     //usleep(100000);
     uint8_t msg[1024] = {0};
     int size;
     printf("try to send simulator start\n");
     serialPort.write_some((char *) msg, size);
-    //usleep(10000000);
+    usleep(10000000);
     serialPort.stop();
     return 0;
 }
@@ -64,6 +64,6 @@ int udp_server()
 
 int main() {
 //    udp();
-    udp_server();
+    serial();
 }
 

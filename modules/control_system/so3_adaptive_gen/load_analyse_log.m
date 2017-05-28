@@ -66,7 +66,7 @@ legend(ax,'u','eta')
 title(ax,'Output')
 
 ax = subplot(subplot_size_x,1,5);
-plot(ax,t,x*180/pi,t,xdot_ctrl_use,t,rdot,t,xdot_real)
+plot(ax,t,x,t,xdot_ctrl_use,t,rdot,t,xdot_real)
 legend(ax,'x','xdotctrl','rdot','xdotreal')
 title(ax,'x state&r')
 %t,[diff(x_pre)*200;0]

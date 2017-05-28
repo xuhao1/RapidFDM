@@ -28,11 +28,11 @@ namespace RapidFDM {
 
 
         so3_adaptive_controller::so3_adaptive_controller(Aerodynamics::AircraftNode *_aircraftNode) :
-                BaseController(_aircraftNode),ang_vel_dist(0,0.0) {
+                BaseController(_aircraftNode),ang_vel_dist(0,0.15) {
             roll_sp = 0;
             pitch_sp = 0;
-            init_attitude_controller(1, 4, &ctrlAttitude);
-            double lag_fc = 15;
+            init_attitude_controller(1, 10, &ctrlAttitude);
+            double lag_fc = 30;
             double lag_alpha = 2;
             double p_actuator = 4.0;
 
