@@ -44,8 +44,6 @@ namespace RapidFDM
             port_->set_option(
                     boost::asio::serial_port_base::flow_control(boost::asio::serial_port_base::flow_control::none));
             
-            boost::thread t(boost::bind(&boost::asio::io_service::run, &io_service_));
-    
             printf("Successful open port,start receieve data \n");
             async_read_some_();
             

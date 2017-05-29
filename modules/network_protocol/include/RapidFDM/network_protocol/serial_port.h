@@ -45,7 +45,8 @@ namespace RapidFDM
         
             virtual bool start(std::string com_port_name, int baud_rate=230400);
             virtual void stop();
-        
+
+
             int write_some(const char *buf, const int &size);
         
         protected:
@@ -53,7 +54,7 @@ namespace RapidFDM
             virtual void on_receive_(const boost::system::error_code& ec, size_t bytes_transferred);
 
             virtual void on_receive_char(char c) {
-//                printf("%c",c);
+                printf("%c",c);
             };
 
         };

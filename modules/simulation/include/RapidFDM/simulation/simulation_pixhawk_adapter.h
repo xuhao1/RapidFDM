@@ -17,7 +17,7 @@ using namespace RapidFDM::NetworkProtocol;
 
 namespace RapidFDM {
     namespace Simulation {
-        class simulation_pixhawk_adapter : public simulation_hil_adapter, public UDPServer, public UDPClient {
+        class simulation_pixhawk_adapter : public simulation_hil_adapter, public UDPClient, public SerialPort {
         private:
             std::string serial;
             int rate;
@@ -49,12 +49,14 @@ namespace RapidFDM {
 
             virtual void on_receive_data(uint8_t *data, size_t size) override;
 
+            virtual void on_receive_char(char c) override;
+
         public:
             simulation_pixhawk_adapter(SimulatorAircraft *simulatorAircraft);
 
             virtual bool enable_simulation() override;
 
-            virtual void udp_server_on_receive_data(uint8_t *data, size_t size) override;
+//            virtual void udp_server_on_receive_data(uint8_t *data, size_t size) override;
 
             virtual void on_message_hil_controls(mavlink_hil_actuator_controls_t *hil_controls);
         };

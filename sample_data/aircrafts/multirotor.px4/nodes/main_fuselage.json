@@ -1,0 +1,67 @@
+{
+  "name": "main_fuselage",
+  "id": "0",
+  "type": "aircraft",
+  "mass": 0.5,
+  "mass_center": [
+    0,
+    0,
+    0
+  ],
+  "inertial": [
+    0.15,
+    0.2,
+    0.15
+  ],
+  "geometry": {
+    "type": "box",
+    "scale": [
+      0.05,
+      0.05,
+      0.05
+    ],
+    "transform": {
+      "vector": [
+        0.6,
+        0,
+        0
+      ]
+    },
+    "attitude": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "aera" : 0.01
+  },
+  "rigid_mode": 1,
+  "total_mass": 0.6,
+  "total_inertial": [
+    0.02,
+    0.02,
+    0.01
+  ],
+  "controller_type":"multirotor",
+  "initial_states" : {
+    "transform": {
+      "attitude": [0,0,0],
+      "vector": [0,0,1.5]
+    },
+    "init_speed":0
+  },
+  "mapper": {
+    "main_engine_0/thrust": {
+      "chn": 0
+    },
+    "main_engine_1/thrust": {
+      "chn": 2
+    },
+    "main_engine_2/thrust": {
+      "chn": 1
+    },
+    "main_engine_3/thrust": {
+      "chn": 3
+    }
+  }
+}

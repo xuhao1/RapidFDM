@@ -5,6 +5,7 @@
 
 #include <RapidFDM/simulation/simulation_pixhawk_adapter.h>
 #include <mavlink/v2.0/mavlink_helpers.h>
+#include <thread>
 
 #define MAV_MODE_FLAG_HIL_ENABLED  32
 
@@ -13,16 +14,18 @@ long current_timestamp_us();
 namespace RapidFDM {
     namespace Simulation {
         simulation_pixhawk_adapter::simulation_pixhawk_adapter(SimulatorAircraft *simulatorAircraft) :
-                simulation_hil_adapter(simulatorAircraft), UDPClient("127.0.0.1", 14550), UDPServer(14555) {
-//            std::string hw = "Hello,world\n";
-//            this->write_to_server((uint8_t *) hw.c_str(), hw.size());
+                simulation_hil_adapter(simulatorAircraft), UDPClient("127.0.0.1", 14550) {
             intial_lati = 22.3351 * M_PI / 180.0;
             intial_lon = 114.2631 * M_PI / 180.0;
+
+            new std::thread([&] {
+                ((SerialPort*)this)->start("/dev/tty.usbmodem1", 230400);
+                ((SerialPort*)this)->io_service_.run();
+            });
         }
 
         void simulation_pixhawk_adapter::send_realtime_data() {
             mavlink_hil_state_quaternion_t state;
-//            mavlink_hil_gps_t gps;
 
             Eigen::Quaterniond quat = get_quaternion_NED();
             state.attitude_quaternion[0] = (float) quat.w();
@@ -65,7 +68,7 @@ namespace RapidFDM {
 
         void simulation_pixhawk_adapter::send_mavlink_msg_to_fc(mavlink_message_t *msg) {
             uint16_t size = mavlink_msg_to_send_buffer(mavlink_send_fc_buffer, msg);
-            write_to_client(mavlink_send_fc_buffer, size);
+            write_some((char*)mavlink_send_fc_buffer,size);
         }
 
         void simulation_pixhawk_adapter::tick_func(float dt, long tick) {
@@ -99,17 +102,14 @@ namespace RapidFDM {
         }
 
         void simulation_pixhawk_adapter::on_receive_data(uint8_t *data, size_t size) {
-            write_to_client(data, size);
+            write_some((char*)data,size);
         }
+
 
         void simulation_pixhawk_adapter::on_message_hil_controls(mavlink_hil_actuator_controls_t *hil_controls) {
             for (int i = 0; i < 16; i++) {
                 pwm[i] = hil_controls->controls[i];
             }
-//            for (int i = 0; i < 8; i++) {
-//                pwm[i] = (float) float_constrain((pwm[i] - 0.5f) * 2.0f, -1, 1);
-//            }
-            printf("pwm %f %f %f %f\n",pwm[0],pwm[1],pwm[2],pwm[3]);
             on_pwm_data_receieve(pwm, 16);
         }
 
@@ -120,7 +120,6 @@ namespace RapidFDM {
             write_to_server(buffer, size);
             switch (msg->msgid) {
                 case MAVLINK_MSG_ID_HIL_ACTUATOR_CONTROLS:
-                    printf("HILLLLLLL\n");
                     mavlink_hil_actuator_controls_t hil_controls;
                     mavlink_msg_hil_actuator_controls_decode(msg, &hil_controls);
                     on_message_hil_controls(&hil_controls);
@@ -140,7 +139,6 @@ namespace RapidFDM {
                     RcE = (rc.chan2_raw - 1520) / 400.0f * 10000;
                     RcT = ((rc.chan3_raw - 1520) / 400.0f + 1) / 2 * 10000;
                     RcR = (rc.chan4_raw - 1520) / 400.0f * 10000;
-//                    printf("rc %f %f %f %f\n",RcA,RcE,RcT,RcR);
                     break;
                 default:
                     break;
@@ -172,14 +170,21 @@ namespace RapidFDM {
 
         }
 
-        void simulation_pixhawk_adapter::udp_server_on_receive_data(uint8_t *data, size_t size) {
-            for (int i = 0; i < size; i++) {
-                char c = data[i];
-                mavlink_message_t msg;
-                mavlink_status_t status;
-                if (mavlink_parse_char(0, (uint8_t) c, &msg, &status)) {
-                    on_receieve_mavlink_message(&msg, data, size);
-                }
+//        void simulation_pixhawk_adapter::udp_server_on_receive_data(uint8_t *data, size_t size) {
+//            for (int i = 0; i < size; i++) {
+//                char c = data[i];
+//            }
+
+        void simulation_pixhawk_adapter::on_receive_char(char c) {
+            static mavlink_message_t msg;
+            static mavlink_status_t status;
+            static uint8_t data[1024] = {0};
+            static int size = 0;
+            data[size] = (uint8_t) c;
+            if (mavlink_parse_char(0, (uint8_t) c, &msg, &status)) {
+                on_receieve_mavlink_message(&msg, data, size);
+                memset(data,0,1024);
+                size = 0;
             }
         }
     }
