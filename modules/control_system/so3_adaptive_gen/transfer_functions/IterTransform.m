@@ -1,5 +1,6 @@
 function [y,obj] = IterTransform(x,obj)
 n = obj.n + 1;
+n = 2;
 if not( obj.inited)
     obj.inited = true;
     obj.x(1:n) = x;

@@ -24,7 +24,7 @@
   "TaperRatio":0.6,
   "pieces":12,
   "cl0":0.17,
-  "freq_cut":3,
+  "freq_cut":4,
   "maxdeflect" : 30,
   "ctrlSurfFrac":0.2
 }

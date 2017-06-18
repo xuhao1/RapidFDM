@@ -29,6 +29,9 @@ namespace RapidFDM {
 
             virtual void on_receieve_mavlink_message(mavlink_message_t *msg, uint8_t *buffer, int size);
 
+
+            void parse_mavlink_status_text(mavlink_message_t * msg);
+
             bool system_online = false;
             bool simulator_online = false;
             bool motor_started = false;

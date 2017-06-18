@@ -2,7 +2,7 @@
   <configuration build-checksum="2162096047" file="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Step.prj" location="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen" name="L1Step" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex />
-      <param.RanInstrumentedMex />
+      <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
       <param.WorkingFolder>option.WorkingFolder.Project</param.WorkingFolder>
       <param.SpecifiedWorkingFolder />
       <param.BuildFolder>option.BuildFolder.Project</param.BuildFolder>
@@ -25,7 +25,7 @@
       <param.GenerateReport>true</param.GenerateReport>
       <param.LaunchReport />
       <param.DefaultTestFile />
-      <param.MergeInstrumentationResults />
+      <param.MergeInstrumentationResults>false</param.MergeInstrumentationResults>
       <param.VerificationMode>option.VerificationMode.None</param.VerificationMode>
       <param.VerificationStatus>option.VerificationStatus.Passed</param.VerificationStatus>
       <param.CustomSourceCode />
@@ -52,7 +52,7 @@
       <param.InitFltsAndDblsToZero>true</param.InitFltsAndDblsToZero>
       <param.ConstantInputs />
       <param.EnableCRICodeCoverage>false</param.EnableCRICodeCoverage>
-      <param.EnableJIT />
+      <param.EnableJIT>false</param.EnableJIT>
       <param.EnableJITSilentBailOut />
       <param.CheckForIssuesJIT />
       <unset>
@@ -154,8 +154,8 @@
       <param.SILDebugging>false</param.SILDebugging>
       <param.CodeExecutionProfiling>false</param.CodeExecutionProfiling>
       <param.DefaultTestFile />
-      <param.MergeInstrumentationResults />
-      <param.RanPilSilVerification />
+      <param.MergeInstrumentationResults>false</param.MergeInstrumentationResults>
+      <param.RanPilSilVerification>false</param.RanPilSilVerification>
       <param.VerificationMode>option.VerificationMode.None</param.VerificationMode>
       <param.VerificationStatus>option.VerificationStatus.Inactive</param.VerificationStatus>
       <param.CustomSourceCode />
@@ -170,9 +170,22 @@
       <param.CodeReplacementLibrary>None</param.CodeReplacementLibrary>
       <param.DeprecatedCRLFlag />
       <param.SameHardware>true</param.SameHardware>
-      <param.Toolchain>Automatically locate an installed toolchain</param.Toolchain>
-      <param.BuildConfiguration>Faster Runs</param.BuildConfiguration>
-      <param.CustomToolchainOptions />
+      <param.Toolchain>Clang v3.1 | gmake (64-bit Mac)</param.Toolchain>
+      <param.BuildConfiguration>Faster Builds</param.BuildConfiguration>
+      <param.CustomToolchainOptions>
+        <options>
+          <option key="C Compiler" modified="false" value="-c -isysroot $(XCODE_SDK_ROOT) -arch $(ARCHS) $(ANSI_OPTS) -O0" />
+          <option key="Linker" modified="false" value="-arch $(ARCHS) -isysroot $(XCODE_SDK_ROOT) -Wl,-rpath,$(MATLAB_ARCH_BIN) -Wl,-rpath,@executable_path -Wl,-rpath,@executable_path/$(RELATIVE_PATH_TO_ANCHOR) -L&quot;$(MATLAB_ARCH_BIN)&quot;" />
+          <option key="Shared Library Linker" modified="false" value="-dynamiclib -install_name @rpath/$(notdir $(PRODUCT)) -isysroot $(XCODE_SDK_ROOT) -L&quot;$(MATLAB_ARCH_BIN)&quot; -Wl,$(LD_NAMESPACE) $(LD_UNDEFS)" />
+          <option key="C++ Compiler" modified="false" value="-c -isysroot $(XCODE_SDK_ROOT) -arch $(ARCHS) $(CPP_ANSI_OPTS) -O0" />
+          <option key="C++ Linker" modified="false" value="-arch $(ARCHS) -isysroot $(XCODE_SDK_ROOT) -Wl,-rpath,$(MATLAB_ARCH_BIN) -Wl,-rpath,@executable_path -Wl,-rpath,@executable_path/$(RELATIVE_PATH_TO_ANCHOR) -L&quot;$(MATLAB_ARCH_BIN)&quot;" />
+          <option key="C++ Shared Library Linker" modified="false" value="-dynamiclib -install_name @rpath/$(notdir $(PRODUCT)) -isysroot $(XCODE_SDK_ROOT) -L&quot;$(MATLAB_ARCH_BIN)&quot; -Wl,$(LD_NAMESPACE) $(LD_UNDEFS)" />
+          <option key="Archiver" modified="false" value="ruvs" />
+          <option key="Download" modified="false" value="" />
+          <option key="Execute" modified="false" value="" />
+          <option key="Make Tool" modified="false" value="-f $(MAKEFILE)" />
+        </options>
+      </param.CustomToolchainOptions>
       <var.ToolchainSettingsVisible />
       <param.target.Data>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;ctdata&gt;&lt;configuredHardware/&gt;&lt;/ctdata&gt;</param.target.Data>
       <param.target.ActiveType>option.target.TargetType.Custom</param.target.ActiveType>
@@ -232,7 +245,7 @@
       <param.CCompilerOptimization />
       <param.CCompilerCustomOptimizations />
       <param.GenerateMakefile>false</param.GenerateMakefile>
-      <param.BuildToolEnable />
+      <param.BuildToolEnable>false</param.BuildToolEnable>
       <param.MakeCommand />
       <param.TemplateMakefile />
       <param.BuildToolConfiguration />
@@ -297,8 +310,7 @@
         <param.CodeReplacementLibrary />
         <param.DeprecatedCRLFlag />
         <param.SameHardware />
-        <param.Toolchain />
-        <param.CustomToolchainOptions />
+        <param.BuildConfiguration />
         <var.ToolchainSettingsVisible />
         <param.target.ActiveTarget />
         <param.HWDeviceType.Production />
@@ -702,7 +714,7 @@
       </unset>
     </profile>
     <param.objective>option.objective.c</param.objective>
-    <param.WorkflowStep>inputTypes</param.WorkflowStep>
+    <param.WorkflowStep>generateCode</param.WorkflowStep>
     <param.TestSnippets>
       <item>testL1ControlAttitude</item>
       <item>L1UpdateRollParams(2.0,2.0,2.0,2.0,100,s_ctrl)</item>
@@ -725,7 +737,7 @@
     </param.newGlobals>
     <param.mex.mainhtml />
     <param.grt.mainhtml />
-    <param.CallGeneratedCodeFromTest />
+    <param.CallGeneratedCodeFromTest>true</param.CallGeneratedCodeFromTest>
     <param.AutoInferDefaultFile />
     <param.AutoInferUseVariableSize />
     <param.AutoInferUseUnboundedSize />
@@ -759,7 +771,7 @@
     <param.EnableAutoExtrinsicCalls>true</param.EnableAutoExtrinsicCalls>
     <param.UsePreconditions>false</param.UsePreconditions>
     <param.FeatureFlags />
-    <param.FixedPointMode>option.FixedPointMode.None</param.FixedPointMode>
+    <param.FixedPointMode>option.FixedPointMode.Singles</param.FixedPointMode>
     <param.AutoScaleLoopIndexVariables />
     <param.ComputedFixedPointData>
       <ComputedEntities />
@@ -840,7 +852,6 @@
       <param.EnableAutoExtrinsicCalls />
       <param.UsePreconditions />
       <param.FeatureFlags />
-      <param.FixedPointMode />
       <param.AutoScaleLoopIndexVariables />
       <param.DefaultWordLength />
       <param.DefaultFractionLength />
@@ -891,6 +902,12 @@
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/adaptive_control/L1ControllerUpdateParams.m">
         <Marker>1494154130896</Marker>
+      </file>
+      <file custom-data-expanded="false" value="${PROJECT_ROOT}/adaptive_control/L1_ODE_2nd.m">
+        <Marker>1496390284229</Marker>
+      </file>
+      <file custom-data-expanded="false" value="${PROJECT_ROOT}/adaptive_control/init_adaptive_controller.m">
+        <Marker>1496322576568</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/init_attitude_controller.m">
         <Marker>1494154130949</Marker>
@@ -1932,6 +1949,179 @@
           </idpTable>
         </Inputs>
       </file>
+      <file custom-data-expanded="false" value="${PROJECT_ROOT}/adaptive_control/L1_ODE_2nd.m">
+        <Inputs fileName="L1_ODE_2nd.m" functionName="L1_ODE_2nd">
+          <Input Name="t" typeId="0" />
+          <Input Name="x" typeId="1" />
+          <Input Name="obj" typeId="2">
+            <Field Name="t" typeId="0" />
+            <Field Name="x" typeId="1" />
+            <Field Name="Gamma" typeId="0" />
+            <Field Name="P" typeId="3" />
+            <Field Name="Am" typeId="3" />
+            <Field Name="u" typeId="0" />
+            <Field Name="b" typeId="4" />
+            <Field Name="kg" typeId="0" />
+            <Field Name="kg_rate" typeId="0" />
+            <Field Name="u_filter" typeId="2">
+              <Field Name="A" typeId="5" />
+              <Field Name="B" typeId="5" />
+              <Field Name="x" typeId="6" />
+              <Field Name="y" typeId="5" />
+              <Field Name="n" typeId="0" />
+              <Field Name="inited" typeId="7" />
+            </Field>
+            <Field Name="g_filter" typeId="2">
+              <Field Name="A" typeId="5" />
+              <Field Name="B" typeId="5" />
+              <Field Name="x" typeId="6" />
+              <Field Name="y" typeId="5" />
+              <Field Name="n" typeId="0" />
+              <Field Name="inited" typeId="7" />
+            </Field>
+            <Field Name="inited" typeId="7" />
+            <Field Name="err" typeId="4" />
+            <Field Name="eta" typeId="0" />
+            <Field Name="r" typeId="0" />
+            <Field Name="rdot" typeId="0" />
+            <Field Name="g" typeId="4" />
+            <Field Name="g_by_x" typeId="3" />
+            <Field Name="km" typeId="4" />
+            <Field Name="x_real" typeId="4" />
+            <Field Name="fixed_step_ode" typeId="7" />
+            <Field Name="ode_steps" typeId="0" />
+            <Field Name="out" typeId="0" />
+            <Field Name="actuator_estimator" typeId="2">
+              <Field Name="x" typeId="8" />
+              <Field Name="F" typeId="9" />
+              <Field Name="H" typeId="10" />
+              <Field Name="Q" typeId="9" />
+              <Field Name="R" typeId="0" />
+              <Field Name="P" typeId="9" />
+              <Field Name="yres" typeId="0" />
+              <Field Name="t" typeId="0" />
+              <Field Name="z" typeId="0" />
+              <Field Name="actuator_real" typeId="0" />
+            </Field>
+            <Field Name="p_actuator" typeId="0" />
+          </Input>
+          <idpTable>
+            <type typeId="0">
+              <Class>double</Class>
+              <Size>1 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="1">
+              <Class>double</Class>
+              <Size>7 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="2">
+              <Class>struct</Class>
+              <Size>1 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <TypeName />
+              <Extern>false</Extern>
+              <HeaderFile />
+              <Alignment>-1</Alignment>
+            </type>
+            <type typeId="3">
+              <Class>double</Class>
+              <Size>2 x 2</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="4">
+              <Class>double</Class>
+              <Size>2 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="5">
+              <Class>double</Class>
+              <Size>1 x 10</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="6">
+              <Class>double</Class>
+              <Size>1 x 19</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="7">
+              <Class>logical</Class>
+              <Size>1 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+            </type>
+            <type typeId="8">
+              <Class>double</Class>
+              <Size>6 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="9">
+              <Class>double</Class>
+              <Size>6 x 6</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+            <type typeId="10">
+              <Class>double</Class>
+              <Size>1 x 6</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+          </idpTable>
+        </Inputs>
+      </file>
+      <file custom-data-expanded="false" value="${PROJECT_ROOT}/adaptive_control/init_adaptive_controller.m">
+        <Inputs fileName="init_adaptive_controller.m" functionName="init_adaptive_controller">
+          <Input Name="fixed_step_ode" typeId="0" />
+          <Input Name="ode_steps" typeId="1" />
+          <idpTable>
+            <type typeId="0">
+              <Class>logical</Class>
+              <Size>1 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+            </type>
+            <type typeId="1">
+              <Class>double</Class>
+              <Size>1 x 1</Size>
+              <Value />
+              <InitialValue />
+              <UserDefined>false</UserDefined>
+              <Complex>false</Complex>
+            </type>
+          </idpTable>
+        </Inputs>
+      </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/init_attitude_controller.m">
         <Inputs fileName="init_attitude_controller.m" functionName="init_attitude_controller">
           <Input Name="fixed_step_ode" typeId="0" />
@@ -1998,7 +2188,7 @@
       <vista>false</vista>
       <linux>false</linux>
       <solaris>false</solaris>
-      <osver>10.12.2</osver>
+      <osver>10.12.5</osver>
       <os32>false</os32>
       <os64>true</os64>
       <arch>maci64</arch>

@@ -5,6 +5,7 @@
 #ifndef RAPIDFDM_UDP_CLIENT_H
 #define RAPIDFDM_UDP_CLIENT_H
 #include <boost/asio.hpp>
+#include <thread>
 using boost::asio::ip::udp;
 namespace RapidFDM
 {
@@ -52,14 +53,19 @@ namespace RapidFDM
                 socket_->open(udp::v4());
                 printf("Link2 %s port %d\n",ip.c_str(),port);
                 start_receive();
-                boost::thread t(boost::bind(&boost::asio::io_service::run, &io_service));
+                new std::thread([&]{
+                    io_service.run();
+                });
             }
 
             void write_to_server(uint8_t * buffer,size_t size)
             {
                 if(socket_)
                 {
-                    socket_->send_to(boost::asio::buffer(buffer,size), remote_endpoint_);
+                    if (socket_->send_to(boost::asio::buffer(buffer,size), remote_endpoint_) <= 0)
+                    {
+                        std::wcerr << "Send to QGC error " << size <<std::endl;
+                    }
                 }
             }
 

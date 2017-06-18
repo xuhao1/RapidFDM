@@ -1,4 +1,4 @@
-    function [obj,out] = L1ControlLaw1st(dt,obj)
+function [obj,out] = L1ControlLaw1st(dt,obj)
 omega = obj.x(3);
 
 theta = obj.x(4:5);

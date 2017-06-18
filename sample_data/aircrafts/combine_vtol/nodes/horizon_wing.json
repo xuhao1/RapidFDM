@@ -25,5 +25,5 @@
   "pieces": 2,
   "ctrlSurfFrac":0.5,
   "maxdeflect" : 20,
-  "freq_cut":2
+  "freq_cut":4
 }

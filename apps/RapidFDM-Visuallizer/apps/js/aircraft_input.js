@@ -9,7 +9,7 @@ var AircraftInput = function (aircraftview) {
     this.gamepad_connected = false;
     this.gamepad_index = 0;
     if (navigator.getGamepads()[0] !== undefined) {
-        onconnect(0);
+        obj.on_connect(0);
     }
     window.addEventListener("gamepadconnected", function (e) {
         console.log("On connected gamepad");
@@ -22,7 +22,7 @@ var AircraftInput = function (aircraftview) {
     this.aileron = 0;
     this.rudder = 0;
     this.elevator = 0;
-    this.aux1 = -10000;
+    this.aux1 = 0;
     this.delatatime = 0.02;
     this.throttle_ratio = 1;
 
@@ -40,6 +40,7 @@ var AircraftInput = function (aircraftview) {
 
     obj.update();
     this.aircraftview = aircraftview;
+    aircraftview.input = this;
     document.addEventListener('keydown', function (event) {
         switch (event.keyCode) {
             case 87://W
@@ -104,7 +105,7 @@ AircraftInput.prototype.update = function () {
     if (!this.use_hil) {
         var dt = this.delatatime;
         var gamepad = this.get_gamepad();
-        if (gamepad !== undefined) {
+        if (gamepad !== null) {
             this.elevator = 0;
             console.log(gamepad.axes);
             this.d_aux1 = (gamepad.axes[5] - gamepad.axes[2])*10000/2;

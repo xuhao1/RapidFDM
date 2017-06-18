@@ -19,21 +19,11 @@ end
 
 obj.err(1:2) = obj.x(1:2) - x_real(1:2);
 
-if obj.fixed_step_ode
-    if obj.ode_steps > 1
-        subdt = dt/obj.ode_steps;
-        [~,obj.x]=ode4user(@(t,x) L1_ODE_2nd(t,x,obj),obj.t:subdt:obj.t+dt,obj.x);
-    else
-      [~,obj.x]=ode4user(@(t,x) L1_ODE_2nd(t,x,obj),[obj.t,obj.t + dt],obj.x);
-    end 
-    obj.x = ctrl_x_constrain(obj.x,obj);
-else
-    opts_1 =  odeset('RelTol',1e-3,'AbsTol',1e-6);
-    [~,x]=ode23(@(t,x) L1_ODE_2nd(t,x,obj),...
-        [obj.t,obj.t + dt],obj.x,opts_1);
-    obj.x = ctrl_x_constrain(x(end,1:7)',obj);
-end
-
+obj.x=ode4user(@(t,x) L1_ODE_2nd(t,x,obj),[obj.t,obj.t + dt],obj.x,obj.ode_steps);
+obj.x = ctrl_x_constrain(obj.x,obj);
+%     [~,x]=ode45(@(t,x) L1_ODE_2nd(t,x,obj),...
+%         [obj.t,obj.t + dt],obj.x);
+%     obj.x = ctrl_x_constrain(x(end,1:7)',obj);
 
 [obj,u] = L1ControlLaw2nd(dt,obj);
 

@@ -19,7 +19,7 @@ namespace RapidFDM {
             intial_lon = 114.2631 * M_PI / 180.0;
 
             new std::thread([&] {
-                ((SerialPort*)this)->start("/dev/tty.usbmodem1", 230400);
+                ((SerialPort*)this)->start("/dev/cu.usbmodem1", 230400);
                 ((SerialPort*)this)->io_service_.run();
             });
         }
@@ -128,9 +128,9 @@ namespace RapidFDM {
                 case MAVLINK_MSG_ID_HEARTBEAT:
                     mavlink_heartbeat_t heartbeat;
                     mavlink_msg_heartbeat_decode(msg, &heartbeat);
-                    if (heartbeat.base_mode & MAV_MODE_FLAG_HIL_ENABLED) {
+//                    if (heartbeat.base_mode & MAV_MODE_FLAG_HIL_ENABLED) {
                         simulator_online = true;
-                    }
+//                    }
                     break;
                 case MAVLINK_MSG_ID_RC_CHANNELS:
                     mavlink_rc_channels_t rc;
@@ -140,9 +140,20 @@ namespace RapidFDM {
                     RcT = ((rc.chan3_raw - 1520) / 400.0f + 1) / 2 * 10000;
                     RcR = (rc.chan4_raw - 1520) / 400.0f * 10000;
                     break;
+                case MAVLINK_MSG_ID_STATUSTEXT:
+                    parse_mavlink_status_text(msg);
+                    break;
                 default:
                     break;
             }
+
+        }
+
+        void simulation_pixhawk_adapter::parse_mavlink_status_text(mavlink_message_t *msg) {
+            mavlink_statustext_t statustext;
+            mavlink_msg_statustext_decode(msg, &statustext);
+            printf("FC:%d : %s\n",statustext.severity,statustext.text);
+            fflush(stdout);
 
         }
 
@@ -178,12 +189,12 @@ namespace RapidFDM {
         void simulation_pixhawk_adapter::on_receive_char(char c) {
             static mavlink_message_t msg;
             static mavlink_status_t status;
-            static uint8_t data[1024] = {0};
+            static uint8_t data[16*1024] = {0};
             static int size = 0;
             data[size] = (uint8_t) c;
+            size ++;
             if (mavlink_parse_char(0, (uint8_t) c, &msg, &status)) {
                 on_receieve_mavlink_message(&msg, data, size);
-                memset(data,0,1024);
                 size = 0;
             }
         }

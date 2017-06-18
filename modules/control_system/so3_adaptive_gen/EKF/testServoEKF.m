@@ -36,39 +36,40 @@ for i=1:n
     fdarr(i) = wn*sqrt(1-eta*eta)/(2*pi);
 end
 figure
-ps = 7;
+ps = 3;
 ax1 = subplot(ps,1,1);
-plot(ax1,tarr,preal,tarr,pmarr,tarr,parr_noise);
-legend(ax1,'real','est','noise')
+plot(ax1,tarr,pmarr,tarr,parr_noise);
+legend(ax1,'est','noise')
 title(ax1,'angular velocity');
 
 ax2 = subplot(ps,1,2);
-plot(ax2,tarr,uarr,tarr,ysarr,tarr,uact,tarr,uest);
+plot(ax2,tarr,uarr,tarr,uact,tarr,uest,tarr,(uact-uest).*(uact-uest));
 grid on
-legend(ax2,'SP','EST','ACT','ESTCON');
+legend(ax2,'SP','ACT','EST','ERR');
 title(ax2,'Servo Value');
 
-ax = subplot(ps,1,3);
-%tarr,(uact-uarr).*(uact-uarr)
-plot(ax,tarr,(uact-ysarr).*(uact-ysarr),tarr,(uact-uest).*(uact-uest))
-legend(ax,'EstErr','EstErrCon');
-title(ax,'ServoERR');
+% 
+% ax = subplot(ps,1,3);
+% %tarr,(uact-uarr).*(uact-uarr)
+% plot(ax,tarr,(uact-ysarr).*(uact-ysarr),tarr,(uact-uest).*(uact-uest))
+% legend(ax,'EstErr','EstErrCon');
+% title(ax,'ServoERR');
 
-ax = subplot(ps,1,4);
+ax = subplot(ps,1,3);
 plot(ax,tarr,kdarr);
 legend(ax,'Angular Damp Theta');
-
+return
 % ax = subplot(ps,1,5);
 % plot(ax,tarr,wcarr/(2*pi),tarr,fdarr);
 % title(ax,'Freq');
 % legend(ax,'fc','fnatur');
 % grid on
-
-ax = subplot(ps,1,5);
+%return;
+ax = subplot(ps,1,4);
 plot(ax,tarr,yresarr,tarr,sigmarr);
 legend(ax,'yres','Sigma');
 
-ax = subplot(ps,1,6);
+ax = subplot(ps,1,5);
 plot(ax,tarr,wparr,tarr,wcarr)
 legend(ax,'WP','WC');
 %plot(ax,tarr,(preal-pmarr).*(preal-pmarr),tarr,(preal-lag).*(preal-lag));
