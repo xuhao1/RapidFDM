@@ -1,4 +1,5 @@
 function csvanalyse(filename)
+figure
     M = csvread(filename);
     x = M(:,3:9);
     err = M(:,10:11);
@@ -7,7 +8,7 @@ function csvanalyse(filename)
     u = M(:,15);
     est_act = M(:,16);
     [N,~] = size(x);
-    ticks = 1:N;
+    ticks = (1:N)/200;
     
     subplot_size_x = 5;
     ax = subplot(subplot_size_x,1,1);
@@ -29,4 +30,8 @@ function csvanalyse(filename)
     ax = subplot(subplot_size_x,1,5);
     plot(ticks,eta,ticks,u,ticks,est_act);
     legend(ax,'eta','u','est_act')
+    
+    figure
+    plot(ticks,x_real(:,1),ticks,x_real(:,2));
+    legend('x','xdot')
 end

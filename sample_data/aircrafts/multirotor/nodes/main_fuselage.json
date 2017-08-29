@@ -4,8 +4,8 @@
   "type": "aircraft",
   "mass": 0.5,
   "mass_center": [
-    0,
-    0,
+    -0.02,
+    0.05,
     0
   ],
   "inertial": [
@@ -45,8 +45,8 @@
   "controller_type":"multirotor",
   "initial_states" : {
     "transform": {
-      "attitude": [0,0,0],
-      "vector": [0,0,1.5]
+      "attitude": [45,45,80],
+      "vector": [0,0,15]
     },
     "init_speed":0
   },

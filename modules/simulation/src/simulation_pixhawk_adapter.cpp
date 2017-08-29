@@ -38,8 +38,9 @@ namespace RapidFDM {
             state.lon = (int32_t) (global_local.y() * 1e7 * 180.0 / M_PI);
             state.alt = -(int32_t) (global_local.z() * 1e3);
 
+
             Eigen::Vector3d ang_vel = get_angular_velocity_body_NED();
-            state.rollspeed = (float) ang_vel.x();
+            state.rollspeed = (float) ang_vel.x();// + ((float)(total_tick_count % 2) - 0.5) * 2*0.25;
             state.pitchspeed = (float) ang_vel.y();
             state.yawspeed = (float) ang_vel.z();
 
@@ -98,7 +99,7 @@ namespace RapidFDM {
         }
 
         bool simulation_pixhawk_adapter::enable_simulation() {
-            return simulator_online;
+            return simulator_online && motor_started;
         }
 
         void simulation_pixhawk_adapter::on_receive_data(uint8_t *data, size_t size) {

@@ -28,18 +28,19 @@ namespace RapidFDM {
 
 
         so3_adaptive_controller::so3_adaptive_controller(Aerodynamics::AircraftNode *_aircraftNode) :
-                BaseController(_aircraftNode),ang_vel_dist(0,0.05) {
+                BaseController(_aircraftNode),ang_vel_dist(0,0.02) {
             roll_sp = 0;
             pitch_sp = 0;
-            init_attitude_controller(1, 3, &ctrlAttitude);
-            double lag_fc = 30;
-            double lag_alpha = 2;
-            double p_actuator = 2.0;
+            init_attitude_controller(1, 6, &ctrlAttitude);
+            double lag_fc = 15;
+            double lag_alpha = 1.5;
+            double p_actuator = 0.0;
+            double ekf_p_noise = 0.2;
 
-            double gamma = 4000;
-            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 1.0, 0.7, 32, gamma, lag_fc, lag_alpha, p_actuator);
-            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl),1.0, 0.7, 32, gamma, lag_fc, lag_alpha, p_actuator);
-            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 1.0, 1.0, 20, gamma, lag_fc, lag_alpha, p_actuator);
+            double gamma = 500;
+            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 0.8, 0.2, 64, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
+            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl),0.8, 0.2, 64, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
+            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 1.0, 1.0, 20, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -254,7 +255,7 @@ namespace RapidFDM {
 
             float roll_act_real = (float) this->aircraftNode->get_internal_state("main_wing_0/flap_0");
             float pitch_act_real =(float) this->aircraftNode->get_internal_state("horizon_wing_0/flap_0");
-//            sys.acc[0] = roll_act_real;
+            sys.acc[0] = roll_act_real;
 
             if (count % 200 == 0) {
                 save_data_file();

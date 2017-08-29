@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2016a">
-  <configuration build-checksum="2162096047" file="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Step.prj" location="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen" name="L1Step" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="2922552284" file="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1Step.prj" location="/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen" name="L1Step" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex />
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -8,11 +8,11 @@
       <param.BuildFolder>option.BuildFolder.Project</param.BuildFolder>
       <param.SpecifiedBuildFolder />
       <param.SearchPaths />
-      <param.ResponsivenessChecks />
-      <param.ExtrinsicCalls />
-      <param.IntegrityChecks />
+      <param.ResponsivenessChecks>true</param.ResponsivenessChecks>
+      <param.ExtrinsicCalls>true</param.ExtrinsicCalls>
+      <param.IntegrityChecks>true</param.IntegrityChecks>
       <param.SaturateOnIntegerOverflow>true</param.SaturateOnIntegerOverflow>
-      <param.GlobalDataSyncMethod />
+      <param.GlobalDataSyncMethod>option.GlobalDataSyncMethod.SyncAlways</param.GlobalDataSyncMethod>
       <param.EnableVariableSizing>true</param.EnableVariableSizing>
       <param.DynamicMemoryAllocation>option.DynamicMemoryAllocation.Threshold</param.DynamicMemoryAllocation>
       <param.DynamicMemoryAllocationThreshold>65536</param.DynamicMemoryAllocationThreshold>
@@ -21,7 +21,7 @@
       <param.GenerateComments>true</param.GenerateComments>
       <param.MATLABSourceComments />
       <param.ReservedNameArray />
-      <param.EnableDebugging />
+      <param.EnableDebugging>false</param.EnableDebugging>
       <param.GenerateReport>true</param.GenerateReport>
       <param.LaunchReport />
       <param.DefaultTestFile />
@@ -42,7 +42,7 @@
       <param.EnableRuntimeRecursion>true</param.EnableRuntimeRecursion>
       <param.PreserveVariableNames>option.PreserveVariableNames.None</param.PreserveVariableNames>
       <param.TargetLang>option.TargetLang.C</param.TargetLang>
-      <param.EchoExpressions />
+      <param.EchoExpressions>true</param.EchoExpressions>
       <param.InlineThreshold>10</param.InlineThreshold>
       <param.InlineThresholdMax>200</param.InlineThresholdMax>
       <param.InlineStackLimit>4000</param.InlineStackLimit>
@@ -50,11 +50,11 @@
       <param.MemcpyThreshold>64</param.MemcpyThreshold>
       <param.EnableOpenMP>true</param.EnableOpenMP>
       <param.InitFltsAndDblsToZero>true</param.InitFltsAndDblsToZero>
-      <param.ConstantInputs />
+      <param.ConstantInputs>option.ConstantInputs.CheckValues</param.ConstantInputs>
       <param.EnableCRICodeCoverage>false</param.EnableCRICodeCoverage>
       <param.EnableJIT>false</param.EnableJIT>
       <param.EnableJITSilentBailOut />
-      <param.CheckForIssuesJIT />
+      <param.CheckForIssuesJIT>true</param.CheckForIssuesJIT>
       <unset>
         <param.BuiltInstrumentedMex />
         <param.RanInstrumentedMex />
@@ -725,7 +725,7 @@
       <item>L1ControlLaw2nd(0.1,s_ctrl,sys_state)</item>
     </param.TestSnippets>
     <param.DefaultImportExportVariable />
-    <param.RowMajor>false</param.RowMajor>
+    <param.RowMajor />
     <param.UseGlobals>option.UseGlobals.No</param.UseGlobals>
     <param.outputfile>${PROJECT_ROOT}/codegen/lib/IterationServo/IterationServo.a</param.outputfile>
     <param.version />
@@ -745,21 +745,21 @@
     <param.AutoInferUnboundedSizeThreshold />
     <param.EnableFixedPointStep />
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>388512394</param.AnnotationChecksum>
+    <param.AnnotationChecksum>1093156040</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
     <var.redirectedInputTypeData />
     <var.DismissScreener>true</var.DismissScreener>
     <param.unifiedParamStorage />
-    <var.gc.lastOutputRoot>codegen/lib/L1ControlAngularVelocity</var.gc.lastOutputRoot>
+    <var.gc.lastOutputRoot>codegen/lib/IterationServo</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>2162096047</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>3036479093</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen/mex/IterTransform1st_mex</var.cfi.lastOutputRoot>
     <var.cfi.preBuildChecksum>2220662937</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>L1Step2ndPitch(0.1,s_ctrl,sys_state)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore />
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/EKFPredict.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/EKFUpdate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/InitActuatorEstimator.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/IterActuatorEst.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/Servoffunc.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/Servohfunc.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAngularVelocity.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1AdaptiveControl1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControlLaw1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1_ODE_1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1_ODE_2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/l1_filter_control.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/Power.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/ode4user.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat2rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat_err_rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/so3_external_dynamics.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/IterTransform.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/IterTransform1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_filter_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_iter_trans.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_lag_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_lead_obj.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;1561801518&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/EKFPredict.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/EKFUpdate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/InitActuatorEstimator.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/IterActuatorEst.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/IterationServo.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAngularVelocity.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1AdaptiveControl1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControlLaw1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1_ODE_1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1_ODE_2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/l1_filter_control.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/Power.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/ode4user.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat2rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat_err_rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/so3_external_dynamics.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/IterTransform.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_filter_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_iter_trans.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_lag_obj.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;2022114861&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/EKFPredict.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/EKFUpdate.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/InitActuatorEstimator.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/EKF/IterActuatorEst.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/IterationServo.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAngularVelocity.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/L1ControlAttitude.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1AdaptiveControl1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1AdaptiveControl2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControlLaw1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControlLaw2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1ControllerUpdateParams.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1_ODE_1st.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/L1_ODE_2nd.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/ctrl_x_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/init_adaptive_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/adaptive_control/l1_filter_control.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/init_attitude_controller.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/Power.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/float_constrain.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/ode4user.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat2rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/quat_err_rov.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/maths/so3_external_dynamics.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/IterTransform.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/butter1st_200hz.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_filter_obj.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_iter_trans.m&lt;/file&gt;&lt;file&gt;/Users/xuhao/Develop/FixedwingProj/RapidFDM/modules/control_system/so3_adaptive_gen/transfer_functions/make_lag_obj.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.configImportActive>false</param.configImportActive>
@@ -779,17 +779,17 @@
     <param.UserFixedPointData>
       <UserEntities />
     </param.UserFixedPointData>
-    <param.DefaultWordLength />
-    <param.DefaultFractionLength />
-    <param.FixedPointSafetyMargin />
-    <param.FixedPointFimath />
-    <param.FixedPointTypeSource />
+    <param.DefaultWordLength>16</param.DefaultWordLength>
+    <param.DefaultFractionLength>4</param.DefaultFractionLength>
+    <param.FixedPointSafetyMargin>0</param.FixedPointSafetyMargin>
+    <param.FixedPointFimath>fimath('RoundingMethod', 'Floor', 'OverflowAction', 'Wrap', 'ProductMode', 'FullPrecision', 'MaxProductWordLength', 128, 'SumMode', 'FullPrecision', 'MaxSumWordLength', 128)</param.FixedPointFimath>
+    <param.FixedPointTypeSource>option.FixedPointTypeSource.SimAndDerived</param.FixedPointTypeSource>
     <param.StaticAnalysisTimeout />
-    <param.StaticAnalysisGlobalRangesOnly />
-    <param.LogAllIOValues />
-    <param.DetectOverflows />
-    <param.LogHistogram />
-    <param.ShowCoverage />
+    <param.StaticAnalysisGlobalRangesOnly>false</param.StaticAnalysisGlobalRangesOnly>
+    <param.LogAllIOValues>false</param.LogAllIOValues>
+    <param.DetectOverflows>false</param.DetectOverflows>
+    <param.LogHistogram>false</param.LogHistogram>
+    <param.ShowCoverage>true</param.ShowCoverage>
     <param.ExcludedFixedPointVerificationFiles />
     <param.ExcludedFixedPointSimulationFiles />
     <param.InstrumentedBuildChecksum />
@@ -802,14 +802,14 @@
         <Replacement />
       </FunctionReplacements>
     </param.FixedPointFunctionReplacements>
-    <param.OptimizeWholeNumbers />
-    <param.ContainerTypes />
+    <param.OptimizeWholeNumbers>true</param.OptimizeWholeNumbers>
+    <param.ContainerTypes>false</param.ContainerTypes>
     <param.GeneratedFixedPointFileSuffix>_fixpt</param.GeneratedFixedPointFileSuffix>
     <param.PlotFunction />
-    <param.SDIPlot />
-    <param.EnableCodeEfficiencyChecks />
-    <param.DefaultFixedPointSignedness />
-    <param.FixedPointTypeProposalMode />
+    <param.SDIPlot>false</param.SDIPlot>
+    <param.EnableCodeEfficiencyChecks>false</param.EnableCodeEfficiencyChecks>
+    <param.DefaultFixedPointSignedness>option.DefaultFixedPointSignedness.Automatic</param.DefaultFixedPointSignedness>
+    <param.FixedPointTypeProposalMode>option.FixedPointTypeProposalMode.ProposeFractionLengths</param.FixedPointTypeProposalMode>
     <param.EnableFixedPointStep />
     <var.lastFixedPointAction />
     <var.lastSimContext />
@@ -819,8 +819,8 @@
     <var.snapshotChecksum />
     <var.functionBlockSid />
     <param.fptSignedness />
-    <var.FixedPointAnalysisMode />
-    <param.FixedPointUseDesignRanges />
+    <var.FixedPointAnalysisMode>option.FixedPointAnalysisMode.Sim</var.FixedPointAnalysisMode>
+    <param.FixedPointUseDesignRanges>false</param.FixedPointUseDesignRanges>
     <unset>
       <param.objective />
       <param.DefaultImportExportVariable />
@@ -892,25 +892,25 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/IterationServo.m">
-        <Marker>1495433023078</Marker>
+        <Marker>1503974152252</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAngularVelocity.m">
-        <Marker>1494154130924</Marker>
+        <Marker>1503974152201</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/L1ControlAttitude.m">
-        <Marker>1494154130871</Marker>
+        <Marker>1503974152143</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/adaptive_control/L1ControllerUpdateParams.m">
-        <Marker>1494154130896</Marker>
+        <Marker>1503974152179</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/adaptive_control/L1_ODE_2nd.m">
-        <Marker>1496390284229</Marker>
+        <Marker>1503974152222</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/adaptive_control/init_adaptive_controller.m">
-        <Marker>1496322576568</Marker>
+        <Marker>1503974152162</Marker>
       </file>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}/init_attitude_controller.m">
-        <Marker>1494154130949</Marker>
+        <Marker>1503974152274</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench>
@@ -1855,6 +1855,7 @@
           <Input Name="lag_fc" typeId="1" />
           <Input Name="lag_alpha" typeId="1" />
           <Input Name="p_actuator" typeId="1" />
+          <Input Name="ekf_p_noise" typeId="1" />
           <idpTable>
             <type typeId="0">
               <Class>struct</Class>

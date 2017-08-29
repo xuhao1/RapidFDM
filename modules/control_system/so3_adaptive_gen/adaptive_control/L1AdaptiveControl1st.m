@@ -4,7 +4,7 @@ obj.rdot = rdot;
 
 [obj.actuator_estimator,~] = IterActuatorEst(obj.actuator_estimator,x_real(2),obj.out,dt);
 
-x_real(2) = obj.actuator_estimator.x(1);
+%x_real(2) = obj.actuator_estimator.x(1);
 obj.x_real = x_real;
 
 if not(obj.inited)

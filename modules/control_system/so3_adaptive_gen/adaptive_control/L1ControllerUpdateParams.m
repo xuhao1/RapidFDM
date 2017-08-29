@@ -1,6 +1,6 @@
-function obj = L1ControllerUpdateParams(obj,p,epi,b2,gamma,lag_fc,lag_alpha,p_actuator)
+function obj = L1ControllerUpdateParams(obj,p,pd,b2,gamma,lag_fc,lag_alpha,p_actuator,ekf_p_noise)
 %obj = init_adaptive_controller();
-pd = 2*epi*sqrt(p/b2);
+%pd = 2*epi*sqrt(p/b2);
 Am = [0 0;0 0];
 Am(1,2) = 1.0;
 Am(2,1) = - p *b2;
@@ -21,11 +21,12 @@ obj.g_filter = make_filter_obj(10);
 obj.kg = - Am(2,1) / b2;
 obj.kg_rate = - Am(2,2)/ b2;
 if not(obj.inited)
-    %obj.x(4) = p;
-    %obj.x(5) = pd;
+    obj.x(4) = 0;%p;
+    obj.x(5) = 0;%pd/2;
 end
 obj.u_filter = make_lag_obj(lag_fc,lag_alpha);
 obj.km(1) = p;
 obj.km(2) = pd;
 obj.p_actuator = p_actuator;
+obj.actuator_estimator.R = ekf_p_noise;
 end

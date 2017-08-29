@@ -75,7 +75,7 @@ title(ax,'x state&r')
 
 
 ax = subplot(subplot_size_x,1,6);
-plot(ax,t,theta0_pre,t,theta0_pre./omega_pre,t,ones(size(t))*4.0)
+plot(ax,t,theta0_pre,t,theta0_pre./omega_pre,t,ones(size(t))*2.0)
 legend(ax,'the0','the0/omg','Km0')
 
 ax = subplot(subplot_size_x,1,7);
@@ -118,11 +118,13 @@ u_by_x = arrayfun(@(x) float_constrain(x,-2,2),u_by_x);
 u_by_xdot = theta1_pre.*xdot_ctrl_use./omega_pre/180*pi;
 u_by_xdot = arrayfun(@(x) float_constrain(x,-2,2),u_by_xdot);
 u_by_sigma = arrayfun(@(x) float_constrain(x,-2,2),sigma_pre./omega_pre);
-testServoEKF(xdot_noise,outarr,t,uact,uest,xdot_real)
+%testServoEKF(xdot_noise,outarr,t,uact,uest,xdot_real)
 figure
-% plot(t,uarr,t,etaarr,t,-u_by_x,t,-u_by_xdot,t,u_by_sigma,t,rdot/180*pi*0.6,t,outarr)
-% legend('u','eta','u by x','u by xdot','u by sigma','u by rdot','out')
-% title('Output')
+ plot(t,etaarr,t,-u_by_x,t,-u_by_xdot,t,u_by_sigma)
+ legend('eta','u by x','u by xdot','u by sigma')
+ title('Output')
+ 
+ figure
 plot(t,x,t,roll,t,roll_sp)
 legend('ErrX','Roll','Desired Roll')
 title('Control State of aircraft roll')
