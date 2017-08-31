@@ -5,15 +5,14 @@ obj.r = r;
 
 [obj.actuator_estimator,~] = IterActuatorEst(obj.actuator_estimator,x_real(2),obj.out,dt);
 
-%x_real(2) = obj.actuator_estimator.x(1);
 obj.x_real = x_real;
 
-if not(obj.inited)
+if not(obj.inited) || obj.Gamma < 1
     obj.x(1) = x_real(1);
     obj.x(2) = x_real(2);
     obj.inited = true;
-    u = 0;
-return
+    %u = 0;
+%return
 end
 
 
@@ -28,5 +27,5 @@ obj.x = ctrl_x_constrain(obj.x,obj);
 [obj,u] = L1ControlLaw2nd(dt,obj);
 
 
-obj.err(1:2) = obj.x(1:2) - x_real(1:2);
+%obj.err(1:2) = obj.x(1:2) - x_real(1:2);
 obj.t = obj.t + dt;

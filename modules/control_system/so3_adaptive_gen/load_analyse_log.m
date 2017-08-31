@@ -41,6 +41,9 @@ x = x_pre-err0;
 
 roll =  data(:,30)*180/pi;
 roll_sp = data(:,31)*180/pi;
+
+P_act_est_ys = data(:,32);
+
 figure
 subplot_size_x = 7;
 ax = subplot(subplot_size_x,1,1);
@@ -79,8 +82,9 @@ plot(ax,t,theta0_pre,t,theta0_pre./omega_pre,t,ones(size(t))*2.0)
 legend(ax,'the0','the0/omg','Km0')
 
 ax = subplot(subplot_size_x,1,7);
-plot(ax,t,theta1_pre./omega_pre,t,ones(size(t))*0.869)
-legend(ax,'the1/omg','Km1')
+plot(ax,t,theta1_pre,t,ones(size(t))*0.869)
+legend(ax,'the1','Km1')
+
 % ax6 = subplot(subplot_size_x,1,6);
 % fw_tmp = arrayfun(@(x) float_constrain(x,-20,40),fw);
 % xdot_tmp = arrayfun(@(x) float_constrain(x,-40,20),xdot);
@@ -112,20 +116,21 @@ legend(ax,'the1/omg','Km1')
 %title('Time us of Attitude Control')
 %grid on
 %testServoEKF(xdot,uarr,t)
-ax = subplot(subplot_size_x,1,4);
-u_by_x = theta0_pre.*x/180*pi./omega_pre;
-u_by_x = arrayfun(@(x) float_constrain(x,-2,2),u_by_x);
-u_by_xdot = theta1_pre.*xdot_ctrl_use./omega_pre/180*pi;
-u_by_xdot = arrayfun(@(x) float_constrain(x,-2,2),u_by_xdot);
-u_by_sigma = arrayfun(@(x) float_constrain(x,-2,2),sigma_pre./omega_pre);
-%testServoEKF(xdot_noise,outarr,t,uact,uest,xdot_real)
-figure
- plot(t,etaarr,t,-u_by_x,t,-u_by_xdot,t,u_by_sigma)
- legend('eta','u by x','u by xdot','u by sigma')
- title('Output')
+% 
+% ax = subplot(subplot_size_x,1,4);
+% u_by_x = theta0_pre.*x/180*pi./omega_pre;
+% u_by_x = arrayfun(@(x) float_constrain(x,-2,2),u_by_x);
+% u_by_xdot = theta1_pre.*xdot_ctrl_use./omega_pre/180*pi;
+% u_by_xdot = arrayfun(@(x) float_constrain(x,-2,2),u_by_xdot);
+% u_by_sigma = arrayfun(@(x) float_constrain(x,-2,2),sigma_pre./omega_pre);
+% %testServoEKF(xdot_noise,outarr,t,uact,uest,xdot_real)
+% figure
+%  plot(t,etaarr,t,-u_by_x,t,-u_by_xdot,t,u_by_sigma)
+%  legend('eta','u by x','u by xdot','u by sigma')
+%  title('Output')
  
- figure
-plot(t,x,t,roll,t,roll_sp)
-legend('ErrX','Roll','Desired Roll')
-title('Control State of aircraft roll')
+%  figure
+% plot(t,x,t,roll,t,roll_sp)
+% legend('ErrX','Roll','Desired Roll')
+% title('Control State of aircraft roll')
 end

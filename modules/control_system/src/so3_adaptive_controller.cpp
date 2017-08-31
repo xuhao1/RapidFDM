@@ -35,12 +35,12 @@ namespace RapidFDM {
             double lag_fc = 15;
             double lag_alpha = 1.5;
             double p_actuator = 0.0;
-            double ekf_p_noise = 0.2;
+            double ekf_p_noise = 0.03;
 
             double gamma = 500;
-            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 0.8, 0.2, 64, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
-            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl),0.8, 0.2, 64, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
-            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 1.0, 1.0, 20, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
+            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 0.6, 0.15, 64, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
+            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl),0.6, 0.15, 64, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
+            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 0.6, 0.1, 20, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
@@ -273,7 +273,7 @@ namespace RapidFDM {
             mxArray *pa1, *pa2;
             //t 1 x 6 err 2 u 1 eta 1
 
-            int cols = 31;
+            int cols = 32;
             pa1 = mxCreateDoubleMatrix(ctrl_log.size(), cols, mxREAL);
             for (int i = 0; i < ctrl_log.size(); i++) {
                 const AdaptiveCtrlT &ctrlT = ctrl_log[i];
@@ -302,6 +302,7 @@ namespace RapidFDM {
                 set_value_mx_array(pa1, i, 28, sys_log[i].acc[1]);
                 set_value_mx_array(pa1, i, 29, sys_log[i].quat[0]);
                 set_value_mx_array(pa1, i, 30, sys_log[i].quat[1]);
+                set_value_mx_array(pa1, i, 31, ctrlT.actuator_estimator.P[6 + 1]);
             }
             char matname[100] = {0};
             sprintf(matname, "AdaptiveCtrlT_%d", log_number);

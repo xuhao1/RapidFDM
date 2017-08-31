@@ -23,6 +23,7 @@ obj.kg_rate = - Am(2,2)/ b2;
 if not(obj.inited)
     obj.x(4) = 0;%p;
     obj.x(5) = 0;%pd/2;
+    obj.actuator_estimator.x(5) = b2;
 end
 obj.u_filter = make_lag_obj(lag_fc,lag_alpha);
 obj.km(1) = p;

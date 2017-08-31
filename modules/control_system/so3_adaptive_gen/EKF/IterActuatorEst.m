@@ -28,10 +28,12 @@ end
 obj = EKFUpdate(obj,p,@Servohfunc);
 obj.x(3) = float_constrain(obj.x(3),0,100);
 obj.x(4) = float_constrain(obj.x(4),0,50);
-obj.x(5) = float_constrain(obj.x(5),0,60);
+obj.x(5) = float_constrain(obj.x(5),0,200);
 obj.x(6) = float_constrain(obj.x(6),-10,10);
 ys = obj.x(2);
-obj.actuator_real = obj.x(2);
-
-
+if obj.P(2,2) < 0.05
+    obj.actuator_real = obj.x(2);
+else
+    obj.actuator_real = u;
+end
 end
