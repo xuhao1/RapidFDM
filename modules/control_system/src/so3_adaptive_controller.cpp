@@ -32,12 +32,12 @@ namespace RapidFDM {
             roll_sp = 0;
             pitch_sp = 0;
             init_attitude_controller(1, 6, &ctrlAttitude);
-            double lag_fc = 15;
-            double lag_alpha = 1.5;
+            double lag_fc = 12;
+            double lag_alpha = 2;
             double p_actuator = 0.0;
-            double ekf_p_noise = 0.03;
+            double ekf_p_noise = 0.05;
 
-            double gamma = 500;
+            double gamma = 120;
             L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 0.6, 0.15, 64, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
             L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl),0.6, 0.15, 64, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
             L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 0.6, 0.1, 20, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
@@ -295,7 +295,7 @@ namespace RapidFDM {
                 }
                 set_value_mx_array(pa1, i, 22, att_con_log[i].debug_time_used);
                 set_value_mx_array(pa1, i, 23, att_con_log[i].u[0]);
-                set_value_mx_array(pa1, i, 24, ctrlT.x_real[0]);
+                set_value_mx_array(pa1, i, 24, ctrlT.x_real[1]);
                 set_value_mx_array(pa1, i, 25, sys_log[i].acc[0]);
                 set_value_mx_array(pa1, i, 26, ctrlT.actuator_estimator.actuator_real);
                 set_value_mx_array(pa1, i, 27, sys_log[i].angular_rate[0]);

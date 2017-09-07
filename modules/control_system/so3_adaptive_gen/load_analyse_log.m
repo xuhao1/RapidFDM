@@ -85,52 +85,7 @@ ax = subplot(subplot_size_x,1,7);
 plot(ax,t,theta1_pre,t,ones(size(t))*0.869)
 legend(ax,'the1','Km1')
 
-% ax6 = subplot(subplot_size_x,1,6);
-% fw_tmp = arrayfun(@(x) float_constrain(x,-20,40),fw);
-% xdot_tmp = arrayfun(@(x) float_constrain(x,-40,20),xdot);
-% plot(ax6,t,-fw_tmp,t,xdot)
-% legend(ax6,'feedforward','xdot')
-% title(ax6,'diff')
-% 
-% pitchctrl = init_adaptive_controller(0,1); 
-% pitchctrl = L1ControllerUpdateParams(pitchctrl,7,0.8,32,1000,3,2.5,3);
-% errarr = [err0,err1];
-% P = pitchctrl.P;
-% b = pitchctrl.b;
-% Gamma = pitchctrl.Gamma;
-% xarr = [x_pre,xdot_pre];
-% grid on;
-% [len,~] = size(errarr);
-% 
-% ax7 = subplot(7,1,7);
-% fw_u = (pitchctrl.kg_rate * - fw) ./ omega_pre;
-% pdu = (pitchctrl.Am(2,2) / pitchctrl.b(2) * xdot)./omega_pre;
-% plot(ax7,t,-fw_u,t,pdu)
-% legend(ax7,'fwu','fu')
-% title(ax7,'Feedforward on Axis')
-% grid on
-
-%figure
-%plot(t,time_used)
-%legend('time used us')
-%title('Time us of Attitude Control')
-%grid on
-%testServoEKF(xdot,uarr,t)
-% 
-% ax = subplot(subplot_size_x,1,4);
-% u_by_x = theta0_pre.*x/180*pi./omega_pre;
-% u_by_x = arrayfun(@(x) float_constrain(x,-2,2),u_by_x);
-% u_by_xdot = theta1_pre.*xdot_ctrl_use./omega_pre/180*pi;
-% u_by_xdot = arrayfun(@(x) float_constrain(x,-2,2),u_by_xdot);
-% u_by_sigma = arrayfun(@(x) float_constrain(x,-2,2),sigma_pre./omega_pre);
-% %testServoEKF(xdot_noise,outarr,t,uact,uest,xdot_real)
-% figure
-%  plot(t,etaarr,t,-u_by_x,t,-u_by_xdot,t,u_by_sigma)
-%  legend('eta','u by x','u by xdot','u by sigma')
-%  title('Output')
- 
-%  figure
-% plot(t,x,t,roll,t,roll_sp)
-% legend('ErrX','Roll','Desired Roll')
-% title('Control State of aircraft roll')
+figure
+plot(t,uact,t,uest)
+legend('ACT','EST')
 end
