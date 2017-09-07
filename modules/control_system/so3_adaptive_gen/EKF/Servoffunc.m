@@ -5,6 +5,6 @@ kd = x(3);
 wc = x(4);
 wp = x(5);
 sigma = x(6);
-deltax = [wp*(ys-kd*q+sigma);wc*u-wc*ys;0;0;0;0];
+deltax = [wp*(ys+sigma)-kd*q;wc*u-wc*ys;0;0;0;0];
 xnew = x + deltax*dt;
 end

@@ -4,7 +4,7 @@ theta = obj.x(4:5);
 sigma = obj.x(6);
 
 if obj.Gamma > 1
-     theta(2) = (obj.km(2)*obj.b(2) - obj.actuator_estimator.x(3)*obj.actuator_estimator.x(5)) / obj.b(2);
+     theta(2) = (obj.km(2)*obj.b(2) - obj.actuator_estimator.x(3)) / obj.b(2);
      theta(2) = float_constrain(theta(2),-10,10);
      obj.x(5) = theta(2);
      sigma = obj.actuator_estimator.x(6)*omega;
