@@ -1,5 +1,6 @@
 function csvanalyse(folder)
-    M = csvread(strcat(folder , '/log001_l1_adaptive_roll_0.csv'));
+    system(['./csvlog_analyse/process_log.sh ',folder,' ./temp_data'])
+    M = csvread(strcat('./temp_data', '/log001_l1_adaptive_roll_0.csv'));
     %SENSORRAW = csvread(strcat(folder , '/log001_sensor_combined_0.csv'));
     %sensor_time = (SENSORRAW(:,1) - M(1,1))/1000000;
     %sensor_gyro0 = SENSORRAW(:,2);
