@@ -273,7 +273,7 @@ namespace RapidFDM {
             mxArray *pa1, *pa2;
             //t 1 x 6 err 2 u 1 eta 1
 
-            int cols = 32;
+            int cols = 33;
             pa1 = mxCreateDoubleMatrix(ctrl_log.size(), cols, mxREAL);
             for (int i = 0; i < ctrl_log.size(); i++) {
                 const AdaptiveCtrlT &ctrlT = ctrl_log[i];
@@ -303,6 +303,7 @@ namespace RapidFDM {
                 set_value_mx_array(pa1, i, 29, sys_log[i].quat[0]);
                 set_value_mx_array(pa1, i, 30, sys_log[i].quat[1]);
                 set_value_mx_array(pa1, i, 31, ctrlT.actuator_estimator.P[6 + 1]);
+                set_value_mx_array(pa1, i, 32, ctrlT.actuator_estimator.x[4]);
             }
             char matname[100] = {0};
             sprintf(matname, "AdaptiveCtrlT_%d", log_number);

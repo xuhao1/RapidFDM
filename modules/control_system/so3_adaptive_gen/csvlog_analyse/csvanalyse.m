@@ -1,10 +1,9 @@
 function csvanalyse(folder)
     system(['./csvlog_analyse/process_log.sh ',folder,' ./temp_data'])
     M = csvread(strcat('./temp_data', '/log001_l1_adaptive_roll_0.csv'));
-    %SENSORRAW = csvread(strcat(folder , '/log001_sensor_combined_0.csv'));
-    %sensor_time = (SENSORRAW(:,1) - M(1,1))/1000000;
-    %sensor_gyro0 = SENSORRAW(:,2);
-    %size(M)
+    SENSORRAW = csvread(strcat('./temp_data' , '/log001_sensor_combined_0.csv'));
+    sensor_time = (SENSORRAW(:,1) - M(1,1))/1000000;
+    sensor_gyro0 = SENSORRAW(:,2);
     [~,cols] = size(M);
     x = M(:,3:9);
     err = M(:,10:11);
@@ -16,6 +15,7 @@ function csvanalyse(folder)
         act_est = M(:,17:22);
         est_damp = M(:,19);
     end
+    est_fc = act_est(:,4)/(2*pi);
     [N,~] = size(x);
     ticks = (M(:,1) - M(1,1))/1000000;
     %ticks = (1:N)/N;
@@ -42,10 +42,10 @@ function csvanalyse(folder)
 %     legend('ctrlRollRate','SensorGyro0')
     grid on
     figure
-    plot(ticks,x(:,5),ticks,est_damp);
-    legend('the1','estDamp')
+    plot(ticks,x(:,5),ticks,est_damp/64./x(:,3),ticks,est_fc);
+    legend('the1','estDamp','wc')
     figure 
     grid on
-    plot(ticks,act_est(:,5),ticks,act_est(:,6)*64)
-    legend('Wp','Sigma*Wp')
+    plot(ticks,act_est(:,5),ticks,act_est(:,6)*100/64)
+    legend('Wp','Sigma')
 end

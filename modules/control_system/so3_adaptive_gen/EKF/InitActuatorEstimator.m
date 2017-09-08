@@ -1,14 +1,14 @@
 function  obj  = InitActuatorEstimator()
 % p ys kd wc wp sigma
 
-obj.x = [0;0;0;5;30;0];
+obj.x = [0;0;0;5;10;0];
 %obj.f = @Servoffunc;
 %obj.h = @Servohfunc;
 obj.F = zeros(6);
 obj.H = [1 0 0 0 0 0];
 %obj.Q = [0.1 0.2 2 0.1 3 6.0]'*[0.1 0.2 2 0.1 3 6.0]*0.005;
 % q ys kd wc wp sigma
-obj.Q = diag([1 0.2 0.5 0.01 20.0 2.0]);
+obj.Q = diag([1 0.2 0.5 0.01 2.0 20]);
 %obj.Q = diag([0.1 0.1 0.01 0.01 2.0 1.0]);
 obj.R = 0.1;
 obj.P = diag([100 10 100 10 20 2]);

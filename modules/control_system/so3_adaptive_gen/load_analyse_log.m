@@ -43,7 +43,7 @@ roll =  data(:,30)*180/pi;
 roll_sp = data(:,31)*180/pi;
 
 P_act_est_ys = data(:,32);
-
+wp_est = data(:,33);
 figure
 subplot_size_x = 7;
 ax = subplot(subplot_size_x,1,1);
@@ -88,4 +88,8 @@ legend(ax,'the1','Km1')
 figure
 plot(t,uact,t,uest)
 legend('ACT','EST')
+figure
+plot(t,omega_pre,t,wp_est.*wp_est/32,t,wp_est/sqrt(32))
+legend('omega','wp2','WP')
+title('OMEGA vs WP')
 end
