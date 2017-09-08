@@ -15,7 +15,7 @@ function csvanalyse(folder)
         act_est = M(:,17:22);
         est_damp = M(:,19);
     end
-    est_fc = act_est(:,4)/(2*pi);
+    est_wc = act_est(:,4);
     [N,~] = size(x);
     ticks = (M(:,1) - M(1,1))/1000000;
     %ticks = (1:N)/N;
@@ -40,10 +40,14 @@ function csvanalyse(folder)
 %     figure
 %     plot(ticks,x_real(:,2),sensor_time,sensor_gyro0)
 %     legend('ctrlRollRate','SensorGyro0')
+    figure
+    plot(ticks,x(:,5),ticks,est_damp/64./x(:,3))
+    legend('wp','est_damp')
     grid on
     figure
-    plot(ticks,x(:,5),ticks,est_damp/64./x(:,3),ticks,est_fc);
-    legend('the1','estDamp','wc')
+    plot(ticks,est_wc);
+    legend('wc')
+    grid on
     figure 
     grid on
     plot(ticks,act_est(:,5),ticks,act_est(:,6)*100/64)

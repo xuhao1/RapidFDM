@@ -1,7 +1,7 @@
 function  obj  = InitActuatorEstimator()
 % p ys kd wc wp sigma
 
-obj.x = [0;0;0;5;10;0];
+obj.x = [0;0;3;2.7;10;0];
 %obj.f = @Servoffunc;
 %obj.h = @Servohfunc;
 obj.F = zeros(6);
