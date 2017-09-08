@@ -41,8 +41,8 @@ function csvanalyse(folder)
 %     plot(ticks,x_real(:,2),sensor_time,sensor_gyro0)
 %     legend('ctrlRollRate','SensorGyro0')
     figure
-    plot(ticks,x(:,5),ticks,est_damp/64./x(:,3))
-    legend('wp','est_damp')
+    plot(ticks,x(:,3),ticks,est_damp/64./x(:,3))
+    legend('omega','est_damp')
     grid on
     figure
     plot(ticks,est_wc);
