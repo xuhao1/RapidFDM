@@ -207,7 +207,7 @@ namespace RapidFDM {
             ctrlAttitude.debug_time_used = used;
 
             if (count % 200 == 0) {
-                printf("Controller average us used %f\n", us_count / 200);
+//                printf("Controller average us used %f\n", us_count / 200);
                 us_count = 0;
             }
 

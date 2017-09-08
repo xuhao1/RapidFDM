@@ -10,9 +10,9 @@ obj.x_real = x_real;
 if not(obj.inited) || obj.Gamma < 1
     obj.x(1) = x_real(1);
     obj.x(2) = x_real(2);
-    %obj.inited = true;
+    obj.inited = true;
     u = 0;
-return
+%return
 end
 
 
