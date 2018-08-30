@@ -11,15 +11,16 @@ include_directories(./include
         ../../3rdparty/websocketpp
         ../aerodynamics/include/
         ./so3_adaptive_gen/codegen/lib/L1AircraftControl
-        /Applications/MATLAB_R2016b.app/extern/include
+        /Applications/MATLAB_R2016b_rename.app/extern/include
 
         )
-link_directories(/Applications/MATLAB_R2016b.app/bin/maci64)
+link_directories(/Applications/MATLAB_R2016b_rename.app/bin/maci64)
 
 set(CONTROL_SYSTEM_MODULE_SOURCES
         src/base_controller.cpp
         src/so3_adaptive_controller.cpp
         include/RapidFDM/control_system/base_controller.h
+        include/RapidFDM/control_system/so3_adaptive_controller.h
         include/RapidFDM/control_system/control_system.h
         so3_adaptive_gen/codegen/lib/L1AircraftControl/L1AircraftControl.c
         so3_adaptive_gen/codegen/lib/L1AircraftControl/L1AircraftControl.h

@@ -19,10 +19,10 @@ include_directories(./include
         /usr/local/include
         ../common/include
         ../control_system/so3_adaptive_gen/codegen/lib/L1AircraftControl
-        /Applications/MATLAB_R2016b.app/extern/include
+        /Applications/MATLAB_R2016b_rename.app/extern/include
         )
 
-link_directories(/Applications/MATLAB_R2016b.app/bin/maci64)
+link_directories(/Applications/MATLAB_R2016b_rename.app/bin/maci64)
 
 set(SIMULATION_MODULE_SOURCES
         include/RapidFDM/simulation/simulator_world.h
@@ -64,7 +64,7 @@ target_link_libraries(rapidfdm_simulator_pixhawk
         rapidfdm_simulator)
 
 target_link_libraries(rapidfdm_simulator_sitl
-        rapidfdm_simulator rapidfdm_control_system mat mx)
+        rapidfdm_simulator rapidfdm_control_system)
 
 install(TARGETS  rapidfdm_simulator rapidfdm_simulator_dji rapidfdm_simulator_pixhawk rapidfdm_simulator_sitl
         RUNTIME DESTINATION bin

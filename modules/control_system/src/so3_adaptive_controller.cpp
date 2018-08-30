@@ -26,9 +26,15 @@ namespace RapidFDM {
             arr[2] = v.z();
         }
 
+        Eigen::Quaterniond convert_euler_to_quat(double roll, double pitch, double yaw) {
+            Eigen::AngleAxisd rollAngle(roll, Eigen::Vector3d::UnitX());
+            Eigen::AngleAxisd pitchAngle(pitch, Eigen::Vector3d::UnitY());
+            Eigen::AngleAxisd yawAngle(yaw, Eigen::Vector3d::UnitZ());
+            return yawAngle * pitchAngle * rollAngle;
+        }
 
         so3_adaptive_controller::so3_adaptive_controller(Aerodynamics::AircraftNode *_aircraftNode) :
-                BaseController(_aircraftNode),ang_vel_dist(0,0.02) {
+                BaseController(_aircraftNode), ang_vel_dist(0, 0.02) {
             roll_sp = 0;
             pitch_sp = 0;
             init_attitude_controller(1, 6, &ctrlAttitude);
@@ -38,18 +44,184 @@ namespace RapidFDM {
             double ekf_p_noise = 0.05;
 
             double gamma = 120;
-            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 0.6, 0.15, 64, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
-            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl),0.6, 0.15, 64, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
-            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 0.6, 0.1, 20, gamma, lag_fc, lag_alpha, p_actuator,ekf_p_noise);
+            L1ControllerUpdateParams(&(ctrlAttitude.RollCtrl), 0.6, 0.15, 64, gamma, lag_fc, lag_alpha, p_actuator,
+                                     ekf_p_noise);
+            L1ControllerUpdateParams(&(ctrlAttitude.PitchCtrl), 0.6, 0.15, 64, gamma, lag_fc, lag_alpha, p_actuator,
+                                     ekf_p_noise);
+            L1ControllerUpdateParams(&(ctrlAttitude.YawCtrl), 0.6, 0.1, 20, gamma, lag_fc, lag_alpha, p_actuator,
+                                     ekf_p_noise);
             auto t = std::time(nullptr);
             auto tm = *std::localtime(&t);
             std::ostringstream oss;
             oss << std::put_time(&tm, "/var/log/rapidfdm/so3_log_%Y_%m_%d_%H_%M_%S.mat");
             auto file = oss.str();
             printf("Creating file %s...\n\n", file.c_str());
-            pmat = matOpen(file.c_str(), "w");
+            // pmat = matOpen(file.c_str(), "w");
 
             controller_type = fast_string(aircraftNode->getJsonDefine(), "controller_type");
+
+            init_maneuver_frames();
+        }
+
+        void so3_adaptive_controller::init_maneuver_frames() {
+            maneuver_key_frame frame;
+            frame.quat = Eigen::Quaterniond::Identity();
+            frame.time = 0;
+            man_key_frames.push_back(frame);
+
+            frame.quat = Eigen::Quaterniond::Identity();
+            frame.time = 5;
+            man_key_frames.push_back(frame);
+
+            /*
+            frame.quat = convert_euler_to_quat(M_PI_2,0, 0);
+            frame.time = 6;
+            man_key_frames.push_back(frame);
+
+            frame.quat = convert_euler_to_quat(M_PI,0, 0);
+            frame.time = 7;
+            man_key_frames.push_back(frame);
+
+            frame.quat = convert_euler_to_quat(-M_PI_2,0, 0);
+            frame.time = 8;
+            man_key_frames.push_back(frame);
+
+            frame.quat = convert_euler_to_quat(0,0, 0);
+            frame.time = 9;
+            man_key_frames.push_back(frame);
+            */
+            frame.quat = convert_euler_to_quat(0, M_PI/2, 0);
+            frame.time = 6;
+            man_key_frames.push_back(frame);
+
+            frame.quat = convert_euler_to_quat(0, M_PI, 0);
+            frame.time = 10;
+            man_key_frames.push_back(frame);
+
+            frame.quat = convert_euler_to_quat(M_PI/2, 0, M_PI);
+            frame.time = 12;
+            man_key_frames.push_back(frame);
+
+            frame.quat = convert_euler_to_quat(0, 0, M_PI);
+            frame.time = 14;
+            man_key_frames.push_back(frame);
+
+            frame.quat = convert_euler_to_quat(0, 0, M_PI);
+            frame.time = 25;
+            man_key_frames.push_back(frame);
+
+//            frame.quat = convert_euler_to_quat(0, -M_PI_2, M_PI);
+//            frame.time = 19;
+//            man_key_frames.push_back(frame);
+//
+//            frame.quat = convert_euler_to_quat(0, -M_PI, M_PI);
+//            frame.time = 20;
+//            man_key_frames.push_back(frame);
+//
+//            frame.quat = convert_euler_to_quat(M_PI_2, 0, 0);
+//            frame.time = 21;
+//            man_key_frames.push_back(frame);
+//
+//            frame.quat = convert_euler_to_quat(0, 0, 0);
+//            frame.time = 22;
+//            man_key_frames.push_back(frame);
+
+        }
+
+        void so3_adaptive_controller::maneuver_control(float dt) {
+            if (control_tick % 200 == 0 )
+            {
+                printf("t:%f size :%lu\n",manuvered_elapsed_t,man_key_frames.size());
+                fflush(stdout);
+            }
+            QuatControlSetpoint quatControlSetpoint;
+            quatControlSetpoint.quat[0] = 1;
+            quatControlSetpoint.quat[1] = 0;
+            quatControlSetpoint.quat[2] = 0;
+            quatControlSetpoint.quat[3] = 0;
+            quatControlSetpoint.yaw_rate = 0;
+            quatControlSetpoint.yaw_sp_is_rate = 0;
+
+            manuvered_elapsed_t = manuvered_elapsed_t + dt;
+            if (man_key_frames.size()>1 && manuvered_elapsed_t > man_key_frames[1].time)
+            {
+                man_key_frames.erase(man_key_frames.begin());
+            }
+
+            if (man_key_frames.size() > 1){
+                Eigen::Quaterniond qn = man_key_frames[0].quat;
+                Eigen::Quaterniond qnp1 = man_key_frames[1].quat;
+                Eigen::Quaterniond q_rel = qn.inverse()*qnp1;
+                Eigen::AngleAxisd angle_axis_rel;
+                angle_axis_rel.fromRotationMatrix(q_rel.toRotationMatrix());
+
+                float time_ratio = (manuvered_elapsed_t - man_key_frames[0].time) /
+                        (man_key_frames[1].time - man_key_frames[0].time) ;
+                angle_axis_rel.angle() = angle_axis_rel.angle()*time_ratio;
+
+                q_rel = (Eigen::Quaterniond)angle_axis_rel;
+
+                Eigen::Quaterniond q_sp = qn*q_rel;
+                if (control_tick % 200 == 0 )
+                {
+                    Eigen::Vector3d euler = q_sp.toRotationMatrix().eulerAngles(0,1,2);
+                    printf("t %5.4f ratio %5.4f angle %5.4f v %5.4f %5.4f %5.4f sp rpy %5.4f %5.4f %5.4f\n",
+                           manuvered_elapsed_t,
+                           time_ratio,
+                           angle_axis_rel.angle(),
+                           angle_axis_rel.axis().x(),
+                           angle_axis_rel.axis().y(),
+                           angle_axis_rel.axis().z(),
+                           euler.x()*180/M_PI,
+                           euler.y()*180/M_PI,
+                           euler.z()*180/M_PI
+                    );
+                    fflush(stdout);
+                }
+
+                quatControlSetpoint.quat[0] =(float) q_sp.w();
+                quatControlSetpoint.quat[1] =(float) q_sp.x();
+                quatControlSetpoint.quat[2] =(float) q_sp.y();
+                quatControlSetpoint.quat[3] =(float) q_sp.z();
+
+            }
+            else{
+                if (man_key_frames.size() == 1) {
+                    quatControlSetpoint.quat[0] = (float) man_key_frames[0].quat.w();
+                    quatControlSetpoint.quat[1] = (float) man_key_frames[0].quat.x();
+                    quatControlSetpoint.quat[2] = (float) man_key_frames[0].quat.y();
+                    quatControlSetpoint.quat[3] = (float) man_key_frames[0].quat.z();
+                }
+                else {
+                    quatControlSetpoint.quat[0] = 1;
+                    quatControlSetpoint.quat[1] = 0;
+                    quatControlSetpoint.quat[2] = 0;
+                    quatControlSetpoint.quat[3] = 0;
+                }
+            }
+            L1ControlAttitude(&ctrlAttitude, dt, &quatControlSetpoint, &sys);
+            Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
+
+            u.x() = ctrlAttitude.u[0];
+            u.y() = ctrlAttitude.u[1];
+            u.z() = ctrlAttitude.u[2];
+
+//            pwm[0] = (float) float_constrain(u.x(), -1, 1);
+//            pwm[1] = (float) float_constrain(u.y(), -1, 1);
+//            pwm[2] = (float) float_constrain(throttle_sp, 0, 1);
+//            pwm[3] = (float) float_constrain(u.z(), -1, 1);
+
+            pwm[0] = (float) float_constrain((-u.x() + u.y() + u.z()) + throttle_sp, 0, 1);
+            pwm[1] = (float) float_constrain((u.x() + u.y() - u.z()) + throttle_sp, 0, 1);
+            pwm[2] = (float) float_constrain((u.x() - u.y() + u.z()) + throttle_sp, 0, 1);
+            pwm[3] = (float) float_constrain((-u.x() - u.y() - u.z())+ throttle_sp, 0, 1);
+
+            pwm[4] = (float) float_constrain(1.0, -1, 1);
+            pwm[5] = (float) float_constrain(u.x(), -1, 1);
+            pwm[6] = (float) float_constrain(u.x(), -1, 1);
+            pwm[7] = (float) float_constrain(u.y(), -1, 1);
+            pwm[8] = (float) float_constrain(u.z(), -1, 1);
+
         }
 
         void convert_euler_to_quat_array(float quat[], double roll, double pitch, double yaw) {
@@ -81,9 +253,8 @@ namespace RapidFDM {
             if (fabs(yaw_sp) > 0.05 || aux1_sp > 0.1) {
                 yaw_angle_sp = eul.z();
                 quatControlSetpoint.yaw_rate = yaw_sp * M_PI;
-                if (airspeed > 3.0f)
-                {
-                    quatControlSetpoint.yaw_rate += tan(eul.x())*cos(eul.y())*9.81f/airspeed;
+                if (airspeed > 3.0f) {
+                    quatControlSetpoint.yaw_rate += tan(eul.x()) * cos(eul.y()) * 9.81f / airspeed;
                 }
                 quatControlSetpoint.yaw_sp_is_rate = 1;
             } else {
@@ -91,8 +262,7 @@ namespace RapidFDM {
             }
 
 
-
-            float roll_act_real =(float) this->aircraftNode->get_internal_state("main_wing_0/flap_0");
+            float roll_act_real = (float) this->aircraftNode->get_internal_state("main_wing_0/flap_0");
 
             convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp * M_PI / 6, pitch_sp * M_PI / 6,
                                         yaw_angle_sp);
@@ -100,7 +270,7 @@ namespace RapidFDM {
             L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
 
             sys.quat[0] = eul.x();
-            sys.quat[1] = roll_sp * M_PI /6;
+            sys.quat[1] = roll_sp * M_PI / 6;
 
             Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
 
@@ -108,12 +278,12 @@ namespace RapidFDM {
             u.y() = ctrlAttitude.u[1];
             u.z() = ctrlAttitude.u[2];
 
-            float combine_vtol_torque_ratio  = 1.0;
+            float combine_vtol_torque_ratio = 1.0;
 
-            pwm[0] = (float) float_constrain((-u.x() + u.y() + u.z())*combine_vtol_torque_ratio + throttle_sp, 0, 1);
-            pwm[1] = (float) float_constrain((u.x() + u.y() - u.z())*combine_vtol_torque_ratio + throttle_sp, 0, 1);
-            pwm[2] = (float) float_constrain((u.x() - u.y() + u.z())*combine_vtol_torque_ratio + throttle_sp, 0, 1);
-            pwm[3] = (float) float_constrain((-u.x() - u.y() - u.z())*combine_vtol_torque_ratio + throttle_sp, 0, 1);
+            pwm[0] = (float) float_constrain((-u.x() + u.y() + u.z()) * combine_vtol_torque_ratio + throttle_sp, 0, 1);
+            pwm[1] = (float) float_constrain((u.x() + u.y() - u.z()) * combine_vtol_torque_ratio + throttle_sp, 0, 1);
+            pwm[2] = (float) float_constrain((u.x() - u.y() + u.z()) * combine_vtol_torque_ratio + throttle_sp, 0, 1);
+            pwm[3] = (float) float_constrain((-u.x() - u.y() - u.z()) * combine_vtol_torque_ratio + throttle_sp, 0, 1);
 
             pwm[4] = (float) float_constrain(aux1_sp, -1, 1);
             pwm[5] = (float) float_constrain(u.x(), -1, 1);
@@ -149,14 +319,14 @@ namespace RapidFDM {
             convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp * M_PI / 6, pitch_sp * M_PI / 6,
                                         yaw_angle_sp);
             double angular_vel_sp[3] = {0};
-            angular_vel_sp[0] = roll_sp*M_PI;
-            angular_vel_sp[1] = pitch_sp*M_PI/2;
-            angular_vel_sp[2] = yaw_sp * M_PI/2;
+            angular_vel_sp[0] = roll_sp * M_PI;
+            angular_vel_sp[1] = pitch_sp * M_PI / 2;
+            angular_vel_sp[2] = yaw_sp * M_PI / 2;
 //            L1ControlAngularVelocity(&ctrlAttitude, deltatime, angular_vel_sp, &sys);
             L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
 
             sys.quat[0] = eul.x();
-            sys.quat[1] = roll_sp * M_PI /6;
+            sys.quat[1] = roll_sp * M_PI / 6;
 
             Eigen::AngleAxisd rot_u(0 * M_PI / 180, Eigen::Vector3d::UnitZ());
             Eigen::Vector3d u = Eigen::Vector3d(0, 0, 0);
@@ -177,8 +347,6 @@ namespace RapidFDM {
         }
 
         void so3_adaptive_controller::control_fixedwing(float deltatime) {
-            static int count = 0;
-            count++;
             static double us_count = 0;
 
             Eigen::Vector3d eul = quat2eulers(quat);
@@ -187,26 +355,26 @@ namespace RapidFDM {
             yaw_angle_sp = eul.z();
             quatControlSetpoint.yaw_rate = yaw_sp / 10 * M_PI;
             quatControlSetpoint.yaw_sp_is_rate = 1;
-            quatControlSetpoint.yaw_rate += tan(eul.x())*cos(eul.y())*9.81f/airspeed;
+            quatControlSetpoint.yaw_rate += tan(eul.x()) * cos(eul.y()) * 9.81f / airspeed;
 
             convert_euler_to_quat_array(quatControlSetpoint.quat, roll_sp * M_PI / 3, pitch_sp * M_PI / 3,
                                         yaw_angle_sp);
 
             long us0 = current_timestamp_us();
             double angular_vel_sp[3] = {0};
-            angular_vel_sp[0] = roll_sp*M_PI;
-            angular_vel_sp[1] = pitch_sp*M_PI/2;
-            angular_vel_sp[2] = yaw_sp * M_PI/6;
+            angular_vel_sp[0] = roll_sp * M_PI;
+            angular_vel_sp[1] = pitch_sp * M_PI / 2;
+            angular_vel_sp[2] = yaw_sp * M_PI / 6;
             L1ControlAttitude(&ctrlAttitude, deltatime, &quatControlSetpoint, &sys);
             sys.quat[0] = eul.x();
-            sys.quat[1] = roll_sp * M_PI/3;
+            sys.quat[1] = roll_sp * M_PI / 3;
 //            L1ControlAngularVelocity(&ctrlAttitude, deltatime, angular_vel_sp, &sys);
             long used = current_timestamp_us() - us0;
             us_count += used;
 
             ctrlAttitude.debug_time_used = used;
 
-            if (count % 200 == 0) {
+            if (control_tick % 200 == 0) {
 //                printf("Controller average us used %f\n", us_count / 200);
                 us_count = 0;
             }
@@ -224,8 +392,6 @@ namespace RapidFDM {
         }
 
         void so3_adaptive_controller::control_step(float deltatime) {
-            static int count = 0;
-            count++;
             deltatime = deltatime / 1000;
             copy_v3d_into_array(angular_rate, sys.angular_rate);
             sys.angular_rate[0] = sys.angular_rate[0] + ang_vel_dist(generator);
@@ -240,11 +406,13 @@ namespace RapidFDM {
             sys.acc[1] = angular_rate.x();
 
             if (controller_type == "fixedwing") {
-                control_fixedwing(deltatime);
+//                control_fixedwing(deltatime);
+                maneuver_control(deltatime);
             } else if (controller_type == "multirotor") {
                 control_multirotor(deltatime);
             } else if (controller_type == "combinevtol") {
-                control_combinevtol(deltatime);
+                maneuver_control(deltatime);
+//                control_combinevtol(deltatime);
             }
 
             aircraftNode->set_control_from_channels(pwm, 16);
@@ -254,21 +422,23 @@ namespace RapidFDM {
             att_con_log.push_back(ctrlAttitude);
 
             float roll_act_real = (float) this->aircraftNode->get_internal_state("main_wing_0/flap_0");
-            float pitch_act_real =(float) this->aircraftNode->get_internal_state("horizon_wing_0/flap_0");
+            float pitch_act_real = (float) this->aircraftNode->get_internal_state("horizon_wing_0/flap_0");
             sys.acc[0] = roll_act_real;
 
-            if (count % 200 == 0) {
+            if (control_tick % 200 == 0) {
                 save_data_file();
             }
+            control_tick ++;
         }
 
-        void set_value_mx_array(mxArray *arr, int i, int j, double data) {
-            size_t mi = mxGetM(arr);
-            size_t ni = mxGetN(arr);//4
-            *(mxGetPr(arr) + i + j * mi) = data;
-        }
+        // void set_value_mx_array(mxArray *arr, int i, int j, double data) {
+            // size_t mi = mxGetM(arr);
+            // size_t ni = mxGetN(arr);//4
+            // *(mxGetPr(arr) + i + j * mi) = data;
+        // }
 
         void so3_adaptive_controller::save_data_file() {
+            /*
             static int log_number = 0;
             mxArray *pa1, *pa2;
             //t 1 x 6 err 2 u 1 eta 1
@@ -313,6 +483,7 @@ namespace RapidFDM {
             sys_log.clear();
             att_con_log.clear();
             log_number++;
+            */
         }
     }
 }

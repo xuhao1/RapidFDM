@@ -28,9 +28,9 @@
   "initial_states" : {
     "transform": {
       "attitude": [0,0,0],
-      "vector": [0,0,1.5]
+      "vector": [0,0,1500]
     },
-    "init_speed":0
+    "init_speed":10
   },
   "controller_type":"combinevtol",
   "rigid_mode" : 1,

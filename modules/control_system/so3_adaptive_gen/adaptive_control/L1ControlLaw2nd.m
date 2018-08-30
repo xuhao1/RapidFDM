@@ -21,13 +21,13 @@ gd = obj.g(1,1);
 
 etad =  - kgr*(gd + Jd*obj.x(1:2));
 %etad = 0;
-if theta(2) > 0
+%if theta(2) > 0
     eta = float_constrain((obj.kg * obj.r + obj.kg_rate * obj.rdot + etad ...
         - sigma  - theta'* obj.x_real(1:2) )/omega,-1,1);
-else
-    eta = float_constrain((obj.kg * obj.r + obj.kg_rate * obj.rdot + etad ...
-        - sigma  - theta(1)* obj.x_real(1) )/omega,-1,1);
-end
+%else
+%    eta = float_constrain((obj.kg * obj.r + obj.kg_rate * obj.rdot + etad ...
+%        - sigma  - theta(1)* obj.x_real(1) )/omega,-1,1);
+%end
 if obj.Gamma < 1
     eta = obj.kg * obj.r;
 end

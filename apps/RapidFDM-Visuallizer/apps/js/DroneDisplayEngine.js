@@ -82,7 +82,7 @@ var DroneDisplayEngine = function (container,w,h)
     //         console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
     //     }
     // );
-    //
+
     // collada_loader.load(
     //     '../assets/tileable-informal-city-solid.dae',
     //     function ( collada ) {

@@ -41,7 +41,7 @@ function csvanalyse(folder)
 %     plot(ticks,x_real(:,2),sensor_time,sensor_gyro0)
 %     legend('ctrlRollRate','SensorGyro0')
     figure
-    subplot_size_x = 3;
+    subplot_size_x = 4;
     ax = subplot(subplot_size_x,1,1);
     plot(ax,ticks,x(:,3),ticks,act_est(:,5).*act_est(:,5)/64)
     legend('omega','EstWp')
@@ -51,8 +51,12 @@ function csvanalyse(folder)
     legend('wc')
     grid on
     ax = subplot(subplot_size_x,1,3);
-    plot(ax,ticks,est_damp./x(:,3),ticks,act_est(:,6)*100/64)
-    legend('estdamp','Sigma')
+    plot(ax,ticks,est_damp./x(:,3))
+    legend('estdamp')
+     ax = subplot(subplot_size_x,1,4);
+    plot(ax,ticks,act_est(:,6)/64)
+    legend('Sigma')
+    
     grid on
 
 end
